@@ -9,6 +9,9 @@ serve:
 build:
   zola build
 
+thumbnail-prompt SESSION KIND="post":
+  @python3 scripts/thumbnail_prompt.py {{SESSION}} {{KIND}}
+
 init-session number:
   @file="content/fcz/{{number}}.md"; today="$(date +%F)"; \
     test ! -e "$file" || { echo "$file already exists"; exit 1; }; \

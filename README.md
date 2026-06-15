@@ -122,6 +122,22 @@ O campo opcional `time` aparece ao lado da data na home:
 time = "11:00"
 ```
 
+## Gerar prompt para thumbnail
+
+Para gerar um prompt de preenchimento da thumbnail antes da live:
+
+```sh
+just thumbnail-prompt 0010 pre
+```
+
+Para gerar um prompt de preenchimento da thumbnail depois da sessão:
+
+```sh
+just thumbnail-prompt 0010 post
+```
+
+O comando lê `content/fcz/0010.md`, extrai os dados do front matter e imprime um prompt limpo para copiar e colar no ChatGPT Web. Faça upload manual da imagem de template correspondente, cole o prompt gerado e use a imagem final como thumbnail da sessão.
+
 ## Publicar no GitHub Pages
 
 O workflow em `.github/workflows/pages.yml` builda o site com Zola e publica o diretório `public`.

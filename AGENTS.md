@@ -10,6 +10,7 @@
 
 - `just serve` runs `zola serve` for local development.
 - `just build` runs `zola build`; use this as the focused verification after site/content/template changes.
+- `just thumbnail-prompt 0010 post` prints a copy-pasteable ChatGPT Web prompt from `content/fcz/0010.md`; use `pre` for the pre-live thumbnail template.
 - `just init-session 0011` creates `content/fcz/0011.md` from `content/fcz/_session-template.md`, sets today as `date`, fills the session number, and flips `draft` to `false`.
 
 ## Content Notes
@@ -18,6 +19,8 @@
 - Home session ordering comes from `content/fcz/_index.md` with `sort_by = "title"`, then `templates/index.html` reverses `sessions.pages`; keep zero-padded session filenames/titles like `0010`.
 - For YouTube embeds, `youtube_video_id` must be only the video ID, not the full URL.
 - Status display is driven by `status` and `status_tone`; existing tones include `scheduled`, `live`, and `ended`.
+- `content/fcz/_thumbnail-templates/` stores non-served blank thumbnail templates and prompt files; Markdown files under `content/` still need Zola front matter, so keep workflow prompts as `draft = true`.
+- Generated session thumbnails intended for Open Graph should live under `static/fcz/thumbnails/` and be referenced by optional `page.extra.og_image`.
 
 ## Deployment
 
