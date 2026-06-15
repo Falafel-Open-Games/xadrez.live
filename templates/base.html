@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}{{ config.title }}{% endblock title %}</title>
+    <meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}">
+    <link rel="stylesheet" href="{{ get_url(path='style.css') }}">
+  </head>
+  <body>
+    <div class="site-shell">
+      <header class="site-header">
+        <a class="site-title" href="{{ config.base_url | safe }}">{{ config.title }}</a>
+      </header>
+
+      <main>
+        {% block content %}{% endblock content %}
+      </main>
+    </div>
+  </body>
+</html>

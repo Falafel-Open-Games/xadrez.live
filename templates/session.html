@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock title %}
+{% block description %}{{ page.extra.description }}{% endblock description %}
+
+{% block content %}
+{% set video_id = page.extra.youtube_video_id %}
+{% set youtube_url = "https://www.youtube.com/watch?v=" ~ video_id %}
+<article class="session">
+  <div class="session-kicker">{{ config.title }}</div>
+  <h1>Sessão #{{ page.extra.session_number }}</h1>
+  <p class="tagline">{{ page.extra.tagline }}</p>
+
+  <div class="session-actions" aria-label="links da sessão">
+    <span class="status-badge status-{{ page.extra.status_tone | default(value='live') }}">{{ page.extra.status }}</span>
+    <a class="button" href="{{ youtube_url }}" rel="noopener noreferrer">Abrir no YouTube</a>
+    <a class="button button-secondary" href="{{ page.extra.lichess_url }}" rel="noopener noreferrer">Abrir Lichess</a>
+  </div>
+
+  <section class="live-room" aria-label="sala da live">
+    <div class="video-panel">
+      <iframe
+        title="Live no YouTube"
+        src="https://www.youtube.com/embed/{{ video_id }}"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowfullscreen>
+      </iframe>
+    </div>
+
+    <div class="chat-panel">
+      <iframe
+        title="Chat ao vivo no YouTube"
+        src="https://www.youtube.com/live_chat?v={{ video_id }}&embed_domain=xadrez.live">
+      </iframe>
+    </div>
+  </section>
+
+  <section class="description">
+    <h2>Descrição</h2>
+    <p>{{ page.extra.description }}</p>
+  </section>
+</article>
+{% endblock content %}
