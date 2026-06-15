@@ -35,9 +35,95 @@
     </div>
   </section>
 
+  <section class="session-summary">
+    <h2>Resumo da sessão</h2>
+    <div class="summary-groups">
+      <section class="summary-group">
+        <h3>Treino</h3>
+        <dl>
+          {% if page.extra.puzzle_of_the_day_url is defined and page.extra.puzzle_of_the_day_url %}
+            <div>
+              <dt>Puzzle do dia</dt>
+              <dd><a href="{{ page.extra.puzzle_of_the_day_url }}" rel="noopener noreferrer">Abrir puzzle no Lichess</a></dd>
+            </div>
+          {% endif %}
+          {% if page.extra.puzzles is defined and page.extra.puzzles %}
+            <div>
+              <dt>Puzzles rating</dt>
+              <dd>{{ page.extra.puzzles }}</dd>
+            </div>
+          {% endif %}
+          {% if page.extra.streak is defined and page.extra.streak %}
+            <div>
+              <dt>Streak</dt>
+              <dd>{{ page.extra.streak }}</dd>
+            </div>
+          {% endif %}
+        </dl>
+      </section>
+
+      <section class="summary-group">
+        <h3>Partida</h3>
+        <dl>
+          {% if page.extra.lichess_game_url is defined and page.extra.lichess_game_url %}
+            <div>
+              <dt>Partida</dt>
+              <dd><a href="{{ page.extra.lichess_game_url }}" rel="noopener noreferrer">Abrir partida no Lichess</a></dd>
+            </div>
+          {% endif %}
+          {% if page.extra.duration is defined and page.extra.duration %}
+            <div>
+              <dt>Duração</dt>
+              <dd>{{ page.extra.duration }}</dd>
+            </div>
+          {% endif %}
+          {% if page.extra.rapid is defined and page.extra.rapid %}
+            <div>
+              <dt>Rapid</dt>
+              <dd>{{ page.extra.rapid }}</dd>
+            </div>
+          {% endif %}
+          {% if page.extra.result is defined and page.extra.result %}
+            <div>
+              <dt>Resultado</dt>
+              <dd>{{ page.extra.result }}</dd>
+            </div>
+          {% endif %}
+          {% if page.extra.opening is defined and page.extra.opening %}
+            <div>
+              <dt>Abertura</dt>
+              <dd>
+                {% if page.extra.opening_url is defined and page.extra.opening_url %}
+                  <a href="{{ page.extra.opening_url }}" rel="noopener noreferrer">{{ page.extra.opening }}</a>
+                {% else %}
+                  {{ page.extra.opening }}
+                {% endif %}
+              </dd>
+            </div>
+          {% endif %}
+          {% if page.extra.color is defined and page.extra.color %}
+            <div>
+              <dt>Cor</dt>
+              <dd>{{ page.extra.color }}</dd>
+            </div>
+          {% endif %}
+        </dl>
+      </section>
+    </div>
+  </section>
+
   <section class="description">
     <h2>Descrição</h2>
     <p>{{ page.extra.description }}</p>
   </section>
+
+  {% if page.content %}
+    <section class="session-notes">
+      <h2>Agenda e notas</h2>
+      <div class="notes-body">
+        {{ page.content | safe }}
+      </div>
+    </section>
+  {% endif %}
 </article>
 {% endblock content %}

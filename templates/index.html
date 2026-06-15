@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}xadrez.live (beta){% endblock title %}
+{% block description %}esta página está em construção{% endblock description %}
+
+{% block content %}
+{% set sessions = get_section(path="fcz/_index.md") %}
+<article class="home">
+  <div class="session-kicker">beta</div>
+  <h1>xadrez.live (beta)</h1>
+  <p class="tagline">esta página está em construção</p>
+
+  <section class="recent-sessions">
+    <h2>sessões recentes</h2>
+    <div class="session-group">
+      <h3><a href="https://lichess.org/@/fcz" rel="noopener noreferrer">fcz</a></h3>
+      <ul>
+        {% for session in sessions.pages | reverse %}
+          {% if not session.draft %}
+            <li>
+              <a href="{{ session.path }}">{{ session.title }}</a>
+              <time datetime="{{ session.date }}">
+                {{ session.date | date(format="%d/%m/%Y") }}{% if session.extra.time is defined and session.extra.time %}, {{ session.extra.time }}{% endif %}
+              </time>
+              {% if session.extra.status and session.extra.status != "live encerrada" %}
+                <span>{{ session.extra.status }}</span>
+              {% endif %}
+            </li>
+          {% endif %}
+        {% endfor %}
+      </ul>
+    </div>
+  </section>
+</article>
+{% endblock content %}

@@ -149,21 +149,143 @@ iframe {
   border: 0;
 }
 
-.description {
+.session-summary,
+.description,
+.session-notes {
   max-width: 760px;
   margin-top: 40px;
   padding-top: 24px;
   border-top: 1px solid var(--line);
 }
 
-.description h2 {
+.session-summary h2,
+.description h2,
+.session-notes h2 {
   margin: 0 0 8px;
   font-size: 1.1rem;
+}
+
+.summary-groups {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 16px;
+  margin: 14px 0 0;
+}
+
+.summary-group {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--panel);
+}
+
+.summary-group h3 {
+  margin: 0 0 12px;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.summary-group dl {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+}
+
+.session-summary dt {
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.session-summary dd {
+  margin: 4px 0 0;
+  font-weight: 700;
+}
+
+.session-summary a {
+  color: var(--accent);
 }
 
 .description p {
   margin: 0;
   color: var(--muted);
+}
+
+.notes-body {
+  color: var(--muted);
+}
+
+.notes-body h2 {
+  margin: 24px 0 10px;
+  color: var(--text);
+  font-size: 1rem;
+}
+
+.notes-body h2:first-child {
+  margin-top: 0;
+}
+
+.notes-body ul {
+  margin: 0 0 18px;
+  padding-left: 1.2rem;
+}
+
+.notes-body li {
+  margin: 6px 0;
+}
+
+.notes-body strong {
+  color: var(--text);
+}
+
+.home {
+  max-width: 760px;
+}
+
+.recent-sessions {
+  margin-top: 48px;
+  padding-top: 24px;
+  border-top: 1px solid var(--line);
+}
+
+.recent-sessions h2 {
+  margin: 0 0 14px;
+  font-size: 1.1rem;
+  text-transform: lowercase;
+}
+
+.session-group h3 {
+  margin: 0 0 10px;
+  font-size: 1rem;
+}
+
+.session-group h3 a {
+  color: var(--accent);
+}
+
+.session-group ul {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding-left: 1.2rem;
+  list-style: none;
+}
+
+.session-group li {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 12px;
+  align-items: baseline;
+}
+
+.session-group li a {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.session-group time,
+.session-group span {
+  color: var(--muted);
+  font-size: 0.95rem;
 }
 
 @media (max-width: 820px) {

@@ -30,6 +30,12 @@ Depois abra o endereço mostrado no terminal. A sessão atual fica em:
 http://127.0.0.1:1111/fcz/0010/
 ```
 
+Se tiver `just` instalado:
+
+```sh
+just serve
+```
+
 ## Editar o video da sessão 0010
 
 Abra `content/fcz/0010.md` e troque:
@@ -61,15 +67,60 @@ status = "live encerrada"
 status_tone = "ended"
 ```
 
-## Criar a próxima sessão
+Também é possível registrar o que aconteceu na sessão com campos opcionais:
 
-Copie o arquivo atual:
-
-```sh
-cp content/fcz/0010.md content/fcz/0011.md
+```toml
+lichess_game_url = "https://lichess.org/vjMTBtavUuFz"
+puzzle_of_the_day_url = "https://lichess.org/training/vdpRb"
+duration = "45 min"
+rapid = "1 partida"
+puzzles = "12"
+streak = "5"
+result = "0-1"
+opening = "Defesa Siciliana"
+opening_url = "https://lichess.org/opening/Sicilian_Defense"
+color = "brancas"
 ```
 
-Depois edite `content/fcz/0011.md`, atualizando `title`, `session_number`, `youtube_video_id`, `date`, `status`, `status_tone`, `tagline` e `description`.
+Campos vazios não aparecem na página.
+
+Use o corpo Markdown do arquivo para a agenda e notas livres da sessão:
+
+```md
+## Agenda
+
+- Puzzle of the Day: **fail**
+- Puzzle streak 5: **ok (8)**
+- Rapid 10min vs human: **win**
+
+## Perfil ao final da sessão
+
+- Rapid rating:
+- Puzzles:
+- Puzzle streak:
+```
+
+## Criar a próxima sessão
+
+Use o template em branco:
+
+```sh
+just init-session 0011
+```
+
+Ou copie manualmente:
+
+```sh
+cp content/fcz/_session-template.md content/fcz/0011.md
+```
+
+Depois edite `content/fcz/0011.md`, atualizando `title`, `session_number`, `youtube_video_id`, `date`, `status`, `status_tone`, `tagline` e `description`. Se copiar manualmente, troque também `draft = true` para `draft = false`.
+
+O campo opcional `time` aparece ao lado da data na home:
+
+```toml
+time = "11:00"
+```
 
 ## Publicar no GitHub Pages
 
