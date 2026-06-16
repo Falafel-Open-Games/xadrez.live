@@ -6,7 +6,9 @@ from pathlib import Path
 
 RESULT_LABELS = {
     "win": "vitória",
+    "won": "vitória",
     "loss": "derrota",
+    "lost": "derrota",
     "draw": "empate",
 }
 
@@ -78,7 +80,7 @@ def short_opening(opening):
 def post_data_block(extra):
     opening = short_opening(value(extra, "opening"))
     return f"""session number: {value(extra, "session_number")}
-status banner: {value(extra, "status") or "live encerrada"}
+status banner: live encerrada
 duration: {value(extra, "duration")}
 rapid: {value(extra, "rapid")}
 puzzles: {value(extra, "puzzles")}
@@ -87,7 +89,7 @@ resultado: {result_label(value(extra, "result"))}
 cor: {color_label(value(extra, "color"))}
 abertura: {opening}
 session context: {value(extra, "description")}
-side notebook notes: create 2 to 4 short natural Portuguese notes from the structured data and session context above"""
+side notebook notes: create 2 to 4 very short Portuguese bullet notes from the structured data and session context above; each bullet must be 2 to 5 words, with no full sentences and no line wrapping"""
 
 
 def pre_data_block(extra):
@@ -116,7 +118,10 @@ Main title must remain exactly:
 
 For the side study notebook:
 Keep the hand-drawn chessboard position and notebook layout.
-Create short handwritten notes only from the side notebook instruction and structured data above.
+Use compact handwritten bullet notes only.
+Do not write paragraphs, long sentences, explanations, or diary-style prose in the side notebook.
+If there is not enough space, prefer fewer shorter bullets over more text.
+The side notebook notes should look like small labels, not a written recap.
 
 Important:
 - preserve the layout

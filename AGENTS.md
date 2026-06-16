@@ -14,6 +14,12 @@
 - `just thumbnail-optimize input.png output.jpg` uses ImageMagick to create a lighter 1200x675 social preview image.
 - `just init-session 0011` creates `content/fcz/0011.md` from `content/fcz/_session-template.md`, sets today as `date`, fills the session number, and flips `draft` to `false`.
 
+## Verification
+
+- Run `just build` after changes to `content/`, `templates/`, `static/` assets referenced by the site, `config.toml`, or Pages deploy config.
+- For auxiliary scripts not used by Zola, prefer focused checks such as `just thumbnail-prompt 0010 post` or `python3 -m py_compile scripts/thumbnail_prompt.py`; do not run `just build` just for those.
+- For `justfile` edits, run the affected recipe and `just --list` when recipe discovery matters.
+
 ## Content Notes
 
 - Session front matter uses TOML between `+++` markers; optional empty extras are hidden by `templates/session.html`.
