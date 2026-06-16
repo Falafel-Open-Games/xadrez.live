@@ -2,6 +2,23 @@
 
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock title %}
 {% block description %}{{ page.extra.description }}{% endblock description %}
+{% block social_meta %}
+  <meta property="og:site_name" content="{{ config.title }}">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="{{ page.permalink | safe }}">
+  <meta property="og:title" content="{{ page.title }} | {{ config.title }}">
+  <meta property="og:description" content="{{ page.extra.description }}">
+  <meta name="twitter:title" content="{{ page.title }} | {{ config.title }}">
+  <meta name="twitter:description" content="{{ page.extra.description }}">
+  {% if page.extra.og_image is defined and page.extra.og_image %}
+    {% set og_image_url = get_url(path=page.extra.og_image) %}
+    <meta property="og:image" content="{{ og_image_url | safe }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:image" content="{{ og_image_url | safe }}">
+  {% else %}
+    <meta name="twitter:card" content="summary">
+  {% endif %}
+{% endblock social_meta %}
 
 {% block content %}
 {% set video_id = page.extra.youtube_video_id %}

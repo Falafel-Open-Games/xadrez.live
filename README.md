@@ -122,7 +122,7 @@ O campo opcional `time` aparece ao lado da data na home:
 time = "11:00"
 ```
 
-## Gerar prompt para thumbnail
+## Thumbnails
 
 Para gerar um prompt de preenchimento da thumbnail antes da live:
 
@@ -137,6 +137,20 @@ just thumbnail-prompt 0010 post
 ```
 
 O comando lê `content/fcz/0010.md`, extrai os dados do front matter e imprime um prompt limpo para copiar e colar no ChatGPT Web. Faça upload manual da imagem de template correspondente, cole o prompt gerado e use a imagem final como thumbnail da sessão.
+
+Antes de usar a imagem gerada como preview social/Twitter da sessão, gere uma versão leve para servir pelo site:
+
+```sh
+just thumbnail-optimize static/fcz/thumbnails/20260616-pre-thumb.png static/fcz/thumbnails/20260616-pre-thumb.jpg
+```
+
+Referencie a imagem otimizada no front matter:
+
+```toml
+og_image = "/fcz/thumbnails/20260616-pre-thumb.jpg"
+```
+
+O arquivo em `og_image` é usado só nas tags Open Graph/Twitter; ele não aparece no corpo da página.
 
 ## Publicar no GitHub Pages
 

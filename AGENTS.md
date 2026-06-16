@@ -11,6 +11,7 @@
 - `just serve` runs `zola serve` for local development.
 - `just build` runs `zola build`; use this as the focused verification after site/content/template changes.
 - `just thumbnail-prompt 0010 post` prints a copy-pasteable ChatGPT Web prompt from `content/fcz/0010.md`; use `pre` for the pre-live thumbnail template.
+- `just thumbnail-optimize input.png output.jpg` uses ImageMagick to create a lighter 1200x675 social preview image.
 - `just init-session 0011` creates `content/fcz/0011.md` from `content/fcz/_session-template.md`, sets today as `date`, fills the session number, and flips `draft` to `false`.
 
 ## Content Notes

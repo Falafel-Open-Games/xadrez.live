@@ -6,6 +6,7 @@ draft = true
 
 [extra]
 youtube_video_id = "REPLACE_WITH_YOUTUBE_VIDEO_ID"
+og_image = ""
 time = "11:00"
 status = "marcada para hoje às 11:00"
 status_tone = "scheduled"

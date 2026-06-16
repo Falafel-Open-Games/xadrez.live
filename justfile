@@ -12,6 +12,9 @@ build:
 thumbnail-prompt SESSION KIND="post":
   @python3 scripts/thumbnail_prompt.py {{SESSION}} {{KIND}}
 
+thumbnail-optimize INPUT OUTPUT:
+  @magick "{{INPUT}}" -strip -resize 1200x675 -quality 85 "{{OUTPUT}}"
+
 init-session number:
   @file="content/fcz/{{number}}.md"; today="$(date +%F)"; \
     test ! -e "$file" || { echo "$file already exists"; exit 1; }; \
