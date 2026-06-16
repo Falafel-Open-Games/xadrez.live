@@ -23,6 +23,7 @@
 {% block content %}
 {% set video_id = page.extra.youtube_video_id %}
 {% set youtube_url = "https://www.youtube.com/watch?v=" ~ video_id %}
+{% set show_chat = page.extra.status_tone != "ended" %}
 <article class="session">
   <div class="session-kicker">{{ config.title }}</div>
   <h1>Sessão #{{ page.extra.session_number }}</h1>
@@ -34,22 +35,24 @@
     <a class="button button-secondary" href="{{ page.extra.lichess_url }}" rel="noopener noreferrer">Abrir Lichess</a>
   </div>
 
-  <section class="live-room" aria-label="sala da live">
+  <section class="live-room{% if not show_chat %} live-room-video-only{% endif %}" aria-label="sala da live">
     <div class="video-panel">
       <iframe
         title="Live no YouTube"
         src="https://www.youtube.com/embed/{{ video_id }}"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen>
       </iframe>
     </div>
 
-    <div class="chat-panel">
-      <iframe
-        title="Chat ao vivo no YouTube"
-        src="https://www.youtube.com/live_chat?v={{ video_id }}&embed_domain=xadrez.live">
-      </iframe>
-    </div>
+    {% if show_chat %}
+      <div class="chat-panel">
+        <iframe
+          title="Chat ao vivo no YouTube"
+          src="https://www.youtube.com/live_chat?v={{ video_id }}&embed_domain=xadrez.live">
+        </iframe>
+      </div>
+    {% endif %}
   </section>
 
   <section class="session-summary">
@@ -74,6 +77,19 @@
             <div>
               <dt>Streak</dt>
               <dd>{{ page.extra.streak }}</dd>
+            </div>
+          {% endif %}
+          {% if page.extra.streak_best_sequence is defined and page.extra.streak_best_sequence %}
+            <div>
+              <dt>Melhor sequência</dt>
+              <dd>
+                {{ page.extra.streak_best_sequence | length }}{% if page.extra.streak_goal is defined and page.extra.streak_goal %} / {{ page.extra.streak_goal }}{% endif %}
+                <ul class="puzzle-sequence">
+                  {% for puzzle_id in page.extra.streak_best_sequence %}
+                    <li><a href="https://lichess.org/training/{{ puzzle_id }}" rel="noopener noreferrer">{{ puzzle_id }}</a></li>
+                  {% endfor %}
+                </ul>
+              </dd>
             </div>
           {% endif %}
         </dl>
