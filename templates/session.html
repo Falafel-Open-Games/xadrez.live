@@ -80,10 +80,11 @@
             </div>
           {% endif %}
           {% if page.extra.streak_best_sequence is defined and page.extra.streak_best_sequence %}
+            {% set streak_best_solved = page.extra.streak_best_sequence | length %}
             <div>
               <dt>Melhor sequência</dt>
               <dd>
-                {{ page.extra.streak_best_sequence | length }}{% if page.extra.streak_goal is defined and page.extra.streak_goal %} / {{ page.extra.streak_goal }}{% endif %}
+                {{ streak_best_solved - 1 }}{% if page.extra.streak_goal is defined and page.extra.streak_goal %} / {{ page.extra.streak_goal }}{% endif %}
                 <ul class="puzzle-sequence">
                   {% for puzzle_id in page.extra.streak_best_sequence %}
                     <li><a href="https://lichess.org/training/{{ puzzle_id }}" rel="noopener noreferrer">{{ puzzle_id }}</a></li>
