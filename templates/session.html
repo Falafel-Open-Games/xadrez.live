@@ -89,8 +89,19 @@
               <dd>
                 {{ streak_best_solved }}{% if page.extra.streak_goal is defined and page.extra.streak_goal %} / {{ page.extra.streak_goal }}{% endif %}
                 <ul class="puzzle-sequence">
-                  {% for puzzle_id in page.extra.streak_best_sequence %}
-                    <li><a href="https://lichess.org/training/{{ puzzle_id }}" rel="noopener noreferrer">{{ puzzle_id }}</a></li>
+                  {% for puzzle_entry in page.extra.streak_best_sequence %}
+                    {% set puzzle_id = puzzle_entry
+                      | replace(from="https://lichess.org/training/", to="")
+                      | replace(from="http://lichess.org/training/", to="")
+                      | replace(from="https://www.lichess.org/training/", to="")
+                      | replace(from="http://www.lichess.org/training/", to="")
+                    %}
+                    {% if puzzle_entry is starting_with("http") %}
+                      {% set puzzle_url = puzzle_entry %}
+                    {% else %}
+                      {% set puzzle_url = "https://lichess.org/training/" ~ puzzle_entry %}
+                    {% endif %}
+                    <li><a href="{{ puzzle_url | safe }}" rel="noopener noreferrer">{{ puzzle_id }}</a></li>
                   {% endfor %}
                 </ul>
               </dd>
