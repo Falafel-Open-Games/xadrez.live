@@ -7,12 +7,6 @@ draft = true
 [extra]
 puzzle_of_the_day_url = ""
 streak = ""
-streak_best_sequence = []
-lichess_game_url = ""
-result = ""
-color = ""
-opening = ""
-opening_url = ""
 description = "Uma live curta de treino: puzzles, uma partida rápida, erros bobos, pequenas vitórias e revisão do que eu deveria ter visto no tabuleiro."
 duration = ""
 rapid = ""
@@ -26,6 +20,19 @@ status_tone = "scheduled"
 lichess_url = "https://lichess.org/@/fcz"
 tagline = "praticando xadrez depois dos 40"
 streak_goal = "5"
+
+[[extra.streak_attempts]]
+solved = ""
+puzzles = []
+note = ""
+
+[[extra.games]]
+lichess_game_url = ""
+result = ""
+color = ""
+opening = ""
+opening_url = ""
+note = ""
 +++
 
 ## Agenda

@@ -196,6 +196,32 @@ iframe {
   margin: 0;
 }
 
+.game-list {
+  display: grid;
+  gap: 16px;
+}
+
+.game-summary + .game-summary {
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.game-summary h4 {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.session-stats {
+  padding-top: 16px;
+  border-top: 1px solid var(--line);
+}
+
+.game-list + .session-stats,
+.summary-group > dl + .session-stats {
+  margin-top: 16px;
+}
+
 .session-summary dt {
   color: var(--muted);
   font-size: 0.85rem;
@@ -217,6 +243,33 @@ iframe {
   margin: 8px 0 0;
   padding: 0;
   list-style: none;
+}
+
+.streak-list {
+  display: grid;
+  gap: 14px;
+}
+
+.streak-summary + .streak-summary {
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.streak-summary h4,
+.streak-score,
+.streak-note {
+  margin: 0;
+}
+
+.streak-summary h4 {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.streak-note {
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .description p {

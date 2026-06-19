@@ -79,7 +79,48 @@
               <dd>{{ page.extra.streak }}</dd>
             </div>
           {% endif %}
-          {% if page.extra.streak_best_sequence is defined and page.extra.streak_best_sequence %}
+          {% if page.extra.streak_attempts is defined and page.extra.streak_attempts %}
+            <div>
+              <dt>{% if page.extra.streak_attempts | length > 1 %}Sequências{% else %}Sequência{% endif %}</dt>
+              <dd>
+                <div class="streak-list">
+                  {% for attempt in page.extra.streak_attempts %}
+                    <section class="streak-summary">
+                      {% if page.extra.streak_attempts | length > 1 %}
+                        <h4>Tentativa {{ loop.index }}</h4>
+                      {% endif %}
+                      {% if attempt.solved is defined and attempt.solved %}
+                        <p class="streak-score">
+                          {{ attempt.solved }}{% if page.extra.streak_goal is defined and page.extra.streak_goal %} / {{ page.extra.streak_goal }}{% endif %}
+                        </p>
+                      {% endif %}
+                      {% if attempt.note is defined and attempt.note %}
+                        <p class="streak-note">{{ attempt.note }}</p>
+                      {% endif %}
+                      {% if attempt.puzzles is defined and attempt.puzzles %}
+                        <ul class="puzzle-sequence">
+                          {% for puzzle_entry in attempt.puzzles %}
+                            {% set puzzle_id = puzzle_entry
+                              | replace(from="https://lichess.org/training/", to="")
+                              | replace(from="http://lichess.org/training/", to="")
+                              | replace(from="https://www.lichess.org/training/", to="")
+                              | replace(from="http://www.lichess.org/training/", to="")
+                            %}
+                            {% if puzzle_entry is starting_with("http") %}
+                              {% set puzzle_url = puzzle_entry %}
+                            {% else %}
+                              {% set puzzle_url = "https://lichess.org/training/" ~ puzzle_entry %}
+                            {% endif %}
+                            <li><a href="{{ puzzle_url | safe }}" rel="noopener noreferrer">{{ puzzle_id }}</a></li>
+                          {% endfor %}
+                        </ul>
+                      {% endif %}
+                    </section>
+                  {% endfor %}
+                </div>
+              </dd>
+            </div>
+          {% elif page.extra.streak_best_sequence is defined and page.extra.streak_best_sequence %}
             {% set streak_best_solved = page.extra.streak_best_sequence | length %}
             {% if not page.extra.streak_interrupted | default(value=false) %}
               {% set streak_best_solved = streak_best_solved - 1 %}
@@ -111,14 +152,91 @@
       </section>
 
       <section class="summary-group">
-        <h3>Partida</h3>
-        <dl>
-          {% if page.extra.lichess_game_url is defined and page.extra.lichess_game_url %}
-            <div>
-              <dt>Partida</dt>
-              <dd><a href="{{ page.extra.lichess_game_url }}" rel="noopener noreferrer">Abrir partida no Lichess</a></dd>
-            </div>
-          {% endif %}
+        {% if page.extra.games is defined and page.extra.games %}
+          <h3>{% if page.extra.games | length > 1 %}Partidas{% else %}Partida{% endif %}</h3>
+          <div class="game-list">
+            {% for game in page.extra.games %}
+              <section class="game-summary">
+                {% if page.extra.games | length > 1 %}
+                  <h4>Partida {{ loop.index }}</h4>
+                {% endif %}
+                <dl>
+                  {% if game.lichess_game_url is defined and game.lichess_game_url %}
+                    <div>
+                      <dt>Partida</dt>
+                      <dd><a href="{{ game.lichess_game_url }}" rel="noopener noreferrer">Abrir partida no Lichess</a></dd>
+                    </div>
+                  {% endif %}
+                  {% if game.result is defined and game.result %}
+                    <div>
+                      <dt>Resultado</dt>
+                      <dd>{{ game.result }}</dd>
+                    </div>
+                  {% endif %}
+                  {% if game.opening is defined and game.opening %}
+                    <div>
+                      <dt>Abertura</dt>
+                      <dd>
+                        {% if game.opening_url is defined and game.opening_url %}
+                          <a href="{{ game.opening_url }}" rel="noopener noreferrer">{{ game.opening }}</a>
+                        {% else %}
+                          {{ game.opening }}
+                        {% endif %}
+                      </dd>
+                    </div>
+                  {% endif %}
+                  {% if game.color is defined and game.color %}
+                    <div>
+                      <dt>Cor</dt>
+                      <dd>{{ game.color }}</dd>
+                    </div>
+                  {% endif %}
+                  {% if game.note is defined and game.note %}
+                    <div>
+                      <dt>Nota</dt>
+                      <dd>{{ game.note }}</dd>
+                    </div>
+                  {% endif %}
+                </dl>
+              </section>
+            {% endfor %}
+          </div>
+        {% else %}
+          <h3>Partida</h3>
+          <dl>
+            {% if page.extra.lichess_game_url is defined and page.extra.lichess_game_url %}
+              <div>
+                <dt>Partida</dt>
+                <dd><a href="{{ page.extra.lichess_game_url }}" rel="noopener noreferrer">Abrir partida no Lichess</a></dd>
+              </div>
+            {% endif %}
+            {% if page.extra.result is defined and page.extra.result %}
+              <div>
+                <dt>Resultado</dt>
+                <dd>{{ page.extra.result }}</dd>
+              </div>
+            {% endif %}
+            {% if page.extra.opening is defined and page.extra.opening %}
+              <div>
+                <dt>Abertura</dt>
+                <dd>
+                  {% if page.extra.opening_url is defined and page.extra.opening_url %}
+                    <a href="{{ page.extra.opening_url }}" rel="noopener noreferrer">{{ page.extra.opening }}</a>
+                  {% else %}
+                    {{ page.extra.opening }}
+                  {% endif %}
+                </dd>
+              </div>
+            {% endif %}
+            {% if page.extra.color is defined and page.extra.color %}
+              <div>
+                <dt>Cor</dt>
+                <dd>{{ page.extra.color }}</dd>
+              </div>
+            {% endif %}
+          </dl>
+        {% endif %}
+        <dl class="session-stats">
           {% if page.extra.duration is defined and page.extra.duration %}
             <div>
               <dt>Duração</dt>
@@ -129,30 +247,6 @@
             <div>
               <dt>Rapid</dt>
               <dd>{{ page.extra.rapid }}</dd>
-            </div>
-          {% endif %}
-          {% if page.extra.result is defined and page.extra.result %}
-            <div>
-              <dt>Resultado</dt>
-              <dd>{{ page.extra.result }}</dd>
-            </div>
-          {% endif %}
-          {% if page.extra.opening is defined and page.extra.opening %}
-            <div>
-              <dt>Abertura</dt>
-              <dd>
-                {% if page.extra.opening_url is defined and page.extra.opening_url %}
-                  <a href="{{ page.extra.opening_url }}" rel="noopener noreferrer">{{ page.extra.opening }}</a>
-                {% else %}
-                  {{ page.extra.opening }}
-                {% endif %}
-              </dd>
-            </div>
-          {% endif %}
-          {% if page.extra.color is defined and page.extra.color %}
-            <div>
-              <dt>Cor</dt>
-              <dd>{{ page.extra.color }}</dd>
             </div>
           {% endif %}
         </dl>
