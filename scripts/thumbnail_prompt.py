@@ -77,16 +77,26 @@ def short_opening(opening):
     return opening.strip()
 
 
+def latest_game(extra):
+    games = extra.get("games")
+    if isinstance(games, list) and games:
+        last_game = games[-1]
+        if isinstance(last_game, dict):
+            return last_game
+    return extra
+
+
 def post_data_block(extra):
-    opening = short_opening(value(extra, "opening"))
+    game = latest_game(extra)
+    opening = short_opening(value(game, "opening"))
     return f"""session number: {value(extra, "session_number")}
 status banner: live encerrada
 duration: {value(extra, "duration")}
 rapid: {value(extra, "rapid")}
 puzzles: {value(extra, "puzzles")}
 streak: {value(extra, "streak")}
-resultado: {result_label(value(extra, "result"))}
-cor: {color_label(value(extra, "color"))}
+resultado: {result_label(value(game, "result"))}
+cor: {color_label(value(game, "color"))}
 abertura: {opening}
 session context: {value(extra, "description")}
 side notebook notes: create 2 to 4 very short Portuguese bullet notes from the structured data and session context above; each bullet must be 2 to 5 words, with no full sentences and no line wrapping"""
