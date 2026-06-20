@@ -9,6 +9,9 @@ serve:
 build:
   zola build
 
+lint-actions:
+  actionlint
+
 thumbnail-prompt SESSION KIND="post":
   @python3 scripts/thumbnail_prompt.py {{SESSION}} {{KIND}}
 
