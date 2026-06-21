@@ -15,6 +15,9 @@ lint-actions:
 thumbnail-prompt SESSION KIND="post":
   @python3 scripts/thumbnail_prompt.py {{SESSION}} {{KIND}}
 
+pre-thumb SESSION TIME="":
+  @python3 scripts/prelive_thumbnail.py {{SESSION}} {{TIME}}
+
 thumbnail-optimize INPUT OUTPUT:
   @magick "{{INPUT}}" -strip -resize 1200x675 -quality 85 "{{OUTPUT}}"
 
