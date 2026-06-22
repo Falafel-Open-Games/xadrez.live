@@ -331,28 +331,55 @@ iframe {
 
 .session-group ul {
   display: grid;
-  gap: 10px;
+  gap: 18px;
   margin: 0;
-  padding-left: 1.2rem;
+  padding-left: 0;
   list-style: none;
 }
 
 .session-group li {
+  display: grid;
+  gap: 6px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--line);
+}
+
+.session-group li:last-child {
+  padding-bottom: 0;
+  border-bottom: 0;
+}
+
+.session-list-header,
+.session-list-meta {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 12px;
+  gap: 6px 12px;
   align-items: baseline;
 }
 
-.session-group li a {
+.session-list-header > a {
   color: var(--text);
   font-weight: 700;
 }
 
 .session-group time,
-.session-group span {
+.session-list-header span,
+.session-list-description,
+.session-list-meta {
   color: var(--muted);
   font-size: 0.95rem;
+}
+
+.session-list-description {
+  margin: 0;
+}
+
+.session-list-meta {
+  font-size: 0.9rem;
+}
+
+.session-list-meta a {
+  color: var(--accent);
 }
 
 .beta-invite {

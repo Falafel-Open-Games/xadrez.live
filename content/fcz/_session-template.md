@@ -8,6 +8,7 @@ draft = true
 puzzle_of_the_day_url = ""
 streak = ""
 description = "Uma live curta de treino: puzzles, uma partida rápida, erros bobos, pequenas vitórias e revisão do que eu deveria ter visto no tabuleiro."
+summary_title = ""
 duration = ""
 rapid = ""
 puzzles = ""
