@@ -165,7 +165,7 @@ def main():
         composed = tmp / "composed.png"
 
         make_stacked_label(["sessão #", session_number], session_label, "320x150", 34, 54, 14, 12)
-        make_stacked_label(["hoje às", f"{time} BRT"], time_label, "320x150", 32, 42, 15, 22)
+        make_stacked_label(["horário", f"{time} BRT"], time_label, "320x150", 32, 42, 15, 22)
 
         run(
             [
