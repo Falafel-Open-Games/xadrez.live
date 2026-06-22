@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Lichess Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.2.0
+// @version      0.3.0
 // @description  Collect Lichess puzzle and game URLs during a xadrez.live session and copy TOML blocks for session markdown.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -37,6 +37,15 @@
   function normalizePuzzleUrl(url) {
     const match = /^https:\/\/lichess\.org\/training\/([^/?#]+)/.exec(url);
     return match ? `https://lichess.org/training/${match[1]}` : "";
+  }
+
+  function currentPuzzleUrl() {
+    const revealedLink = document.querySelector('.infos.puzzle a[href^="/training/"]');
+    if (revealedLink) {
+      return normalizePuzzleUrl(new URL(revealedLink.getAttribute("href"), location.origin).href);
+    }
+
+    return normalizePuzzleUrl(location.href);
   }
 
   function normalizeGameUrl(url) {
@@ -96,9 +105,9 @@
   }
 
   function addCurrentPuzzle(state) {
-    const url = normalizePuzzleUrl(location.href);
+    const url = currentPuzzleUrl();
     if (!url) {
-      window.alert("Esta URL não parece ser um puzzle do Lichess.");
+      window.alert("Não encontrei um puzzle revelado nem uma URL de puzzle do Lichess.");
       return;
     }
 
@@ -107,9 +116,9 @@
   }
 
   function setPuzzleOfTheDay(state) {
-    const url = normalizePuzzleUrl(location.href);
+    const url = currentPuzzleUrl();
     if (!url) {
-      window.alert("Esta URL não parece ser um puzzle do Lichess.");
+      window.alert("Não encontrei um puzzle revelado nem uma URL de puzzle do Lichess.");
       return;
     }
 
