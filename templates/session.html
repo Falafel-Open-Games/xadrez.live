@@ -30,7 +30,19 @@
   <p class="tagline">{{ page.extra.tagline }}</p>
 
   <div class="session-actions" aria-label="links da sessão">
-    <span class="status-badge status-{{ page.extra.status_tone | default(value='live') }}">{{ page.extra.status }}</span>
+    <span
+      class="status-badge status-{{ page.extra.status_tone | default(value='live') }}"
+      data-session-status
+      data-status-tone="{{ page.extra.status_tone | default(value='') }}"
+      data-session-date="{{ page.date }}"
+      data-session-time="{{ page.extra.time | default(value='') }}"
+    >
+      {% if page.extra.status_tone | default(value='') == "scheduled" and page.extra.time is defined and page.extra.time %}
+        marcada para {{ page.date | date(format="%d/%m") }} às {{ page.extra.time }}
+      {% else %}
+        {{ page.extra.status }}
+      {% endif %}
+    </span>
     <a class="button" href="{{ youtube_url }}" rel="noopener noreferrer">Abrir no YouTube</a>
     <a class="button button-secondary" href="{{ page.extra.lichess_url }}" rel="noopener noreferrer">Abrir Lichess</a>
   </div>

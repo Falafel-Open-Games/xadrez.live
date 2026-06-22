@@ -23,7 +23,18 @@
                 {{ session.date | date(format="%d/%m/%Y") }}{% if session.extra.time is defined and session.extra.time %}, {{ session.extra.time }}{% endif %}
               </time>
               {% if session.extra.status and session.extra.status != "live encerrada" %}
-                <span>{{ session.extra.status }}</span>
+                <span
+                  data-session-status
+                  data-status-tone="{{ session.extra.status_tone | default(value='') }}"
+                  data-session-date="{{ session.date }}"
+                  data-session-time="{{ session.extra.time | default(value='') }}"
+                >
+                  {% if session.extra.status_tone | default(value='') == "scheduled" and session.extra.time is defined and session.extra.time %}
+                    marcada para {{ session.date | date(format="%d/%m") }} às {{ session.extra.time }}
+                  {% else %}
+                    {{ session.extra.status }}
+                  {% endif %}
+                </span>
               {% endif %}
             </li>
           {% endif %}
