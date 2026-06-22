@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Lichess Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.1.0
+// @version      0.2.0
 // @description  Collect Lichess puzzle and game URLs during a xadrez.live session and copy TOML blocks for session markdown.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -16,6 +16,7 @@
 
   const DEFAULT_STATE = {
     active: false,
+    puzzleOfTheDayUrl: "",
     attempts: [],
     currentPuzzles: [],
     games: [],
@@ -105,6 +106,17 @@
     saveState(state);
   }
 
+  function setPuzzleOfTheDay(state) {
+    const url = normalizePuzzleUrl(location.href);
+    if (!url) {
+      window.alert("Esta URL não parece ser um puzzle do Lichess.");
+      return;
+    }
+
+    state.puzzleOfTheDayUrl = url;
+    saveState(state);
+  }
+
   function addCurrentGame(state) {
     const url = normalizeGameUrl(location.href);
     if (!url) {
@@ -135,6 +147,10 @@
 
   function buildToml(state) {
     const blocks = [];
+    if (state.puzzleOfTheDayUrl) {
+      blocks.push(`puzzle_of_the_day_url = "${quote(state.puzzleOfTheDayUrl)}"`);
+    }
+
     const attempts = [...state.attempts];
     if (state.currentPuzzles.length) {
       attempts.push({
@@ -264,15 +280,20 @@ note = "${quote(game.note)}"`);
         · atual: ${state.currentPuzzles.length} puzzle(s)
         · partidas: ${state.games.length}
       </p>
+      <p class="xlc-meta">
+        Puzzle do dia: ${state.puzzleOfTheDayUrl ? "ok" : "pendente"}
+      </p>
       <div class="xlc-row">
+        <button type="button" data-action="set-puzzle-of-day">Puzzle do dia</button>
         <button type="button" data-action="add-puzzle">Add puzzle</button>
-        <button type="button" data-action="finish-attempt">Fechar tentativa</button>
-        <button type="button" data-action="add-game">Add partida</button>
-        <button type="button" data-action="copy">Copiar TOML</button>
       </div>
       <div class="xlc-row">
+        <button type="button" data-action="finish-attempt">Fechar tentativa</button>
+        <button type="button" data-action="add-game">Add partida</button>
+      </div>
+      <div class="xlc-row">
+        <button type="button" data-action="copy">Copiar TOML</button>
         <button type="button" data-action="reset">Nova sessão</button>
-        <button type="button" data-action="refresh">Atualizar</button>
       </div>
       <textarea readonly spellcheck="false">${buildToml(state)}</textarea>
     `;
@@ -285,6 +306,9 @@ note = "${quote(game.note)}"`);
 
       let nextState = loadState();
       switch (button.dataset.action) {
+        case "set-puzzle-of-day":
+          setPuzzleOfTheDay(nextState);
+          break;
         case "add-puzzle":
           addCurrentPuzzle(nextState);
           break;
@@ -299,8 +323,6 @@ note = "${quote(game.note)}"`);
           break;
         case "reset":
           nextState = resetSession(nextState);
-          break;
-        case "refresh":
           break;
       }
 

@@ -159,6 +159,7 @@ O arquivo em `og_image` é usado só nas tags Open Graph/Twitter; ele não apare
 Durante a live, use o userscript local em `tools/userscripts/xadrez-live-lichess-collector.user.js` para reduzir copia/cola de URLs do Lichess. Ele adiciona um painel flutuante em `lichess.org` com botões para:
 
 - adicionar a URL do puzzle atual
+- registrar a URL do Puzzle do Dia separadamente
 - fechar uma tentativa de streak
 - adicionar a URL da partida atual
 - copiar um bloco TOML pronto para colar no front matter da sessão
@@ -188,10 +189,11 @@ Para Chromium, este projeto recomenda **ScriptCat**: ele é open source e contin
 O painel `xadrez.live` deve aparecer no canto inferior direito. Fluxo básico:
 
 1. Clique em `Nova sessão` no começo da live.
-2. Em cada puzzle, clique em `Add puzzle`.
-3. Ao terminar uma sequência, clique em `Fechar tentativa` e informe quantos puzzles contam como resolvidos.
-4. Em cada partida, abra a página da partida e clique em `Add partida`.
-5. Clique em `Copiar TOML` e cole o bloco no front matter da sessão no GitHub.
+2. No Puzzle do Dia, clique em `Puzzle do dia`.
+3. Em cada puzzle da streak, clique em `Add puzzle`.
+4. Ao terminar uma sequência, clique em `Fechar tentativa` e informe quantos puzzles contam como resolvidos.
+5. Em cada partida, abra a página da partida e clique em `Add partida`.
+6. Clique em `Copiar TOML` e cole o bloco no front matter da sessão no GitHub.
 
 ## Publicar no GitHub Pages
 
