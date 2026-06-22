@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Lichess Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.3.0
+// @version      0.7.0
 // @description  Collect Lichess puzzle and game URLs during a xadrez.live session and copy TOML blocks for session markdown.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -16,6 +16,7 @@
 
   const DEFAULT_STATE = {
     active: false,
+    collapsed: false,
     puzzleOfTheDayUrl: "",
     attempts: [],
     currentPuzzles: [],
@@ -72,29 +73,134 @@
     return value === null ? fallback : value.trim();
   }
 
+  function selectValue(label, options, fallback = "") {
+    return new Promise((resolve) => {
+      const overlay = document.createElement("div");
+      overlay.innerHTML = `
+        <style>
+          .xlc-select-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100000;
+            display: grid;
+            place-items: center;
+            background: rgba(0, 0, 0, 0.35);
+            font: 14px/1.4 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          }
+          .xlc-select-dialog {
+            width: min(320px, calc(100vw - 32px));
+            border: 1px solid #4a513f;
+            border-radius: 8px;
+            padding: 14px;
+            background: #161912;
+            color: #f2f0e7;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+          }
+          .xlc-select-dialog label {
+            display: grid;
+            gap: 8px;
+            color: #d8a657;
+            font-weight: 700;
+          }
+          .xlc-select-dialog select {
+            min-height: 36px;
+            border: 1px solid #34372e;
+            border-radius: 6px;
+            padding: 0 8px;
+            background: #0f110d;
+            color: #f2f0e7;
+            font: inherit;
+          }
+          .xlc-select-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 12px;
+          }
+          .xlc-select-actions button {
+            min-height: 34px;
+            border: 1px solid #34372e;
+            border-radius: 6px;
+            background: #242819;
+            color: #f2f0e7;
+            font: inherit;
+            cursor: pointer;
+          }
+          .xlc-select-actions button:hover {
+            border-color: #d8a657;
+          }
+        </style>
+        <div class="xlc-select-overlay">
+          <form class="xlc-select-dialog">
+            <label>
+              ${label}
+              <select name="value">
+                ${options.map((option) => `<option value="${quote(option.value)}">${option.label}</option>`).join("")}
+              </select>
+            </label>
+            <div class="xlc-select-actions">
+              <button type="submit">Use value</button>
+              <button type="button" data-action="cancel">Cancel</button>
+            </div>
+          </form>
+        </div>
+      `;
+
+      const form = overlay.querySelector("form");
+      const select = overlay.querySelector("select");
+      select.value = fallback;
+      if (select.value !== fallback) {
+        select.value = "";
+      }
+
+      function close(value) {
+        overlay.remove();
+        resolve(value);
+      }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        close(select.value);
+      });
+      form.querySelector('[data-action="cancel"]').addEventListener("click", () => close(fallback));
+      document.body.append(overlay);
+      select.focus();
+    });
+  }
+
+  function openingLink() {
+    return (
+      document.querySelector('.explorer-box .title a[href^="/opening/"]') ||
+      document.querySelector('.analyse__tools a[href^="/opening/"]') ||
+      document.querySelector('a[href^="/opening/"]')
+    );
+  }
+
   function currentOpeningName() {
+    const link = openingLink();
     const candidates = [
-      document.querySelector('[data-icon=""]')?.parentElement?.textContent,
+      link?.getAttribute("title"),
+      link?.textContent,
       document.querySelector(".opening")?.textContent,
-      document.querySelector('[href^="/opening/"]')?.textContent,
+      document.querySelector('[data-icon=""]')?.parentElement?.textContent,
     ];
 
     return candidates.find((value) => value && value.trim())?.trim() || "";
   }
 
   function currentOpeningUrl() {
-    const link = document.querySelector('[href^="/opening/"]');
+    const link = openingLink();
     return link ? new URL(link.getAttribute("href"), location.origin).href : "";
   }
 
   function finishAttempt(state) {
     if (!state.currentPuzzles.length) {
-      window.alert("Nenhum puzzle na tentativa atual.");
+      window.alert("No puzzles in the current attempt.");
       return;
     }
 
-    const solved = promptValue("Quantos puzzles dessa tentativa contam como resolvidos?", String(Math.max(0, state.currentPuzzles.length - 1)));
-    const note = promptValue("Nota opcional da tentativa:", "");
+    const solved = promptValue("How many puzzles count as solved in this attempt?", String(Math.max(0, state.currentPuzzles.length - 1)));
+    const note = promptValue("Optional attempt note:", "");
     state.attempts.push({
       solved,
       puzzles: [...state.currentPuzzles],
@@ -107,7 +213,7 @@
   function addCurrentPuzzle(state) {
     const url = currentPuzzleUrl();
     if (!url) {
-      window.alert("Não encontrei um puzzle revelado nem uma URL de puzzle do Lichess.");
+      window.alert("Could not find a revealed puzzle link or a Lichess puzzle URL.");
       return;
     }
 
@@ -118,7 +224,7 @@
   function setPuzzleOfTheDay(state) {
     const url = currentPuzzleUrl();
     if (!url) {
-      window.alert("Não encontrei um puzzle revelado nem uma URL de puzzle do Lichess.");
+      window.alert("Could not find a revealed puzzle link or a Lichess puzzle URL.");
       return;
     }
 
@@ -126,10 +232,10 @@
     saveState(state);
   }
 
-  function addCurrentGame(state) {
+  async function addCurrentGame(state) {
     const url = normalizeGameUrl(location.href);
     if (!url) {
-      window.alert("Esta URL não parece ser uma partida do Lichess.");
+      window.alert("This URL does not look like a Lichess game.");
       return;
     }
 
@@ -139,14 +245,39 @@
         ? "white"
         : "";
 
-    state.games.push({
+    const existingGameIndex = state.games.findIndex((game) => game.lichess_game_url === url);
+    const existingGame = existingGameIndex === -1 ? {} : state.games[existingGameIndex];
+    const game = {
       lichess_game_url: url,
-      result: promptValue("Resultado: win, loss ou draw", ""),
-      color: promptValue("Cor: white ou black", colorFromUrl),
-      opening: promptValue("Abertura:", currentOpeningName()),
-      opening_url: promptValue("URL da abertura:", currentOpeningUrl()),
-      note: promptValue("Nota opcional da partida:", ""),
-    });
+      result: await selectValue(
+        "Result",
+        [
+          { value: "", label: "Not set" },
+          { value: "win", label: "win" },
+          { value: "loss", label: "loss" },
+          { value: "draw", label: "draw" },
+        ],
+        existingGame.result || "",
+      ),
+      color: await selectValue(
+        "Color",
+        [
+          { value: "", label: "Not set" },
+          { value: "white", label: "white" },
+          { value: "black", label: "black" },
+        ],
+        existingGame.color || colorFromUrl,
+      ),
+      opening: promptValue("Opening:", existingGame.opening || currentOpeningName()),
+      opening_url: promptValue("Opening URL:", existingGame.opening_url || currentOpeningUrl()),
+      note: promptValue("Optional game note:", existingGame.note || ""),
+    };
+
+    if (existingGameIndex === -1) {
+      state.games.push(game);
+    } else {
+      state.games[existingGameIndex] = game;
+    }
     saveState(state);
   }
 
@@ -165,7 +296,7 @@
       attempts.push({
         solved: "",
         puzzles: [...state.currentPuzzles],
-        note: "tentativa em andamento",
+        note: "attempt in progress",
       });
     }
 
@@ -191,24 +322,24 @@ note = "${quote(game.note)}"`);
 
   function copyText(text) {
     if (!text) {
-      window.alert("Nada para copiar ainda.");
+      window.alert("Nothing to copy yet.");
       return;
     }
 
     if (typeof GM_setClipboard === "function") {
       GM_setClipboard(text, "text");
-      window.alert("Bloco TOML copiado.");
+      window.alert("TOML block copied.");
       return;
     }
 
     navigator.clipboard.writeText(text).then(
-      () => window.alert("Bloco TOML copiado."),
-      () => window.prompt("Copie o bloco TOML:", text),
+      () => window.alert("TOML block copied."),
+      () => window.prompt("Copy the TOML block:", text),
     );
   }
 
   function resetSession(state) {
-    if (!window.confirm("Limpar o scratchpad desta sessão?")) {
+    if (!window.confirm("Clear this session scratchpad?")) {
       return state;
     }
 
@@ -223,6 +354,7 @@ note = "${quote(game.note)}"`);
     const state = loadState();
     const panel = document.createElement("section");
     panel.id = PANEL_ID;
+    panel.className = state.collapsed ? "is-collapsed" : "";
     panel.innerHTML = `
       <style>
         #${PANEL_ID} {
@@ -238,6 +370,10 @@ note = "${quote(game.note)}"`);
           color: #f2f0e7;
           box-shadow: 0 12px 36px rgba(0, 0, 0, 0.4);
           font: 13px/1.4 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+        #${PANEL_ID}.is-collapsed {
+          width: auto;
+          padding: 6px;
         }
         #${PANEL_ID} h2 {
           margin: 0 0 8px;
@@ -282,32 +418,47 @@ note = "${quote(game.note)}"`);
           color: #b8b5a8;
           font-size: 12px;
         }
+        #${PANEL_ID}.is-collapsed .xlc-full {
+          display: none;
+        }
+        #${PANEL_ID}:not(.is-collapsed) .xlc-collapsed {
+          display: none;
+        }
       </style>
-      <h2>xadrez.live</h2>
-      <p class="xlc-meta">
-        Tentativas: ${state.attempts.length}
-        · atual: ${state.currentPuzzles.length} puzzle(s)
-        · partidas: ${state.games.length}
-      </p>
-      <p class="xlc-meta">
-        Puzzle do dia: ${state.puzzleOfTheDayUrl ? "ok" : "pendente"}
-      </p>
-      <div class="xlc-row">
-        <button type="button" data-action="set-puzzle-of-day">Puzzle do dia</button>
-        <button type="button" data-action="add-puzzle">Add puzzle</button>
+      <div class="xlc-collapsed">
+        <button type="button" data-action="toggle-collapse">xadrez.live</button>
       </div>
-      <div class="xlc-row">
-        <button type="button" data-action="finish-attempt">Fechar tentativa</button>
-        <button type="button" data-action="add-game">Add partida</button>
+      <div class="xlc-full">
+        <h2>xadrez.live</h2>
+        <p class="xlc-meta">
+          Attempts: ${state.attempts.length}
+          · current: ${state.currentPuzzles.length} puzzle(s)
+          · games: ${state.games.length}
+        </p>
+        <p class="xlc-meta">
+          Puzzle of the day: ${state.puzzleOfTheDayUrl ? "ok" : "pending"}
+        </p>
+        <div class="xlc-row">
+          <button type="button" data-action="set-puzzle-of-day">Puzzle of day</button>
+          <button type="button" data-action="add-puzzle">Add puzzle</button>
+        </div>
+        <div class="xlc-row">
+          <button type="button" data-action="finish-attempt">Finish attempt</button>
+          <button type="button" data-action="add-game">Add game</button>
+        </div>
+        <div class="xlc-row">
+          <button type="button" data-action="copy">Copy TOML</button>
+          <button type="button" data-action="reset">New session</button>
+        </div>
+        <div class="xlc-row">
+          <button type="button" data-action="toggle-collapse">Collapse</button>
+          <button type="button" data-action="refresh">Refresh</button>
+        </div>
+        <textarea readonly spellcheck="false">${buildToml(state)}</textarea>
       </div>
-      <div class="xlc-row">
-        <button type="button" data-action="copy">Copiar TOML</button>
-        <button type="button" data-action="reset">Nova sessão</button>
-      </div>
-      <textarea readonly spellcheck="false">${buildToml(state)}</textarea>
     `;
 
-    panel.addEventListener("click", (event) => {
+    panel.addEventListener("click", async (event) => {
       const button = event.target.closest("button[data-action]");
       if (!button) {
         return;
@@ -315,6 +466,10 @@ note = "${quote(game.note)}"`);
 
       let nextState = loadState();
       switch (button.dataset.action) {
+        case "toggle-collapse":
+          nextState.collapsed = !nextState.collapsed;
+          saveState(nextState);
+          break;
         case "set-puzzle-of-day":
           setPuzzleOfTheDay(nextState);
           break;
@@ -325,13 +480,15 @@ note = "${quote(game.note)}"`);
           finishAttempt(nextState);
           break;
         case "add-game":
-          addCurrentGame(nextState);
+          await addCurrentGame(nextState);
           break;
         case "copy":
           copyText(buildToml(nextState));
           break;
         case "reset":
           nextState = resetSession(nextState);
+          break;
+        case "refresh":
           break;
       }
 
