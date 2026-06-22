@@ -154,6 +154,45 @@ og_image = "/fcz/thumbnails/20260616-pre-thumb.jpg"
 
 O arquivo em `og_image` é usado só nas tags Open Graph/Twitter; ele não aparece no corpo da página.
 
+## Coletar dados da live no Lichess
+
+Durante a live, use o userscript local em `tools/userscripts/xadrez-live-lichess-collector.user.js` para reduzir copia/cola de URLs do Lichess. Ele adiciona um painel flutuante em `lichess.org` com botões para:
+
+- adicionar a URL do puzzle atual
+- fechar uma tentativa de streak
+- adicionar a URL da partida atual
+- copiar um bloco TOML pronto para colar no front matter da sessão
+
+Os dados ficam só no `localStorage` do navegador. Não há servidor, login externo nem envio de dados para fora.
+
+### Gerenciador de userscripts
+
+Em 2026, o ecossistema está diferente da época clássica do Greasemonkey:
+
+- Greasemonkey continua relevante principalmente no Firefox.
+- Tampermonkey é o mais popular e funciona em vários navegadores, mas é proprietário/donationware.
+- Violentmonkey é open source e sem anúncios, mas o próprio projeto informa que não é mais suportado no Chrome por causa da arquitetura Manifest V2.
+- ScriptCat é open source, GPLv3, compatível com scripts no estilo Tampermonkey e disponível para Chrome/Chromium.
+
+Para Chromium, este projeto recomenda **ScriptCat**: ele é open source e continua disponível na Chrome Web Store.
+
+### Instalar no Chromium com ScriptCat
+
+1. Instale o ScriptCat pela Chrome Web Store: <https://chromewebstore.google.com/>
+2. Abra o dashboard do ScriptCat.
+3. Crie um novo script.
+4. Copie o conteúdo de `tools/userscripts/xadrez-live-lichess-collector.user.js`.
+5. Cole no editor do ScriptCat e salve.
+6. Abra uma página em `https://lichess.org/`.
+
+O painel `xadrez.live` deve aparecer no canto inferior direito. Fluxo básico:
+
+1. Clique em `Nova sessão` no começo da live.
+2. Em cada puzzle, clique em `Add puzzle`.
+3. Ao terminar uma sequência, clique em `Fechar tentativa` e informe quantos puzzles contam como resolvidos.
+4. Em cada partida, abra a página da partida e clique em `Add partida`.
+5. Clique em `Copiar TOML` e cole o bloco no front matter da sessão no GitHub.
+
 ## Publicar no GitHub Pages
 
 O workflow em `.github/workflows/pages.yml` builda o site com Zola e publica o diretório `public`.
