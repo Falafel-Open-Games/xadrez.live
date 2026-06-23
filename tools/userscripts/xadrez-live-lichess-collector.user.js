@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Lichess Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.7.0
+// @version      0.7.1
 // @description  Collect Lichess puzzle and game URLs during a xadrez.live session and copy TOML blocks for session markdown.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -168,12 +168,26 @@
     });
   }
 
+  function firstOpeningLink(selectors) {
+    return selectors.map((selector) => document.querySelector(selector)).find(Boolean);
+  }
+
   function openingLink() {
-    return (
-      document.querySelector('.explorer-box .title a[href^="/opening/"]') ||
-      document.querySelector('.analyse__tools a[href^="/opening/"]') ||
-      document.querySelector('a[href^="/opening/"]')
-    );
+    return firstOpeningLink([
+      '.explorer-box .title a[href^="/opening/"]',
+      '.explorer-box .title a[href^="https://lichess.org/opening/"]',
+      '.analyse__tools a[href^="/opening/"]',
+      '.analyse__tools a[href^="https://lichess.org/opening/"]',
+      'a[href^="/opening/"]',
+      'a[href^="https://lichess.org/opening/"]',
+    ]);
+  }
+
+  function cleanOpeningName(value) {
+    return String(value || "")
+      .replace(/\s+/g, " ")
+      .replace(/^[A-E]\d{2}\s+/, "")
+      .trim();
   }
 
   function currentOpeningName() {
@@ -185,12 +199,13 @@
       document.querySelector('[data-icon=""]')?.parentElement?.textContent,
     ];
 
-    return candidates.find((value) => value && value.trim())?.trim() || "";
+    return candidates.map(cleanOpeningName).find(Boolean) || "";
   }
 
   function currentOpeningUrl() {
     const link = openingLink();
-    return link ? new URL(link.getAttribute("href"), location.origin).href : "";
+    const href = link?.getAttribute("href") || link?.href || "";
+    return href ? new URL(href, location.origin).href : "";
   }
 
   function finishAttempt(state) {
