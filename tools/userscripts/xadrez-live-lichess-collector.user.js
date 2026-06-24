@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Lichess Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.7.1
+// @version      0.8.0
 // @description  Collect Lichess puzzle and game URLs during a xadrez.live session and copy TOML blocks for session markdown.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -18,6 +18,9 @@
     active: false,
     collapsed: false,
     puzzleOfTheDayUrl: "",
+    duration: "",
+    rapid: "",
+    puzzles: "",
     attempts: [],
     currentPuzzles: [],
     games: [],
@@ -60,6 +63,14 @@
 
   function quote(value) {
     return String(value || "").replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+  }
+
+  function escapeHtml(value) {
+    return String(value || "")
+      .replace(/&/g, "&amp;")
+      .replace(/"/g, "&quot;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;");
   }
 
   function pushUnique(list, value) {
@@ -135,7 +146,7 @@
             <label>
               ${label}
               <select name="value">
-                ${options.map((option) => `<option value="${quote(option.value)}">${option.label}</option>`).join("")}
+                ${options.map((option) => `<option value="${escapeHtml(option.value)}">${escapeHtml(option.label)}</option>`).join("")}
               </select>
             </label>
             <div class="xlc-select-actions">
@@ -166,6 +177,124 @@
       document.body.append(overlay);
       select.focus();
     });
+  }
+
+  function postStatsValue(state, key) {
+    return String(state[key] || "").trim();
+  }
+
+  function postStatsDialog(state) {
+    return new Promise((resolve) => {
+      const overlay = document.createElement("div");
+      overlay.innerHTML = `
+        <style>
+          .xlc-stats-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100000;
+            display: grid;
+            place-items: center;
+            background: rgba(0, 0, 0, 0.35);
+            font: 14px/1.4 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          }
+          .xlc-stats-dialog {
+            width: min(360px, calc(100vw - 32px));
+            border: 1px solid #4a513f;
+            border-radius: 8px;
+            padding: 14px;
+            background: #161912;
+            color: #f2f0e7;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+          }
+          .xlc-stats-dialog label {
+            display: grid;
+            gap: 6px;
+            margin-bottom: 10px;
+            color: #d8a657;
+            font-weight: 700;
+          }
+          .xlc-stats-dialog input {
+            min-height: 36px;
+            border: 1px solid #34372e;
+            border-radius: 6px;
+            padding: 0 8px;
+            background: #0f110d;
+            color: #f2f0e7;
+            font: inherit;
+          }
+          .xlc-stats-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 12px;
+          }
+          .xlc-stats-actions button {
+            min-height: 34px;
+            border: 1px solid #34372e;
+            border-radius: 6px;
+            background: #242819;
+            color: #f2f0e7;
+            font: inherit;
+            cursor: pointer;
+          }
+          .xlc-stats-actions button:hover {
+            border-color: #d8a657;
+          }
+        </style>
+        <div class="xlc-stats-overlay">
+          <form class="xlc-stats-dialog">
+            <label>
+              Duration
+              <input name="duration" autocomplete="off" value="${escapeHtml(postStatsValue(state, "duration"))}">
+            </label>
+            <label>
+              Rapid
+              <input name="rapid" autocomplete="off" value="${escapeHtml(postStatsValue(state, "rapid"))}">
+            </label>
+            <label>
+              Puzzles
+              <input name="puzzles" autocomplete="off" value="${escapeHtml(postStatsValue(state, "puzzles"))}">
+            </label>
+            <div class="xlc-stats-actions">
+              <button type="submit">Save stats</button>
+              <button type="button" data-action="cancel">Cancel</button>
+            </div>
+          </form>
+        </div>
+      `;
+
+      const form = overlay.querySelector("form");
+
+      function close(value) {
+        overlay.remove();
+        resolve(value);
+      }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const data = new FormData(form);
+        close({
+          duration: String(data.get("duration") || "").trim(),
+          rapid: String(data.get("rapid") || "").trim(),
+          puzzles: String(data.get("puzzles") || "").trim(),
+        });
+      });
+      form.querySelector('[data-action="cancel"]').addEventListener("click", () => close(null));
+      document.body.append(overlay);
+      form.elements.duration.focus();
+    });
+  }
+
+  async function setPostStats(state) {
+    const values = await postStatsDialog(state);
+    if (!values) {
+      return;
+    }
+
+    state.duration = values.duration;
+    state.rapid = values.rapid;
+    state.puzzles = values.puzzles;
+    saveState(state);
   }
 
   function firstOpeningLink(selectors) {
@@ -304,6 +433,12 @@
     const blocks = [];
     if (state.puzzleOfTheDayUrl) {
       blocks.push(`puzzle_of_the_day_url = "${quote(state.puzzleOfTheDayUrl)}"`);
+    }
+
+    if (state.duration || state.rapid || state.puzzles) {
+      blocks.push(`duration = "${quote(state.duration)}"
+rapid = "${quote(state.rapid)}"
+puzzles = "${quote(state.puzzles)}"`);
     }
 
     const attempts = [...state.attempts];
@@ -452,6 +587,7 @@ note = "${quote(game.note)}"`);
         </p>
         <p class="xlc-meta">
           Puzzle of the day: ${state.puzzleOfTheDayUrl ? "ok" : "pending"}
+          · stats: ${state.duration && state.rapid && state.puzzles ? "ok" : "pending"}
         </p>
         <div class="xlc-row">
           <button type="button" data-action="set-puzzle-of-day">Puzzle of day</button>
@@ -462,12 +598,15 @@ note = "${quote(game.note)}"`);
           <button type="button" data-action="add-game">Add game</button>
         </div>
         <div class="xlc-row">
+          <button type="button" data-action="set-post-stats">Post stats</button>
           <button type="button" data-action="copy">Copy TOML</button>
+        </div>
+        <div class="xlc-row">
           <button type="button" data-action="reset">New session</button>
+          <button type="button" data-action="refresh">Refresh</button>
         </div>
         <div class="xlc-row">
           <button type="button" data-action="toggle-collapse">Collapse</button>
-          <button type="button" data-action="refresh">Refresh</button>
         </div>
         <textarea readonly spellcheck="false">${buildToml(state)}</textarea>
       </div>
@@ -496,6 +635,9 @@ note = "${quote(game.note)}"`);
           break;
         case "add-game":
           await addCurrentGame(nextState);
+          break;
+        case "set-post-stats":
+          await setPostStats(nextState);
           break;
         case "copy":
           copyText(buildToml(nextState));

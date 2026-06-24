@@ -61,6 +61,12 @@ def value(extra, key, default=""):
     return str(raw).strip()
 
 
+def require_values(extra, keys):
+    missing = [key for key in keys if not value(extra, key)]
+    if missing:
+        fail(f"missing required post thumbnail field(s): {', '.join(missing)}")
+
+
 def result_label(result):
     result = result.strip()
     return RESULT_LABELS.get(result.lower(), result or "treino")
@@ -87,6 +93,8 @@ def latest_game(extra):
 
 
 def post_data_block(extra):
+    require_values(extra, ["duration", "rapid", "puzzles"])
+
     game = latest_game(extra)
     opening = short_opening(value(game, "opening"))
     return f"""session number: {value(extra, "session_number")}
