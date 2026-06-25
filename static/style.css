@@ -308,13 +308,13 @@ iframe {
   max-width: 760px;
 }
 
-.recent-sessions {
+.session-list-section {
   margin-top: 48px;
   padding-top: 24px;
   border-top: 1px solid var(--line);
 }
 
-.recent-sessions h2 {
+.session-list-section h2 {
   margin: 0 0 14px;
   font-size: 1.1rem;
   text-transform: lowercase;
@@ -372,6 +372,11 @@ iframe {
 
 .session-list-description {
   margin: 0;
+}
+
+.session-list-empty {
+  margin: 0;
+  color: var(--muted);
 }
 
 .session-list-meta {

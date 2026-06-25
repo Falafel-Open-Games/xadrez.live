@@ -1,5 +1,70 @@
 {% extends "base.html" %}
 
+{% macro session_item(session) %}
+  <li>
+    <div class="session-list-header">
+      {% set summary_title = session.extra.summary_title | default(value="") %}
+      <a href="{{ session.path }}">{% if summary_title %}{{ session.title }}: {{ summary_title }}{% else %}{{ session.title }}{% endif %}</a>
+      <time datetime="{{ session.date }}">
+        {{ session.date | date(format="%d/%m/%Y") }}{% if session.extra.time is defined and session.extra.time %}, {{ session.extra.time }}{% endif %}
+      </time>
+      {% if session.extra.status and session.extra.status != "live encerrada" %}
+        <span
+          data-session-status
+          data-status-tone="{{ session.extra.status_tone | default(value='') }}"
+          data-session-date="{{ session.date }}"
+          data-session-time="{{ session.extra.time | default(value='') }}"
+        >
+          {% if session.extra.status_tone | default(value='') == "scheduled" and session.extra.time is defined and session.extra.time %}
+            marcada para {{ session.date | date(format="%d/%m") }} às {{ session.extra.time }}
+          {% else %}
+            {{ session.extra.status }}
+          {% endif %}
+        </span>
+      {% endif %}
+    </div>
+
+    {% if session.extra.description is defined and session.extra.description %}
+      <p class="session-list-description">{{ session.extra.description | truncate(length=210) }}</p>
+    {% endif %}
+
+    {% if session.extra.games is defined and session.extra.games %}
+      {% set game = session.extra.games | last %}
+      {% if (game.opening is defined and game.opening) or (game.result is defined and game.result) or (game.color is defined and game.color) or (session.extra.streak is defined and session.extra.streak) %}
+        <div class="session-list-meta">
+        {% if game.opening is defined and game.opening %}
+          <span>Abertura: {% if game.opening_url is defined and game.opening_url %}<a href="{{ game.opening_url }}" rel="noopener noreferrer">{{ game.opening }}</a>{% else %}{{ game.opening }}{% endif %}</span>
+        {% endif %}
+        {% if game.result is defined and game.result %}
+          <span>Resultado: {{ game.result }}</span>
+        {% endif %}
+        {% if game.color is defined and game.color %}
+          <span>Cor: {{ game.color }}</span>
+        {% endif %}
+        {% if session.extra.streak is defined and session.extra.streak %}
+          <span>Streak: {{ session.extra.streak }}</span>
+        {% endif %}
+        </div>
+      {% endif %}
+    {% elif (session.extra.opening is defined and session.extra.opening) or (session.extra.result is defined and session.extra.result) or (session.extra.color is defined and session.extra.color) or (session.extra.streak is defined and session.extra.streak) %}
+      <div class="session-list-meta">
+        {% if session.extra.opening is defined and session.extra.opening %}
+          <span>Abertura: {% if session.extra.opening_url is defined and session.extra.opening_url %}<a href="{{ session.extra.opening_url }}" rel="noopener noreferrer">{{ session.extra.opening }}</a>{% else %}{{ session.extra.opening }}{% endif %}</span>
+        {% endif %}
+        {% if session.extra.result is defined and session.extra.result %}
+          <span>Resultado: {{ session.extra.result }}</span>
+        {% endif %}
+        {% if session.extra.color is defined and session.extra.color %}
+          <span>Cor: {{ session.extra.color }}</span>
+        {% endif %}
+        {% if session.extra.streak is defined and session.extra.streak %}
+          <span>Streak: {{ session.extra.streak }}</span>
+        {% endif %}
+      </div>
+    {% endif %}
+  </li>
+{% endmacro session_item %}
+
 {% block title %}xadrez.live (beta){% endblock title %}
 {% block description %}esta página está em construção{% endblock description %}
 
@@ -10,75 +75,39 @@
   <h1>xadrez.live (beta)</h1>
   <p class="tagline">esta página está em construção</p>
 
-  <section class="recent-sessions">
-    <h2>sessões recentes</h2>
+  <section class="session-list-section">
+    <h2>próximas sessões</h2>
+    <div class="session-group">
+      <h3><a href="https://lichess.org/@/fcz" rel="noopener noreferrer">fcz</a></h3>
+      <ul>
+        {% set upcoming_count = 0 %}
+        {% for session in sessions.pages | reverse %}
+          {% if not session.draft %}
+            {% set tone = session.extra.status_tone | default(value="") %}
+            {% if tone == "scheduled" or tone == "live" %}
+              {% set_global upcoming_count = upcoming_count + 1 %}
+              {{ self::session_item(session=session) }}
+            {% endif %}
+          {% endif %}
+        {% endfor %}
+      </ul>
+      {% if upcoming_count == 0 %}
+        <p class="session-list-empty">nenhuma sessão marcada.</p>
+      {% endif %}
+    </div>
+  </section>
+
+  <section class="session-list-section">
+    <h2>sessões passadas</h2>
     <div class="session-group">
       <h3><a href="https://lichess.org/@/fcz" rel="noopener noreferrer">fcz</a></h3>
       <ul>
         {% for session in sessions.pages | reverse %}
           {% if not session.draft %}
-            <li>
-              <div class="session-list-header">
-                {% set summary_title = session.extra.summary_title | default(value="") %}
-                <a href="{{ session.path }}">{% if summary_title %}{{ session.title }}: {{ summary_title }}{% else %}{{ session.title }}{% endif %}</a>
-                <time datetime="{{ session.date }}">
-                  {{ session.date | date(format="%d/%m/%Y") }}{% if session.extra.time is defined and session.extra.time %}, {{ session.extra.time }}{% endif %}
-                </time>
-                {% if session.extra.status and session.extra.status != "live encerrada" %}
-                  <span
-                    data-session-status
-                    data-status-tone="{{ session.extra.status_tone | default(value='') }}"
-                    data-session-date="{{ session.date }}"
-                    data-session-time="{{ session.extra.time | default(value='') }}"
-                  >
-                    {% if session.extra.status_tone | default(value='') == "scheduled" and session.extra.time is defined and session.extra.time %}
-                      marcada para {{ session.date | date(format="%d/%m") }} às {{ session.extra.time }}
-                    {% else %}
-                      {{ session.extra.status }}
-                    {% endif %}
-                  </span>
-                {% endif %}
-              </div>
-
-              {% if session.extra.description is defined and session.extra.description %}
-                <p class="session-list-description">{{ session.extra.description | truncate(length=210) }}</p>
-              {% endif %}
-
-              {% if session.extra.games is defined and session.extra.games %}
-                {% set game = session.extra.games | last %}
-                {% if (game.opening is defined and game.opening) or (game.result is defined and game.result) or (game.color is defined and game.color) or (session.extra.streak is defined and session.extra.streak) %}
-                  <div class="session-list-meta">
-                  {% if game.opening is defined and game.opening %}
-                    <span>Abertura: {% if game.opening_url is defined and game.opening_url %}<a href="{{ game.opening_url }}" rel="noopener noreferrer">{{ game.opening }}</a>{% else %}{{ game.opening }}{% endif %}</span>
-                  {% endif %}
-                  {% if game.result is defined and game.result %}
-                    <span>Resultado: {{ game.result }}</span>
-                  {% endif %}
-                  {% if game.color is defined and game.color %}
-                    <span>Cor: {{ game.color }}</span>
-                  {% endif %}
-                  {% if session.extra.streak is defined and session.extra.streak %}
-                    <span>Streak: {{ session.extra.streak }}</span>
-                  {% endif %}
-                  </div>
-                {% endif %}
-              {% elif (session.extra.opening is defined and session.extra.opening) or (session.extra.result is defined and session.extra.result) or (session.extra.color is defined and session.extra.color) or (session.extra.streak is defined and session.extra.streak) %}
-                <div class="session-list-meta">
-                  {% if session.extra.opening is defined and session.extra.opening %}
-                    <span>Abertura: {% if session.extra.opening_url is defined and session.extra.opening_url %}<a href="{{ session.extra.opening_url }}" rel="noopener noreferrer">{{ session.extra.opening }}</a>{% else %}{{ session.extra.opening }}{% endif %}</span>
-                  {% endif %}
-                  {% if session.extra.result is defined and session.extra.result %}
-                    <span>Resultado: {{ session.extra.result }}</span>
-                  {% endif %}
-                  {% if session.extra.color is defined and session.extra.color %}
-                    <span>Cor: {{ session.extra.color }}</span>
-                  {% endif %}
-                  {% if session.extra.streak is defined and session.extra.streak %}
-                    <span>Streak: {{ session.extra.streak }}</span>
-                  {% endif %}
-                </div>
-              {% endif %}
-            </li>
+            {% set tone = session.extra.status_tone | default(value="") %}
+            {% if tone != "scheduled" and tone != "live" %}
+              {{ self::session_item(session=session) }}
+            {% endif %}
           {% endif %}
         {% endfor %}
       </ul>
