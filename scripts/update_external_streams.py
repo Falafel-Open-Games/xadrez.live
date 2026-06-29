@@ -1,0 +1,387 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import argparse
+import json
+import subprocess
+import sys
+import tomllib
+from datetime import datetime, timezone
+from pathlib import Path
+from zoneinfo import ZoneInfo
+
+
+ROOT = Path(__file__).resolve().parents[1]
+SOURCES = ROOT / "data/external_stream_sources.toml"
+OUTPUT = ROOT / "data/external_streams.toml"
+DISPLAY_TZ = ZoneInfo("America/Sao_Paulo")
+UPCOMING_WINDOW_SECONDS = 7 * 24 * 60 * 60
+
+
+def toml_string(value: str) -> str:
+    return json.dumps(value, ensure_ascii=False)
+
+
+def letter_counts(value: str) -> tuple[int, int]:
+    letters = [char for char in value if char.isalpha()]
+    uppercase = [char for char in letters if char.isupper()]
+    return len(letters), len(uppercase)
+
+
+def looks_shouty(value: str) -> bool:
+    letters, uppercase = letter_counts(value)
+    return letters >= 12 and uppercase / letters >= 0.6
+
+
+def sentence_case(value: str) -> str:
+    value = value.lower()
+    chars = list(value)
+    capitalize_next = True
+    for index, char in enumerate(chars):
+        if capitalize_next and char.isalpha():
+            chars[index] = char.upper()
+            capitalize_next = False
+            continue
+        if char in ".!?":
+            capitalize_next = True
+    return "".join(chars)
+
+
+def restore_known_terms(value: str) -> str:
+    replacements = {
+        "chess.com": "Chess.com",
+        "taí à toa tuesday": "Taí à Toa Tuesday",
+        "copablunder": "CopaBlunder",
+        "aliderança": "a liderança",
+    }
+    for old, new in replacements.items():
+        value = value.replace(old, new)
+    if value.startswith("ao vivo"):
+        value = "Ao vivo" + value[len("ao vivo"):]
+    return value
+
+
+def display_title(value: str) -> str:
+    if not looks_shouty(value):
+        return value
+    return restore_known_terms(sentence_case(value))
+
+
+def load_sources() -> tuple[int, list[dict[str, str]]]:
+    with SOURCES.open("rb") as fh:
+        data = tomllib.load(fh)
+
+    limit = int(data.get("limit_per_source", 3))
+    sources = data.get("sources", [])
+    if not isinstance(sources, list):
+        raise SystemExit("data/external_stream_sources.toml must define [[sources]]")
+    return limit, sources
+
+
+def run_json_lines(cmd: list[str]) -> list[dict]:
+    proc = subprocess.run(
+        cmd,
+        check=False,
+        cwd=ROOT,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+    )
+    if proc.returncode != 0:
+        print(proc.stderr, file=sys.stderr)
+        raise SystemExit(f"command failed: {' '.join(cmd)}")
+
+    items = []
+    for line in proc.stdout.splitlines():
+        if line.strip():
+            items.append(json.loads(line))
+    return items
+
+
+def timestamp_from_upload_date(upload_date: str) -> int:
+    if len(upload_date) != 8 or not upload_date.isdigit():
+        return 0
+    date = datetime.strptime(upload_date, "%Y%m%d").replace(tzinfo=timezone.utc)
+    return int(date.timestamp())
+
+
+def publication_timestamp(item: dict) -> int:
+    for key in ("timestamp", "release_timestamp"):
+        value = item.get(key)
+        if isinstance(value, int) and value > 0:
+            return value
+    upload_date = str(item.get("upload_date") or "")
+    return timestamp_from_upload_date(upload_date)
+
+
+def scheduled_timestamp(item: dict) -> int:
+    value = item.get("release_timestamp")
+    if isinstance(value, int) and value > 0:
+        return value
+    return publication_timestamp(item)
+
+
+def publication_fields(item: dict) -> dict[str, str | int]:
+    timestamp = publication_timestamp(item)
+    if not timestamp:
+        return {
+            "sort_timestamp": 0,
+            "published_at": "",
+            "published_date": "",
+            "published_label": "",
+        }
+
+    published = datetime.fromtimestamp(timestamp, timezone.utc)
+    display = published.astimezone(DISPLAY_TZ)
+    return {
+        "sort_timestamp": timestamp,
+        "published_at": published.isoformat(timespec="seconds"),
+        "published_date": display.date().isoformat(),
+        "published_label": display.strftime("%d/%m/%Y"),
+    }
+
+
+def scheduled_fields(item: dict) -> dict[str, str | int]:
+    timestamp = scheduled_timestamp(item)
+    if not timestamp:
+        return {
+            "sort_timestamp": 0,
+            "scheduled_at": "",
+            "scheduled_date": "",
+            "scheduled_label": "",
+            "scheduled_time": "",
+        }
+
+    scheduled = datetime.fromtimestamp(timestamp, timezone.utc)
+    display = scheduled.astimezone(DISPLAY_TZ)
+    return {
+        "sort_timestamp": timestamp,
+        "scheduled_at": scheduled.isoformat(timespec="seconds"),
+        "scheduled_date": display.date().isoformat(),
+        "scheduled_label": display.strftime("%d/%m/%Y"),
+        "scheduled_time": display.strftime("%H:%M"),
+    }
+
+
+def fetch_video_metadata(url: str) -> dict:
+    cmd = [
+        "yt-dlp",
+        "--dump-json",
+        "--skip-download",
+        "--ignore-no-formats",
+        url,
+    ]
+    return run_json_lines(cmd)[0]
+
+
+def stream_base(
+    item: dict,
+    source: dict[str, str],
+    source_url: str,
+    stream_url: str,
+    title: str,
+    duration: str,
+) -> dict[str, str | int]:
+    return {
+        "title": str(item.get("title") or title).strip(),
+        "display_title": display_title(str(item.get("title") or title).strip()),
+        "creator": str(source.get("name") or item.get("channel") or "").strip(),
+        "video_platform": str(source.get("video_platform") or "YouTube").strip(),
+        "language": str(source.get("language") or "pt-BR").strip(),
+        "url": str(item.get("webpage_url") or stream_url).strip(),
+        "channel_url": source_url,
+        "duration": duration,
+        "live_status": str(item.get("live_status") or "").strip(),
+        "was_live": "true" if item.get("was_live") else "false",
+        "source_kind": "streams",
+    }
+
+
+def fetch_source(
+    source: dict[str, str], limit: int
+) -> tuple[list[dict[str, str | int]], list[dict[str, str | int]]]:
+    source_url = source["url"]
+    cmd = [
+        "yt-dlp",
+        "--flat-playlist",
+        "--playlist-end",
+        str(limit),
+        "--dump-json",
+        source_url,
+    ]
+    items = run_json_lines(cmd)
+
+    upcoming_streams = []
+    streams = []
+    for item in items:
+        flat_item = item
+        video_id = str(flat_item.get("id") or "").strip()
+        stream_url = str(flat_item.get("url") or flat_item.get("webpage_url") or "").strip()
+        if video_id and not stream_url.startswith("http"):
+            stream_url = f"https://www.youtube.com/watch?v={video_id}"
+
+        title = str(flat_item.get("title") or "").strip()
+        if not title or not stream_url:
+            continue
+
+        try:
+            item = fetch_video_metadata(stream_url)
+        except SystemExit:
+            item = flat_item
+
+        base = stream_base(
+            item,
+            source,
+            source_url,
+            stream_url,
+            title,
+            str(item.get("duration_string") or flat_item.get("duration_string") or "").strip(),
+        )
+        if str(item.get("live_status") or "").strip() == "is_upcoming":
+            scheduled = scheduled_fields(item)
+            if not scheduled["sort_timestamp"]:
+                print(f"Skipping unscheduled upcoming stream: {stream_url}", file=sys.stderr)
+                continue
+            upcoming_streams.append(
+                {
+                    **base,
+                    "scheduled_at": str(scheduled["scheduled_at"]),
+                    "scheduled_date": str(scheduled["scheduled_date"]),
+                    "scheduled_label": str(scheduled["scheduled_label"]),
+                    "scheduled_time": str(scheduled["scheduled_time"]),
+                    "sort_timestamp": int(scheduled["sort_timestamp"]),
+                }
+            )
+            continue
+
+        published = publication_fields(item)
+        if not published["sort_timestamp"]:
+            print(f"Skipping undated stream: {stream_url}", file=sys.stderr)
+            continue
+
+        streams.append(
+            {
+                **base,
+                "published_at": str(published["published_at"]),
+                "published_date": str(published["published_date"]),
+                "published_label": str(published["published_label"]),
+                "sort_timestamp": int(published["sort_timestamp"]),
+            }
+        )
+    return upcoming_streams, streams
+
+
+def write_streams_table(
+    lines: list[str],
+    table_name: str,
+    streams: list[dict[str, str | int]],
+    keys: tuple[str, ...],
+) -> None:
+    for stream in streams:
+        lines.append(f"[[{table_name}]]")
+        for key in keys:
+            lines.append(f"{key} = {toml_string(str(stream.get(key, '')))}")
+        lines.append("")
+
+
+def write_output(
+    upcoming_streams: list[dict[str, str | int]],
+    streams: list[dict[str, str | int]],
+) -> None:
+    lines = [
+        "# Generated by scripts/update_external_streams.py.",
+        "# Edit data/external_stream_sources.toml to change tracked channels.",
+        f"updated_at = {toml_string(datetime.now(timezone.utc).isoformat(timespec='seconds'))}",
+        "",
+    ]
+
+    common_keys = (
+        "title",
+        "display_title",
+        "creator",
+        "video_platform",
+        "language",
+        "url",
+        "channel_url",
+    )
+    write_streams_table(
+        lines,
+        "upcoming_streams",
+        upcoming_streams,
+        (
+            *common_keys,
+            "scheduled_at",
+            "scheduled_date",
+            "scheduled_label",
+            "scheduled_time",
+            "live_status",
+            "was_live",
+            "source_kind",
+        ),
+    )
+    write_streams_table(
+        lines,
+        "streams",
+        streams,
+        (
+            *common_keys,
+            "published_at",
+            "published_date",
+            "published_label",
+            "duration",
+            "live_status",
+            "was_live",
+            "source_kind",
+        ),
+    )
+
+    OUTPUT.write_text("\n".join(lines), encoding="utf-8")
+
+
+def filter_upcoming_streams(
+    upcoming_streams: list[dict[str, str | int]],
+    now_timestamp: int,
+) -> list[dict[str, str | int]]:
+    by_creator: dict[str, dict[str, str | int]] = {}
+    latest_allowed = now_timestamp + UPCOMING_WINDOW_SECONDS
+
+    for stream in upcoming_streams:
+        scheduled = int(stream.get("sort_timestamp", 0))
+        if scheduled < now_timestamp or scheduled > latest_allowed:
+            continue
+
+        creator = str(stream.get("creator", ""))
+        current = by_creator.get(creator)
+        if current is None or scheduled < int(current.get("sort_timestamp", 0)):
+            by_creator[creator] = stream
+
+    return sorted(by_creator.values(), key=lambda stream: int(stream.get("sort_timestamp", 0)))
+
+
+def main() -> None:
+    parser = argparse.ArgumentParser(
+        description="Update curated external stream links from configured YouTube /streams pages."
+    )
+    parser.parse_args()
+
+    limit, sources = load_sources()
+    upcoming_streams: list[dict[str, str | int]] = []
+    streams: list[dict[str, str | int]] = []
+    for source in sources:
+        source_upcoming, source_streams = fetch_source(source, limit)
+        upcoming_streams.extend(source_upcoming)
+        streams.extend(source_streams)
+    upcoming_streams = filter_upcoming_streams(
+        upcoming_streams,
+        int(datetime.now(timezone.utc).timestamp()),
+    )
+    streams.sort(key=lambda stream: int(stream.get("sort_timestamp", 0)), reverse=True)
+    write_output(upcoming_streams, streams)
+    print(
+        f"Wrote {len(upcoming_streams)} upcoming streams and {len(streams)} recent streams "
+        f"to {OUTPUT.relative_to(ROOT)}"
+    )
+
+
+if __name__ == "__main__":
+    main()
