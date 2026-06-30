@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
-{% macro session_item(session) %}
-  <li>
+{% macro session_item(session, folded=false) %}
+  <li{% if folded %} class="session-fold-extra" hidden{% endif %}>
     <div class="session-list-header">
       {% set summary_title = session.extra.summary_title | default(value="") %}
       <a href="{{ session.path }}">{% if summary_title %}{{ session.title }}: {{ summary_title }}{% else %}{{ session.title }}{% endif %}</a>
@@ -165,16 +165,21 @@
         <h2>Sessões passadas</h2>
         <div class="session-group">
           <h3><a href="https://lichess.org/@/fcz" rel="noopener noreferrer">fcz</a></h3>
-          <ul>
+          <ul data-session-fold>
+            {% set past_count = 0 %}
             {% for session in sessions.pages | reverse %}
               {% if not session.draft %}
                 {% set tone = session.extra.status_tone | default(value="") %}
                 {% if tone != "scheduled" and tone != "live" %}
-                  {{ self::session_item(session=session) }}
+                  {% set_global past_count = past_count + 1 %}
+                  {{ self::session_item(session=session, folded=past_count > 10) }}
                 {% endif %}
               {% endif %}
             {% endfor %}
           </ul>
+          {% if past_count > 10 %}
+            <button class="show-more-button" type="button" data-session-fold-button>Exibir mais</button>
+          {% endif %}
         </div>
       </section>
     </main>

@@ -41,4 +41,5 @@
 - For requests like “describe current changes”, inspect `jj status` and `jj diff`.
 - For “cut me a commit”, use the repo’s `jj` workflow rather than creating a Git commit directly.
 - When asked to bring the `main` bookmark to the current tip, use `jj bookmark move main --to @` unless the user specifies a different target.
+- The shorthand “commit e main” or “commit and main” means: describe the current jj change as a commit, move `main` to `@`, then check `jj status` and a short `jj log`.
 - Read-only `git` commands are still acceptable when needed for GitHub interoperability or checks.

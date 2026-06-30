@@ -48,4 +48,18 @@
 
     element.textContent = scheduledLabel(date, time);
   });
+
+  document.querySelectorAll("[data-session-fold-button]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      var section = button.closest(".session-list-section");
+      if (!section) {
+        return;
+      }
+
+      section.querySelectorAll(".session-fold-extra[hidden]").forEach(function (item) {
+        item.hidden = false;
+      });
+      button.hidden = true;
+    });
+  });
 })();

@@ -361,6 +361,10 @@ iframe {
   border-bottom: 1px solid var(--line);
 }
 
+.session-group li[hidden] {
+  display: none;
+}
+
 .session-group li:last-child {
   padding-bottom: 0;
   border-bottom: 0;
@@ -394,6 +398,23 @@ iframe {
 .session-list-empty {
   margin: 0;
   color: var(--muted);
+}
+
+.show-more-button {
+  min-height: 38px;
+  margin-top: 18px;
+  border: 1px solid var(--accent);
+  border-radius: 6px;
+  padding: 0 14px;
+  background: transparent;
+  color: var(--accent);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.show-more-button:hover {
+  background: #272214;
 }
 
 .section-note {
