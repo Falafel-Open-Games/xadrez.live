@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Lichess Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.8.0
+// @version      0.9.0
 // @description  Collect Lichess puzzle and game URLs during a xadrez.live session and copy TOML blocks for session markdown.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -21,6 +21,7 @@
     duration: "",
     rapid: "",
     puzzles: "",
+    descriptionNotes: "",
     attempts: [],
     currentPuzzles: [],
     games: [],
@@ -63,6 +64,13 @@
 
   function quote(value) {
     return String(value || "").replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+  }
+
+  function multilineQuote(value) {
+    return String(value || "")
+      .replace(/\r\n?/g, "\n")
+      .replace(/\\/g, "\\\\")
+      .replace(/"""/g, '\\"\\"\\"');
   }
 
   function escapeHtml(value) {
@@ -297,6 +305,106 @@
     saveState(state);
   }
 
+  function sessionNotesDialog(state) {
+    return new Promise((resolve) => {
+      const overlay = document.createElement("div");
+      overlay.innerHTML = `
+        <style>
+          .xlc-notes-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100000;
+            display: grid;
+            place-items: center;
+            background: rgba(0, 0, 0, 0.35);
+            font: 14px/1.4 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          }
+          .xlc-notes-dialog {
+            width: min(460px, calc(100vw - 32px));
+            border: 1px solid #4a513f;
+            border-radius: 8px;
+            padding: 14px;
+            background: #161912;
+            color: #f2f0e7;
+            box-shadow: 0 12px 36px rgba(0, 0, 0, 0.45);
+          }
+          .xlc-notes-dialog label {
+            display: grid;
+            gap: 6px;
+            color: #d8a657;
+            font-weight: 700;
+          }
+          .xlc-notes-dialog textarea {
+            min-height: 180px;
+            border: 1px solid #34372e;
+            border-radius: 6px;
+            padding: 8px;
+            background: #0f110d;
+            color: #f2f0e7;
+            font: inherit;
+            resize: vertical;
+          }
+          .xlc-notes-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            margin-top: 12px;
+          }
+          .xlc-notes-actions button {
+            min-height: 34px;
+            border: 1px solid #34372e;
+            border-radius: 6px;
+            background: #242819;
+            color: #f2f0e7;
+            font: inherit;
+            cursor: pointer;
+          }
+          .xlc-notes-actions button:hover {
+            border-color: #d8a657;
+          }
+        </style>
+        <div class="xlc-notes-overlay">
+          <form class="xlc-notes-dialog">
+            <label>
+              Description notes
+              <textarea name="descriptionNotes" spellcheck="true">${escapeHtml(state.descriptionNotes)}</textarea>
+            </label>
+            <div class="xlc-notes-actions">
+              <button type="submit">Save notes</button>
+              <button type="button" data-action="cancel">Cancel</button>
+            </div>
+          </form>
+        </div>
+      `;
+
+      const form = overlay.querySelector("form");
+
+      function close(value) {
+        overlay.remove();
+        resolve(value);
+      }
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const data = new FormData(form);
+        close(String(data.get("descriptionNotes") || "").trim());
+      });
+      form.querySelector('[data-action="cancel"]').addEventListener("click", () => close(null));
+      document.body.append(overlay);
+      form.elements.descriptionNotes.focus();
+    });
+  }
+
+  async function setDescriptionNotes(state) {
+    const notes = await sessionNotesDialog(state);
+    if (notes === null) {
+      return;
+    }
+
+    state.descriptionNotes = notes;
+    saveState(state);
+  }
+
   function firstOpeningLink(selectors) {
     return selectors.map((selector) => document.querySelector(selector)).find(Boolean);
   }
@@ -439,6 +547,10 @@
       blocks.push(`duration = "${quote(state.duration)}"
 rapid = "${quote(state.rapid)}"
 puzzles = "${quote(state.puzzles)}"`);
+    }
+
+    if (state.descriptionNotes) {
+      blocks.push(`description_notes = """${multilineQuote(state.descriptionNotes)}"""`);
     }
 
     const attempts = [...state.attempts];
@@ -588,6 +700,7 @@ note = "${quote(game.note)}"`);
         <p class="xlc-meta">
           Puzzle of the day: ${state.puzzleOfTheDayUrl ? "ok" : "pending"}
           · stats: ${state.duration && state.rapid && state.puzzles ? "ok" : "pending"}
+          · notes: ${state.descriptionNotes ? "ok" : "empty"}
         </p>
         <div class="xlc-row">
           <button type="button" data-action="set-puzzle-of-day">Puzzle of day</button>
@@ -599,13 +712,14 @@ note = "${quote(game.note)}"`);
         </div>
         <div class="xlc-row">
           <button type="button" data-action="set-post-stats">Post stats</button>
-          <button type="button" data-action="copy">Copy TOML</button>
+          <button type="button" data-action="set-description-notes">Notes</button>
         </div>
         <div class="xlc-row">
-          <button type="button" data-action="reset">New session</button>
+          <button type="button" data-action="copy">Copy TOML</button>
           <button type="button" data-action="refresh">Refresh</button>
         </div>
         <div class="xlc-row">
+          <button type="button" data-action="reset">New session</button>
           <button type="button" data-action="toggle-collapse">Collapse</button>
         </div>
         <textarea readonly spellcheck="false">${buildToml(state)}</textarea>
@@ -638,6 +752,9 @@ note = "${quote(game.note)}"`);
           break;
         case "set-post-stats":
           await setPostStats(nextState);
+          break;
+        case "set-description-notes":
+          await setDescriptionNotes(nextState);
           break;
         case "copy":
           copyText(buildToml(nextState));

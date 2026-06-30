@@ -162,6 +162,7 @@ Durante a live, use o userscript local em `tools/userscripts/xadrez-live-lichess
 - registrar a URL do Puzzle do Dia separadamente
 - fechar uma tentativa de streak
 - adicionar a URL da partida atual
+- registrar notas soltas para orientar a descrição principal no wrapup
 - copiar um bloco TOML pronto para colar no front matter da sessão
 
 Os dados ficam só no `localStorage` do navegador. Não há servidor, login externo nem envio de dados para fora.
@@ -193,7 +194,8 @@ O painel `xadrez.live` deve aparecer no canto inferior direito. Fluxo básico:
 3. Em cada puzzle da streak, clique em `Add puzzle`.
 4. Ao terminar uma sequência, clique em `Fechar tentativa` e informe quantos puzzles contam como resolvidos.
 5. Em cada partida, abra a página da partida e clique em `Add partida`.
-6. Clique em `Copiar TOML` e cole o bloco no front matter da sessão no GitHub.
+6. Use `Notes` para registrar observações que devem entrar na descrição principal do wrapup.
+7. Clique em `Copiar TOML` e cole o bloco no front matter da sessão no GitHub.
 
 ## Publicar no GitHub Pages
 
