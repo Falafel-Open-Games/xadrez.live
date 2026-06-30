@@ -68,6 +68,64 @@
   </li>
 {% endmacro session_item %}
 
+{% macro external_stream_item(stream, kind) %}
+  <li>
+    <div class="session-list-header">
+      <a href="{{ stream.url }}" rel="noopener noreferrer">{{ stream.display_title | default(value=stream.title) }}</a>
+      {% if kind == "recent" and stream.duration is defined and stream.duration %}
+        <span>{{ stream.duration }}</span>
+      {% endif %}
+    </div>
+    <div class="session-list-meta">
+      {% if stream.channel_url is defined and stream.channel_url %}
+        <span><a href="{{ stream.channel_url }}" rel="noopener noreferrer">{{ stream.creator }}</a></span>
+      {% else %}
+        <span>{{ stream.creator }}</span>
+      {% endif %}
+      {% if kind == "upcoming" and stream.scheduled_label is defined and stream.scheduled_label %}
+        <span>{{ stream.scheduled_label }}{% if stream.scheduled_time is defined and stream.scheduled_time %}, {{ stream.scheduled_time }} BRT{% endif %}</span>
+      {% endif %}
+      {% if kind == "recent" and stream.published_label is defined and stream.published_label %}
+        <span>{{ stream.published_label }}</span>
+      {% endif %}
+      {% if stream.video_platform is defined and stream.video_platform %}
+        <span>{{ stream.video_platform }}</span>
+      {% endif %}
+    </div>
+  </li>
+{% endmacro external_stream_item %}
+
+{% macro external_stream_group(streams, kind, language) %}
+  {% if streams is defined and streams %}
+    {% set has_group = false %}
+    {% for stream in streams %}
+      {% set stream_language = stream.language | default(value="") %}
+      {% if (language == "pt-BR" and stream_language == "pt-BR") or (language != "pt-BR" and stream_language != "pt-BR") %}
+        {% set_global has_group = true %}
+      {% endif %}
+    {% endfor %}
+    {% if has_group %}
+      <section class="external-stream-language">
+        <h3>
+          {% if kind == "upcoming" %}
+            {% if language == "pt-BR" %}Próximas em português{% else %}Próximas internacionais{% endif %}
+          {% else %}
+            {% if language == "pt-BR" %}Lives recentes em português{% else %}Lives recentes internacionais{% endif %}
+          {% endif %}
+        </h3>
+        <ul class="external-stream-list">
+          {% for stream in streams %}
+            {% set stream_language = stream.language | default(value="") %}
+            {% if (language == "pt-BR" and stream_language == "pt-BR") or (language != "pt-BR" and stream_language != "pt-BR") %}
+              {{ self::external_stream_item(stream=stream, kind=kind) }}
+            {% endif %}
+          {% endfor %}
+        </ul>
+      </section>
+    {% endif %}
+  {% endif %}
+{% endmacro external_stream_group %}
+
 {% block title %}xadrez.live (beta){% endblock title %}
 {% block description %}esta página está em construção{% endblock description %}
 
@@ -82,7 +140,7 @@
   <div class="home-columns">
     <main class="home-primary">
       <section class="session-list-section">
-        <h2>próximas sessões</h2>
+        <h2>Próximas sessões</h2>
         <div class="session-group">
           <h3><a href="https://lichess.org/@/fcz" rel="noopener noreferrer">fcz</a></h3>
           <ul>
@@ -104,7 +162,7 @@
       </section>
 
       <section class="session-list-section">
-        <h2>sessões passadas</h2>
+        <h2>Sessões passadas</h2>
         <div class="session-group">
           <h3><a href="https://lichess.org/@/fcz" rel="noopener noreferrer">fcz</a></h3>
           <ul>
@@ -125,65 +183,17 @@
       <aside class="home-secondary">
         {% if external_streams.upcoming_streams is defined and external_streams.upcoming_streams %}
           <section class="session-list-section external-streams-section">
-            <h2>outras próximas sessões</h2>
-            <p class="section-note">lives agendadas em português no YouTube.</p>
-            <ul class="external-stream-list">
-              {% for stream in external_streams.upcoming_streams %}
-                <li>
-                  <div class="session-list-header">
-                    <a href="{{ stream.url }}" rel="noopener noreferrer">{{ stream.display_title | default(value=stream.title) }}</a>
-                  </div>
-                  <div class="session-list-meta">
-                    {% if stream.channel_url is defined and stream.channel_url %}
-                      <span><a href="{{ stream.channel_url }}" rel="noopener noreferrer">{{ stream.creator }}</a></span>
-                    {% else %}
-                      <span>{{ stream.creator }}</span>
-                    {% endif %}
-                    {% if stream.scheduled_label is defined and stream.scheduled_label %}
-                      <span>{{ stream.scheduled_label }}{% if stream.scheduled_time is defined and stream.scheduled_time %}, {{ stream.scheduled_time }} BRT{% endif %}</span>
-                    {% endif %}
-                    {% if stream.video_platform is defined and stream.video_platform %}
-                      <span>{{ stream.video_platform }}</span>
-                    {% endif %}
-                  </div>
-                </li>
-              {% endfor %}
-            </ul>
+            <h2>Outras próximas sessões</h2>
+            {{ self::external_stream_group(streams=external_streams.upcoming_streams, kind="upcoming", language="pt-BR") }}
+            {{ self::external_stream_group(streams=external_streams.upcoming_streams, kind="upcoming", language="international") }}
           </section>
         {% endif %}
 
         {% if external_streams.streams is defined and external_streams.streams %}
           <section class="session-list-section external-streams-section">
-            <h2>outras lives de xadrez</h2>
-            <p class="section-note">links externos para lives recentes em português no YouTube.</p>
-            <ul class="external-stream-list">
-              {% for stream in external_streams.streams %}
-                <li>
-                  <div class="session-list-header">
-                    <a href="{{ stream.url }}" rel="noopener noreferrer">{{ stream.display_title | default(value=stream.title) }}</a>
-                    {% if stream.duration is defined and stream.duration %}
-                      <span>{{ stream.duration }}</span>
-                    {% endif %}
-                  </div>
-                  <div class="session-list-meta">
-                    {% if stream.channel_url is defined and stream.channel_url %}
-                      <span><a href="{{ stream.channel_url }}" rel="noopener noreferrer">{{ stream.creator }}</a></span>
-                    {% else %}
-                      <span>{{ stream.creator }}</span>
-                    {% endif %}
-                    {% if stream.video_platform is defined and stream.video_platform %}
-                      <span>{{ stream.video_platform }}</span>
-                    {% endif %}
-                    {% if stream.published_label is defined and stream.published_label %}
-                      <span>{{ stream.published_label }}</span>
-                    {% endif %}
-                    {% if stream.language is defined and stream.language %}
-                      <span>{{ stream.language }}</span>
-                    {% endif %}
-                  </div>
-                </li>
-              {% endfor %}
-            </ul>
+            <h2>Lives recentes</h2>
+            {{ self::external_stream_group(streams=external_streams.streams, kind="recent", language="pt-BR") }}
+            {{ self::external_stream_group(streams=external_streams.streams, kind="recent", language="international") }}
           </section>
         {% endif %}
       </aside>
@@ -191,7 +201,7 @@
   </div>
 
   <section class="beta-invite">
-    <h2>quer participar do beta?</h2>
+    <h2>Quer participar do beta?</h2>
     <p>se você faz lives de xadrez e quer aparecer nas listagens do xadrez.live, me chama no Lichess.</p>
     <a class="button button-secondary" href="https://lichess.org/inbox/fcz" rel="noopener noreferrer">Falar com fcz</a>
   </section>

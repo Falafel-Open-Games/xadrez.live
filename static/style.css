@@ -335,7 +335,6 @@ iframe {
 .session-list-section h2 {
   margin: 0 0 14px;
   font-size: 1.1rem;
-  text-transform: lowercase;
 }
 
 .session-group h3 {
@@ -419,6 +418,22 @@ iframe {
   list-style: none;
 }
 
+.external-stream-language + .external-stream-language {
+  margin-top: 34px;
+}
+
+.external-stream-language h3 {
+  margin: 0 0 16px;
+  border: 1px solid #7f6a38;
+  border-radius: 6px;
+  padding: 5px 9px;
+  background: #f1f0e8;
+  color: #17140d;
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
 .external-stream-list li {
   display: grid;
   gap: 6px;
@@ -453,7 +468,6 @@ iframe {
 .beta-invite h2 {
   margin: 0 0 8px;
   font-size: 1.1rem;
-  text-transform: lowercase;
 }
 
 .beta-invite p {

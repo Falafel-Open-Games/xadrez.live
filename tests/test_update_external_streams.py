@@ -1,6 +1,6 @@
 import unittest
 
-from scripts.update_external_streams import preserve_existing_if_richer
+from scripts.update_external_streams import filter_latest_stream_per_creator, preserve_existing_if_richer
 
 
 class PreserveExistingStreamMetadataTest(unittest.TestCase):
@@ -35,6 +35,17 @@ class PreserveExistingStreamMetadataTest(unittest.TestCase):
         self.assertEqual(merged["published_at"], "2026-06-26T11:07:28+00:00")
         self.assertEqual(merged["live_status"], "was_live")
         self.assertEqual(merged["was_live"], "true")
+
+    def test_filters_recent_streams_to_latest_per_creator(self):
+        streams = [
+            {"creator": "GM Krikor", "url": "old-krikor", "sort_timestamp": 10},
+            {"creator": "Everton Togni", "url": "everton", "sort_timestamp": 30},
+            {"creator": "GM Krikor", "url": "new-krikor", "sort_timestamp": 20},
+        ]
+
+        filtered = filter_latest_stream_per_creator(streams)
+
+        self.assertEqual([stream["url"] for stream in filtered], ["everton", "new-krikor"])
 
 
 if __name__ == "__main__":

@@ -421,6 +421,20 @@ def filter_upcoming_streams(
     return sorted(by_creator.values(), key=lambda stream: int(stream.get("sort_timestamp", 0)))
 
 
+def filter_latest_stream_per_creator(
+    streams: list[dict[str, str | int]],
+) -> list[dict[str, str | int]]:
+    by_creator: dict[str, dict[str, str | int]] = {}
+
+    for stream in streams:
+        creator = str(stream.get("creator", ""))
+        current = by_creator.get(creator)
+        if current is None or int(stream.get("sort_timestamp", 0)) > int(current.get("sort_timestamp", 0)):
+            by_creator[creator] = stream
+
+    return sorted(by_creator.values(), key=lambda stream: int(stream.get("sort_timestamp", 0)), reverse=True)
+
+
 def main() -> None:
     parser = argparse.ArgumentParser(
         description="Update curated external stream links from configured YouTube /streams pages."
@@ -439,7 +453,7 @@ def main() -> None:
         upcoming_streams,
         int(datetime.now(timezone.utc).timestamp()),
     )
-    streams.sort(key=lambda stream: int(stream.get("sort_timestamp", 0)), reverse=True)
+    streams = filter_latest_stream_per_creator(streams)
     write_output(upcoming_streams, streams)
     print(
         f"Wrote {len(upcoming_streams)} upcoming streams and {len(streams)} recent streams "
