@@ -1,9 +1,6 @@
 name: Update external streams
 
 on:
-  push:
-    branches:
-      - main
   schedule:
     - cron: "10 11 * * *"
     - cron: "10 21 * * *"
