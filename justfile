@@ -12,6 +12,11 @@ build:
 lint-actions:
   actionlint
 
+update-external-streams:
+  python3 scripts/update_external_streams.py
+
+refresh-external-streams: update-external-streams build
+
 thumbnail-prompt SESSION KIND="post":
   @python3 scripts/thumbnail_prompt.py {{SESSION}} {{KIND}}
 

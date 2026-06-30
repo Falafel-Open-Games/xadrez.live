@@ -92,6 +92,26 @@ def latest_game(extra):
     return extra
 
 
+def streak_value(extra):
+    explicit = value(extra, "streak")
+    if explicit:
+        return explicit
+
+    attempts = extra.get("streak_attempts")
+    if not isinstance(attempts, list):
+        return ""
+
+    solved_values = []
+    for attempt in attempts:
+        if not isinstance(attempt, dict):
+            continue
+        solved = value(attempt, "solved")
+        if solved.isdigit():
+            solved_values.append(int(solved))
+
+    return str(max(solved_values)) if solved_values else ""
+
+
 def post_data_block(extra):
     require_values(extra, ["duration", "rapid", "puzzles"])
 
@@ -102,7 +122,7 @@ status banner: live encerrada
 duration: {value(extra, "duration")}
 rapid: {value(extra, "rapid")}
 puzzles: {value(extra, "puzzles")}
-streak: {value(extra, "streak")}
+streak: {streak_value(extra)}
 resultado: {result_label(value(game, "result"))}
 cor: {color_label(value(game, "color"))}
 abertura: {opening}

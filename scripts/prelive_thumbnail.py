@@ -153,7 +153,7 @@ def main():
 
     output = args.output
     if output is None:
-        output = OUTPUT_DIR / f"{date:%Y%m%d}-pre-thumb.jpg"
+        output = OUTPUT_DIR / f"{date:%Y-%m}" / f"{date:%Y%m%d}-pre-thumb.jpg"
     if not output.is_absolute():
         output = ROOT / output
     output.parent.mkdir(parents=True, exist_ok=True)
