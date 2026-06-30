@@ -30,8 +30,11 @@
 
     {% if session.extra.games is defined and session.extra.games %}
       {% set game = session.extra.games | last %}
-      {% if (game.opening is defined and game.opening) or (game.result is defined and game.result) or (game.color is defined and game.color) or (session.extra.streak is defined and session.extra.streak) %}
+      {% if (game.platform is defined and game.platform) or (game.opening is defined and game.opening) or (game.result is defined and game.result) or (game.color is defined and game.color) or (session.extra.streak is defined and session.extra.streak) %}
         <div class="session-list-meta">
+        {% if game.platform is defined and game.platform %}
+          <span>Plataforma: {{ game.platform }}</span>
+        {% endif %}
         {% if game.opening is defined and game.opening %}
           <span>Abertura: {% if game.opening_url is defined and game.opening_url %}<a href="{{ game.opening_url }}" rel="noopener noreferrer">{{ game.opening }}</a>{% else %}{{ game.opening }}{% endif %}</span>
         {% endif %}

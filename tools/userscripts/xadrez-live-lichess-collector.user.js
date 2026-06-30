@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         xadrez.live Lichess Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.9.0
-// @description  Collect Lichess puzzle and game URLs during a xadrez.live session and copy TOML blocks for session markdown.
+// @version      0.10.0
+// @description  Collect chess puzzle and game URLs during a xadrez.live session and copy TOML blocks for session markdown.
 // @author       fcz
 // @match        https://lichess.org/*
+// @match        https://www.chess.com/*
 // @grant        GM_setClipboard
 // ==/UserScript==
 
@@ -53,13 +54,44 @@
     return normalizePuzzleUrl(location.href);
   }
 
-  function normalizeGameUrl(url) {
+  function normalizeLichessGameUrl(url) {
     const match = /^https:\/\/lichess\.org\/([A-Za-z0-9]{8})(?:\/(white|black))?/.exec(url);
     if (!match) {
       return "";
     }
 
     return `https://lichess.org/${match[1]}${match[2] ? `/${match[2]}` : ""}`;
+  }
+
+  function normalizeChessComGameUrl(url) {
+    const match = /^https:\/\/www\.chess\.com\/(?:analysis\/)?game\/live\/(\d+)/.exec(url);
+    return match ? `https://www.chess.com/analysis/game/live/${match[1]}` : "";
+  }
+
+  function currentGameContext() {
+    const lichessUrl = normalizeLichessGameUrl(location.href);
+    if (lichessUrl) {
+      return {
+        platform: "lichess",
+        gameUrl: lichessUrl,
+        colorFromUrl: /\/black(?:[?#]|$)/.test(location.href)
+          ? "black"
+          : /\/white(?:[?#]|$)/.test(location.href)
+            ? "white"
+            : "",
+      };
+    }
+
+    const chessComUrl = normalizeChessComGameUrl(location.href);
+    if (chessComUrl) {
+      return {
+        platform: "chess.com",
+        gameUrl: chessComUrl,
+        colorFromUrl: "",
+      };
+    }
+
+    return null;
   }
 
   function quote(value) {
@@ -485,22 +517,20 @@
   }
 
   async function addCurrentGame(state) {
-    const url = normalizeGameUrl(location.href);
-    if (!url) {
-      window.alert("This URL does not look like a Lichess game.");
+    const context = currentGameContext();
+    if (!context) {
+      window.alert("This URL does not look like a supported Lichess or Chess.com game.");
       return;
     }
 
-    const colorFromUrl = /\/black(?:[?#]|$)/.test(location.href)
-      ? "black"
-      : /\/white(?:[?#]|$)/.test(location.href)
-        ? "white"
-        : "";
-
-    const existingGameIndex = state.games.findIndex((game) => game.lichess_game_url === url);
+    const existingGameIndex = state.games.findIndex((game) => {
+      const gameUrl = game.game_url || game.lichess_game_url || "";
+      return gameUrl === context.gameUrl;
+    });
     const existingGame = existingGameIndex === -1 ? {} : state.games[existingGameIndex];
     const game = {
-      lichess_game_url: url,
+      platform: context.platform,
+      game_url: context.gameUrl,
       result: await selectValue(
         "Result",
         [
@@ -518,12 +548,15 @@
           { value: "white", label: "white" },
           { value: "black", label: "black" },
         ],
-        existingGame.color || colorFromUrl,
+        existingGame.color || context.colorFromUrl,
       ),
-      opening: promptValue("Opening:", existingGame.opening || currentOpeningName()),
-      opening_url: promptValue("Opening URL:", existingGame.opening_url || currentOpeningUrl()),
       note: promptValue("Optional game note:", existingGame.note || ""),
     };
+
+    if (context.platform === "lichess") {
+      game.opening = promptValue("Opening:", existingGame.opening || currentOpeningName());
+      game.opening_url = promptValue("Opening URL:", existingGame.opening_url || currentOpeningUrl());
+    }
 
     if (existingGameIndex === -1) {
       state.games.push(game);
@@ -570,13 +603,25 @@ note = "${quote(attempt.note)}"`);
     });
 
     state.games.forEach((game) => {
-      blocks.push(`[[extra.games]]
-lichess_game_url = "${quote(game.lichess_game_url)}"
-result = "${quote(game.result)}"
-color = "${quote(game.color)}"
-opening = "${quote(game.opening)}"
-opening_url = "${quote(game.opening_url)}"
-note = "${quote(game.note)}"`);
+      const lines = ["[[extra.games]]"];
+      if (game.platform) {
+        lines.push(`platform = "${quote(game.platform)}"`);
+      }
+      if (game.game_url) {
+        lines.push(`game_url = "${quote(game.game_url)}"`);
+      } else if (game.lichess_game_url) {
+        lines.push(`lichess_game_url = "${quote(game.lichess_game_url)}"`);
+      }
+      lines.push(`result = "${quote(game.result)}"`);
+      lines.push(`color = "${quote(game.color)}"`);
+      if (game.opening) {
+        lines.push(`opening = "${quote(game.opening)}"`);
+      }
+      if (game.opening_url) {
+        lines.push(`opening_url = "${quote(game.opening_url)}"`);
+      }
+      lines.push(`note = "${quote(game.note)}"`);
+      blocks.push(lines.join("\n"));
     });
 
     return blocks.join("\n\n");
@@ -614,6 +659,11 @@ note = "${quote(game.note)}"`);
     document.getElementById(PANEL_ID)?.remove();
 
     const state = loadState();
+    const isLichessPage = location.hostname === "lichess.org";
+    const gameContext = currentGameContext();
+    const canAddGame = Boolean(gameContext);
+    const disabledUnlessLichess = isLichessPage ? "" : ' disabled title="Available on Lichess only"';
+    const disabledUnlessGame = canAddGame ? "" : ' disabled title="Open a Lichess or Chess.com game first"';
     const panel = document.createElement("section");
     panel.id = PANEL_ID;
     panel.className = state.collapsed ? "is-collapsed" : "";
@@ -666,6 +716,13 @@ note = "${quote(game.note)}"`);
         #${PANEL_ID} button:hover {
           border-color: #d8a657;
         }
+        #${PANEL_ID} button:disabled {
+          cursor: not-allowed;
+          opacity: 0.45;
+        }
+        #${PANEL_ID} button:disabled:hover {
+          border-color: #34372e;
+        }
         #${PANEL_ID} textarea {
           min-height: 140px;
           margin-top: 6px;
@@ -703,15 +760,15 @@ note = "${quote(game.note)}"`);
           · notes: ${state.descriptionNotes ? "ok" : "empty"}
         </p>
         <div class="xlc-row">
-          <button type="button" data-action="set-puzzle-of-day">Puzzle of day</button>
-          <button type="button" data-action="add-puzzle">Add puzzle</button>
+          <button type="button" data-action="set-puzzle-of-day"${disabledUnlessLichess}>Puzzle of day</button>
+          <button type="button" data-action="add-puzzle"${disabledUnlessLichess}>Add puzzle</button>
         </div>
         <div class="xlc-row">
-          <button type="button" data-action="finish-attempt">Finish attempt</button>
-          <button type="button" data-action="add-game">Add game</button>
+          <button type="button" data-action="finish-attempt"${disabledUnlessLichess}>Finish attempt</button>
+          <button type="button" data-action="add-game"${disabledUnlessGame}>Add game</button>
         </div>
         <div class="xlc-row">
-          <button type="button" data-action="set-post-stats">Post stats</button>
+          <button type="button" data-action="set-post-stats"${disabledUnlessLichess}>Post stats</button>
           <button type="button" data-action="set-description-notes">Notes</button>
         </div>
         <div class="xlc-row">
@@ -728,7 +785,7 @@ note = "${quote(game.note)}"`);
 
     panel.addEventListener("click", async (event) => {
       const button = event.target.closest("button[data-action]");
-      if (!button) {
+      if (!button || button.disabled) {
         return;
       }
 

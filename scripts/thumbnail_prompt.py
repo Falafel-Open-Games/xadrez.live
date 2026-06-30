@@ -83,6 +83,17 @@ def short_opening(opening):
     return opening.strip()
 
 
+def game_platform(game):
+    platform = value(game, "platform")
+    if platform:
+        return platform
+    if value(game, "lichess_game_url"):
+        return "lichess"
+    if "chess.com" in value(game, "game_url"):
+        return "chess.com"
+    return ""
+
+
 def latest_game(extra):
     games = extra.get("games")
     if isinstance(games, list) and games:
@@ -117,6 +128,8 @@ def post_data_block(extra):
 
     game = latest_game(extra)
     opening = short_opening(value(game, "opening"))
+    if not opening and game_platform(game) == "chess.com":
+        opening = "não informada"
     return f"""session number: {value(extra, "session_number")}
 status banner: live encerrada
 duration: {value(extra, "duration")}

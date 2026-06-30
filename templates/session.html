@@ -173,7 +173,22 @@
                   <h4>Partida {{ loop.index }}</h4>
                 {% endif %}
                 <dl>
-                  {% if game.lichess_game_url is defined and game.lichess_game_url %}
+                  {% if game.game_url is defined and game.game_url %}
+                    <div>
+                      <dt>Partida</dt>
+                      <dd>
+                        <a href="{{ game.game_url }}" rel="noopener noreferrer">
+                          {% if game.platform is defined and game.platform == "chess.com" %}
+                            Abrir partida no Chess.com
+                          {% elif game.platform is defined and game.platform %}
+                            Abrir partida em {{ game.platform }}
+                          {% else %}
+                            Abrir partida
+                          {% endif %}
+                        </a>
+                      </dd>
+                    </div>
+                  {% elif game.lichess_game_url is defined and game.lichess_game_url %}
                     <div>
                       <dt>Partida</dt>
                       <dd><a href="{{ game.lichess_game_url }}" rel="noopener noreferrer">Abrir partida no Lichess</a></dd>

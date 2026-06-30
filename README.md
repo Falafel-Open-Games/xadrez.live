@@ -156,12 +156,12 @@ O arquivo em `og_image` é usado só nas tags Open Graph/Twitter; ele não apare
 
 ## Coletar dados da live no Lichess
 
-Durante a live, use o userscript local em `tools/userscripts/xadrez-live-lichess-collector.user.js` para reduzir copia/cola de URLs do Lichess. Ele adiciona um painel flutuante em `lichess.org` com botões para:
+Durante a live, use o userscript local em `tools/userscripts/xadrez-live-lichess-collector.user.js` para reduzir copia/cola de URLs do Lichess e do Chess.com. Ele adiciona um painel flutuante em `lichess.org` e `chess.com` com botões para:
 
 - adicionar a URL do puzzle atual
 - registrar a URL do Puzzle do Dia separadamente
 - fechar uma tentativa de streak
-- adicionar a URL da partida atual
+- adicionar a URL da partida atual no Lichess ou no Chess.com
 - registrar notas soltas para orientar a descrição principal no wrapup
 - copiar um bloco TOML pronto para colar no front matter da sessão
 
@@ -185,7 +185,7 @@ Para Chromium, este projeto recomenda **ScriptCat**: ele é open source e contin
 3. Crie um novo script.
 4. Copie o conteúdo de `tools/userscripts/xadrez-live-lichess-collector.user.js`.
 5. Cole no editor do ScriptCat e salve.
-6. Abra uma página em `https://lichess.org/`.
+6. Abra uma página em `https://lichess.org/` ou `https://www.chess.com/`.
 
 O painel `xadrez.live` deve aparecer no canto inferior direito. Fluxo básico:
 
@@ -193,7 +193,7 @@ O painel `xadrez.live` deve aparecer no canto inferior direito. Fluxo básico:
 2. No Puzzle do Dia, clique em `Puzzle do dia`.
 3. Em cada puzzle da streak, clique em `Add puzzle`.
 4. Ao terminar uma sequência, clique em `Fechar tentativa` e informe quantos puzzles contam como resolvidos.
-5. Em cada partida, abra a página da partida e clique em `Add partida`.
+5. Em cada partida, abra a página da partida no Lichess ou no Chess.com e clique em `Add partida`.
 6. Use `Notes` para registrar observações que devem entrar na descrição principal do wrapup.
 7. Clique em `Copiar TOML` e cole o bloco no front matter da sessão no GitHub.
 
