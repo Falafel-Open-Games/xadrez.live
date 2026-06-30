@@ -16,6 +16,7 @@ SOURCES = ROOT / "data/external_stream_sources.toml"
 OUTPUT = ROOT / "data/external_streams.toml"
 DISPLAY_TZ = ZoneInfo("America/Sao_Paulo")
 UPCOMING_WINDOW_SECONDS = 7 * 24 * 60 * 60
+RICHNESS_KEYS = ("published_at", "scheduled_at", "live_status", "was_live")
 
 
 def toml_string(value: str) -> str:
@@ -76,6 +77,27 @@ def load_sources() -> tuple[int, list[dict[str, str]]]:
     if not isinstance(sources, list):
         raise SystemExit("data/external_stream_sources.toml must define [[sources]]")
     return limit, sources
+
+
+def load_existing_streams() -> dict[str, dict[str, str]]:
+    if not OUTPUT.exists():
+        return {}
+
+    with OUTPUT.open("rb") as fh:
+        data = tomllib.load(fh)
+
+    existing: dict[str, dict[str, str]] = {}
+    for table in ("upcoming_streams", "streams"):
+        entries = data.get(table, [])
+        if not isinstance(entries, list):
+            continue
+        for entry in entries:
+            if not isinstance(entry, dict):
+                continue
+            url = str(entry.get("url") or "").strip()
+            if url:
+                existing[url] = {key: str(value) for key, value in entry.items()}
+    return existing
 
 
 def run_json_lines(cmd: list[str]) -> list[dict]:
@@ -197,8 +219,43 @@ def stream_base(
     }
 
 
+def is_richer(existing: dict[str, str], candidate: dict[str, str | int]) -> bool:
+    for key in RICHNESS_KEYS:
+        existing_value = str(existing.get(key, "")).strip()
+        candidate_value = str(candidate.get(key, "")).strip()
+        if existing_value and not candidate_value:
+            return True
+        if key == "was_live" and existing_value == "true" and candidate_value != "true":
+            return True
+    return False
+
+
+def preserve_existing_if_richer(
+    stream: dict[str, str | int],
+    existing_by_url: dict[str, dict[str, str]],
+) -> dict[str, str | int]:
+    existing = existing_by_url.get(str(stream.get("url") or ""))
+    if not existing or not is_richer(existing, stream):
+        return stream
+
+    preserved = {**stream}
+    for key, value in existing.items():
+        if key != "sort_timestamp":
+            preserved[key] = value
+
+    timestamp_key = "scheduled_at" if preserved.get("scheduled_at") else "published_at"
+    timestamp_value = str(preserved.get(timestamp_key) or "")
+    if timestamp_value:
+        try:
+            preserved["sort_timestamp"] = int(datetime.fromisoformat(timestamp_value).timestamp())
+        except ValueError:
+            pass
+
+    return preserved
+
+
 def fetch_source(
-    source: dict[str, str], limit: int
+    source: dict[str, str], limit: int, existing_by_url: dict[str, dict[str, str]]
 ) -> tuple[list[dict[str, str | int]], list[dict[str, str | int]]]:
     source_url = source["url"]
     cmd = [
@@ -243,14 +300,17 @@ def fetch_source(
                 print(f"Skipping unscheduled upcoming stream: {stream_url}", file=sys.stderr)
                 continue
             upcoming_streams.append(
-                {
-                    **base,
-                    "scheduled_at": str(scheduled["scheduled_at"]),
-                    "scheduled_date": str(scheduled["scheduled_date"]),
-                    "scheduled_label": str(scheduled["scheduled_label"]),
-                    "scheduled_time": str(scheduled["scheduled_time"]),
-                    "sort_timestamp": int(scheduled["sort_timestamp"]),
-                }
+                preserve_existing_if_richer(
+                    {
+                        **base,
+                        "scheduled_at": str(scheduled["scheduled_at"]),
+                        "scheduled_date": str(scheduled["scheduled_date"]),
+                        "scheduled_label": str(scheduled["scheduled_label"]),
+                        "scheduled_time": str(scheduled["scheduled_time"]),
+                        "sort_timestamp": int(scheduled["sort_timestamp"]),
+                    },
+                    existing_by_url,
+                )
             )
             continue
 
@@ -260,13 +320,16 @@ def fetch_source(
             continue
 
         streams.append(
-            {
-                **base,
-                "published_at": str(published["published_at"]),
-                "published_date": str(published["published_date"]),
-                "published_label": str(published["published_label"]),
-                "sort_timestamp": int(published["sort_timestamp"]),
-            }
+            preserve_existing_if_richer(
+                {
+                    **base,
+                    "published_at": str(published["published_at"]),
+                    "published_date": str(published["published_date"]),
+                    "published_label": str(published["published_label"]),
+                    "sort_timestamp": int(published["sort_timestamp"]),
+                },
+                existing_by_url,
+            )
         )
     return upcoming_streams, streams
 
@@ -365,10 +428,11 @@ def main() -> None:
     parser.parse_args()
 
     limit, sources = load_sources()
+    existing_by_url = load_existing_streams()
     upcoming_streams: list[dict[str, str | int]] = []
     streams: list[dict[str, str | int]] = []
     for source in sources:
-        source_upcoming, source_streams = fetch_source(source, limit)
+        source_upcoming, source_streams = fetch_source(source, limit, existing_by_url)
         upcoming_streams.extend(source_upcoming)
         streams.extend(source_streams)
     upcoming_streams = filter_upcoming_streams(
