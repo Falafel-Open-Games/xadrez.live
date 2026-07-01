@@ -1,5 +1,17 @@
 {% extends "base.html" %}
 
+{% macro month_label(date) %}
+  {% set month = date | date(format="%m") %}
+  {% set year = date | date(format="%Y") %}
+  {% if month == "01" %}Janeiro{% elif month == "02" %}Fevereiro{% elif month == "03" %}Março{% elif month == "04" %}Abril{% elif month == "05" %}Maio{% elif month == "06" %}Junho{% elif month == "07" %}Julho{% elif month == "08" %}Agosto{% elif month == "09" %}Setembro{% elif month == "10" %}Outubro{% elif month == "11" %}Novembro{% else %}Dezembro{% endif %} {{ year }}
+{% endmacro month_label %}
+
+{% macro month_heading(session, folded=false) %}
+  <li class="session-month-heading{% if folded %} session-fold-extra{% endif %}"{% if folded %} hidden{% endif %}>
+    <h4>{{ self::month_label(date=session.date) }}</h4>
+  </li>
+{% endmacro month_heading %}
+
 {% macro session_item(session, folded=false) %}
   <li{% if folded %} class="session-fold-extra" hidden{% endif %}>
     <div class="session-list-header">
@@ -145,11 +157,17 @@
           <h3><a href="https://lichess.org/@/fcz" rel="noopener noreferrer">fcz</a></h3>
           <ul>
             {% set upcoming_count = 0 %}
+            {% set current_month = "" %}
             {% for session in sessions.pages | reverse %}
               {% if not session.draft %}
                 {% set tone = session.extra.status_tone | default(value="") %}
                 {% if tone == "scheduled" or tone == "live" %}
                   {% set_global upcoming_count = upcoming_count + 1 %}
+                  {% set month_key = session.date | date(format="%Y-%m") %}
+                  {% if month_key != current_month %}
+                    {{ self::month_heading(session=session) }}
+                    {% set_global current_month = month_key %}
+                  {% endif %}
                   {{ self::session_item(session=session) }}
                 {% endif %}
               {% endif %}
@@ -167,11 +185,17 @@
           <h3><a href="https://lichess.org/@/fcz" rel="noopener noreferrer">fcz</a></h3>
           <ul data-session-fold>
             {% set past_count = 0 %}
+            {% set current_month = "" %}
             {% for session in sessions.pages | reverse %}
               {% if not session.draft %}
                 {% set tone = session.extra.status_tone | default(value="") %}
                 {% if tone != "scheduled" and tone != "live" %}
                   {% set_global past_count = past_count + 1 %}
+                  {% set month_key = session.date | date(format="%Y-%m") %}
+                  {% if month_key != current_month %}
+                    {{ self::month_heading(session=session, folded=past_count > 10) }}
+                    {% set_global current_month = month_key %}
+                  {% endif %}
                   {{ self::session_item(session=session, folded=past_count > 10) }}
                 {% endif %}
               {% endif %}

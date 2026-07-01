@@ -68,7 +68,7 @@ def display_title(value: str) -> str:
     return restore_known_terms(sentence_case(value))
 
 
-def load_sources() -> tuple[int, list[dict[str, str]]]:
+def load_sources() -> tuple[int, list[dict[str, object]]]:
     with SOURCES.open("rb") as fh:
         data = tomllib.load(fh)
 
@@ -77,6 +77,32 @@ def load_sources() -> tuple[int, list[dict[str, str]]]:
     if not isinstance(sources, list):
         raise SystemExit("data/external_stream_sources.toml must define [[sources]]")
     return limit, sources
+
+
+def source_strings(source: dict[str, object], key: str) -> list[str]:
+    value = source.get(key)
+    if value is None:
+        return []
+    if not isinstance(value, list):
+        raise SystemExit(f"source {source.get('name', source.get('url', ''))}: {key} must be a list")
+
+    strings = []
+    for entry in value:
+        if not isinstance(entry, str):
+            raise SystemExit(f"source {source.get('name', source.get('url', ''))}: {key} entries must be strings")
+        entry = entry.strip().lower()
+        if entry:
+            strings.append(entry)
+    return strings
+
+
+def matches_source_filters(source: dict[str, object], title: str) -> bool:
+    include_keywords = source_strings(source, "include_keywords")
+    if not include_keywords:
+        return True
+
+    normalized_title = title.lower()
+    return any(keyword in normalized_title for keyword in include_keywords)
 
 
 def load_existing_streams() -> dict[str, dict[str, str]]:
@@ -198,7 +224,7 @@ def fetch_video_metadata(url: str) -> dict:
 
 def stream_base(
     item: dict,
-    source: dict[str, str],
+    source: dict[str, object],
     source_url: str,
     stream_url: str,
     title: str,
@@ -255,9 +281,9 @@ def preserve_existing_if_richer(
 
 
 def fetch_source(
-    source: dict[str, str], limit: int, existing_by_url: dict[str, dict[str, str]]
+    source: dict[str, object], limit: int, existing_by_url: dict[str, dict[str, str]]
 ) -> tuple[list[dict[str, str | int]], list[dict[str, str | int]]]:
-    source_url = source["url"]
+    source_url = str(source["url"])
     cmd = [
         "yt-dlp",
         "--flat-playlist",
@@ -279,6 +305,8 @@ def fetch_source(
 
         title = str(flat_item.get("title") or "").strip()
         if not title or not stream_url:
+            continue
+        if not matches_source_filters(source, title):
             continue
 
         try:
