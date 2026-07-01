@@ -96,13 +96,26 @@ def source_strings(source: dict[str, object], key: str) -> list[str]:
     return strings
 
 
-def matches_source_filters(source: dict[str, object], title: str) -> bool:
+def metadata_search_text(item: dict, fallback_title: str) -> str:
+    values = [
+        str(item.get("title") or fallback_title),
+        str(item.get("description") or ""),
+    ]
+    for key in ("tags", "categories"):
+        entries = item.get(key)
+        if isinstance(entries, list):
+            values.extend(str(entry) for entry in entries)
+
+    return "\n".join(values).lower()
+
+
+def matches_source_filters(source: dict[str, object], item: dict, fallback_title: str) -> bool:
     include_keywords = source_strings(source, "include_keywords")
     if not include_keywords:
         return True
 
-    normalized_title = title.lower()
-    return any(keyword in normalized_title for keyword in include_keywords)
+    search_text = metadata_search_text(item, fallback_title)
+    return any(keyword in search_text for keyword in include_keywords)
 
 
 def load_existing_streams() -> dict[str, dict[str, str]]:
@@ -306,13 +319,13 @@ def fetch_source(
         title = str(flat_item.get("title") or "").strip()
         if not title or not stream_url:
             continue
-        if not matches_source_filters(source, title):
-            continue
 
         try:
             item = fetch_video_metadata(stream_url)
         except SystemExit:
             item = flat_item
+        if not matches_source_filters(source, item, title):
+            continue
 
         base = stream_base(
             item,

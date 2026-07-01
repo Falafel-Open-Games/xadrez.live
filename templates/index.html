@@ -157,17 +157,11 @@
           <h3><a href="https://lichess.org/@/fcz" rel="noopener noreferrer">fcz</a></h3>
           <ul>
             {% set upcoming_count = 0 %}
-            {% set current_month = "" %}
             {% for session in sessions.pages | reverse %}
               {% if not session.draft %}
                 {% set tone = session.extra.status_tone | default(value="") %}
                 {% if tone == "scheduled" or tone == "live" %}
                   {% set_global upcoming_count = upcoming_count + 1 %}
-                  {% set month_key = session.date | date(format="%Y-%m") %}
-                  {% if month_key != current_month %}
-                    {{ self::month_heading(session=session) }}
-                    {% set_global current_month = month_key %}
-                  {% endif %}
                   {{ self::session_item(session=session) }}
                 {% endif %}
               {% endif %}
