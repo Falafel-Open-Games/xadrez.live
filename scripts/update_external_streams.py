@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import subprocess
 import sys
 import tomllib
@@ -34,6 +35,12 @@ def looks_shouty(value: str) -> bool:
     return letters >= 12 and uppercase / letters >= 0.6
 
 
+def normalize_hype_punctuation(value: str) -> str:
+    value = re.sub(r"!{2,}", "!", value)
+    value = re.sub(r"\?{2,}", "?", value)
+    return value
+
+
 def sentence_case(value: str) -> str:
     value = value.lower()
     chars = list(value)
@@ -49,23 +56,58 @@ def sentence_case(value: str) -> str:
 
 
 def restore_known_terms(value: str) -> str:
-    replacements = {
-        "chess.com": "Chess.com",
-        "taí à toa tuesday": "Taí à Toa Tuesday",
-        "copablunder": "CopaBlunder",
-        "aliderança": "a liderança",
-    }
-    for old, new in replacements.items():
-        value = value.replace(old, new)
+    replacements = (
+        (r"\bchess\.com\b", "Chess.com"),
+        (r"\bsesc\b", "SESC"),
+        (r"\bfexpar\b", "FEXPAR"),
+        (r"\birl\b", "IRL"),
+        (r"\bgm\b", "GM"),
+        (r"\belo\b", "Elo"),
+        (r"\botb\b", "OTB"),
+        (r"\btaí à toa tuesday\b", "Taí à Toa Tuesday"),
+        (r"\bcopablunder\b", "CopaBlunder"),
+        (r"\baliderança\b", "a liderança"),
+        (r"\banti-sicilianas\b", "Anti-Sicilianas"),
+        (r"\bnorway chess\b", "Norway Chess"),
+    )
+    for pattern, new in replacements:
+        value = re.sub(pattern, new, value, flags=re.IGNORECASE)
     if value.startswith("ao vivo"):
         value = "Ao vivo" + value[len("ao vivo"):]
     return value
 
 
+def normalize_shouty_words(value: str) -> str:
+    def normalize_match(match):
+        word = match.group(0)
+        preserved = {"gm", "irl", "sesc", "fexpar", "otb"}
+        if word.lower() in preserved:
+            return word
+
+        letters, uppercase = letter_counts(word)
+        if letters < 2 or uppercase / letters < 0.8:
+            return word
+        return word.lower()
+
+    return re.sub(r"\b[\wÀ-ÿ.-]+\b", normalize_match, value)
+
+
+def capitalize_first_alpha(value: str) -> str:
+    chars = list(value)
+    for index, char in enumerate(chars):
+        if char.isalpha():
+            chars[index] = char.upper()
+            break
+    return "".join(chars)
+
+
 def display_title(value: str) -> str:
-    if not looks_shouty(value):
-        return value
-    return restore_known_terms(sentence_case(value))
+    value = normalize_hype_punctuation(value)
+    if looks_shouty(value):
+        value = sentence_case(value)
+    else:
+        value = capitalize_first_alpha(normalize_shouty_words(value))
+    return restore_known_terms(value)
 
 
 def load_sources() -> tuple[int, list[dict[str, object]]]:
@@ -291,7 +333,7 @@ def preserve_existing_if_richer(
 
     preserved = {**stream}
     for key, value in existing.items():
-        if key != "sort_timestamp":
+        if key not in ("sort_timestamp", "title", "display_title"):
             preserved[key] = value
 
     timestamp_key = "scheduled_at" if preserved.get("scheduled_at") else "published_at"
@@ -478,6 +520,32 @@ def filter_upcoming_streams(
     return sorted(by_creator.values(), key=lambda stream: int(stream.get("sort_timestamp", 0)))
 
 
+def promote_live_streams(
+    streams: list[dict[str, str | int]],
+) -> tuple[list[dict[str, str | int]], list[dict[str, str | int]]]:
+    live_streams = []
+    recent_streams = []
+
+    for stream in streams:
+        if str(stream.get("live_status") or "") != "is_live":
+            recent_streams.append(stream)
+            continue
+
+        scheduled = live_fields({})
+        live_streams.append(
+            {
+                **stream,
+                "scheduled_at": str(scheduled["scheduled_at"]),
+                "scheduled_date": str(scheduled["scheduled_date"]),
+                "scheduled_label": str(scheduled["scheduled_label"]),
+                "scheduled_time": str(scheduled["scheduled_time"]),
+                "sort_timestamp": int(scheduled["sort_timestamp"]),
+            }
+        )
+
+    return live_streams, recent_streams
+
+
 def filter_latest_stream_per_creator(
     streams: list[dict[str, str | int]],
 ) -> list[dict[str, str | int]]:
@@ -506,6 +574,8 @@ def main() -> None:
         source_upcoming, source_streams = fetch_source(source, limit, existing_by_url)
         upcoming_streams.extend(source_upcoming)
         streams.extend(source_streams)
+    live_streams, streams = promote_live_streams(streams)
+    upcoming_streams.extend(live_streams)
     upcoming_streams = filter_upcoming_streams(
         upcoming_streams,
         int(datetime.now(timezone.utc).timestamp()),
