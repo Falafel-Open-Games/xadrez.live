@@ -35,6 +35,15 @@
     return "marcada para " + shortDate(date) + " às " + time;
   }
 
+  function parseIsoDate(value) {
+    var timestamp = Date.parse(value || "");
+    if (Number.isNaN(timestamp)) {
+      return null;
+    }
+
+    return new Date(timestamp);
+  }
+
   document.querySelectorAll("[data-session-status]").forEach(function (element) {
     if (element.dataset.statusTone !== "scheduled") {
       return;
@@ -47,6 +56,22 @@
     }
 
     element.textContent = scheduledLabel(date, time);
+  });
+
+  document.querySelectorAll("[data-external-stream-status]").forEach(function (element) {
+    if (element.dataset.liveStatus === "is_live") {
+      element.textContent = "ao vivo agora";
+      return;
+    }
+
+    var scheduledAt = parseIsoDate(element.dataset.scheduledAt);
+    if (!scheduledAt) {
+      return;
+    }
+
+    if (scheduledAt.getTime() <= Date.now()) {
+      element.textContent = "ao vivo agora";
+    }
   });
 
   document.querySelectorAll("[data-session-fold-button]").forEach(function (button) {

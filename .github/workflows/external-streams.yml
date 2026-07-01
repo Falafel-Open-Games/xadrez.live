@@ -10,6 +10,12 @@ on:
       - ".github/workflows/external-streams.yml"
   schedule:
     - cron: "10 11 * * *"
+    - cron: "05 18 * * *"
+    - cron: "35 18 * * *"
+    - cron: "05 19 * * *"
+    - cron: "35 19 * * *"
+    - cron: "05 20 * * *"
+    - cron: "35 20 * * *"
     - cron: "10 21 * * *"
   workflow_dispatch:
 

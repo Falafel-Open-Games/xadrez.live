@@ -95,7 +95,11 @@
         <span>{{ stream.creator }}</span>
       {% endif %}
       {% if kind == "upcoming" and stream.scheduled_label is defined and stream.scheduled_label %}
-        <span>{{ stream.scheduled_label }}{% if stream.scheduled_time is defined and stream.scheduled_time %}, {{ stream.scheduled_time }} BRT{% endif %}</span>
+        <span
+          data-external-stream-status
+          data-scheduled-at="{{ stream.scheduled_at | default(value='') }}"
+          data-live-status="{{ stream.live_status | default(value='') }}"
+        >{{ stream.scheduled_label }}{% if stream.scheduled_time is defined and stream.scheduled_time %}, {{ stream.scheduled_time }} BRT{% endif %}</span>
       {% endif %}
       {% if kind == "recent" and stream.published_label is defined and stream.published_label %}
         <span>{{ stream.published_label }}</span>
