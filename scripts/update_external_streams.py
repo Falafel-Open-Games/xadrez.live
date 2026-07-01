@@ -224,6 +224,18 @@ def scheduled_fields(item: dict) -> dict[str, str | int]:
     }
 
 
+def live_fields(item: dict) -> dict[str, str | int]:
+    now = datetime.now(timezone.utc)
+    display = now.astimezone(DISPLAY_TZ)
+    return {
+        "sort_timestamp": int(now.timestamp()),
+        "scheduled_at": now.isoformat(timespec="seconds"),
+        "scheduled_date": display.date().isoformat(),
+        "scheduled_label": "ao vivo agora",
+        "scheduled_time": "",
+    }
+
+
 def fetch_video_metadata(url: str) -> dict:
     cmd = [
         "yt-dlp",
@@ -335,10 +347,11 @@ def fetch_source(
             title,
             str(item.get("duration_string") or flat_item.get("duration_string") or "").strip(),
         )
-        if str(item.get("live_status") or "").strip() == "is_upcoming":
-            scheduled = scheduled_fields(item)
+        live_status = str(item.get("live_status") or "").strip()
+        if live_status in ("is_upcoming", "is_live"):
+            scheduled = scheduled_fields(item) if live_status == "is_upcoming" else live_fields(item)
             if not scheduled["sort_timestamp"]:
-                print(f"Skipping unscheduled upcoming stream: {stream_url}", file=sys.stderr)
+                print(f"Skipping unscheduled upcoming/live stream: {stream_url}", file=sys.stderr)
                 continue
             upcoming_streams.append(
                 preserve_existing_if_richer(
@@ -451,7 +464,10 @@ def filter_upcoming_streams(
 
     for stream in upcoming_streams:
         scheduled = int(stream.get("sort_timestamp", 0))
-        if scheduled < now_timestamp or scheduled > latest_allowed:
+        live_status = str(stream.get("live_status") or "")
+        if live_status != "is_live" and scheduled < now_timestamp:
+            continue
+        if scheduled > latest_allowed:
             continue
 
         creator = str(stream.get("creator", ""))
