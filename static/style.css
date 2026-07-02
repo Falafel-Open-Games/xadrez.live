@@ -44,6 +44,22 @@ a {
   text-decoration: none;
 }
 
+.site-footer {
+  margin-top: 56px;
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.site-footer a {
+  color: var(--muted);
+}
+
+.site-footer a:hover {
+  color: var(--accent);
+}
+
 .session-kicker {
   color: var(--accent);
   font-size: 0.85rem;
