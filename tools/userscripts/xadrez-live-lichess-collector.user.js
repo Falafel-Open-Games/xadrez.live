@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Lichess Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.10.0
+// @version      0.11.0
 // @description  Collect chess puzzle and game URLs during a xadrez.live session and copy TOML blocks for session markdown.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -41,8 +41,17 @@
   }
 
   function normalizePuzzleUrl(url) {
-    const match = /^https:\/\/lichess\.org\/training\/([^/?#]+)/.exec(url);
+    const match = /^https:\/\/lichess\.org\/training\/(?:mix\/)?([^/?#]+)/.exec(url);
     return match ? `https://lichess.org/training/${match[1]}` : "";
+  }
+
+  function currentPuzzleSessionUrls() {
+    const links = [...document.querySelectorAll(".puzzle__session a[href]")];
+    const urls = links
+      .map((link) => normalizePuzzleUrl(new URL(link.getAttribute("href"), location.origin).href))
+      .filter(Boolean);
+
+    return [...new Set(urls)];
   }
 
   function currentPuzzleUrl() {
@@ -505,6 +514,17 @@
     saveState(state);
   }
 
+  function syncCurrentPuzzleSession(state) {
+    const urls = currentPuzzleSessionUrls();
+    if (!urls.length) {
+      window.alert("Could not find puzzle streak links in .puzzle__session.");
+      return;
+    }
+
+    state.currentPuzzles = urls;
+    saveState(state);
+  }
+
   function setPuzzleOfTheDay(state) {
     const url = currentPuzzleUrl();
     if (!url) {
@@ -762,6 +782,7 @@ note = "${quote(attempt.note)}"`);
         <div class="xlc-row">
           <button type="button" data-action="set-puzzle-of-day"${disabledUnlessLichess}>Puzzle of day</button>
           <button type="button" data-action="add-puzzle"${disabledUnlessLichess}>Add puzzle</button>
+          <button type="button" data-action="add-puzzles"${disabledUnlessLichess}>Add puzzles</button>
         </div>
         <div class="xlc-row">
           <button type="button" data-action="finish-attempt"${disabledUnlessLichess}>Finish attempt</button>
@@ -800,6 +821,9 @@ note = "${quote(attempt.note)}"`);
           break;
         case "add-puzzle":
           addCurrentPuzzle(nextState);
+          break;
+        case "add-puzzles":
+          syncCurrentPuzzleSession(nextState);
           break;
         case "finish-attempt":
           finishAttempt(nextState);
