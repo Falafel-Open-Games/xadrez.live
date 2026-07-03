@@ -23,6 +23,9 @@ thumbnail-prompt SESSION KIND="post":
 pre-thumb SESSION TIME="":
   @python3 scripts/prelive_thumbnail.py {{SESSION}} {{TIME}}
 
+post-thumb SESSION:
+  @python3 scripts/postlive_thumbnail.py {{SESSION}}
+
 thumbnail-optimize INPUT OUTPUT:
   @magick "{{INPUT}}" -strip -resize 1200x675 -quality 85 "{{OUTPUT}}"
 

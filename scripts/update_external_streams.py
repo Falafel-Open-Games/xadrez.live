@@ -18,6 +18,12 @@ OUTPUT = ROOT / "data/external_streams.toml"
 DISPLAY_TZ = ZoneInfo("America/Sao_Paulo")
 UPCOMING_WINDOW_SECONDS = 7 * 24 * 60 * 60
 RICHNESS_KEYS = ("published_at", "scheduled_at", "live_status", "was_live")
+ACTIVE_LIVE_STATUSES = {"is_live", "is_upcoming"}
+FINISHED_LIVE_STATUSES = {"post_live", "was_live"}
+
+
+def log(message: str) -> None:
+    print(message, file=sys.stderr)
 
 
 def toml_string(value: str) -> str:
@@ -313,8 +319,12 @@ def stream_base(
 
 
 def is_richer(existing: dict[str, str], candidate: dict[str, str | int]) -> bool:
+    existing_status = str(existing.get("live_status", "")).strip()
     candidate_status = str(candidate.get("live_status", "")).strip()
-    if candidate_status in ("is_live", "is_upcoming"):
+
+    if candidate_status in ACTIVE_LIVE_STATUSES:
+        return False
+    if existing_status in ACTIVE_LIVE_STATUSES and candidate_status in FINISHED_LIVE_STATUSES:
         return False
 
     for key in RICHNESS_KEYS:
@@ -355,6 +365,7 @@ def fetch_source(
     source: dict[str, object], limit: int, existing_by_url: dict[str, dict[str, str]]
 ) -> tuple[list[dict[str, str | int]], list[dict[str, str | int]]]:
     source_url = str(source["url"])
+    source_name = str(source.get("name") or source_url)
     cmd = [
         "yt-dlp",
         "--flat-playlist",
@@ -363,11 +374,13 @@ def fetch_source(
         "--dump-json",
         source_url,
     ]
+    log(f"source start: name={source_name!r} url={source_url!r} limit={limit}")
     items = run_json_lines(cmd)
+    log(f"source playlist: name={source_name!r} items={len(items)}")
 
     upcoming_streams = []
     streams = []
-    for item in items:
+    for index, item in enumerate(items, start=1):
         flat_item = item
         video_id = str(flat_item.get("id") or "").strip()
         stream_url = str(flat_item.get("url") or flat_item.get("webpage_url") or "").strip()
@@ -375,14 +388,36 @@ def fetch_source(
             stream_url = f"https://www.youtube.com/watch?v={video_id}"
 
         title = str(flat_item.get("title") or "").strip()
+        log(
+            "video flat: "
+            f"source={source_name!r} index={index} id={video_id!r} "
+            f"status={str(flat_item.get('live_status') or '').strip()!r} "
+            f"duration={str(flat_item.get('duration_string') or '').strip()!r} "
+            f"url={stream_url!r} title={title!r}"
+        )
         if not title or not stream_url:
+            log(f"video skip: source={source_name!r} index={index} reason='missing title or url'")
             continue
 
+        used_fallback_metadata = False
         try:
             item = fetch_video_metadata(stream_url)
         except SystemExit:
+            used_fallback_metadata = True
             item = flat_item
+            log(f"video metadata: source={source_name!r} id={video_id!r} result='fallback-flat'")
+        else:
+            log(
+                "video metadata: "
+                f"source={source_name!r} id={video_id!r} result='fetched' "
+                f"status={str(item.get('live_status') or '').strip()!r} "
+                f"was_live={bool(item.get('was_live'))!r} "
+                f"is_live={bool(item.get('is_live'))!r} "
+                f"duration={str(item.get('duration_string') or '').strip()!r} "
+                f"timestamp={item.get('timestamp')!r} release_timestamp={item.get('release_timestamp')!r}"
+            )
         if not matches_source_filters(source, item, title):
+            log(f"video skip: source={source_name!r} id={video_id!r} reason='source filter'")
             continue
 
         base = stream_base(
@@ -394,43 +429,57 @@ def fetch_source(
             str(item.get("duration_string") or flat_item.get("duration_string") or "").strip(),
         )
         live_status = str(item.get("live_status") or "").strip()
+        log(
+            "video classify: "
+            f"source={source_name!r} id={video_id!r} status={live_status!r} "
+            f"was_live={base['was_live']!r} duration={base['duration']!r} "
+            f"fallback={used_fallback_metadata!r}"
+        )
         if live_status in ("is_upcoming", "is_live"):
             scheduled = scheduled_fields(item) if live_status == "is_upcoming" else live_fields(item)
             if not scheduled["sort_timestamp"]:
-                print(f"Skipping unscheduled upcoming/live stream: {stream_url}", file=sys.stderr)
+                log(f"video skip: source={source_name!r} id={video_id!r} reason='unscheduled upcoming/live'")
                 continue
-            upcoming_streams.append(
-                preserve_existing_if_richer(
-                    {
-                        **base,
-                        "scheduled_at": str(scheduled["scheduled_at"]),
-                        "scheduled_date": str(scheduled["scheduled_date"]),
-                        "scheduled_label": str(scheduled["scheduled_label"]),
-                        "scheduled_time": str(scheduled["scheduled_time"]),
-                        "sort_timestamp": int(scheduled["sort_timestamp"]),
-                    },
-                    existing_by_url,
-                )
+            candidate = {
+                **base,
+                "scheduled_at": str(scheduled["scheduled_at"]),
+                "scheduled_date": str(scheduled["scheduled_date"]),
+                "scheduled_label": str(scheduled["scheduled_label"]),
+                "scheduled_time": str(scheduled["scheduled_time"]),
+                "sort_timestamp": int(scheduled["sort_timestamp"]),
+            }
+            stream = preserve_existing_if_richer(candidate, existing_by_url)
+            log(
+                "video bucket: "
+                f"source={source_name!r} id={video_id!r} bucket='upcoming' "
+                f"status={str(stream.get('live_status') or '').strip()!r} "
+                f"label={str(stream.get('scheduled_label') or '').strip()!r} "
+                f"preserved_existing={stream != candidate!r}"
             )
+            upcoming_streams.append(stream)
             continue
 
         published = publication_fields(item)
         if not published["sort_timestamp"]:
-            print(f"Skipping undated stream: {stream_url}", file=sys.stderr)
+            log(f"video skip: source={source_name!r} id={video_id!r} reason='undated stream'")
             continue
 
-        streams.append(
-            preserve_existing_if_richer(
-                {
-                    **base,
-                    "published_at": str(published["published_at"]),
-                    "published_date": str(published["published_date"]),
-                    "published_label": str(published["published_label"]),
-                    "sort_timestamp": int(published["sort_timestamp"]),
-                },
-                existing_by_url,
-            )
+        candidate = {
+            **base,
+            "published_at": str(published["published_at"]),
+            "published_date": str(published["published_date"]),
+            "published_label": str(published["published_label"]),
+            "sort_timestamp": int(published["sort_timestamp"]),
+        }
+        stream = preserve_existing_if_richer(candidate, existing_by_url)
+        log(
+            "video bucket: "
+            f"source={source_name!r} id={video_id!r} bucket='recent' "
+            f"status={str(stream.get('live_status') or '').strip()!r} "
+            f"label={str(stream.get('published_label') or '').strip()!r} "
+            f"preserved_existing={stream != candidate!r}"
         )
+        streams.append(stream)
     return upcoming_streams, streams
 
 

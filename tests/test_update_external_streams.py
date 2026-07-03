@@ -68,6 +68,39 @@ class PreserveExistingStreamMetadataTest(unittest.TestCase):
         self.assertEqual(merged["live_status"], "is_live")
         self.assertNotIn("published_label", merged)
 
+    def test_finished_candidate_wins_over_existing_upcoming_metadata(self):
+        existing = {
+            "https://www.youtube.com/watch?v=rOYG2AjX594": {
+                "title": "Torneio Internacional de Xadrez SESC Caiobá 2026",
+                "display_title": "Torneio Internacional de Xadrez SESC Caiobá 2026",
+                "url": "https://www.youtube.com/watch?v=rOYG2AjX594",
+                "scheduled_at": "2026-07-03T18:15:00+00:00",
+                "scheduled_date": "2026-07-03",
+                "scheduled_label": "03/07/2026",
+                "scheduled_time": "15:15",
+                "live_status": "is_upcoming",
+                "was_live": "false",
+            }
+        }
+        candidate = {
+            "title": "Torneio Internacional de Xadrez SESC Caiobá 2026",
+            "display_title": "Torneio Internacional de Xadrez SESC Caiobá 2026",
+            "url": "https://www.youtube.com/watch?v=rOYG2AjX594",
+            "published_at": "2026-07-03T21:30:00+00:00",
+            "published_date": "2026-07-03",
+            "published_label": "03/07/2026",
+            "duration": "2:42:25",
+            "live_status": "was_live",
+            "was_live": "true",
+            "sort_timestamp": 1783114200,
+        }
+
+        merged = preserve_existing_if_richer(candidate, existing)
+
+        self.assertEqual(merged["published_label"], "03/07/2026")
+        self.assertEqual(merged["live_status"], "was_live")
+        self.assertNotIn("scheduled_label", merged)
+
     def test_filters_recent_streams_to_latest_per_creator(self):
         streams = [
             {"creator": "GM Krikor", "url": "old-krikor", "sort_timestamp": 10},
