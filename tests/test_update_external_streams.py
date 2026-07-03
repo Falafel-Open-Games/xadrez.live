@@ -36,6 +36,38 @@ class PreserveExistingStreamMetadataTest(unittest.TestCase):
         self.assertEqual(merged["live_status"], "was_live")
         self.assertEqual(merged["was_live"], "true")
 
+    def test_live_candidate_wins_over_existing_recent_metadata(self):
+        existing = {
+            "https://www.youtube.com/watch?v=XrIGxIStS6I": {
+                "title": "O CAMPEÃO CHEGOU???????? SESC CAIOBÁ 2026 - RODADA7",
+                "display_title": "O campeão chegou? SESC caiobá 2026 - rodada7",
+                "url": "https://www.youtube.com/watch?v=XrIGxIStS6I",
+                "published_at": "2026-07-03T00:00:00+00:00",
+                "published_date": "2026-07-02",
+                "published_label": "02/07/2026",
+                "live_status": "",
+                "was_live": "false",
+            }
+        }
+        candidate = {
+            "title": "O CAMPEÃO CHEGOU???????? SESC CAIOBÁ 2026 - RODADA7",
+            "display_title": "O campeão chegou? SESC caiobá 2026 - rodada7",
+            "url": "https://www.youtube.com/watch?v=XrIGxIStS6I",
+            "scheduled_at": "2026-07-03T14:37:47+00:00",
+            "scheduled_date": "2026-07-03",
+            "scheduled_label": "ao vivo agora",
+            "scheduled_time": "",
+            "live_status": "is_live",
+            "was_live": "false",
+            "sort_timestamp": 1783089467,
+        }
+
+        merged = preserve_existing_if_richer(candidate, existing)
+
+        self.assertEqual(merged["scheduled_label"], "ao vivo agora")
+        self.assertEqual(merged["live_status"], "is_live")
+        self.assertNotIn("published_label", merged)
+
     def test_filters_recent_streams_to_latest_per_creator(self):
         streams = [
             {"creator": "GM Krikor", "url": "old-krikor", "sort_timestamp": 10},

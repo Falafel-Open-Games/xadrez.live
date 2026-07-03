@@ -313,6 +313,10 @@ def stream_base(
 
 
 def is_richer(existing: dict[str, str], candidate: dict[str, str | int]) -> bool:
+    candidate_status = str(candidate.get("live_status", "")).strip()
+    if candidate_status in ("is_live", "is_upcoming"):
+        return False
+
     for key in RICHNESS_KEYS:
         existing_value = str(existing.get(key, "")).strip()
         candidate_value = str(candidate.get(key, "")).strip()
@@ -333,7 +337,7 @@ def preserve_existing_if_richer(
 
     preserved = {**stream}
     for key, value in existing.items():
-        if key not in ("sort_timestamp", "title", "display_title"):
+        if key != "sort_timestamp":
             preserved[key] = value
 
     timestamp_key = "scheduled_at" if preserved.get("scheduled_at") else "published_at"
