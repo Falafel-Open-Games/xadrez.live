@@ -45,6 +45,9 @@ a {
 }
 
 .site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
   margin-top: 56px;
   padding-top: 18px;
   border-top: 1px solid var(--line);
@@ -58,6 +61,19 @@ a {
 
 .site-footer a:hover {
   color: var(--accent);
+}
+
+.page-content {
+  max-width: 760px;
+}
+
+.page-content h1 {
+  margin: 0 0 24px;
+  font-size: clamp(2.2rem, 5vw, 4rem);
+}
+
+.page-content p {
+  color: var(--muted);
 }
 
 .session-kicker {
