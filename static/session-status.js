@@ -1,4 +1,6 @@
 (function () {
+  var LIVE_WINDOW_MS = 6 * 60 * 60 * 1000;
+
   function localDateOnly(date) {
     return new Date(date.getFullYear(), date.getMonth(), date.getDate());
   }
@@ -59,17 +61,29 @@
   });
 
   document.querySelectorAll("[data-external-stream-status]").forEach(function (element) {
+    var scheduledAt = parseIsoDate(element.dataset.scheduledAt);
+
     if (element.dataset.liveStatus === "is_live") {
+      if (scheduledAt && scheduledAt.getTime() < Date.now() - LIVE_WINDOW_MS) {
+        var item = element.closest("li");
+        if (item) {
+          item.hidden = true;
+        }
+        return;
+      }
+
       element.textContent = "ao vivo agora";
       return;
     }
 
-    var scheduledAt = parseIsoDate(element.dataset.scheduledAt);
     if (!scheduledAt) {
       return;
     }
 
-    if (scheduledAt.getTime() <= Date.now()) {
+    if (
+      scheduledAt.getTime() <= Date.now() &&
+      scheduledAt.getTime() >= Date.now() - LIVE_WINDOW_MS
+    ) {
       element.textContent = "ao vivo agora";
     }
   });

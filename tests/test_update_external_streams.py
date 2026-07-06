@@ -1,6 +1,12 @@
 import unittest
 
-from scripts.update_external_streams import filter_latest_stream_per_creator, preserve_existing_if_richer
+from scripts.update_external_streams import (
+    LIVE_WINDOW_SECONDS,
+    demote_stale_live_item,
+    filter_latest_stream_per_creator,
+    filter_upcoming_streams,
+    preserve_existing_if_richer,
+)
 
 
 class PreserveExistingStreamMetadataTest(unittest.TestCase):
@@ -111,6 +117,46 @@ class PreserveExistingStreamMetadataTest(unittest.TestCase):
         filtered = filter_latest_stream_per_creator(streams)
 
         self.assertEqual([stream["url"] for stream in filtered], ["everton", "new-krikor"])
+
+    def test_filters_stale_live_streams_from_upcoming(self):
+        now = 1_800_000_000
+        streams = [
+            {
+                "creator": "Old Live",
+                "url": "old-live",
+                "live_status": "is_live",
+                "sort_timestamp": now - LIVE_WINDOW_SECONDS - 1,
+            },
+            {
+                "creator": "Fresh Live",
+                "url": "fresh-live",
+                "live_status": "is_live",
+                "sort_timestamp": now - 60,
+            },
+            {
+                "creator": "Upcoming",
+                "url": "upcoming",
+                "live_status": "is_upcoming",
+                "sort_timestamp": now + 60,
+            },
+        ]
+
+        filtered = filter_upcoming_streams(streams, now)
+
+        self.assertEqual([stream["url"] for stream in filtered], ["fresh-live", "upcoming"])
+
+    def test_demotes_stale_live_metadata_to_recent_status(self):
+        now = 1_800_000_000
+        item = {
+            "live_status": "is_live",
+            "was_live": False,
+            "release_timestamp": now - LIVE_WINDOW_SECONDS - 1,
+        }
+
+        demoted = demote_stale_live_item(item, now)
+
+        self.assertEqual(demoted["live_status"], "was_live")
+        self.assertTrue(demoted["was_live"])
 
 
 if __name__ == "__main__":

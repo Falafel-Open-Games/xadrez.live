@@ -17,6 +17,7 @@ SOURCES = ROOT / "data/external_stream_sources.toml"
 OUTPUT = ROOT / "data/external_streams.toml"
 DISPLAY_TZ = ZoneInfo("America/Sao_Paulo")
 UPCOMING_WINDOW_SECONDS = 7 * 24 * 60 * 60
+LIVE_WINDOW_SECONDS = 6 * 60 * 60
 RICHNESS_KEYS = ("published_at", "scheduled_at", "live_status", "was_live")
 ACTIVE_LIVE_STATUSES = {"is_live", "is_upcoming"}
 FINISHED_LIVE_STATUSES = {"post_live", "was_live"}
@@ -284,6 +285,28 @@ def live_fields(item: dict) -> dict[str, str | int]:
     }
 
 
+def live_start_timestamp(item: dict) -> int:
+    return scheduled_timestamp(item)
+
+
+def is_stale_live_item(item: dict, now_timestamp: int) -> bool:
+    if str(item.get("live_status") or "").strip() != "is_live":
+        return False
+
+    started_at = live_start_timestamp(item)
+    return bool(started_at and started_at < now_timestamp - LIVE_WINDOW_SECONDS)
+
+
+def demote_stale_live_item(item: dict, now_timestamp: int) -> dict:
+    if not is_stale_live_item(item, now_timestamp):
+        return item
+
+    demoted = {**item}
+    demoted["live_status"] = "was_live"
+    demoted["was_live"] = True
+    return demoted
+
+
 def fetch_video_metadata(url: str) -> dict:
     cmd = [
         "yt-dlp",
@@ -419,6 +442,9 @@ def fetch_source(
         if not matches_source_filters(source, item, title):
             log(f"video skip: source={source_name!r} id={video_id!r} reason='source filter'")
             continue
+
+        now_timestamp = int(datetime.now(timezone.utc).timestamp())
+        item = demote_stale_live_item(item, now_timestamp)
 
         base = stream_base(
             item,
@@ -560,6 +586,8 @@ def filter_upcoming_streams(
     for stream in upcoming_streams:
         scheduled = int(stream.get("sort_timestamp", 0))
         live_status = str(stream.get("live_status") or "")
+        if live_status == "is_live" and scheduled < now_timestamp - LIVE_WINDOW_SECONDS:
+            continue
         if live_status != "is_live" and scheduled < now_timestamp:
             continue
         if scheduled > latest_allowed:
