@@ -30,6 +30,9 @@ These sources are configured in `data/external_stream_sources.toml`.
   - Lichess user: `https://lichess.org/streamer/egoncalves1313`
   - Source: `https://www.youtube.com/channel/UCLv7mOmR2XcRmji2c-WlzGg/streams`
   - Reason: recent tournament/event broadcast archive.
+- `aerus15`
+  - Source: `https://www.youtube.com/@aerus15/streams`
+  - Reason: community stream source added from the xadrez.live chat.
 
 ## Deferred Candidates
 
