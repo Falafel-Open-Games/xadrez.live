@@ -94,9 +94,13 @@ def game_platform(game):
     return ""
 
 
-def latest_game(extra):
+def featured_game(extra):
     games = extra.get("games")
     if isinstance(games, list) and games:
+        for game in games:
+            if isinstance(game, dict) and value(game, "result").lower() in ("win", "won"):
+                return game
+
         last_game = games[-1]
         if isinstance(last_game, dict):
             return last_game
@@ -126,7 +130,7 @@ def streak_value(extra):
 def post_data_block(extra):
     require_values(extra, ["duration", "rapid", "puzzles"])
 
-    game = latest_game(extra)
+    game = featured_game(extra)
     opening = short_opening(value(game, "opening"))
     if not opening and game_platform(game) == "chess.com":
         opening = "não informada"
