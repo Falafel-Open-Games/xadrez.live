@@ -17,6 +17,9 @@ update-external-streams:
 
 refresh-external-streams: update-external-streams build
 
+discover-lichess-youtube-streamers LANGUAGE="all" PAGES="80":
+  @python3 scripts/discover_lichess_streamers.py --service youtube --language {{LANGUAGE}} --limit-pages {{PAGES}} --latest-video
+
 thumbnail-prompt SESSION KIND="post":
   @python3 scripts/thumbnail_prompt.py {{SESSION}} {{KIND}}
 
