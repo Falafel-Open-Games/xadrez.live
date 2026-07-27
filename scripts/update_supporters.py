@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 import re
+import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
 
@@ -33,6 +34,23 @@ def acknowledgement_section(text: str) -> str:
     next_heading = re.search(r"(?m)^## ", text[start:])
     end = start + next_heading.start() if next_heading else len(text)
     return text[start:end].strip()
+
+
+def front_matter_extra(text: str) -> dict:
+    if not text.startswith("+++\n"):
+        return {}
+
+    end = text.find("\n+++", 4)
+    if end == -1:
+        return {}
+
+    try:
+        data = tomllib.loads(text[4:end])
+    except tomllib.TOMLDecodeError:
+        return {}
+
+    extra = data.get("extra")
+    return extra if isinstance(extra, dict) else {}
 
 
 def split_people(value: str) -> list[str]:
@@ -93,7 +111,30 @@ def collect_supporters() -> dict[str, Supporter]:
     supporters: dict[str, Supporter] = {}
 
     for path in sorted(CONTENT_DIR.glob("[0-9][0-9][0-9][0-9].md")):
-        section = acknowledgement_section(path.read_text(encoding="utf-8"))
+        text = path.read_text(encoding="utf-8")
+        extra = front_matter_extra(text)
+
+        for raw_supporter in extra.get("supporters", []):
+            if not isinstance(raw_supporter, dict):
+                continue
+
+            platform = str(raw_supporter.get("platform") or "").strip()
+            name = str(raw_supporter.get("name") or "").strip()
+            url = str(raw_supporter.get("url") or "").strip()
+            if not name:
+                continue
+
+            if not url:
+                url = inferred_url(platform, name)
+
+            key = supporter_key(name, url)
+            supporter = supporters.setdefault(key, Supporter(name=name, url=url))
+            if not supporter.url and url:
+                supporter.url = url
+            supporter.sessions.add(path.stem)
+            supporter.platforms.add(platform_key(platform, name, url))
+
+        section = acknowledgement_section(text)
         if not section:
             continue
 

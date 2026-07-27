@@ -211,6 +211,7 @@ iframe {
 
 .session-summary,
 .description,
+.session-supporters,
 .session-notes {
   max-width: 760px;
   margin-top: 40px;
@@ -220,6 +221,7 @@ iframe {
 
 .session-summary h2,
 .description h2,
+.session-supporters h2,
 .session-notes h2 {
   margin: 0 0 8px;
   font-size: 1.1rem;
@@ -330,6 +332,20 @@ iframe {
 .description p {
   margin: 0;
   color: var(--muted);
+}
+
+.session-supporters ul {
+  margin: 12px 0 0;
+  padding-left: 1.2rem;
+  color: var(--muted);
+}
+
+.session-supporters li {
+  margin: 6px 0;
+}
+
+.session-supporters a {
+  color: var(--accent);
 }
 
 .notes-body {

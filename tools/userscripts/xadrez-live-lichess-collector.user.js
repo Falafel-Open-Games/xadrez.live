@@ -8,7 +8,9 @@
 // @match        https://www.chess.com/*
 // @match        https://app.restream.io/*
 // @match        https://chat.restream.io/*
+// @grant        GM_getValue
 // @grant        GM_setClipboard
+// @grant        GM_setValue
 // ==/UserScript==
 
 (function () {
@@ -28,18 +30,38 @@
     attempts: [],
     currentPuzzles: [],
     games: [],
+    supporters: [],
   };
 
   function loadState() {
+    if (typeof GM_getValue === "function") {
+      try {
+        const stored = GM_getValue(STORAGE_KEY, "");
+        if (stored) {
+          return { ...DEFAULT_STATE, ...JSON.parse(stored) };
+        }
+      } catch (_) {
+        return { ...DEFAULT_STATE };
+      }
+    }
+
     try {
-      return { ...DEFAULT_STATE, ...JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}") };
+      const state = { ...DEFAULT_STATE, ...JSON.parse(localStorage.getItem(STORAGE_KEY) || "{}") };
+      if (typeof GM_setValue === "function") {
+        GM_setValue(STORAGE_KEY, JSON.stringify(state));
+      }
+      return state;
     } catch (_) {
       return { ...DEFAULT_STATE };
     }
   }
 
   function saveState(state) {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    const serialized = JSON.stringify(state);
+    if (typeof GM_setValue === "function") {
+      GM_setValue(STORAGE_KEY, serialized);
+    }
+    localStorage.setItem(STORAGE_KEY, serialized);
   }
 
   function normalizePuzzleUrl(url) {
@@ -646,6 +668,16 @@ note = "${quote(attempt.note)}"`);
       blocks.push(lines.join("\n"));
     });
 
+    (state.supporters || []).forEach((supporter) => {
+      const lines = ["[[extra.supporters]]"];
+      lines.push(`platform = "${quote(supporter.platform)}"`);
+      lines.push(`name = "${quote(supporter.name)}"`);
+      if (supporter.url) {
+        lines.push(`url = "${quote(supporter.url)}"`);
+      }
+      blocks.push(lines.join("\n"));
+    });
+
     return blocks.join("\n\n");
   }
 
@@ -765,25 +797,30 @@ note = "${quote(attempt.note)}"`);
     });
   }
 
-  function renderSupporterLink({ platform, name }) {
-    const url = restreamSupporterUrl(platform, name);
-    return url ? `[${name}](${url})` : name;
-  }
+  function mergeSupporters(state, supporters) {
+    const byKey = new Map();
 
-  function buildRestreamAcknowledgements() {
-    const supporters = restreamSupporters();
-    const byPlatform = new Map();
-
-    supporters.forEach((supporter) => {
-      const platform = supporter.platform || "Chat";
-      const entries = byPlatform.get(platform) || [];
-      entries.push(renderSupporterLink(supporter));
-      byPlatform.set(platform, entries);
+    (state.supporters || []).forEach((supporter) => {
+      const key = `${supporter.platform || ""}\0${supporter.name || ""}`;
+      if (supporter.name) {
+        byKey.set(key, supporter);
+      }
     });
 
-    return [...byPlatform.entries()]
-      .map(([platform, entries]) => `- ${platform}: ${entries.join(", ")}`)
-      .join("\n");
+    supporters.forEach((supporter) => {
+      const url = restreamSupporterUrl(supporter.platform, supporter.name);
+      const key = `${supporter.platform || ""}\0${supporter.name || ""}`;
+      byKey.set(key, { ...supporter, url });
+    });
+
+    state.supporters = [...byKey.values()].sort((a, b) => {
+      const byPlatform = String(a.platform || "").localeCompare(String(b.platform || ""), "pt-BR");
+      if (byPlatform !== 0) {
+        return byPlatform;
+      }
+      return String(a.name || "").localeCompare(String(b.name || ""), "pt-BR", { sensitivity: "base" });
+    });
+    saveState(state);
   }
 
   function resetSession(state) {
@@ -806,9 +843,10 @@ note = "${quote(attempt.note)}"`);
     const canAddGame = Boolean(gameContext);
     const disabledUnlessLichess = isLichessPage ? "" : ' disabled title="Available on Lichess only"';
     const disabledUnlessGame = canAddGame ? "" : ' disabled title="Open a Lichess or Chess.com game first"';
-    const restreamThanks = isRestreamChatPage ? buildRestreamAcknowledgements() : "";
-    const restreamCount = isRestreamChatPage ? restreamSupporters().length : 0;
-    const previewText = isRestreamChatPage ? restreamThanks : buildToml(state);
+    const scannedRestreamSupporters = isRestreamChatPage ? restreamSupporters() : [];
+    const restreamCount = isRestreamChatPage ? scannedRestreamSupporters.length : 0;
+    const savedSupporterCount = (state.supporters || []).length;
+    const previewText = buildToml(state);
     const panel = document.createElement("section");
     panel.id = PANEL_ID;
     panel.className = state.collapsed ? "is-collapsed" : "";
@@ -903,10 +941,11 @@ note = "${quote(attempt.note)}"`);
           Puzzle of the day: ${state.puzzleOfTheDayUrl ? "ok" : "pending"}
           · stats: ${state.duration && state.rapid && state.puzzles ? "ok" : "pending"}
           · notes: ${state.descriptionNotes ? "ok" : "empty"}
+          · supporters: ${savedSupporterCount}
         </p>
         ${
           isRestreamChatPage
-            ? `<p class="xlc-meta">Restream chat: ${restreamCount} supporter(s) found</p>`
+            ? `<p class="xlc-meta">Restream chat: ${restreamCount} supporter(s) found in loaded messages</p>`
             : ""
         }
         <div class="xlc-row">
@@ -929,7 +968,7 @@ note = "${quote(attempt.note)}"`);
         ${
           isRestreamChatPage
             ? `<div class="xlc-row">
-                <button type="button" data-action="copy-restream-thanks">Copy chat thanks</button>
+                <button type="button" data-action="scan-restream-thanks">Add chat thanks</button>
                 <button type="button" data-action="refresh">Scan chat</button>
               </div>`
             : ""
@@ -976,10 +1015,13 @@ note = "${quote(attempt.note)}"`);
           await setDescriptionNotes(nextState);
           break;
         case "copy":
+          if (isRestreamPage()) {
+            mergeSupporters(nextState, restreamSupporters());
+          }
           copyText(buildToml(nextState));
           break;
-        case "copy-restream-thanks":
-          copyText(buildRestreamAcknowledgements());
+        case "scan-restream-thanks":
+          mergeSupporters(nextState, restreamSupporters());
           break;
         case "reset":
           nextState = resetSession(nextState);

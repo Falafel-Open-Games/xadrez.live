@@ -163,10 +163,10 @@ Durante a live, use o userscript local em `tools/userscripts/xadrez-live-lichess
 - fechar uma tentativa de streak
 - adicionar a URL da partida atual no Lichess ou no Chess.com
 - registrar notas soltas para orientar a descrição principal no wrapup
-- extrair usernames do chat do Restream e copiar linhas prontas de agradecimento por plataforma
+- extrair usernames do chat do Restream e incluir os apoiadores no mesmo TOML da sessão
 - copiar um bloco TOML pronto para colar no front matter da sessão
 
-Os dados ficam só no `localStorage` do navegador. Não há servidor, login externo nem envio de dados para fora.
+Os dados ficam só no storage local do gerenciador de userscripts, compartilhado entre os domínios onde o script roda. Não há servidor, login externo nem envio de dados para fora.
 
 ### Gerenciador de userscripts
 
@@ -196,8 +196,19 @@ O painel `xadrez.live` deve aparecer no canto inferior direito. Fluxo básico:
 4. Ao terminar uma sequência, clique em `Fechar tentativa` e informe quantos puzzles contam como resolvidos.
 5. Em cada partida, abra a página da partida no Lichess ou no Chess.com e clique em `Add partida`.
 6. Use `Notes` para registrar observações que devem entrar na descrição principal do wrapup.
-7. Ao fim da live, abra o chat do Restream, role o histórico carregado se necessário e clique em `Copy chat thanks` para copiar os participantes detectados. A tela de admin tende a ser melhor para isso; o embed usado no OBS também é suportado, mas pode ter só as mensagens recentes carregadas.
+7. Ao fim da live, abra o chat do Restream, role o histórico carregado se necessário e clique em `Add chat thanks` para adicionar os participantes detectados ao TOML. A tela de admin tende a ser melhor para isso; o embed usado no OBS também é suportado, mas pode ter só as mensagens recentes carregadas.
 8. Clique em `Copiar TOML` e cole o bloco no front matter da sessão no GitHub.
+
+Os apoiadores coletados pelo Restream entram como metadata:
+
+```toml
+[[extra.supporters]]
+platform = "YouTube"
+name = "@mchessters"
+url = "https://www.youtube.com/@mchessters"
+```
+
+O template da sessão renderiza essa metadata como `Agradecimentos`, e `scripts/update_supporters.py` usa tanto `[[extra.supporters]]` quanto a seção Markdown antiga `## Agradecimentos` para gerar `data/supporters.toml`.
 
 ## Publicar no GitHub Pages
 
