@@ -17,6 +17,12 @@ update-external-streams:
 
 refresh-external-streams: update-external-streams build
 
+update-youtube-chat-acks:
+  @python3 scripts/update_youtube_chat_acks.py
+
+update-supporters:
+  @python3 scripts/update_supporters.py
+
 discover-lichess-youtube-streamers LANGUAGE="all" PAGES="80":
   @python3 scripts/discover_lichess_streamers.py --service youtube --language {{LANGUAGE}} --limit-pages {{PAGES}} --latest-video
 

@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock title %}
+
+{% block description %}{{ page.description | default(value=config.description) }}{% endblock description %}
+
+{% block social_meta %}
+  <meta property="og:site_name" content="{{ config.title }}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ page.title }}">
+  <meta property="og:description" content="{{ page.description | default(value=config.description) }}">
+  <meta name="twitter:card" content="summary">
+{% endblock social_meta %}
+
+{% block content %}
+{% set supporters_data = load_data(path="data/supporters.toml", required=false) %}
+<article class="supporters-page">
+  <div class="session-kicker">comunidade</div>
+  <h1>{{ page.title }}</h1>
+  {{ page.content | safe }}
+
+  {% if supporters_data and supporters_data.supporters is defined and supporters_data.supporters %}
+    <div class="supporters-summary">
+      <strong>{{ supporters_data.total_supporters }}</strong>
+      <span>pessoas citadas nos agradecimentos das sessões.</span>
+    </div>
+
+    <div class="supporters-table-wrap">
+      <table class="supporters-table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Apoiador</th>
+            <th scope="col">Sessões</th>
+            <th scope="col">Plataformas</th>
+            <th scope="col">Participações</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for supporter in supporters_data.supporters %}
+            <tr>
+              <td>{{ loop.index }}</td>
+              <td>
+                {% if supporter.url %}
+                  <a href="{{ supporter.url }}" rel="noopener noreferrer">{{ supporter.name }}</a>
+                {% else %}
+                  {{ supporter.name }}
+                {% endif %}
+              </td>
+              <td>{{ supporter.session_count }}</td>
+              <td>{{ supporter.platforms | join(sep=", ") }}</td>
+              <td>
+                {% for session in supporter.sessions %}
+                  <a href="/fcz/{{ session }}/">{{ session }}</a>{% if not loop.last %}, {% endif %}
+                {% endfor %}
+              </td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p class="session-list-empty">nenhum apoiador listado ainda.</p>
+  {% endif %}
+</article>
+{% endblock content %}

@@ -11,6 +11,7 @@ on:
   workflow_run:
     workflows:
       - Update external streams
+      - Update YouTube chat acknowledgements
     types:
       - completed
   workflow_dispatch:
