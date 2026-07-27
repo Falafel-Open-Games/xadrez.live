@@ -47,6 +47,9 @@ jobs:
           sudo mv zola /usr/local/bin/zola
           zola --version
 
+      - name: Update supporters data
+        run: python3 scripts/update_supporters.py
+
       - name: Build site
         run: zola build
 

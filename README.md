@@ -156,13 +156,14 @@ O arquivo em `og_image` é usado só nas tags Open Graph/Twitter; ele não apare
 
 ## Coletar dados da live no Lichess
 
-Durante a live, use o userscript local em `tools/userscripts/xadrez-live-lichess-collector.user.js` para reduzir copia/cola de URLs do Lichess e do Chess.com. Ele adiciona um painel flutuante em `lichess.org` e `chess.com` com botões para:
+Durante a live, use o userscript local em `tools/userscripts/xadrez-live-lichess-collector.user.js` para reduzir copia/cola de URLs do Lichess, do Chess.com e do chat do Restream. Ele adiciona um painel flutuante em `lichess.org`, `chess.com` e `chat.restream.io` com botões para:
 
 - adicionar a URL do puzzle atual
 - registrar a URL do Puzzle do Dia separadamente
 - fechar uma tentativa de streak
 - adicionar a URL da partida atual no Lichess ou no Chess.com
 - registrar notas soltas para orientar a descrição principal no wrapup
+- extrair usernames do chat do Restream e copiar linhas prontas de agradecimento por plataforma
 - copiar um bloco TOML pronto para colar no front matter da sessão
 
 Os dados ficam só no `localStorage` do navegador. Não há servidor, login externo nem envio de dados para fora.
@@ -185,7 +186,7 @@ Para Chromium, este projeto recomenda **ScriptCat**: ele é open source e contin
 3. Crie um novo script.
 4. Copie o conteúdo de `tools/userscripts/xadrez-live-lichess-collector.user.js`.
 5. Cole no editor do ScriptCat e salve.
-6. Abra uma página em `https://lichess.org/` ou `https://www.chess.com/`.
+6. Abra uma página em `https://lichess.org/`, `https://www.chess.com/` ou `https://chat.restream.io/`.
 
 O painel `xadrez.live` deve aparecer no canto inferior direito. Fluxo básico:
 
@@ -195,7 +196,8 @@ O painel `xadrez.live` deve aparecer no canto inferior direito. Fluxo básico:
 4. Ao terminar uma sequência, clique em `Fechar tentativa` e informe quantos puzzles contam como resolvidos.
 5. Em cada partida, abra a página da partida no Lichess ou no Chess.com e clique em `Add partida`.
 6. Use `Notes` para registrar observações que devem entrar na descrição principal do wrapup.
-7. Clique em `Copiar TOML` e cole o bloco no front matter da sessão no GitHub.
+7. Ao fim da live, abra o chat do Restream, role o histórico carregado se necessário e clique em `Copy chat thanks` para copiar os participantes detectados. A tela de admin tende a ser melhor para isso; o embed usado no OBS também é suportado, mas pode ter só as mensagens recentes carregadas.
+8. Clique em `Copiar TOML` e cole o bloco no front matter da sessão no GitHub.
 
 ## Publicar no GitHub Pages
 

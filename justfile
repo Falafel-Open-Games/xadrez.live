@@ -6,7 +6,7 @@ default:
 serve:
   zola serve
 
-build:
+build: update-supporters
   zola build
 
 lint-actions:

@@ -1,11 +1,12 @@
 // ==UserScript==
-// @name         xadrez.live Lichess Session Collector
+// @name         xadrez.live Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.11.0
-// @description  Collect chess puzzle and game URLs during a xadrez.live session and copy TOML blocks for session markdown.
+// @version      0.12.0
+// @description  Collect chess puzzle, game, notes, and Restream chat usernames during a xadrez.live session.
 // @author       fcz
 // @match        https://lichess.org/*
 // @match        https://www.chess.com/*
+// @match        https://chat.restream.io/*
 // @grant        GM_setClipboard
 // ==/UserScript==
 
@@ -655,14 +656,133 @@ note = "${quote(attempt.note)}"`);
 
     if (typeof GM_setClipboard === "function") {
       GM_setClipboard(text, "text");
-      window.alert("TOML block copied.");
+      window.alert("Copied.");
       return;
     }
 
     navigator.clipboard.writeText(text).then(
-      () => window.alert("TOML block copied."),
-      () => window.prompt("Copy the TOML block:", text),
+      () => window.alert("Copied."),
+      () => window.prompt("Copy this text:", text),
     );
+  }
+
+  function isRestreamPage() {
+    return location.hostname === "chat.restream.io";
+  }
+
+  function restreamPlatformFromSrc(src) {
+    const value = String(src || "");
+    if (value.includes("platform-5-social.png")) {
+      return "YouTube";
+    }
+    if (value.includes("platform-1.png")) {
+      return "Twitch";
+    }
+    return "";
+  }
+
+  function restreamCardPlatform(card) {
+    const platforms = [...card.querySelectorAll('img[src*="restream.io/img/api/platforms/platform-"], img.icon-platform')]
+      .map((image) => restreamPlatformFromSrc(image.getAttribute("src")))
+      .filter(Boolean);
+
+    return [...new Set(platforms)][0] || "Chat";
+  }
+
+  function restreamAuthorFromCard(card) {
+    const author = [...card.querySelectorAll(".MuiTypography-subtitle2")]
+      .map((element) => element.textContent.trim())
+      .find(Boolean);
+
+    if (!author || author === "Restream.io") {
+      return "";
+    }
+
+    return author.startsWith("@") ? author : `@${author}`;
+  }
+
+  function restreamAuthorFromEmbedMessage(message) {
+    const author = message.querySelector(".message-sender")?.textContent.trim() || "";
+    if (!author || author === "Restream" || author === "Restream.io") {
+      return "";
+    }
+
+    return author.startsWith("@") ? author : `@${author}`;
+  }
+
+  function restreamSupporterUrl(platform, name) {
+    const handle = name.replace(/^@/, "");
+    if (!handle) {
+      return "";
+    }
+    if (platform === "YouTube") {
+      return `https://www.youtube.com/@${encodeURIComponent(handle)}`;
+    }
+    if (platform === "Twitch") {
+      return `https://www.twitch.tv/${encodeURIComponent(handle)}`;
+    }
+    return "";
+  }
+
+  function restreamSupporters() {
+    const byKey = new Map();
+    const cards = [...document.querySelectorAll('[id^="message-card-studio-"]')];
+
+    cards.forEach((card) => {
+      const name = restreamAuthorFromCard(card);
+      if (!name) {
+        return;
+      }
+
+      const platform = restreamCardPlatform(card);
+      const key = `${platform}\0${name}`;
+      if (!byKey.has(key)) {
+        byKey.set(key, { platform, name });
+      }
+    });
+
+    const embedMessages = [...document.querySelectorAll(".chat-messages .message-item")];
+    embedMessages.forEach((message) => {
+      const name = restreamAuthorFromEmbedMessage(message);
+      if (!name) {
+        return;
+      }
+
+      const platform = restreamCardPlatform(message);
+      const key = `${platform}\0${name}`;
+      if (!byKey.has(key)) {
+        byKey.set(key, { platform, name });
+      }
+    });
+
+    return [...byKey.values()].sort((a, b) => {
+      const byPlatform = a.platform.localeCompare(b.platform, "pt-BR");
+      if (byPlatform !== 0) {
+        return byPlatform;
+      }
+      return a.name.localeCompare(b.name, "pt-BR", { sensitivity: "base" });
+    });
+  }
+
+  function renderSupporterLink({ platform, name }) {
+    const url = restreamSupporterUrl(platform, name);
+    return url ? `[${name}](${url})` : name;
+  }
+
+  function buildRestreamAcknowledgements() {
+    const supporters = restreamSupporters();
+    const byPlatform = new Map();
+
+    supporters.forEach((supporter) => {
+      const platform = supporter.platform || "Chat";
+      const entries = byPlatform.get(platform) || [];
+      entries.push(renderSupporterLink(supporter));
+      byPlatform.set(platform, entries);
+    });
+
+    return [...byPlatform.entries()]
+      .map(([platform, entries]) => `- ${platform}: ${entries.join(", ")}`)
+      .join("\n");
   }
 
   function resetSession(state) {
@@ -680,10 +800,14 @@ note = "${quote(attempt.note)}"`);
 
     const state = loadState();
     const isLichessPage = location.hostname === "lichess.org";
+    const isRestreamChatPage = isRestreamPage();
     const gameContext = currentGameContext();
     const canAddGame = Boolean(gameContext);
     const disabledUnlessLichess = isLichessPage ? "" : ' disabled title="Available on Lichess only"';
     const disabledUnlessGame = canAddGame ? "" : ' disabled title="Open a Lichess or Chess.com game first"';
+    const restreamThanks = isRestreamChatPage ? buildRestreamAcknowledgements() : "";
+    const restreamCount = isRestreamChatPage ? restreamSupporters().length : 0;
+    const previewText = isRestreamChatPage ? restreamThanks : buildToml(state);
     const panel = document.createElement("section");
     panel.id = PANEL_ID;
     panel.className = state.collapsed ? "is-collapsed" : "";
@@ -779,6 +903,11 @@ note = "${quote(attempt.note)}"`);
           · stats: ${state.duration && state.rapid && state.puzzles ? "ok" : "pending"}
           · notes: ${state.descriptionNotes ? "ok" : "empty"}
         </p>
+        ${
+          isRestreamChatPage
+            ? `<p class="xlc-meta">Restream chat: ${restreamCount} supporter(s) found</p>`
+            : ""
+        }
         <div class="xlc-row">
           <button type="button" data-action="set-puzzle-of-day"${disabledUnlessLichess}>Puzzle of day</button>
           <button type="button" data-action="add-puzzle"${disabledUnlessLichess}>Add puzzle</button>
@@ -796,11 +925,19 @@ note = "${quote(attempt.note)}"`);
           <button type="button" data-action="copy">Copy TOML</button>
           <button type="button" data-action="refresh">Refresh</button>
         </div>
+        ${
+          isRestreamChatPage
+            ? `<div class="xlc-row">
+                <button type="button" data-action="copy-restream-thanks">Copy chat thanks</button>
+                <button type="button" data-action="refresh">Scan chat</button>
+              </div>`
+            : ""
+        }
         <div class="xlc-row">
           <button type="button" data-action="reset">New session</button>
           <button type="button" data-action="toggle-collapse">Collapse</button>
         </div>
-        <textarea readonly spellcheck="false">${buildToml(state)}</textarea>
+        <textarea readonly spellcheck="false">${escapeHtml(previewText)}</textarea>
       </div>
     `;
 
@@ -839,6 +976,9 @@ note = "${quote(attempt.note)}"`);
           break;
         case "copy":
           copyText(buildToml(nextState));
+          break;
+        case "copy-restream-thanks":
+          copyText(buildRestreamAcknowledgements());
           break;
         case "reset":
           nextState = resetSession(nextState);
