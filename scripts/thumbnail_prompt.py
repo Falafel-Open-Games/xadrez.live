@@ -127,6 +127,35 @@ def streak_value(extra):
     return str(max(solved_values)) if solved_values else ""
 
 
+def game_notes(extra):
+    games = extra.get("games")
+    if not isinstance(games, list):
+        games = [extra]
+
+    notes = []
+    for index, game in enumerate(games, start=1):
+        if not isinstance(game, dict):
+            continue
+
+        parts = []
+        result = result_label(value(game, "result"))
+        color = color_label(value(game, "color"))
+        opening = value(game, "opening")
+        note = value(game, "note")
+        if result:
+            parts.append(result)
+        if color:
+            parts.append(color)
+        if opening:
+            parts.append(opening)
+        if note:
+            parts.append(note)
+        if parts:
+            notes.append(f"game {index}: " + " | ".join(parts))
+
+    return "\n".join(notes)
+
+
 def post_data_block(extra):
     require_values(extra, ["duration", "rapid", "puzzles"])
 
@@ -144,7 +173,9 @@ resultado: {result_label(value(game, "result"))}
 cor: {color_label(value(game, "color"))}
 abertura: {opening}
 session context: {value(extra, "description")}
-side notebook notes: create 2 to 4 very short Portuguese bullet notes from the structured data and session context above; each bullet must be 2 to 5 words, with no full sentences and no line wrapping"""
+rapid game notes:
+{game_notes(extra)}
+side notebook notes: create 2 to 4 very short Portuguese bullet notes grounded in the rapid game notes above; each bullet must be 2 to 5 words, with no full sentences and no line wrapping; use concrete chess details from the game notes, such as pieces, plans, blunders, checks, mate threats, openings, time trouble, or the actual game turning point; avoid generic coaching slogans or motivational phrases"""
 
 
 def pre_data_block(extra):
@@ -175,6 +206,7 @@ For the side study notebook:
 Keep the hand-drawn chessboard position and notebook layout.
 Use compact handwritten bullet notes only.
 Do not write paragraphs, long sentences, explanations, or diary-style prose in the side notebook.
+For post-session thumbnails, base the bullets on the rapid game notes, not on generic chess advice.
 If there is not enough space, prefer fewer shorter bullets over more text.
 The side notebook notes should look like small labels, not a written recap.
 
