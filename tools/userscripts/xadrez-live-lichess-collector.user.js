@@ -6,6 +6,7 @@
 // @author       fcz
 // @match        https://lichess.org/*
 // @match        https://www.chess.com/*
+// @match        https://app.restream.io/*
 // @match        https://chat.restream.io/*
 // @grant        GM_setClipboard
 // ==/UserScript==
@@ -667,7 +668,7 @@ note = "${quote(attempt.note)}"`);
   }
 
   function isRestreamPage() {
-    return location.hostname === "chat.restream.io";
+    return location.hostname === "app.restream.io" || location.hostname === "chat.restream.io";
   }
 
   function restreamPlatformFromSrc(src) {
