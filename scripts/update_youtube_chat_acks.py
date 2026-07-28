@@ -17,7 +17,8 @@ from urllib.parse import quote
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT_DIR = ROOT / "content" / "fcz"
 DEFAULT_CACHE_DIR = Path("/tmp/xadrez-live-youtube-chat")
-SELF_NAMES = {"@fczuardi", "Fabricio C Zuardi"}
+SELF_YOUTUBE_HANDLES = {"fczuardi"}
+SELF_NAMES = {"Fabricio C Zuardi"}
 
 
 @dataclass
@@ -173,7 +174,13 @@ def youtube_users(chat_path: Path) -> list[str]:
             if not renderer:
                 continue
             name = renderer.get("authorName", {}).get("simpleText")
-            if name and name not in SELF_NAMES and name not in users:
+            handle = name.removeprefix("@").strip().lower() if name else ""
+            if (
+                name
+                and name not in SELF_NAMES
+                and handle not in SELF_YOUTUBE_HANDLES
+                and name not in users
+            ):
                 users.append(name)
     return users
 

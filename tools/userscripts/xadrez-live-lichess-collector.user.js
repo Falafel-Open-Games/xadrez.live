@@ -18,6 +18,10 @@
 
   const STORAGE_KEY = "xadrez-live-lichess-collector:v1";
   const PANEL_ID = "xadrez-live-collector";
+  const SELF_SUPPORTERS = {
+    YouTube: new Set(["fczuardi"]),
+    Twitch: new Set(["sedentarismo"]),
+  };
 
   const DEFAULT_STATE = {
     active: false,
@@ -687,16 +691,32 @@ note = "${quote(attempt.note)}"`);
       return;
     }
 
+    const panelTextarea = document.querySelector(`#${PANEL_ID} textarea`);
+    if (panelTextarea) {
+      panelTextarea.value = text;
+      panelTextarea.focus();
+      panelTextarea.select();
+    }
+
     if (typeof GM_setClipboard === "function") {
-      GM_setClipboard(text, "text");
-      window.alert("Copied.");
+      try {
+        GM_setClipboard(text, "text");
+        window.alert("Copied.");
+        return;
+      } catch (_) {
+        // Fall through to the browser clipboard and prompt fallback below.
+      }
+    }
+
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(text).then(
+        () => window.alert("Copied."),
+        () => window.prompt("Copy this text:", text),
+      );
       return;
     }
 
-    navigator.clipboard.writeText(text).then(
-      () => window.alert("Copied."),
-      () => window.prompt("Copy this text:", text),
-    );
+    window.prompt("Copy this text:", text);
   }
 
   function isRestreamPage() {
@@ -705,42 +725,122 @@ note = "${quote(attempt.note)}"`);
 
   function restreamPlatformFromSrc(src) {
     const value = String(src || "");
-    if (value.includes("platform-5-social.png")) {
+    if (/youtube/i.test(value) || value.includes("platform-5-social.png")) {
       return "YouTube";
     }
-    if (value.includes("platform-1.png")) {
+    if (/twitch/i.test(value) || value.includes("platform-1.png")) {
       return "Twitch";
     }
     return "";
   }
 
+  function queryAll(root, selector) {
+    try {
+      return [...root.querySelectorAll(selector)];
+    } catch (_) {
+      return [];
+    }
+  }
+
+  function cleanRestreamAuthor(value) {
+    const author = String(value || "")
+      .replace(/[\u200b-\u200d\ufeff]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    if (
+      !author ||
+      author.length > 80 ||
+      /[\n\r]/.test(author) ||
+      /^(Restream|Restream\.io|YouTube|Twitch|Chat)$/i.test(author) ||
+      /^(Today|Yesterday|just now)$/i.test(author)
+    ) {
+      return "";
+    }
+
+    return author.startsWith("@") ? author : `@${author}`;
+  }
+
+  function authorFromProfileHref(href) {
+    const value = String(href || "");
+    const youtube = /youtube\.com\/@([^/?#]+)/i.exec(value);
+    if (youtube) {
+      return cleanRestreamAuthor(`@${decodeURIComponent(youtube[1])}`);
+    }
+
+    const twitch = /twitch\.tv\/([^/?#]+)/i.exec(value);
+    if (twitch) {
+      return cleanRestreamAuthor(`@${decodeURIComponent(twitch[1])}`);
+    }
+
+    return "";
+  }
+
   function restreamCardPlatform(card) {
-    const platforms = [...card.querySelectorAll('img[src*="restream.io/img/api/platforms/platform-"], img.icon-platform')]
-      .map((image) => restreamPlatformFromSrc(image.getAttribute("src")))
+    const platforms = queryAll(
+      card,
+      'img[src*="restream.io/img/api/platforms/platform-"], img.icon-platform, img[alt], [aria-label], [title]',
+    )
+      .map((element) =>
+        restreamPlatformFromSrc(
+          [
+            element.getAttribute("src"),
+            element.getAttribute("alt"),
+            element.getAttribute("aria-label"),
+            element.getAttribute("title"),
+          ].join(" "),
+        ),
+      )
       .filter(Boolean);
 
     return [...new Set(platforms)][0] || "Chat";
   }
 
   function restreamAuthorFromCard(card) {
-    const author = [...card.querySelectorAll(".MuiTypography-subtitle2")]
-      .map((element) => element.textContent.trim())
+    const profileAuthor = queryAll(card, 'a[href*="youtube.com/@"], a[href*="twitch.tv/"]')
+      .map((link) => authorFromProfileHref(link.getAttribute("href")))
       .find(Boolean);
-
-    if (!author || author === "Restream.io") {
-      return "";
+    if (profileAuthor) {
+      return profileAuthor;
     }
 
-    return author.startsWith("@") ? author : `@${author}`;
+    const author = queryAll(
+      card,
+      [
+        ".MuiTypography-subtitle2",
+        '[data-testid*="author" i]',
+        '[data-testid*="sender" i]',
+        '[data-testid*="username" i]',
+        '[class*="author" i]',
+        '[class*="sender" i]',
+        '[class*="username" i]',
+        '[class*="user-name" i]',
+        '[class*="display-name" i]',
+      ].join(", "),
+    )
+      .map((element) => cleanRestreamAuthor(element.textContent))
+      .find(Boolean);
+
+    return author || "";
   }
 
   function restreamAuthorFromEmbedMessage(message) {
-    const author = message.querySelector(".message-sender")?.textContent.trim() || "";
-    if (!author || author === "Restream" || author === "Restream.io") {
-      return "";
-    }
+    const author = queryAll(
+      message,
+      [
+        ".message-sender",
+        '[data-testid*="author" i]',
+        '[data-testid*="sender" i]',
+        '[data-testid*="username" i]',
+        '[class*="author" i]',
+        '[class*="sender" i]',
+        '[class*="username" i]',
+      ].join(", "),
+    )
+      .map((element) => cleanRestreamAuthor(element.textContent))
+      .find(Boolean);
 
-    return author.startsWith("@") ? author : `@${author}`;
+    return author || "";
   }
 
   function restreamSupporterUrl(platform, name) {
@@ -757,9 +857,29 @@ note = "${quote(attempt.note)}"`);
     return "";
   }
 
+  function normalizedSupporterHandle(name) {
+    return String(name || "")
+      .replace(/^@/, "")
+      .trim()
+      .toLowerCase();
+  }
+
+  function isSelfSupporter(platform, name) {
+    return SELF_SUPPORTERS[platform]?.has(normalizedSupporterHandle(name)) || false;
+  }
+
   function restreamSupporters() {
     const byKey = new Map();
-    const cards = [...document.querySelectorAll('[id^="message-card-studio-"]')];
+    const cards = queryAll(
+      document,
+      [
+        '[id^="message-card-studio-"]',
+        '[data-testid*="message" i]',
+        '[class*="message-card" i]',
+        '[class*="chat-message" i]',
+        '[role="listitem"]',
+      ].join(", "),
+    );
 
     cards.forEach((card) => {
       const name = restreamAuthorFromCard(card);
@@ -768,13 +888,17 @@ note = "${quote(attempt.note)}"`);
       }
 
       const platform = restreamCardPlatform(card);
+      if (isSelfSupporter(platform, name)) {
+        return;
+      }
+
       const key = `${platform}\0${name}`;
       if (!byKey.has(key)) {
         byKey.set(key, { platform, name });
       }
     });
 
-    const embedMessages = [...document.querySelectorAll(".chat-messages .message-item")];
+    const embedMessages = queryAll(document, ".chat-messages .message-item, .message-item");
     embedMessages.forEach((message) => {
       const name = restreamAuthorFromEmbedMessage(message);
       if (!name) {
@@ -782,6 +906,10 @@ note = "${quote(attempt.note)}"`);
       }
 
       const platform = restreamCardPlatform(message);
+      if (isSelfSupporter(platform, name)) {
+        return;
+      }
+
       const key = `${platform}\0${name}`;
       if (!byKey.has(key)) {
         byKey.set(key, { platform, name });
@@ -802,12 +930,16 @@ note = "${quote(attempt.note)}"`);
 
     (state.supporters || []).forEach((supporter) => {
       const key = `${supporter.platform || ""}\0${supporter.name || ""}`;
-      if (supporter.name) {
+      if (supporter.name && !isSelfSupporter(supporter.platform, supporter.name)) {
         byKey.set(key, supporter);
       }
     });
 
     supporters.forEach((supporter) => {
+      if (isSelfSupporter(supporter.platform, supporter.name)) {
+        return;
+      }
+
       const url = restreamSupporterUrl(supporter.platform, supporter.name);
       const key = `${supporter.platform || ""}\0${supporter.name || ""}`;
       byKey.set(key, { ...supporter, url });
@@ -821,6 +953,8 @@ note = "${quote(attempt.note)}"`);
       return String(a.name || "").localeCompare(String(b.name || ""), "pt-BR", { sensitivity: "base" });
     });
     saveState(state);
+
+    return supporters.length;
   }
 
   function resetSession(state) {
@@ -1016,12 +1150,23 @@ note = "${quote(attempt.note)}"`);
           break;
         case "copy":
           if (isRestreamPage()) {
-            mergeSupporters(nextState, restreamSupporters());
+            const supporters = restreamSupporters();
+            if (!supporters.length) {
+              window.alert("No Restream usernames found in the currently loaded page.");
+            }
+            mergeSupporters(nextState, supporters);
           }
           copyText(buildToml(nextState));
           break;
         case "scan-restream-thanks":
-          mergeSupporters(nextState, restreamSupporters());
+          {
+            const count = mergeSupporters(nextState, restreamSupporters());
+            window.alert(
+              count
+                ? `Added ${count} Restream supporter(s) to the TOML scratchpad.`
+                : "No Restream usernames found in the currently loaded page.",
+            );
+          }
           break;
         case "reset":
           nextState = resetSession(nextState);

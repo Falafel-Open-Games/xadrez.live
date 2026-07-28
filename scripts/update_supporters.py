@@ -11,6 +11,10 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT_DIR = ROOT / "content" / "fcz"
 OUTPUT = ROOT / "data" / "supporters.toml"
+SELF_SUPPORTERS = {
+    ("youtube", "fczuardi"),
+    ("twitch", "sedentarismo"),
+}
 
 
 @dataclass
@@ -101,6 +105,25 @@ def platform_key(platform: str, name: str, url: str) -> str:
     return "Geral"
 
 
+def normalized_handle(name: str) -> str:
+    return name.removeprefix("@").strip().lower()
+
+
+def normalized_platform(platform: str, url: str) -> str:
+    value = platform.strip().lower()
+    if value:
+        return value
+    if "youtube.com" in url.lower():
+        return "youtube"
+    if "twitch.tv" in url.lower():
+        return "twitch"
+    return ""
+
+
+def is_self_supporter(platform: str, name: str, url: str) -> bool:
+    return (normalized_platform(platform, url), normalized_handle(name)) in SELF_SUPPORTERS
+
+
 def supporter_key(name: str, url: str) -> str:
     if url:
         return url.lower().rstrip("/")
@@ -126,6 +149,8 @@ def collect_supporters() -> dict[str, Supporter]:
 
             if not url:
                 url = inferred_url(platform, name)
+            if is_self_supporter(platform, name, url):
+                continue
 
             key = supporter_key(name, url)
             supporter = supporters.setdefault(key, Supporter(name=name, url=url))
@@ -154,6 +179,8 @@ def collect_supporters() -> dict[str, Supporter]:
             for raw_person in split_people(people_text):
                 name, url = parse_person(raw_person, platform)
                 if not name:
+                    continue
+                if is_self_supporter(platform, name, url):
                     continue
 
                 key = supporter_key(name, url)
