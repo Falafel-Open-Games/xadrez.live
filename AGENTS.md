@@ -28,6 +28,7 @@
 - Status display is driven by `status` and `status_tone`; existing tones include `scheduled`, `live`, and `ended`.
 - Use optional `streak_goal` and `streak_best_sequence = ["..."]` for the notable puzzle streak sequence; do not keep puzzle IDs only in TOML comments if the page should render them.
 - When writing session descriptions about openings, match the wording to the player color and the characteristic move. Do not say the player played "against" an opening they actually entered or initiated; e.g. as White in King's Knight Opening, say "joguei uma King's Knight Opening" or "entrei numa King's Knight Opening", not "joguei contra King's Knight Opening".
+- Keep `summary_title` editorial and varied. Do not default to titles like "Streak X e ..."; mention the streak only when it is truly the most memorable point. Prefer the main lesson, turning point, chat moment, recurring mistake, opening idea, or time-management theme.
 - `content/fcz/_thumbnail-templates/` stores non-served blank thumbnail templates and prompt files; Markdown files under `content/` still need Zola front matter, so keep workflow prompts as `draft = true`.
 - Generated session thumbnails intended for Open Graph should live under `static/fcz/thumbnails/` and be referenced by optional `page.extra.og_image`.
 
