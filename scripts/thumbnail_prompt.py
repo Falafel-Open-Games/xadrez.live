@@ -196,6 +196,9 @@ Image A is the blank {label} thumbnail template.
 Preserve the same composition, matcha-green palette, notebook layout, side study notebook, matcha mug, calm chess diary style, typography style, and overall structure.
 
 Only fill the blank placeholder content with the exact values below.
+Use "session context" and "rapid game notes" only as private source material for choosing concise labels.
+Do not draw, create, label, or fill any visible box for "session context" or "rapid game notes".
+Fill only these existing visible template fields: session number, status banner, duration, rapid, puzzles, streak, resultado, cor, abertura, and side notebook bullets.
 
 {data_block}
 
