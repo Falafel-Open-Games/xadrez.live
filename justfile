@@ -20,6 +20,34 @@ refresh-external-streams: update-external-streams build
 update-youtube-chat-acks:
   @python3 scripts/update_youtube_chat_acks.py
 
+import-youtube-chat-replays CACHE_DIR="/tmp/xadrez-chat" EXTRA="":
+  @python3 scripts/import_youtube_chat_replays.py --cache-dir {{CACHE_DIR}} {{EXTRA}}
+
+import-youtube-transcripts CACHE_DIR="/tmp/xadrez-transcripts" EXTRA="":
+  @python3 scripts/import_youtube_transcripts.py --cache-dir {{CACHE_DIR}} {{EXTRA}}
+
+import-restream-chat-replays CACHE_DIR="/tmp/xadrez-restream-chat" EXTRA="":
+  @python3 scripts/import_restream_chat_replays.py --cache-dir {{CACHE_DIR}} {{EXTRA}}
+
+import-twitch-chat-replays CACHE_DIR="/tmp/xadrez-twitch-chat" EXTRA="":
+  @python3 scripts/import_twitch_chat_replays.py --cache-dir {{CACHE_DIR}} {{EXTRA}}
+
+restream-oauth REDIRECT_URI="http://127.0.0.1:8765/restream/oauth/callback":
+  @python3 scripts/restream_oauth.py authorize --redirect-uri {{REDIRECT_URI}} --write-env
+
+restream-refresh-token:
+  @python3 scripts/restream_oauth.py refresh --write-env
+
+refresh-youtube-replay-data RECENT="5":
+  @python3 scripts/import_youtube_chat_replays.py --cache-dir /tmp/xadrez-chat --latest {{RECENT}} --download
+  @python3 scripts/import_youtube_transcripts.py --cache-dir /tmp/xadrez-transcripts --latest {{RECENT}}
+
+refresh-replay-data RECENT="5":
+  @python3 scripts/import_youtube_chat_replays.py --cache-dir /tmp/xadrez-chat --latest {{RECENT}} --download
+  @python3 scripts/import_twitch_chat_replays.py --cache-dir /tmp/xadrez-twitch-chat --latest {{RECENT}}
+  @if [ -n "${RESTREAM_ACCESS_TOKEN:-}${RESTREAM_REFRESH_TOKEN:-}" ]; then python3 scripts/import_restream_chat_replays.py --cache-dir /tmp/xadrez-restream-chat --latest {{RECENT}}; else echo "Restream token not set; keeping YouTube-only chat fallback"; fi
+  @python3 scripts/import_youtube_transcripts.py --cache-dir /tmp/xadrez-transcripts --latest {{RECENT}}
+
 update-supporters:
   @python3 scripts/update_supporters.py
 

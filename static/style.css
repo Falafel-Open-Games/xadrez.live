@@ -202,6 +202,134 @@ h1 {
   min-height: 420px;
 }
 
+.chat-replay-section,
+.transcript-section {
+  max-width: 960px;
+  margin-top: 16px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.chat-replay-section summary,
+.transcript-section summary {
+  display: flex;
+  min-height: 48px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 16px;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.chat-replay-section summary::-webkit-details-marker,
+.transcript-section summary::-webkit-details-marker {
+  display: none;
+}
+
+.chat-replay-section summary::before,
+.transcript-section summary::before {
+  content: "+";
+  display: inline-grid;
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  place-items: center;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--accent);
+  font-weight: 700;
+}
+
+.chat-replay-section[open] summary,
+.transcript-section[open] summary {
+  border-bottom: 1px solid var(--line);
+}
+
+.chat-replay-section[open] summary::before,
+.transcript-section[open] summary::before {
+  content: "-";
+}
+
+.chat-replay-section summary span:first-child,
+.transcript-section summary span:first-child {
+  margin-right: auto;
+}
+
+.chat-replay-section summary span:last-child,
+.transcript-section summary span:last-child {
+  color: var(--muted);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.chat-replay-list,
+.transcript-list {
+  max-height: min(65vh, 560px);
+  overflow: auto;
+  margin: 0;
+  padding: 8px 0;
+  list-style: none;
+}
+
+.chat-replay-message,
+.transcript-block {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 10px;
+  padding: 8px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.chat-replay-time,
+.transcript-time {
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.82rem;
+  text-decoration: none;
+}
+
+.chat-replay-time:hover,
+.transcript-time:hover {
+  text-decoration: underline;
+}
+
+.chat-replay-body {
+  min-width: 0;
+}
+
+.chat-replay-body strong {
+  display: block;
+  margin-bottom: 2px;
+  color: var(--text);
+  font-size: 0.88rem;
+}
+
+.chat-replay-platform {
+  display: inline-flex;
+  margin-left: 6px;
+  color: var(--muted);
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.chat-replay-body p {
+  margin: 0;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+  font-size: 0.9rem;
+}
+
+.transcript-block p {
+  margin: 0;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+  font-size: 0.95rem;
+}
+
 iframe {
   display: block;
   width: 100%;
