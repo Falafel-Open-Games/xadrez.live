@@ -156,6 +156,30 @@ def game_notes(extra):
     return "\n".join(notes)
 
 
+def thumbnail_notes(extra):
+    raw_notes = extra.get("thumbnail_notes")
+    if not isinstance(raw_notes, list):
+        return ""
+
+    notes = []
+    for raw_note in raw_notes:
+        note = str(raw_note).strip()
+        if note:
+            notes.append(f"- {note}")
+
+    return "\n".join(notes)
+
+
+def side_notebook_instructions(extra):
+    notes = thumbnail_notes(extra)
+    if notes:
+        return f"""side notebook bullets:
+{notes}
+Use exactly these side notebook bullets. Do not create, infer, rewrite, translate, or add chess notes."""
+
+    return """side notebook notes: create 2 to 4 very short Portuguese bullet notes grounded in the rapid game notes above; each bullet must be 2 to 5 words, with no full sentences and no line wrapping; use concrete chess details from the game notes, such as pieces, plans, blunders, checks, mate threats, openings, time trouble, or the actual game turning point; avoid generic coaching slogans or motivational phrases"""
+
+
 def post_data_block(extra):
     require_values(extra, ["duration", "rapid", "puzzles"])
 
@@ -175,7 +199,7 @@ abertura: {opening}
 session context: {value(extra, "description")}
 rapid game notes:
 {game_notes(extra)}
-side notebook notes: create 2 to 4 very short Portuguese bullet notes grounded in the rapid game notes above; each bullet must be 2 to 5 words, with no full sentences and no line wrapping; use concrete chess details from the game notes, such as pieces, plans, blunders, checks, mate threats, openings, time trouble, or the actual game turning point; avoid generic coaching slogans or motivational phrases"""
+{side_notebook_instructions(extra)}"""
 
 
 def pre_data_block(extra):
@@ -210,6 +234,7 @@ Keep the hand-drawn chessboard position and notebook layout.
 Use compact handwritten bullet notes only.
 Do not write paragraphs, long sentences, explanations, or diary-style prose in the side notebook.
 For post-session thumbnails, base the bullets on the rapid game notes, not on generic chess advice.
+If explicit side notebook bullets are provided, use them exactly and do not infer alternatives from the rapid game notes.
 If there is not enough space, prefer fewer shorter bullets over more text.
 The side notebook notes should look like small labels, not a written recap.
 
