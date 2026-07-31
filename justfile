@@ -44,8 +44,8 @@ refresh-youtube-replay-data RECENT="5":
 
 refresh-replay-data RECENT="5":
   @python3 scripts/import_youtube_chat_replays.py --cache-dir /tmp/xadrez-chat --latest {{RECENT}} --download
-  @python3 scripts/import_twitch_chat_replays.py --cache-dir /tmp/xadrez-twitch-chat --latest {{RECENT}}
-  @if [ -n "${RESTREAM_ACCESS_TOKEN:-}${RESTREAM_REFRESH_TOKEN:-}" ]; then python3 scripts/import_restream_chat_replays.py --cache-dir /tmp/xadrez-restream-chat --latest {{RECENT}}; else echo "Restream token not set; keeping YouTube-only chat fallback"; fi
+  @python3 scripts/import_twitch_chat_replays.py --cache-dir /tmp/xadrez-twitch-chat --playlist-end {{RECENT}}
+  @python3 scripts/import_restream_chat_replays.py --cache-dir /tmp/xadrez-restream-chat --latest {{RECENT}} || echo "Restream chat unavailable; keeping YouTube-only chat fallback"
   @python3 scripts/import_youtube_transcripts.py --cache-dir /tmp/xadrez-transcripts --latest {{RECENT}}
 
 update-supporters:

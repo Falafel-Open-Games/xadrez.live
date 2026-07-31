@@ -126,8 +126,10 @@ def session_youtube_ids(min_session: int) -> list[dict[str, str]]:
             continue
 
         youtube_id = str(extra.get("youtube_video_id") or "").strip()
-        status_tone = str(extra.get("status_tone") or "").strip()
-        if youtube_id and youtube_id != "REPLACE_WITH_YOUTUBE_VIDEO_ID" and status_tone == "ended":
+        status = str(extra.get("status") or "").strip().lower()
+        status_tone = str(extra.get("status_tone") or "").strip().lower()
+        is_ended = status == "encerrada" or status_tone in {"ended", "completed"}
+        if youtube_id and youtube_id != "REPLACE_WITH_YOUTUBE_VIDEO_ID" and is_ended:
             sessions.append(
                 {
                     "session_number": path.stem,
