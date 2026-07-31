@@ -103,8 +103,12 @@
   });
 
   document.querySelectorAll("[data-replay-tabs]").forEach(function (section) {
-    var merged = section.querySelector('[data-replay-panel="merged"]');
-    if (merged) {
+    function sortMergedPanel() {
+      var merged = section.querySelector('[data-replay-panel="merged"]');
+      if (!merged) {
+        return;
+      }
+
       Array.from(merged.children)
         .sort(function (left, right) {
           var leftSeconds = Number(left.dataset.seconds || 0);
@@ -118,19 +122,111 @@
         });
     }
 
+    function activeReplayTab() {
+      var activeTab = section.querySelector("[data-replay-tab].is-active");
+      return activeTab ? activeTab.dataset.replayTab : null;
+    }
+
+    function updateReplayPanels() {
+      var target = activeReplayTab();
+      panels.forEach(function (panel) {
+        panel.classList.toggle("is-active", panel.dataset.replayPanel === target);
+      });
+      section.querySelectorAll(".transcript-source-tabs").forEach(function (tabs) {
+        tabs.hidden = target === "chat";
+      });
+    }
+
+    function transcriptSources() {
+      var sources = {};
+      section.querySelectorAll("[data-transcript-source-data]").forEach(function (script) {
+        try {
+          sources[script.dataset.transcriptSourceData] = {
+            label: script.dataset.transcriptSourceLabel,
+            blocks: JSON.parse(script.textContent || "[]"),
+          };
+        } catch (error) {
+          sources[script.dataset.transcriptSourceData] = { label: "Transcrição", blocks: [] };
+        }
+      });
+      return sources;
+    }
+
+    function createTranscriptItem(block, label, merged) {
+      var item = document.createElement("li");
+      item.className = "replay-item replay-item-transcript";
+      item.dataset.transcriptGenerated = "true";
+      item.dataset.seconds = String(block.seconds || 0);
+      item.dataset.order = "1";
+
+      var time = document.createElement("a");
+      time.className = "replay-time";
+      time.href = section.dataset.youtubeUrl + "&t=" + (block.seconds || 0) + "s";
+      time.rel = "noopener noreferrer";
+      time.textContent = block.time || "0:00";
+
+      var body = document.createElement("div");
+      body.className = "replay-body";
+      if (merged) {
+        var title = document.createElement("strong");
+        var platform = document.createElement("span");
+        platform.className = "chat-replay-platform";
+        platform.textContent = label;
+        title.append("Transcrição ", platform);
+        body.appendChild(title);
+      }
+
+      var text = document.createElement("p");
+      text.textContent = block.text || "";
+      body.appendChild(text);
+      item.append(time, body);
+      return item;
+    }
+
+    function setTranscriptSource(sourceId) {
+      var source = sources[sourceId];
+      if (!source) {
+        return;
+      }
+
+      section.querySelectorAll("[data-transcript-list]").forEach(function (list) {
+        list.querySelectorAll("[data-transcript-generated]").forEach(function (item) {
+          item.remove();
+        });
+        source.blocks.forEach(function (block) {
+          list.appendChild(createTranscriptItem(block, source.label, list.dataset.transcriptList === "merged"));
+        });
+        list.dataset.transcriptSourceActive = sourceId;
+      });
+      sortMergedPanel();
+    }
+
+    var sources = transcriptSources();
     var tabs = Array.from(section.querySelectorAll("[data-replay-tab]"));
     var panels = Array.from(section.querySelectorAll("[data-replay-panel]"));
+    sortMergedPanel();
+    updateReplayPanels();
+
     tabs.forEach(function (tab) {
       tab.addEventListener("click", function () {
-        var target = tab.dataset.replayTab;
         tabs.forEach(function (candidate) {
           var active = candidate === tab;
           candidate.classList.toggle("is-active", active);
           candidate.setAttribute("aria-selected", active ? "true" : "false");
         });
-        panels.forEach(function (panel) {
-          panel.classList.toggle("is-active", panel.dataset.replayPanel === target);
+        updateReplayPanels();
+      });
+    });
+
+    section.querySelectorAll("[data-transcript-source]").forEach(function (button) {
+      button.addEventListener("click", function () {
+        section.querySelectorAll("[data-transcript-source]").forEach(function (candidate) {
+          var active = candidate === button;
+          candidate.classList.toggle("is-active", active);
+          candidate.setAttribute("aria-selected", active ? "true" : "false");
         });
+        setTranscriptSource(button.dataset.transcriptSource);
+        updateReplayPanels();
       });
     });
   });

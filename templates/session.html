@@ -25,11 +25,62 @@
 {% set youtube_url = "https://www.youtube.com/watch?v=" ~ video_id %}
 {% set chat_replay_path = "data/chat_replays/" ~ page.extra.session_number ~ ".json" %}
 {% set chat_replay = load_data(path=chat_replay_path, required=false) %}
-{% set transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".json" %}
-{% set transcript = load_data(path=transcript_path, required=false) %}
+{% set youtube_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".youtube.json" %}
+{% set whisper_cli_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".whisper-cli.json" %}
+{% set openai_mini_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".openai-gpt-4o-mini-transcribe.json" %}
+{% set openai_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".openai-gpt-4o-transcribe.json" %}
+{% set openai_whisper_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".openai-whisper-1.json" %}
+{% set legacy_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".json" %}
+{% set youtube_transcript = load_data(path=youtube_transcript_path, required=false) %}
+{% set whisper_cli_transcript = load_data(path=whisper_cli_transcript_path, required=false) %}
+{% set openai_mini_transcript = load_data(path=openai_mini_transcript_path, required=false) %}
+{% set openai_transcript = load_data(path=openai_transcript_path, required=false) %}
+{% set openai_whisper_transcript = load_data(path=openai_whisper_transcript_path, required=false) %}
+{% set legacy_transcript = load_data(path=legacy_transcript_path, required=false) %}
+{% set show_youtube_transcript = youtube_transcript and youtube_transcript.blocks %}
+{% set show_whisper_cli_transcript = whisper_cli_transcript and whisper_cli_transcript.blocks %}
+{% set show_openai_mini_transcript = openai_mini_transcript and openai_mini_transcript.blocks %}
+{% set show_openai_transcript = openai_transcript and openai_transcript.blocks %}
+{% set show_openai_whisper_transcript = openai_whisper_transcript and openai_whisper_transcript.blocks %}
+{% set show_legacy_transcript = legacy_transcript and legacy_transcript.blocks %}
+{% set transcript_source_count = 0 %}
+{% if show_youtube_transcript %}{% set transcript_source_count = transcript_source_count + 1 %}{% endif %}
+{% if show_whisper_cli_transcript %}{% set transcript_source_count = transcript_source_count + 1 %}{% endif %}
+{% if show_openai_mini_transcript %}{% set transcript_source_count = transcript_source_count + 1 %}{% endif %}
+{% if show_openai_transcript %}{% set transcript_source_count = transcript_source_count + 1 %}{% endif %}
+{% if show_openai_whisper_transcript %}{% set transcript_source_count = transcript_source_count + 1 %}{% endif %}
+{% if show_legacy_transcript %}{% set transcript_source_count = transcript_source_count + 1 %}{% endif %}
+{% set transcript = openai_mini_transcript %}
+{% set transcript_source_id = "openai-mini" %}
+{% set transcript_source_label = "GPT-4o mini" %}
+{% if not show_openai_mini_transcript and show_youtube_transcript %}
+  {% set transcript = youtube_transcript %}
+  {% set transcript_source_id = "youtube" %}
+  {% set transcript_source_label = "YouTube" %}
+{% endif %}
+{% if not show_openai_mini_transcript and not show_youtube_transcript and show_whisper_cli_transcript %}
+  {% set transcript = whisper_cli_transcript %}
+  {% set transcript_source_id = "whisper-cli" %}
+  {% set transcript_source_label = "Whisper CLI" %}
+{% endif %}
+{% if not show_openai_mini_transcript and not show_youtube_transcript and not show_whisper_cli_transcript and show_openai_transcript %}
+  {% set transcript = openai_transcript %}
+  {% set transcript_source_id = "openai" %}
+  {% set transcript_source_label = "GPT-4o" %}
+{% endif %}
+{% if not show_openai_mini_transcript and not show_youtube_transcript and not show_whisper_cli_transcript and not show_openai_transcript and show_openai_whisper_transcript %}
+  {% set transcript = openai_whisper_transcript %}
+  {% set transcript_source_id = "openai-whisper" %}
+  {% set transcript_source_label = "Whisper API" %}
+{% endif %}
+{% if not show_openai_mini_transcript and not show_youtube_transcript and not show_whisper_cli_transcript and not show_openai_transcript and not show_openai_whisper_transcript and show_legacy_transcript %}
+  {% set transcript = legacy_transcript %}
+  {% set transcript_source_id = "legacy" %}
+  {% set transcript_source_label = "Legado" %}
+{% endif %}
 {% set show_live_chat = page.extra.status_tone != "ended" %}
 {% set show_chat_replay = page.extra.status_tone == "ended" and chat_replay and chat_replay.messages %}
-{% set show_transcript = page.extra.status_tone == "ended" and transcript and transcript.blocks %}
+{% set show_transcript = page.extra.status_tone == "ended" and transcript_source_count > 0 %}
 <article class="session">
   <div class="session-kicker">{{ config.title }}</div>
   <h1>Sessão #{{ page.extra.session_number }}</h1>
@@ -74,7 +125,7 @@
   </section>
 
   {% if show_chat_replay or show_transcript %}
-    <section class="replay-section" data-replay-tabs>
+    <section class="replay-section" data-replay-tabs data-youtube-url="{{ youtube_url }}">
       <div class="replay-header">
         <h2>Replay da sessão</h2>
         {% if show_chat_replay and show_transcript %}
@@ -86,8 +137,31 @@
         {% endif %}
       </div>
 
+      {% if show_transcript and transcript_source_count > 1 %}
+        <div class="transcript-source-tabs" role="tablist" aria-label="Fonte da transcrição">
+          {% if show_openai_mini_transcript %}
+            <button class="transcript-source-tab is-active" type="button" data-transcript-source="openai-mini" aria-selected="true">GPT-4o mini</button>
+          {% endif %}
+          {% if show_youtube_transcript %}
+            <button class="transcript-source-tab{% if not show_openai_mini_transcript %} is-active{% endif %}" type="button" data-transcript-source="youtube" aria-selected="{% if not show_openai_mini_transcript %}true{% else %}false{% endif %}">YouTube</button>
+          {% endif %}
+          {% if show_whisper_cli_transcript %}
+            <button class="transcript-source-tab{% if not show_openai_mini_transcript and not show_youtube_transcript %} is-active{% endif %}" type="button" data-transcript-source="whisper-cli" aria-selected="{% if not show_openai_mini_transcript and not show_youtube_transcript %}true{% else %}false{% endif %}">Whisper CLI</button>
+          {% endif %}
+          {% if show_openai_transcript %}
+            <button class="transcript-source-tab{% if not show_openai_mini_transcript and not show_youtube_transcript and not show_whisper_cli_transcript %} is-active{% endif %}" type="button" data-transcript-source="openai" aria-selected="{% if not show_openai_mini_transcript and not show_youtube_transcript and not show_whisper_cli_transcript %}true{% else %}false{% endif %}">GPT-4o</button>
+          {% endif %}
+          {% if show_openai_whisper_transcript %}
+            <button class="transcript-source-tab{% if not show_openai_mini_transcript and not show_youtube_transcript and not show_whisper_cli_transcript and not show_openai_transcript %} is-active{% endif %}" type="button" data-transcript-source="openai-whisper" aria-selected="{% if not show_openai_mini_transcript and not show_youtube_transcript and not show_whisper_cli_transcript and not show_openai_transcript %}true{% else %}false{% endif %}">Whisper API</button>
+          {% endif %}
+          {% if show_legacy_transcript %}
+            <button class="transcript-source-tab{% if not show_openai_mini_transcript and not show_youtube_transcript and not show_whisper_cli_transcript and not show_openai_transcript and not show_openai_whisper_transcript %} is-active{% endif %}" type="button" data-transcript-source="legacy" aria-selected="{% if not show_openai_mini_transcript and not show_youtube_transcript and not show_whisper_cli_transcript and not show_openai_transcript and not show_openai_whisper_transcript %}true{% else %}false{% endif %}">Legado</button>
+          {% endif %}
+        </div>
+      {% endif %}
+
       {% if show_chat_replay and show_transcript %}
-        <ol class="replay-list replay-panel" data-replay-panel="merged">
+        <ol class="replay-list replay-panel" data-replay-panel="merged" data-transcript-list="merged" data-transcript-source-active="{{ transcript_source_id }}">
           {% for message in chat_replay.messages %}
             <li class="replay-item replay-item-chat" data-seconds="{{ message.seconds }}" data-order="0">
               <a class="replay-time" href="{{ youtube_url }}&t={{ message.seconds }}s" rel="noopener noreferrer">{{ message.time }}</a>
@@ -103,10 +177,10 @@
             </li>
           {% endfor %}
           {% for block in transcript.blocks %}
-            <li class="replay-item replay-item-transcript" data-seconds="{{ block.seconds }}" data-order="1">
+            <li class="replay-item replay-item-transcript" data-transcript-generated data-seconds="{{ block.seconds }}" data-order="1">
               <a class="replay-time" href="{{ youtube_url }}&t={{ block.seconds }}s" rel="noopener noreferrer">{{ block.time }}</a>
               <div class="replay-body">
-                <strong>Transcrição</strong>
+                <strong>Transcrição <span class="chat-replay-platform">{{ transcript_source_label }}</span></strong>
                 <p>{{ block.text }}</p>
               </div>
             </li>
@@ -134,9 +208,9 @@
       {% endif %}
 
       {% if show_transcript %}
-        <ol class="replay-list replay-panel{% if not show_chat_replay %} is-active{% endif %}" data-replay-panel="transcript">
+        <ol class="replay-list replay-panel{% if not show_chat_replay %} is-active{% endif %}" data-replay-panel="transcript" data-transcript-list="transcript" data-transcript-source-active="{{ transcript_source_id }}">
           {% for block in transcript.blocks %}
-            <li class="replay-item replay-item-transcript">
+            <li class="replay-item replay-item-transcript" data-transcript-generated data-seconds="{{ block.seconds }}" data-order="1">
               <a class="replay-time" href="{{ youtube_url }}&t={{ block.seconds }}s" rel="noopener noreferrer">{{ block.time }}</a>
               <div class="replay-body">
                 <p>{{ block.text }}</p>
@@ -144,6 +218,27 @@
             </li>
           {% endfor %}
         </ol>
+      {% endif %}
+
+      {% if show_transcript and transcript_source_count > 1 %}
+        {% if show_youtube_transcript %}
+          <script type="application/json" data-transcript-source-data="youtube" data-transcript-source-label="YouTube">{{ youtube_transcript.blocks | json_encode | safe }}</script>
+        {% endif %}
+        {% if show_whisper_cli_transcript %}
+          <script type="application/json" data-transcript-source-data="whisper-cli" data-transcript-source-label="Whisper CLI">{{ whisper_cli_transcript.blocks | json_encode | safe }}</script>
+        {% endif %}
+        {% if show_openai_mini_transcript %}
+          <script type="application/json" data-transcript-source-data="openai-mini" data-transcript-source-label="GPT-4o mini">{{ openai_mini_transcript.blocks | json_encode | safe }}</script>
+        {% endif %}
+        {% if show_openai_transcript %}
+          <script type="application/json" data-transcript-source-data="openai" data-transcript-source-label="GPT-4o">{{ openai_transcript.blocks | json_encode | safe }}</script>
+        {% endif %}
+        {% if show_openai_whisper_transcript %}
+          <script type="application/json" data-transcript-source-data="openai-whisper" data-transcript-source-label="Whisper API">{{ openai_whisper_transcript.blocks | json_encode | safe }}</script>
+        {% endif %}
+        {% if show_legacy_transcript %}
+          <script type="application/json" data-transcript-source-data="legacy" data-transcript-source-label="Legado">{{ legacy_transcript.blocks | json_encode | safe }}</script>
+        {% endif %}
       {% endif %}
     </section>
   {% endif %}

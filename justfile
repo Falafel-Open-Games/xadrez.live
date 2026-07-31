@@ -26,6 +26,15 @@ import-youtube-chat-replays CACHE_DIR="/tmp/xadrez-chat" EXTRA="":
 import-youtube-transcripts CACHE_DIR="/tmp/xadrez-transcripts" EXTRA="":
   @python3 scripts/import_youtube_transcripts.py --cache-dir {{CACHE_DIR}} {{EXTRA}}
 
+import-whisper-transcript SESSION EXTRA="":
+  @python3 scripts/import_whisper_transcripts.py {{EXTRA}} {{SESSION}}
+
+import-openai-transcript SESSION EXTRA="":
+  @python3 scripts/import_openai_transcripts.py {{EXTRA}} {{SESSION}}
+
+refresh-openai-transcripts RECENT="1":
+  @python3 scripts/import_openai_transcripts.py --latest {{RECENT}}
+
 import-restream-chat-replays CACHE_DIR="/tmp/xadrez-restream-chat" EXTRA="":
   @python3 scripts/import_restream_chat_replays.py --cache-dir {{CACHE_DIR}} {{EXTRA}}
 
@@ -47,6 +56,7 @@ refresh-replay-data RECENT="5":
   @python3 scripts/import_twitch_chat_replays.py --cache-dir /tmp/xadrez-twitch-chat --playlist-end {{RECENT}}
   @python3 scripts/import_restream_chat_replays.py --cache-dir /tmp/xadrez-restream-chat --latest {{RECENT}} || echo "Restream chat unavailable; keeping YouTube-only chat fallback"
   @python3 scripts/import_youtube_transcripts.py --cache-dir /tmp/xadrez-transcripts --latest {{RECENT}}
+  @python3 scripts/import_openai_transcripts.py --latest 1 || echo "OpenAI transcript unavailable; keeping existing transcript fallback"
 
 update-supporters:
   @python3 scripts/update_supporters.py

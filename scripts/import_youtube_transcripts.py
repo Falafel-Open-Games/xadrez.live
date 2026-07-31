@@ -212,11 +212,12 @@ def import_transcripts(
             unavailable += 1
             continue
 
-        output_path = output_dir / f"{session_number}.json"
+        output_path = output_dir / f"{session_number}.youtube.json"
         output = {
             "session_number": session_number,
             "youtube_video_id": youtube_id,
             "language": language,
+            "source": "youtube",
             "block_count": len(blocks),
             "blocks": blocks,
         }

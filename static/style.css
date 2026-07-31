@@ -261,6 +261,35 @@ h1 {
   color: #111;
 }
 
+.transcript-source-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  padding: 0 14px 10px;
+}
+
+.transcript-source-tabs[hidden] {
+  display: none;
+}
+
+.transcript-source-tab {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--muted);
+  padding: 6px 10px;
+  font: inherit;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.transcript-source-tab.is-active {
+  border-color: rgba(245, 158, 11, 0.72);
+  background: rgba(245, 158, 11, 0.16);
+  color: var(--text);
+}
+
 .replay-panel {
   display: none;
 }
