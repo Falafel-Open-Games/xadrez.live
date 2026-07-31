@@ -196,15 +196,20 @@ def import_transcripts(
 ) -> int:
     sessions = selected_sessions(session_youtube_ids(), selected_numbers, latest)
     output_dir.mkdir(parents=True, exist_ok=True)
-    imported = 0
+    updated = 0
+    unchanged = 0
+    unavailable = 0
 
     for youtube_id, session_number, _ in sessions:
         transcript_path = download_transcript(youtube_id, cache_dir, language, yt_dlp, force)
         if not transcript_path:
+            unavailable += 1
             continue
 
         blocks = parse_transcript(transcript_path, max_block_seconds)
         if not blocks:
+            print(f"{session_number}: no parseable transcript blocks in {transcript_path}")
+            unavailable += 1
             continue
 
         output_path = output_dir / f"{session_number}.json"
@@ -215,11 +220,17 @@ def import_transcripts(
             "block_count": len(blocks),
             "blocks": blocks,
         }
-        output_path.write_text(json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        print(f"{session_number}: imported {len(blocks)} transcript blocks from {transcript_path}")
-        imported += 1
+        content = json.dumps(output, ensure_ascii=False, indent=2) + "\n"
+        if output_path.exists() and output_path.read_text(encoding="utf-8") == content:
+            print(f"{session_number}: unchanged {len(blocks)} transcript blocks from {transcript_path}")
+            unchanged += 1
+        else:
+            output_path.write_text(content, encoding="utf-8")
+            print(f"{session_number}: updated {len(blocks)} transcript blocks from {transcript_path}")
+            updated += 1
 
-    return imported
+    print(f"summary: {updated} updated, {unchanged} unchanged, {unavailable} unavailable")
+    return updated
 
 
 def parse_args() -> argparse.Namespace:
@@ -240,7 +251,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     selected_numbers = set(args.sessions) if args.sessions else None
-    imported = import_transcripts(
+    updated = import_transcripts(
         cache_dir=args.cache_dir,
         output_dir=args.output_dir,
         selected_numbers=selected_numbers,
@@ -250,7 +261,7 @@ def main() -> int:
         max_block_seconds=args.max_block_seconds,
         latest=args.latest,
     )
-    print(f"imported: {imported}")
+    print(f"updated: {updated}")
     return 0
 
 

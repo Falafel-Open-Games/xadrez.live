@@ -199,6 +199,15 @@ def format_time(offset_ms: int) -> str:
     return f"{minutes}:{seconds:02d}"
 
 
+def write_json_if_changed(path: Path, data: dict) -> bool:
+    content = json.dumps(data, ensure_ascii=False, indent=2) + "\n"
+    if path.exists() and path.read_text(encoding="utf-8") == content:
+        return False
+
+    path.write_text(content, encoding="utf-8")
+    return True
+
+
 def import_replays(
     cache_dir: Path,
     output_dir: Path,
@@ -210,17 +219,24 @@ def import_replays(
 ) -> int:
     sessions = selected_sessions(session_youtube_ids(), selected_numbers, latest)
     output_dir.mkdir(parents=True, exist_ok=True)
-    imported = 0
+    updated = 0
+    unchanged = 0
+    unavailable = 0
 
     for youtube_id, session_number, _ in sessions:
         chat_path = download_chat(youtube_id, cache_dir, yt_dlp, force) if download else cache_dir / f"{youtube_id}.live_chat.json"
         if chat_path is None:
+            unavailable += 1
             continue
         if not chat_path.exists():
+            print(f"{session_number}: no cached live_chat replay file")
+            unavailable += 1
             continue
 
         messages = parse_chat(chat_path)
         if not messages:
+            print(f"{session_number}: no parseable live_chat messages in {chat_path}")
+            unavailable += 1
             continue
 
         output_path = output_dir / f"{session_number}.json"
@@ -230,11 +246,15 @@ def import_replays(
             "message_count": len(messages),
             "messages": messages,
         }
-        output_path.write_text(json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
-        print(f"{session_number}: imported {len(messages)} messages from {chat_path}")
-        imported += 1
+        if write_json_if_changed(output_path, output):
+            print(f"{session_number}: updated {len(messages)} messages from {chat_path}")
+            updated += 1
+        else:
+            print(f"{session_number}: unchanged {len(messages)} messages from {chat_path}")
+            unchanged += 1
 
-    return imported
+    print(f"summary: {updated} updated, {unchanged} unchanged, {unavailable} unavailable")
+    return updated
 
 
 def parse_args() -> argparse.Namespace:
@@ -254,7 +274,7 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     args = parse_args()
     selected_numbers = set(args.sessions) if args.sessions else None
-    imported = import_replays(
+    updated = import_replays(
         cache_dir=args.cache_dir,
         output_dir=args.output_dir,
         selected_numbers=selected_numbers,
@@ -263,7 +283,7 @@ def main() -> int:
         force=args.force,
         yt_dlp=args.yt_dlp,
     )
-    print(f"imported: {imported}")
+    print(f"updated: {updated}")
     return 0
 
 
