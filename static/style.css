@@ -202,8 +202,7 @@ h1 {
   min-height: 420px;
 }
 
-.chat-replay-section,
-.transcript-section {
+.replay-section {
   max-width: 960px;
   margin-top: 16px;
   overflow: hidden;
@@ -212,62 +211,65 @@ h1 {
   background: var(--panel);
 }
 
-.chat-replay-section summary,
-.transcript-section summary {
+.replay-header {
   display: flex;
   min-height: 48px;
-  cursor: pointer;
   align-items: center;
   justify-content: space-between;
   gap: 12px;
   padding: 12px 16px;
-  color: var(--text);
-  font-weight: 700;
-}
-
-.chat-replay-section summary::-webkit-details-marker,
-.transcript-section summary::-webkit-details-marker {
-  display: none;
-}
-
-.chat-replay-section summary::before,
-.transcript-section summary::before {
-  content: "+";
-  display: inline-grid;
-  width: 22px;
-  height: 22px;
-  flex: 0 0 auto;
-  place-items: center;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  color: var(--accent);
-  font-weight: 700;
-}
-
-.chat-replay-section[open] summary,
-.transcript-section[open] summary {
   border-bottom: 1px solid var(--line);
 }
 
-.chat-replay-section[open] summary::before,
-.transcript-section[open] summary::before {
-  content: "-";
+.replay-header h2 {
+  margin: 0;
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 700;
 }
 
-.chat-replay-section summary span:first-child,
-.transcript-section summary span:first-child {
-  margin-right: auto;
+.replay-tabs {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.03);
 }
 
-.chat-replay-section summary span:last-child,
-.transcript-section summary span:last-child {
+.replay-tab {
+  min-height: 30px;
+  cursor: pointer;
+  border: 0;
+  border-radius: 6px;
+  padding: 5px 10px;
+  background: transparent;
   color: var(--muted);
+  font: inherit;
   font-size: 0.85rem;
-  font-weight: 600;
+  font-weight: 700;
 }
 
-.chat-replay-list,
-.transcript-list {
+.replay-tab:hover,
+.replay-tab:focus-visible {
+  color: var(--accent);
+}
+
+.replay-tab.is-active {
+  background: var(--accent);
+  color: #111;
+}
+
+.replay-panel {
+  display: none;
+}
+
+.replay-panel.is-active {
+  display: block;
+}
+
+.replay-list {
   max-height: min(65vh, 560px);
   overflow: auto;
   margin: 0;
@@ -275,8 +277,7 @@ h1 {
   list-style: none;
 }
 
-.chat-replay-message,
-.transcript-block {
+.replay-item {
   display: grid;
   grid-template-columns: 58px minmax(0, 1fr);
   gap: 10px;
@@ -284,24 +285,38 @@ h1 {
   border-bottom: 1px solid rgba(255, 255, 255, 0.04);
 }
 
-.chat-replay-time,
-.transcript-time {
+.replay-item-transcript {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.replay-panel[data-replay-panel="merged"] .replay-item-chat {
+  margin: 4px 10px;
+  border: 1px solid rgba(245, 158, 11, 0.42);
+  border-left: 4px solid var(--accent);
+  border-radius: 6px;
+  background: rgba(245, 158, 11, 0.08);
+}
+
+.replay-panel[data-replay-panel="merged"] .replay-item-chat + .replay-item-chat {
+  margin-top: 6px;
+}
+
+.replay-time {
   color: var(--accent);
   font-variant-numeric: tabular-nums;
   font-size: 0.82rem;
   text-decoration: none;
 }
 
-.chat-replay-time:hover,
-.transcript-time:hover {
+.replay-time:hover {
   text-decoration: underline;
 }
 
-.chat-replay-body {
+.replay-body {
   min-width: 0;
 }
 
-.chat-replay-body strong {
+.replay-body strong {
   display: block;
   margin-bottom: 2px;
   color: var(--text);
@@ -316,18 +331,11 @@ h1 {
   font-weight: 600;
 }
 
-.chat-replay-body p {
+.replay-body p {
   margin: 0;
   color: var(--muted);
   overflow-wrap: anywhere;
-  font-size: 0.9rem;
-}
-
-.transcript-block p {
-  margin: 0;
-  color: var(--muted);
-  overflow-wrap: anywhere;
-  font-size: 0.95rem;
+  font-size: 0.92rem;
 }
 
 iframe {

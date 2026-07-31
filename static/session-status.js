@@ -101,4 +101,37 @@
       button.hidden = true;
     });
   });
+
+  document.querySelectorAll("[data-replay-tabs]").forEach(function (section) {
+    var merged = section.querySelector('[data-replay-panel="merged"]');
+    if (merged) {
+      Array.from(merged.children)
+        .sort(function (left, right) {
+          var leftSeconds = Number(left.dataset.seconds || 0);
+          var rightSeconds = Number(right.dataset.seconds || 0);
+          var leftOrder = Number(left.dataset.order || 0);
+          var rightOrder = Number(right.dataset.order || 0);
+          return leftSeconds - rightSeconds || leftOrder - rightOrder;
+        })
+        .forEach(function (item) {
+          merged.appendChild(item);
+        });
+    }
+
+    var tabs = Array.from(section.querySelectorAll("[data-replay-tab]"));
+    var panels = Array.from(section.querySelectorAll("[data-replay-panel]"));
+    tabs.forEach(function (tab) {
+      tab.addEventListener("click", function () {
+        var target = tab.dataset.replayTab;
+        tabs.forEach(function (candidate) {
+          var active = candidate === tab;
+          candidate.classList.toggle("is-active", active);
+          candidate.setAttribute("aria-selected", active ? "true" : "false");
+        });
+        panels.forEach(function (panel) {
+          panel.classList.toggle("is-active", panel.dataset.replayPanel === target);
+        });
+      });
+    });
+  });
 })();

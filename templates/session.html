@@ -73,46 +73,79 @@
     {% endif %}
   </section>
 
-  {% if show_chat_replay %}
-    <details class="chat-replay-section">
-      <summary>
-        <span>Chat replay</span>
-        <span>{{ chat_replay.message_count }} mensagens</span>
-      </summary>
-      <ol class="chat-replay-list">
-        {% for message in chat_replay.messages %}
-          <li class="chat-replay-message">
-            <a class="chat-replay-time" href="{{ youtube_url }}&t={{ message.seconds }}s" rel="noopener noreferrer">{{ message.time }}</a>
-            <div class="chat-replay-body">
-              <strong>
-                {{ message.author }}
-                {% if message.platform is defined and message.platform %}
-                  <span class="chat-replay-platform">{{ message.platform }}</span>
-                {% endif %}
-              </strong>
-              <p>{{ message.text }}</p>
-            </div>
-          </li>
-        {% endfor %}
-      </ol>
-    </details>
-  {% endif %}
+  {% if show_chat_replay or show_transcript %}
+    <section class="replay-section" data-replay-tabs>
+      <div class="replay-header">
+        <h2>Replay da sessão</h2>
+        {% if show_chat_replay and show_transcript %}
+          <div class="replay-tabs" role="tablist" aria-label="Modo do replay">
+            <button class="replay-tab is-active" type="button" data-replay-tab="chat" role="tab" aria-selected="true">Chat</button>
+            <button class="replay-tab" type="button" data-replay-tab="merged" role="tab" aria-selected="false">Mesclado</button>
+            <button class="replay-tab" type="button" data-replay-tab="transcript" role="tab" aria-selected="false">Transcrição</button>
+          </div>
+        {% endif %}
+      </div>
 
-  {% if show_transcript %}
-    <details class="transcript-section">
-      <summary>
-        <span>Transcrição automática</span>
-        <span>{{ transcript.block_count }} trechos</span>
-      </summary>
-      <ol class="transcript-list">
-        {% for block in transcript.blocks %}
-          <li class="transcript-block">
-            <a class="transcript-time" href="{{ youtube_url }}&t={{ block.seconds }}s" rel="noopener noreferrer">{{ block.time }}</a>
-            <p>{{ block.text }}</p>
-          </li>
-        {% endfor %}
-      </ol>
-    </details>
+      {% if show_chat_replay and show_transcript %}
+        <ol class="replay-list replay-panel" data-replay-panel="merged">
+          {% for message in chat_replay.messages %}
+            <li class="replay-item replay-item-chat" data-seconds="{{ message.seconds }}" data-order="0">
+              <a class="replay-time" href="{{ youtube_url }}&t={{ message.seconds }}s" rel="noopener noreferrer">{{ message.time }}</a>
+              <div class="replay-body">
+                <strong>
+                  {{ message.author }}
+                  {% if message.platform is defined and message.platform %}
+                    <span class="chat-replay-platform">{{ message.platform }}</span>
+                  {% endif %}
+                </strong>
+                <p>{{ message.text }}</p>
+              </div>
+            </li>
+          {% endfor %}
+          {% for block in transcript.blocks %}
+            <li class="replay-item replay-item-transcript" data-seconds="{{ block.seconds }}" data-order="1">
+              <a class="replay-time" href="{{ youtube_url }}&t={{ block.seconds }}s" rel="noopener noreferrer">{{ block.time }}</a>
+              <div class="replay-body">
+                <strong>Transcrição</strong>
+                <p>{{ block.text }}</p>
+              </div>
+            </li>
+          {% endfor %}
+        </ol>
+      {% endif %}
+
+      {% if show_chat_replay %}
+        <ol class="replay-list replay-panel is-active" data-replay-panel="chat">
+          {% for message in chat_replay.messages %}
+            <li class="replay-item replay-item-chat">
+              <a class="replay-time" href="{{ youtube_url }}&t={{ message.seconds }}s" rel="noopener noreferrer">{{ message.time }}</a>
+              <div class="replay-body">
+                <strong>
+                  {{ message.author }}
+                  {% if message.platform is defined and message.platform %}
+                    <span class="chat-replay-platform">{{ message.platform }}</span>
+                  {% endif %}
+                </strong>
+                <p>{{ message.text }}</p>
+              </div>
+            </li>
+          {% endfor %}
+        </ol>
+      {% endif %}
+
+      {% if show_transcript %}
+        <ol class="replay-list replay-panel{% if not show_chat_replay %} is-active{% endif %}" data-replay-panel="transcript">
+          {% for block in transcript.blocks %}
+            <li class="replay-item replay-item-transcript">
+              <a class="replay-time" href="{{ youtube_url }}&t={{ block.seconds }}s" rel="noopener noreferrer">{{ block.time }}</a>
+              <div class="replay-body">
+                <p>{{ block.text }}</p>
+              </div>
+            </li>
+          {% endfor %}
+        </ol>
+      {% endif %}
+    </section>
   {% endif %}
 
   <section class="session-summary">
