@@ -1,0 +1,43 @@
+{
+  "session_number": "0011",
+  "youtube_video_id": "3krJ6EYu6aI",
+  "language": "pt",
+  "source": "openai-api",
+  "source_id": "openai-gpt-4o-mini-transcribe",
+  "model": "gpt-4o-mini-transcribe",
+  "response_format": "json",
+  "initial_prompt": "Transcrição em português brasileiro de uma live de xadrez. Vocabulário esperado: Lichess, lichess.org, Chess.com, Stockfish, YouTube, Twitch, Restream, GoatCounter, roque, fianchetto, Sicilian Defense, Scandinavian Defense, Puzzle Streak, Puzzle Storm, Puzzle Racer, blunder, rating, mate, xeque, blitz, rapid. Restream é o nome da plataforma de transmissão, não transcreva como restring.",
+  "block_count": 3,
+  "audio_seconds": 145.125,
+  "elapsed_seconds": 7.064,
+  "estimated_cost_usd": 0.002456,
+  "raw_usage": [
+    {
+      "type": "tokens",
+      "total_tokens": 1653,
+      "input_tokens": 1549,
+      "input_token_details": {
+        "text_tokens": 98,
+        "audio_tokens": 1451
+      },
+      "output_tokens": 104
+    }
+  ],
+  "blocks": [
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "text": "Fiz alguma cagada no setup do YouTube, que mesmo após uma hora e tanto de streaming, o botão Go Live não havia sido pressionado."
+    },
+    {
+      "time": "0:45",
+      "seconds": 45,
+      "text": "Então esta live agendada talvez não tenha sido computada, não tenha sido atrelada às aquela que foi transmitida. É isso, galera. Fim do streaming."
+    },
+    {
+      "time": "1:36",
+      "seconds": 96,
+      "text": "Depois eu vou tentar colocar pelo menos no site a gravação correta, se é que houve alguma gravação. Perdão pela sessão 11 aí, foi um desastre."
+    }
+  ]
+}

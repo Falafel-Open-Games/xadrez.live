@@ -124,7 +124,11 @@
 
     function activeReplayTab() {
       var activeTab = section.querySelector("[data-replay-tab].is-active");
-      return activeTab ? activeTab.dataset.replayTab : null;
+      if (activeTab) {
+        return activeTab.dataset.replayTab;
+      }
+      var activePanel = section.querySelector("[data-replay-panel].is-active");
+      return activePanel ? activePanel.dataset.replayPanel : "transcript";
     }
 
     function updateReplayPanels() {

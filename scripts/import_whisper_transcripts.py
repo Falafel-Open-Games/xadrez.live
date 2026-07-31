@@ -5,6 +5,7 @@ import argparse
 import json
 import os
 import re
+import selectors
 import shlex
 import shutil
 import subprocess
@@ -22,8 +23,9 @@ DEFAULT_OUTPUT_DIR = ROOT / "data" / "transcripts"
 DEFAULT_INITIAL_PROMPT = (
     "Transcrição em português brasileiro de uma live de xadrez. "
     "Vocabulário esperado: Lichess, lichess.org, Chess.com, Stockfish, YouTube, Twitch, Restream, GoatCounter, "
-    "roque, fianchetto, Sicilian Defense, Scandinavian Defense, Puzzle Streak, Puzzle Storm, "
+    "roque, fianchetto, Sicilian Defense, Scandinavian Defense, Puzzle do dia, Puzzle Streak, Puzzle Storm, "
     "Puzzle Racer, blunder, rating, mate, xeque, blitz, rapid. "
+    "Frases comuns: puzzle do dia, resposta com a dama, a resposta é, qual é a resposta. "
     "Restream é o nome da plataforma de transmissão, não transcreva como restring."
 )
 AUDIO_EXTENSIONS = {".m4a", ".mp3", ".opus", ".ogg", ".webm", ".wav"}
@@ -89,7 +91,7 @@ def log(message: str) -> None:
     print(message, flush=True)
 
 
-def run_streaming(command: list[str], on_output_line=None) -> int:
+def run_streaming(command: list[str], on_output_line=None, on_heartbeat=None) -> int:
     if on_output_line is None:
         proc = subprocess.Popen(command, cwd=ROOT)
         try:
@@ -109,6 +111,21 @@ def run_streaming(command: list[str], on_output_line=None) -> int:
     )
     try:
         assert proc.stdout is not None
+        selector = selectors.DefaultSelector()
+        selector.register(proc.stdout, selectors.EVENT_READ)
+        while proc.poll() is None:
+            events = selector.select(timeout=1)
+            if not events:
+                if on_heartbeat is not None:
+                    on_heartbeat(proc)
+                continue
+
+            line = proc.stdout.readline()
+            if not line:
+                continue
+            print(line, end="", flush=True)
+            on_output_line(line)
+
         for line in proc.stdout:
             print(line, end="", flush=True)
             on_output_line(line)
@@ -134,15 +151,17 @@ def parse_timestamp_seconds(timestamp: str) -> float | None:
 
 
 class WhisperProgressReporter:
-    def __init__(self, session_number: str, interval_seconds: int) -> None:
+    def __init__(self, session_number: str, progress_interval_seconds: int, heartbeat_interval_seconds: int) -> None:
         self.session_number = session_number
-        self.interval_seconds = max(0, interval_seconds)
+        self.progress_interval_seconds = max(0, progress_interval_seconds)
+        self.heartbeat_interval_seconds = max(0, heartbeat_interval_seconds)
         self.started_at = time.monotonic()
-        self.next_report_seconds = self.interval_seconds
+        self.next_report_seconds = self.progress_interval_seconds
+        self.next_heartbeat_at = self.started_at + self.heartbeat_interval_seconds
         self.latest_audio_seconds = 0.0
 
     def __call__(self, line: str) -> None:
-        if self.interval_seconds <= 0:
+        if self.progress_interval_seconds <= 0:
             return
 
         match = WHISPER_PROGRESS_RE.match(line)
@@ -167,7 +186,34 @@ class WhisperProgressReporter:
             f"({speed:.2f} min de audio/min real)"
         )
         while self.next_report_seconds <= self.latest_audio_seconds:
-            self.next_report_seconds += self.interval_seconds
+            self.next_report_seconds += self.progress_interval_seconds
+
+    def heartbeat(self, proc: subprocess.Popen) -> None:
+        if self.heartbeat_interval_seconds <= 0:
+            return
+
+        now = time.monotonic()
+        if now < self.next_heartbeat_at:
+            return
+
+        elapsed_seconds = max(0.1, now - self.started_at)
+        if self.latest_audio_seconds > 0:
+            audio_minutes = self.latest_audio_seconds / 60
+            elapsed_minutes = elapsed_seconds / 60
+            speed = audio_minutes / elapsed_minutes
+            log(
+                f"{self.session_number}: Whisper still running pid={proc.pid}; "
+                f"latest timestamp {format_time(round(self.latest_audio_seconds))}; "
+                f"{format_time(round(elapsed_seconds))} real time; "
+                f"{speed:.2f} min de audio/min real"
+            )
+        else:
+            log(
+                f"{self.session_number}: Whisper still running pid={proc.pid}; "
+                f"no timestamp output yet after {format_time(round(elapsed_seconds))}"
+            )
+
+        self.next_heartbeat_at = now + self.heartbeat_interval_seconds
 
 
 def cached_audio_path(youtube_id: str, audio_cache_dir: Path) -> Path | None:
@@ -237,6 +283,7 @@ def run_whisper(
     initial_prompt: str,
     verbose: str,
     progress_interval_seconds: int,
+    heartbeat_interval_seconds: int,
     force: bool,
 ) -> Path | None:
     whisper_cache_dir.mkdir(parents=True, exist_ok=True)
@@ -263,8 +310,8 @@ def run_whisper(
     if initial_prompt:
         command.extend(["--initial_prompt", initial_prompt])
     log(f"{session_number}: running Whisper model={model} language={language}")
-    reporter = WhisperProgressReporter(session_number, progress_interval_seconds)
-    if run_streaming(command, on_output_line=reporter) != 0:
+    reporter = WhisperProgressReporter(session_number, progress_interval_seconds, heartbeat_interval_seconds)
+    if run_streaming(command, on_output_line=reporter, on_heartbeat=reporter.heartbeat) != 0:
         print(f"{session_number}: Whisper unavailable", file=sys.stderr)
         return None
 
@@ -353,6 +400,9 @@ def import_whisper_transcripts(
     force: bool,
     max_block_seconds: int,
     progress_interval_seconds: int,
+    heartbeat_interval_seconds: int,
+    source_id: str,
+    output_suffix: str,
 ) -> int:
     sessions = selected_sessions(session_youtube_ids(), selected_numbers, latest)
     ensure_whisper_command(whisper_cmd)
@@ -378,6 +428,7 @@ def import_whisper_transcripts(
             initial_prompt,
             verbose,
             progress_interval_seconds,
+            heartbeat_interval_seconds,
             force,
         )
         if not whisper_path:
@@ -391,13 +442,14 @@ def import_whisper_transcripts(
             unavailable += 1
             continue
 
-        output_path = output_dir / f"{session_number}.whisper-cli.json"
+        output_path = output_dir / f"{session_number}.{output_suffix}.json"
         output = {
             "session_number": session_number,
             "youtube_video_id": youtube_id,
             "language": language,
-            "source": "whisper",
+            "source": source_id,
             "model": model,
+            "whisper_cmd": whisper_cmd,
             "initial_prompt": initial_prompt,
             "block_count": len(blocks),
             "blocks": blocks,
@@ -430,6 +482,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--force", action="store_true")
     parser.add_argument("--max-block-seconds", type=int, default=30)
     parser.add_argument("--progress-interval-seconds", type=int, default=300)
+    parser.add_argument("--heartbeat-interval-seconds", type=int, default=60)
+    parser.add_argument("--source-id", default=os.environ.get("WHISPER_SOURCE_ID", "whisper"))
+    parser.add_argument("--output-suffix", default=os.environ.get("WHISPER_OUTPUT_SUFFIX", "whisper-cli"))
     return parser.parse_args()
 
 
@@ -452,6 +507,9 @@ def main() -> int:
         force=args.force,
         max_block_seconds=args.max_block_seconds,
         progress_interval_seconds=args.progress_interval_seconds,
+        heartbeat_interval_seconds=args.heartbeat_interval_seconds,
+        source_id=args.source_id,
+        output_suffix=args.output_suffix,
     )
     print(f"updated: {updated}")
     return 0

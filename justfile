@@ -29,6 +29,9 @@ import-youtube-transcripts CACHE_DIR="/tmp/xadrez-transcripts" EXTRA="":
 import-whisper-transcript SESSION EXTRA="":
   @python3 scripts/import_whisper_transcripts.py {{EXTRA}} {{SESSION}}
 
+import-faster-whisper-transcript SESSION EXTRA="":
+  @python3 scripts/import_whisper_transcripts.py --source-id faster-whisper --output-suffix faster-whisper --whisper-cache-dir /tmp/xadrez-faster-whisper-cache --whisper-cmd "whisper-ctranslate2 --model turbo --threads 4 --compute_type int8 --batched True --batch_size 8" {{EXTRA}} {{SESSION}}
+
 import-openai-transcript SESSION EXTRA="":
   @python3 scripts/import_openai_transcripts.py {{EXTRA}} {{SESSION}}
 
