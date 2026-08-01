@@ -272,6 +272,14 @@ def runs_text(runs: list[dict]) -> str:
 
         emoji = run.get("emoji")
         if isinstance(emoji, dict):
+            image = emoji.get("image")
+            accessibility = image.get("accessibility") if isinstance(image, dict) else None
+            accessibility_data = accessibility.get("accessibilityData") if isinstance(accessibility, dict) else None
+            label = accessibility_data.get("label") if isinstance(accessibility_data, dict) else None
+            if label:
+                chunks.append(str(label))
+                continue
+
             shortcuts = emoji.get("shortcuts")
             if isinstance(shortcuts, list) and shortcuts:
                 chunks.append(str(shortcuts[0]))

@@ -65,7 +65,7 @@
 {% if not show_openai_mini_transcript and not show_youtube_transcript and show_faster_whisper_transcript %}
   {% set transcript = faster_whisper_transcript %}
   {% set transcript_source_id = "faster-whisper" %}
-  {% set transcript_source_label = "Faster Whisper" %}
+  {% set transcript_source_label = "Faster Whisper CLI" %}
 {% endif %}
 {% if not show_openai_mini_transcript and not show_youtube_transcript and not show_faster_whisper_transcript and show_whisper_cli_transcript %}
   {% set transcript = whisper_cli_transcript %}
@@ -161,7 +161,7 @@
             <button class="transcript-source-tab{% if not show_openai_mini_transcript %} is-active{% endif %}" type="button" data-transcript-source="youtube" aria-selected="{% if not show_openai_mini_transcript %}true{% else %}false{% endif %}">YouTube</button>
           {% endif %}
           {% if show_faster_whisper_transcript %}
-            <button class="transcript-source-tab{% if not show_openai_mini_transcript and not show_youtube_transcript %} is-active{% endif %}" type="button" data-transcript-source="faster-whisper" aria-selected="{% if not show_openai_mini_transcript and not show_youtube_transcript %}true{% else %}false{% endif %}">Faster Whisper</button>
+            <button class="transcript-source-tab{% if not show_openai_mini_transcript and not show_youtube_transcript %} is-active{% endif %}" type="button" data-transcript-source="faster-whisper" aria-selected="{% if not show_openai_mini_transcript and not show_youtube_transcript %}true{% else %}false{% endif %}">Faster Whisper CLI</button>
           {% endif %}
           {% if show_whisper_cli_transcript %}
             <button class="transcript-source-tab{% if not show_openai_mini_transcript and not show_youtube_transcript and not show_faster_whisper_transcript %} is-active{% endif %}" type="button" data-transcript-source="whisper-cli" aria-selected="{% if not show_openai_mini_transcript and not show_youtube_transcript and not show_faster_whisper_transcript %}true{% else %}false{% endif %}">Whisper CLI</button>
@@ -243,7 +243,7 @@
           <script type="application/json" data-transcript-source-data="youtube" data-transcript-source-label="YouTube">{{ youtube_transcript.blocks | json_encode | safe }}</script>
         {% endif %}
         {% if show_faster_whisper_transcript %}
-          <script type="application/json" data-transcript-source-data="faster-whisper" data-transcript-source-label="Faster Whisper">{{ faster_whisper_transcript.blocks | json_encode | safe }}</script>
+          <script type="application/json" data-transcript-source-data="faster-whisper" data-transcript-source-label="Faster Whisper CLI">{{ faster_whisper_transcript.blocks | json_encode | safe }}</script>
         {% endif %}
         {% if show_whisper_cli_transcript %}
           <script type="application/json" data-transcript-source-data="whisper-cli" data-transcript-source-label="Whisper CLI">{{ whisper_cli_transcript.blocks | json_encode | safe }}</script>
