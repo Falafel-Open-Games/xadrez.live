@@ -104,6 +104,34 @@
 
   document.querySelectorAll("[data-replay-tabs]").forEach(function (section) {
     var playerFrame = document.querySelector("[data-youtube-player]");
+    var debugPlayer = new URLSearchParams(window.location.search).has("debugPlayer");
+
+    function playerDebug(message, detail) {
+      if (!debugPlayer) {
+        return;
+      }
+      console.debug("[xadrez.live player]", message, detail || "");
+    }
+
+    function configureEmbeddedPlayer() {
+      if (!playerFrame) {
+        playerDebug("iframe not found");
+        return;
+      }
+
+      try {
+        var url = new URL(playerFrame.src);
+        url.searchParams.set("enablejsapi", "1");
+        url.searchParams.set("origin", window.location.origin);
+        if (playerFrame.src !== url.toString()) {
+          playerFrame.src = url.toString();
+        }
+        playerDebug("iframe configured", playerFrame.src);
+      } catch (error) {
+        playerDebug("iframe configure failed", error);
+        return;
+      }
+    }
 
     function shouldHandleReplayTimeClick(event) {
       return (
@@ -118,9 +146,11 @@
 
     function seekEmbeddedPlayer(seconds) {
       if (!playerFrame || !playerFrame.contentWindow) {
+        playerDebug("seek skipped: iframe window unavailable");
         return false;
       }
 
+      playerDebug("seek", seconds);
       playerFrame.contentWindow.postMessage(
         JSON.stringify({
           event: "command",
@@ -138,6 +168,27 @@
         "https://www.youtube.com"
       );
       return true;
+    }
+
+    function replayTimeSeconds(link) {
+      var item = link.closest("[data-seconds]");
+      if (item) {
+        var itemSeconds = Number(item.dataset.seconds || 0);
+        playerDebug("seconds from data attribute", itemSeconds);
+        return itemSeconds;
+      }
+
+      try {
+        var url = new URL(link.href);
+        var timestamp = url.searchParams.get("t") || "";
+        var match = /^(\d+)s?$/.exec(timestamp);
+        var hrefSeconds = match ? Number(match[1]) : NaN;
+        playerDebug("seconds from href", { href: link.href, seconds: hrefSeconds });
+        return hrefSeconds;
+      } catch (error) {
+        playerDebug("seconds parse failed", error);
+        return NaN;
+      }
     }
 
     function sortMergedPanel() {
@@ -245,6 +296,7 @@
     var sources = transcriptSources();
     var tabs = Array.from(section.querySelectorAll("[data-replay-tab]"));
     var panels = Array.from(section.querySelectorAll("[data-replay-panel]"));
+    configureEmbeddedPlayer();
     sortMergedPanel();
     updateReplayPanels();
 
@@ -274,16 +326,26 @@
     section.addEventListener("click", function (event) {
       var link = event.target.closest(".replay-time");
       if (!link || !section.contains(link) || !shouldHandleReplayTimeClick(event)) {
+        if (link && debugPlayer) {
+          playerDebug("click ignored", {
+            button: event.button,
+            metaKey: event.metaKey,
+            ctrlKey: event.ctrlKey,
+            shiftKey: event.shiftKey,
+            altKey: event.altKey,
+          });
+        }
         return;
       }
 
-      var item = link.closest("[data-seconds]");
-      var seconds = item ? Number(item.dataset.seconds || 0) : 0;
+      var seconds = replayTimeSeconds(link);
       if (!Number.isFinite(seconds) || !seekEmbeddedPlayer(seconds)) {
+        playerDebug("click fell through to href", { href: link.href, seconds: seconds });
         return;
       }
 
       event.preventDefault();
+      playerDebug("click handled", { href: link.href, seconds: seconds });
     });
   });
 })();

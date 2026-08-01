@@ -123,7 +123,7 @@
       <iframe
         title="Live no YouTube"
         data-youtube-player
-        src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1&origin={{ config.base_url }}"
+        src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen>
       </iframe>
@@ -215,7 +215,7 @@
       {% if show_chat_replay %}
         <ol class="replay-list replay-panel is-active" data-replay-panel="chat">
           {% for message in chat_replay.messages %}
-            <li class="replay-item replay-item-chat">
+            <li class="replay-item replay-item-chat" data-seconds="{{ message.seconds }}">
               <a class="replay-time" href="{{ youtube_url }}&t={{ message.seconds }}s" rel="noopener noreferrer">{{ message.time }}</a>
               <div class="replay-body">
                 <strong>
