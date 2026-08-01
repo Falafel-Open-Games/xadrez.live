@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.13.1
+// @version      0.13.2
 // @description  Collect chess puzzle, game, notes, and Restream chat usernames during a xadrez.live session.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -22,6 +22,8 @@
     YouTube: new Set(["fczuardi"]),
     Twitch: new Set(["sedentarismo"]),
   };
+  let restreamPanelObserver = null;
+  let restreamPanelRetryTimer = null;
 
   const DEFAULT_STATE = {
     active: false,
@@ -1087,6 +1089,43 @@ note = "${quote(attempt.note)}"`);
     return next;
   }
 
+  function retryRestreamPanelWhenChatLoads() {
+    if (!isRestreamPage() || restreamPanelObserver || restreamPanelRetryTimer) {
+      return;
+    }
+
+    let attempts = 0;
+    const retry = () => {
+      attempts += 1;
+      restreamPanelRetryTimer = null;
+      if (restreamSupporters().length || restreamReplayMessages().length) {
+        if (restreamPanelObserver) {
+          restreamPanelObserver.disconnect();
+          restreamPanelObserver = null;
+        }
+        renderPanel();
+        return;
+      }
+      if (attempts < 30) {
+        restreamPanelRetryTimer = window.setTimeout(retry, 1000);
+      }
+    };
+
+    restreamPanelObserver = new MutationObserver(() => {
+      if (restreamSupporters().length || restreamReplayMessages().length) {
+        restreamPanelObserver.disconnect();
+        restreamPanelObserver = null;
+        if (restreamPanelRetryTimer) {
+          window.clearTimeout(restreamPanelRetryTimer);
+          restreamPanelRetryTimer = null;
+        }
+        renderPanel();
+      }
+    });
+    restreamPanelObserver.observe(document.body, { childList: true, subtree: true });
+    restreamPanelRetryTimer = window.setTimeout(retry, 1000);
+  }
+
   function renderPanel() {
     document.getElementById(PANEL_ID)?.remove();
 
@@ -1101,6 +1140,7 @@ note = "${quote(attempt.note)}"`);
     const restreamCount = isRestreamChatPage ? scannedRestreamSupporters.length : 0;
     const restreamReplayCount = isRestreamChatPage ? restreamReplayMessages().length : 0;
     if (isRestreamChatPage && restreamCount === 0 && restreamReplayCount === 0) {
+      retryRestreamPanelWhenChatLoads();
       return;
     }
     const savedSupporterCount = (state.supporters || []).length;
