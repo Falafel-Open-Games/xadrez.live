@@ -122,7 +122,8 @@
     <div class="video-panel">
       <iframe
         title="Live no YouTube"
-        src="https://www.youtube.com/embed/{{ video_id }}"
+        data-youtube-player
+        src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1&origin={{ config.base_url }}"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen>
       </iframe>

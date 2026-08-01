@@ -103,6 +103,43 @@
   });
 
   document.querySelectorAll("[data-replay-tabs]").forEach(function (section) {
+    var playerFrame = document.querySelector("[data-youtube-player]");
+
+    function shouldHandleReplayTimeClick(event) {
+      return (
+        event.button === 0 &&
+        !event.defaultPrevented &&
+        !event.metaKey &&
+        !event.ctrlKey &&
+        !event.shiftKey &&
+        !event.altKey
+      );
+    }
+
+    function seekEmbeddedPlayer(seconds) {
+      if (!playerFrame || !playerFrame.contentWindow) {
+        return false;
+      }
+
+      playerFrame.contentWindow.postMessage(
+        JSON.stringify({
+          event: "command",
+          func: "seekTo",
+          args: [Math.max(0, seconds), true],
+        }),
+        "https://www.youtube.com"
+      );
+      playerFrame.contentWindow.postMessage(
+        JSON.stringify({
+          event: "command",
+          func: "playVideo",
+          args: [],
+        }),
+        "https://www.youtube.com"
+      );
+      return true;
+    }
+
     function sortMergedPanel() {
       var merged = section.querySelector('[data-replay-panel="merged"]');
       if (!merged) {
@@ -232,6 +269,21 @@
         setTranscriptSource(button.dataset.transcriptSource);
         updateReplayPanels();
       });
+    });
+
+    section.addEventListener("click", function (event) {
+      var link = event.target.closest(".replay-time");
+      if (!link || !section.contains(link) || !shouldHandleReplayTimeClick(event)) {
+        return;
+      }
+
+      var item = link.closest("[data-seconds]");
+      var seconds = item ? Number(item.dataset.seconds || 0) : 0;
+      if (!Number.isFinite(seconds) || !seekEmbeddedPlayer(seconds)) {
+        return;
+      }
+
+      event.preventDefault();
     });
   });
 })();
