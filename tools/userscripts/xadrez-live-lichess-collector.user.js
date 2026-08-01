@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.13.5
+// @version      0.13.6
 // @description  Collect chess puzzle, game, notes, and Restream chat usernames during a xadrez.live session.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -129,6 +129,20 @@
     }
 
     return null;
+  }
+
+  function currentLichessGameNote() {
+    if (location.hostname !== "lichess.org") {
+      return "";
+    }
+    const note = document.querySelector(".mchat__note");
+    return String(note?.value || "").trim();
+  }
+
+  function preferredGameNote(existingNote) {
+    const saved = String(existingNote || "").trim();
+    const lichess = currentLichessGameNote();
+    return lichess.length > saved.length ? lichess : saved;
   }
 
   function quote(value) {
@@ -598,7 +612,7 @@
         ],
         existingGame.color || context.colorFromUrl,
       ),
-      note: promptValue("Optional game note:", existingGame.note || ""),
+      note: promptValue("Optional game note:", preferredGameNote(existingGame.note)),
     };
 
     if (context.platform === "lichess") {
