@@ -26,6 +26,8 @@ DEFAULT_INITIAL_PROMPT = (
     "roque, fianchetto, Sicilian Defense, Scandinavian Defense, Puzzle do dia, Puzzle Streak, Puzzle Storm, "
     "Puzzle Racer, blunder, rating, mate, xeque, blitz, rapid. "
     "Frases comuns: puzzle do dia, resposta com a dama, a resposta é, qual é a resposta. "
+    "Quando a fala se referir ao site ou plataforma de xadrez, transcreva como Lichess, não como lixar, lixares, "
+    "lixés ou outras aproximações fonéticas. "
     "Restream é o nome da plataforma de transmissão, não transcreva como restring."
 )
 AUDIO_EXTENSIONS = {".m4a", ".mp3", ".opus", ".ogg", ".webm", ".wav"}
