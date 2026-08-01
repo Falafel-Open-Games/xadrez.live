@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.13.3
+// @version      0.13.5
 // @description  Collect chess puzzle, game, notes, and Restream chat usernames during a xadrez.live session.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -725,6 +725,9 @@ note = "${quote(attempt.note)}"`);
 
   function restreamPlatformFromSrc(src) {
     const value = String(src || "");
+    if (/restream/i.test(value) || value.includes("restream-icon-")) {
+      return "Restream";
+    }
     if (/youtube/i.test(value) || value.includes("platform-5-social.png")) {
       return "YouTube";
     }
@@ -886,6 +889,16 @@ note = "${quote(attempt.note)}"`);
     return value || "";
   }
 
+  function isRestreamSystemMessage(message) {
+    const text = String(message?.text || "").trim();
+    return (
+      message.author === "Host" &&
+      /^(Read & reply to messages from multiple platforms here\.|The chat is ready to display messages\.|Start the conversation|New comments will display here)$/i.test(
+        text,
+      )
+    );
+  }
+
   function restreamAuthorFromEmbedMessage(message) {
     const author = queryAll(
       message,
@@ -903,6 +916,41 @@ note = "${quote(attempt.note)}"`);
       .find(Boolean);
 
     return author || "";
+  }
+
+  function restreamClockFromEmbedMessage(message) {
+    const value = queryAll(
+      message,
+      [
+        ".message-time",
+        ".message-timestamp",
+        "time",
+        "[datetime]",
+        '[class*="time" i]',
+        '[class*="timestamp" i]',
+      ].join(", "),
+    )
+      .map((element) => element.getAttribute("datetime") || element.textContent)
+      .map((text) => String(text || "").trim())
+      .find((text) => /^\d{1,2}:\d{2}:\d{2}$/.test(text));
+    return value || "";
+  }
+
+  function restreamTextFromEmbedMessage(message) {
+    const value = queryAll(
+      message,
+      [
+        ".message-text",
+        ".message-body",
+        ".message-content",
+        ".chat-text-normal",
+        '[data-testid*="message" i]',
+        '[class*="message-text" i]',
+      ].join(", "),
+    )
+      .map((element) => String(element.textContent || "").replace(/\s+/g, " ").trim())
+      .find(Boolean);
+    return value || "";
   }
 
   function restreamSupporterUrl(platform, name) {
@@ -988,31 +1036,32 @@ note = "${quote(attempt.note)}"`);
   }
 
   function restreamReplayMessages() {
-    const cards = queryAll(
-      document,
-      [
-        '[id^="message-card-studio-"]',
-        '[data-testid*="message" i]',
-        '[class*="message-card" i]',
-        '[class*="chat-message" i]',
-        '[role="listitem"]',
-      ].join(", "),
-    );
+    const adminCards = queryAll(document, '[id^="message-card-studio-"]');
+    const embedMessages = queryAll(document, ".chat-messages .message-item, .message-item");
 
     const seen = new Set();
-    return cards
+    const messages = adminCards
       .map((card) => {
         const platform = restreamCardPlatform(card);
         const author = restreamRawAuthorFromCard(card, platform);
         const clock = restreamClockFromCard(card);
         const text = restreamTextFromCard(card);
         return { clock, platform, channel: "", author, text };
-      })
-      .filter((message) => {
+      });
+
+    embedMessages.forEach((message) => {
+      const platform = restreamCardPlatform(message);
+      const author = restreamAuthorFromEmbedMessage(message) || "Host";
+      const clock = restreamClockFromEmbedMessage(message);
+      const text = restreamTextFromEmbedMessage(message);
+      messages.push({ clock, platform, channel: "", author, text });
+    });
+
+    return messages.filter((message) => {
         if (!message.clock || !message.author || !message.text) {
           return false;
         }
-        if (message.author === "Host" && message.text === "Read & reply to messages from multiple platforms here.") {
+        if (isRestreamSystemMessage(message)) {
           return false;
         }
         const key = `${message.clock}\0${message.platform}\0${message.author}\0${message.text}`;
