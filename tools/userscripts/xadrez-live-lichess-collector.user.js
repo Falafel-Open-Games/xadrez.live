@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.13.0
+// @version      0.13.1
 // @description  Collect chess puzzle, game, notes, and Restream chat usernames during a xadrez.live session.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -1100,6 +1100,9 @@ note = "${quote(attempt.note)}"`);
     const scannedRestreamSupporters = isRestreamChatPage ? restreamSupporters() : [];
     const restreamCount = isRestreamChatPage ? scannedRestreamSupporters.length : 0;
     const restreamReplayCount = isRestreamChatPage ? restreamReplayMessages().length : 0;
+    if (isRestreamChatPage && restreamCount === 0 && restreamReplayCount === 0) {
+      return;
+    }
     const savedSupporterCount = (state.supporters || []).length;
     const previewText = buildToml(state);
     const panel = document.createElement("section");
