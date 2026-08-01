@@ -1,14 +1,16 @@
 {
   "session_number": "0025",
-  "youtube_video_id": "s-VAQkRFlHM",
-  "restream_event_id": "16986d46-bdf4-4e64-b468-d7096ca74980",
-  "source": "restream",
+  "source": "merged",
+  "sources": [
+    "restream",
+    "youtube"
+  ],
   "platforms": [
     "Restream",
     "Twitch",
     "YouTube"
   ],
-  "message_count": 76,
+  "message_count": 79,
   "messages": [
     {
       "time": "0:00",
@@ -16,7 +18,8 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "bom dia chat, live começando em poucos segundos"
+      "text": "bom dia chat, live começando em poucos segundos",
+      "source": "restream"
     },
     {
       "time": "0:00",
@@ -24,7 +27,32 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "teste"
+      "text": "teste",
+      "source": "restream"
+    },
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "bom dia chat, live começando em poucos segundos",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
+    },
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "teste",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
     },
     {
       "time": "3:39",
@@ -32,7 +60,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 1",
-      "text": "@sedentarismo We specialize in promoting Twitch channels — check out our website: *** 😎"
+      "text": "@sedentarismo We specialize in promoting Twitch channels — check out our website: *** 😎",
+      "source": "restream"
     },
     {
       "time": "9:40",
@@ -40,7 +69,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@circuiteiro",
-      "text": "Esse é difícil eu acho"
+      "text": "Esse é difícil eu acho",
+      "source": "restream"
     },
     {
       "time": "9:50",
@@ -48,7 +78,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@circuiteiro",
-      "text": "Vc joga a quanto tempo?"
+      "text": "Vc joga a quanto tempo?",
+      "source": "restream"
     },
     {
       "time": "10:51",
@@ -56,7 +87,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@circuiteiro",
-      "text": "Ah sim, é isso ai é só treinar que dá certo"
+      "text": "Ah sim, é isso ai é só treinar que dá certo",
+      "source": "restream"
     },
     {
       "time": "27:41",
@@ -64,7 +96,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "aoba"
+      "text": "aoba",
+      "source": "restream"
     },
     {
       "time": "28:20",
@@ -72,7 +105,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "ganhei do cara com de uma forma muito feio"
+      "text": "ganhei do cara com de uma forma muito feio",
+      "source": "restream"
     },
     {
       "time": "29:09",
@@ -80,7 +114,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "ele tinha 1242"
+      "text": "ele tinha 1242",
+      "source": "restream"
     },
     {
       "time": "29:20",
@@ -88,7 +123,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "good morning my friend! Is everithing tranquilão hoje ae? Como que tá hj?"
+      "text": "good morning my friend! Is everithing tranquilão hoje ae? Como que tá hj?",
+      "source": "restream"
     },
     {
       "time": "29:30",
@@ -96,7 +132,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "461"
+      "text": "461",
+      "source": "restream"
     },
     {
       "time": "30:04",
@@ -104,7 +141,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "fiz uma armadinha"
+      "text": "fiz uma armadinha",
+      "source": "restream"
     },
     {
       "time": "30:21",
@@ -112,7 +150,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "e ele tomou um mate do fundão"
+      "text": "e ele tomou um mate do fundão",
+      "source": "restream"
     },
     {
       "time": "30:55",
@@ -120,7 +159,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "foi muito feio isso"
+      "text": "foi muito feio isso",
+      "source": "restream"
     },
     {
       "time": "31:29",
@@ -128,7 +168,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "***"
+      "text": "***",
+      "source": "restream"
     },
     {
       "time": "31:55",
@@ -136,7 +177,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "chess"
+      "text": "chess",
+      "source": "restream"
     },
     {
       "time": "32:23",
@@ -144,7 +186,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "***"
+      "text": "***",
+      "source": "restream"
     },
     {
       "time": "32:30",
@@ -152,7 +195,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "aqui"
+      "text": "aqui",
+      "source": "restream"
     },
     {
       "time": "33:41",
@@ -160,7 +204,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "tranquilo"
+      "text": "tranquilo",
+      "source": "restream"
     },
     {
       "time": "34:33",
@@ -168,7 +213,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "entrega mate assim"
+      "text": "entrega mate assim",
+      "source": "restream"
     },
     {
       "time": "34:47",
@@ -176,7 +222,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "eu dei alta risada"
+      "text": "eu dei alta risada",
+      "source": "restream"
     },
     {
       "time": "36:01",
@@ -184,7 +231,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "e o cara tinha tempo"
+      "text": "e o cara tinha tempo",
+      "source": "restream"
     },
     {
       "time": "37:44",
@@ -192,7 +240,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "pastorzinho pastorzinho é sacanagem hahaha"
+      "text": "pastorzinho pastorzinho é sacanagem hahaha",
+      "source": "restream"
     },
     {
       "time": "39:17",
@@ -200,7 +249,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "bispo h6"
+      "text": "bispo h6",
+      "source": "restream"
     },
     {
       "time": "42:50",
@@ -208,7 +258,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "eu acho que sua posição  está meio ruim mais ta bom"
+      "text": "eu acho que sua posição  está meio ruim mais ta bom",
+      "source": "restream"
     },
     {
       "time": "43:37",
@@ -216,7 +267,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "naooooo"
+      "text": "naooooo",
+      "source": "restream"
     },
     {
       "time": "44:22",
@@ -224,7 +276,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "tinh como vc peg rinh dele"
+      "text": "tinh como vc peg rinh dele",
+      "source": "restream"
     },
     {
       "time": "45:48",
@@ -232,7 +285,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "não irrita não, é mais fácil ver os erros dos outros do que os da gente quando joga heehe"
+      "text": "não irrita não, é mais fácil ver os erros dos outros do que os da gente quando joga heehe",
+      "source": "restream"
     },
     {
       "time": "45:52",
@@ -240,7 +294,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "bispo na casa b4"
+      "text": "bispo na casa b4",
+      "source": "restream"
     },
     {
       "time": "46:01",
@@ -248,7 +303,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "b 3"
+      "text": "b 3",
+      "source": "restream"
     },
     {
       "time": "46:07",
@@ -256,7 +312,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "na verdade"
+      "text": "na verdade",
+      "source": "restream"
     },
     {
       "time": "46:35",
@@ -264,7 +321,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "e isso mesmo"
+      "text": "e isso mesmo",
+      "source": "restream"
     },
     {
       "time": "46:45",
@@ -272,7 +330,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "e b 4"
+      "text": "e b 4",
+      "source": "restream"
     },
     {
       "time": "47:09",
@@ -280,7 +339,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "tem como n"
+      "text": "tem como n",
+      "source": "restream"
     },
     {
       "time": "48:42",
@@ -288,7 +348,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "kkkkk"
+      "text": "kkkkk",
+      "source": "restream"
     },
     {
       "time": "49:24",
@@ -296,7 +357,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "volta na prate do bispo"
+      "text": "volta na prate do bispo",
+      "source": "restream"
     },
     {
       "time": "51:51",
@@ -304,7 +366,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "n essa parte"
+      "text": "n essa parte",
+      "source": "restream"
     },
     {
       "time": "53:41",
@@ -312,7 +375,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "desenvolvimento"
+      "text": "desenvolvimento",
+      "source": "restream"
     },
     {
       "time": "53:53",
@@ -320,7 +384,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "skskkss"
+      "text": "skskkss",
+      "source": "restream"
     },
     {
       "time": "55:17",
@@ -328,7 +393,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "eu"
+      "text": "eu",
+      "source": "restream"
     },
     {
       "time": "56:34",
@@ -336,7 +402,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "o bispo"
+      "text": "o bispo",
+      "source": "restream"
     },
     {
       "time": "56:41",
@@ -344,7 +411,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "e agora"
+      "text": "e agora",
+      "source": "restream"
     },
     {
       "time": "56:41",
@@ -352,7 +420,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "bispo cheque vc ganhava a rainha"
+      "text": "bispo cheque vc ganhava a rainha",
+      "source": "restream"
     },
     {
       "time": "57:22",
@@ -360,7 +429,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "agora n"
+      "text": "agora n",
+      "source": "restream"
     },
     {
       "time": "57:31",
@@ -368,7 +438,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "capitura o peo"
+      "text": "capitura o peo",
+      "source": "restream"
     },
     {
       "time": "58:01",
@@ -376,7 +447,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "aeeee"
+      "text": "aeeee",
+      "source": "restream"
     },
     {
       "time": "58:02",
@@ -384,7 +456,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "depois que a dama pega o peao"
+      "text": "depois que a dama pega o peao",
+      "source": "restream"
     },
     {
       "time": "59:02",
@@ -392,7 +465,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "mais jogou bem"
+      "text": "mais jogou bem",
+      "source": "restream"
     },
     {
       "time": "1:00:44",
@@ -400,7 +474,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Jogar e explicar em live, é mais dificil do que parece"
+      "text": "Jogar e explicar em live, é mais dificil do que parece",
+      "source": "restream"
     },
     {
       "time": "1:04:26",
@@ -408,7 +483,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "xeque sem follow up e fácil de defender, na maioria das vezes vai ser ruim..."
+      "text": "xeque sem follow up e fácil de defender, na maioria das vezes vai ser ruim...",
+      "source": "restream"
     },
     {
       "time": "1:05:04",
@@ -416,7 +492,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "ch"
+      "text": "ch",
+      "source": "restream"
     },
     {
       "time": "1:05:17",
@@ -424,7 +501,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "n"
+      "text": "n",
+      "source": "restream"
     },
     {
       "time": "1:05:19",
@@ -432,7 +510,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "?"
+      "text": "?",
+      "source": "restream"
     },
     {
       "time": "1:05:32",
@@ -440,7 +519,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "e com x"
+      "text": "e com x",
+      "source": "restream"
     },
     {
       "time": "1:05:46",
@@ -448,7 +528,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "eu confundo tbm, pq em ingles é com ch hahaha"
+      "text": "eu confundo tbm, pq em ingles é com ch hahaha",
+      "source": "restream"
     },
     {
       "time": "1:06:57",
@@ -456,7 +537,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "não se cobre tanto, normal mano"
+      "text": "não se cobre tanto, normal mano",
+      "source": "restream"
     },
     {
       "time": "1:07:57",
@@ -464,7 +546,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "não somos GMs longe disso blunder faz parte da vida hahaha"
+      "text": "não somos GMs longe disso blunder faz parte da vida hahaha",
+      "source": "restream"
     },
     {
       "time": "1:08:01",
@@ -472,7 +555,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "bora eu e tu"
+      "text": "bora eu e tu",
+      "source": "restream"
     },
     {
       "time": "1:09:33",
@@ -480,7 +564,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "se vc faze isso ele pega seu peo"
+      "text": "se vc faze isso ele pega seu peo",
+      "source": "restream"
     },
     {
       "time": "1:10:00",
@@ -488,7 +573,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "aeee eu n sei faze isso"
+      "text": "aeee eu n sei faze isso",
+      "source": "restream"
     },
     {
       "time": "1:10:20",
@@ -496,7 +582,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "tanto faz"
+      "text": "tanto faz",
+      "source": "restream"
     },
     {
       "time": "1:10:28",
@@ -504,7 +591,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "bl"
+      "text": "bl",
+      "source": "restream"
     },
     {
       "time": "1:10:33",
@@ -512,7 +600,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "miwxx3"
+      "text": "miwxx3",
+      "source": "restream"
     },
     {
       "time": "1:10:40",
@@ -520,7 +609,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 5",
-      "text": "meus users fcz fczuardi"
+      "text": "meus users fcz fczuardi",
+      "source": "restream"
     },
     {
       "time": "1:28:50",
@@ -528,7 +618,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "F"
+      "text": "F",
+      "source": "restream"
     },
     {
       "time": "1:28:56",
@@ -536,7 +627,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "tava predido"
+      "text": "tava predido",
+      "source": "restream"
     },
     {
       "time": "1:29:19",
@@ -544,7 +636,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "eu nem vi"
+      "text": "eu nem vi",
+      "source": "restream"
     },
     {
       "time": "1:32:13",
@@ -552,7 +645,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "agora vc deu aula"
+      "text": "agora vc deu aula",
+      "source": "restream"
     },
     {
       "time": "1:33:36",
@@ -560,7 +654,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "eu vi essa ideia sua"
+      "text": "eu vi essa ideia sua",
+      "source": "restream"
     },
     {
       "time": "1:37:22",
@@ -568,7 +663,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "depois vejo"
+      "text": "depois vejo",
+      "source": "restream"
     },
     {
       "time": "1:37:22",
@@ -576,7 +672,20 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Entrei em call aqui, foi jogão? como foi?"
+      "text": "Entrei em call aqui, foi jogão? como foi?",
+      "source": "restream"
+    },
+    {
+      "time": "1:37:43",
+      "seconds": 5863,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "https://www.chess.com/analysis/game/l...",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
     },
     {
       "time": "1:37:57",
@@ -584,7 +693,8 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "https://www.chess.com/analysis/game/live/170928074270"
+      "text": "https://www.chess.com/analysis/game/live/170928074270",
+      "source": "restream"
     },
     {
       "time": "1:38:22",
@@ -592,7 +702,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "boaa"
+      "text": "boaa",
+      "source": "restream"
     },
     {
       "time": "1:39:02",
@@ -600,7 +711,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "kkkkk"
+      "text": "kkkkk",
+      "source": "restream"
     },
     {
       "time": "1:40:46",
@@ -608,7 +720,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 3",
-      "text": "veja minha partida depois"
+      "text": "veja minha partida depois",
+      "source": "restream"
     },
     {
       "time": "1:43:35",
@@ -616,7 +729,10 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Dama logo cedo, abaixo de 1000 é erro, acima dos 2000 é agressividade hahaha"
+      "text": "Dama logo cedo, abaixo de 1000 é erro, acima dos 2000 é agressividade hahaha",
+      "source": "restream"
     }
-  ]
+  ],
+  "youtube_video_id": "s-VAQkRFlHM",
+  "restream_event_id": "16986d46-bdf4-4e64-b468-d7096ca74980"
 }

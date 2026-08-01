@@ -1,20 +1,38 @@
 {
   "session_number": "0033",
-  "youtube_video_id": "uglN7aUKNOg",
-  "restream_event_id": "1f77dea1-2beb-44d0-b615-4a16c09362be",
-  "source": "restream",
-  "platforms": [
-    "Restream"
+  "source": "merged",
+  "sources": [
+    "restream",
+    "youtube"
   ],
-  "message_count": 1,
+  "platforms": [
+    "Restream",
+    "YouTube"
+  ],
+  "message_count": 2,
   "messages": [
+    {
+      "time": "3:16",
+      "seconds": 196,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "bom dia",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
+    },
     {
       "time": "3:23",
       "seconds": 203,
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "bom dia"
+      "text": "bom dia",
+      "source": "restream"
     }
-  ]
+  ],
+  "youtube_video_id": "uglN7aUKNOg",
+  "restream_event_id": "1f77dea1-2beb-44d0-b615-4a16c09362be"
 }

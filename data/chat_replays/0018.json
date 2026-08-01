@@ -1,13 +1,15 @@
 {
   "session_number": "0018",
-  "youtube_video_id": "G69M4jiQmGE",
-  "restream_event_id": "03825c3f-1b3d-4ee5-aa9d-ffb859440d80",
-  "source": "restream",
+  "source": "merged",
+  "sources": [
+    "restream",
+    "youtube"
+  ],
   "platforms": [
     "Restream",
     "YouTube"
   ],
-  "message_count": 10,
+  "message_count": 15,
   "messages": [
     {
       "time": "0:00",
@@ -15,7 +17,8 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "olá chat"
+      "text": "olá chat",
+      "source": "restream"
     },
     {
       "time": "0:00",
@@ -23,7 +26,44 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "live começa em 5min..."
+      "text": "live começa em 5min...",
+      "source": "restream"
+    },
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "olá chat",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
+    },
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "live começa em 5min...",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
+    },
+    {
+      "time": "0:28",
+      "seconds": 28,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "bom dia",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
     },
     {
       "time": "0:40",
@@ -31,7 +71,20 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "bom dia"
+      "text": "bom dia",
+      "source": "restream"
+    },
+    {
+      "time": "55:06",
+      "seconds": 3306,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "alo",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
     },
     {
       "time": "55:18",
@@ -39,7 +92,8 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "alo"
+      "text": "alo",
+      "source": "restream"
     },
     {
       "time": "1:27:56",
@@ -47,7 +101,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@boldoxenneru1314",
-      "text": "salve.. puzzle interessante"
+      "text": "salve.. puzzle interessante",
+      "source": "restream"
     },
     {
       "time": "1:28:27",
@@ -55,7 +110,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@boldoxenneru1314",
-      "text": "eu acho que achei"
+      "text": "eu acho que achei",
+      "source": "restream"
     },
     {
       "time": "1:29:07",
@@ -63,7 +119,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@boldoxenneru1314",
-      "text": "Escandinava é complicada"
+      "text": "Escandinava é complicada",
+      "source": "restream"
     },
     {
       "time": "1:30:28",
@@ -71,7 +128,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@boldoxenneru1314",
-      "text": "exato.. todos lances de livro"
+      "text": "exato.. todos lances de livro",
+      "source": "restream"
     },
     {
       "time": "1:33:19",
@@ -79,7 +137,20 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@boldoxenneru1314",
-      "text": "era pra ter tomado"
+      "text": "era pra ter tomado",
+      "source": "restream"
+    },
+    {
+      "time": "1:39:16",
+      "seconds": 5956,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "até",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
     },
     {
       "time": "1:39:28",
@@ -87,7 +158,10 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "até"
+      "text": "até",
+      "source": "restream"
     }
-  ]
+  ],
+  "youtube_video_id": "G69M4jiQmGE",
+  "restream_event_id": "03825c3f-1b3d-4ee5-aa9d-ffb859440d80"
 }

@@ -1,21 +1,48 @@
 {
   "session_number": "0045",
-  "youtube_video_id": "ppkWqcbV0gk",
-  "restream_event_id": "74e618e3-5e49-4fa3-ba1c-bcb571923fc9",
-  "source": "restream",
+  "source": "merged",
+  "sources": [
+    "restream",
+    "youtube",
+    "twitch"
+  ],
   "platforms": [
     "Restream",
+    "Twitch",
     "YouTube"
   ],
-  "message_count": 15,
+  "message_count": 18,
   "messages": [
+    {
+      "time": "1:46",
+      "seconds": 106,
+      "platform": "Twitch",
+      "channel": "sedentarismo",
+      "author": "@sedentarismo",
+      "text": "bom dia chat",
+      "source": "twitch",
+      "twitch_vod_id": "2832679786"
+    },
+    {
+      "time": "1:49",
+      "seconds": 109,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "bom dia chat",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
+    },
     {
       "time": "1:57",
       "seconds": 117,
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "bom dia chat"
+      "text": "bom dia chat",
+      "source": "restream"
     },
     {
       "time": "33:18",
@@ -23,7 +50,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Bom dia FCZ, seu peão controlava a casa f7 o rei não podia ir lá"
+      "text": "Bom dia FCZ, seu peão controlava a casa f7 o rei não podia ir lá",
+      "source": "restream"
     },
     {
       "time": "34:48",
@@ -31,7 +59,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "É que vc tava questionando pq o rei escolheu ir pro canto"
+      "text": "É que vc tava questionando pq o rei escolheu ir pro canto",
+      "source": "restream"
     },
     {
       "time": "40:38",
@@ -39,7 +68,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Tenta ir além depois do sacrifício da Dama"
+      "text": "Tenta ir além depois do sacrifício da Dama",
+      "source": "restream"
     },
     {
       "time": "40:53",
@@ -47,7 +77,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Boas"
+      "text": "Boas",
+      "source": "restream"
     },
     {
       "time": "42:37",
@@ -55,7 +86,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Lembra de sempre calcular todos os checks disponíveis"
+      "text": "Lembra de sempre calcular todos os checks disponíveis",
+      "source": "restream"
     },
     {
       "time": "43:53",
@@ -63,7 +95,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Eu sou bom pra dar dica e na hora do jogo fazer tudo ao contrário hahahaha"
+      "text": "Eu sou bom pra dar dica e na hora do jogo fazer tudo ao contrário hahahaha",
+      "source": "restream"
     },
     {
       "time": "52:53",
@@ -71,7 +104,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Mate do fundão"
+      "text": "Mate do fundão",
+      "source": "restream"
     },
     {
       "time": "1:00:13",
@@ -79,7 +113,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Bom dia"
+      "text": "Bom dia",
+      "source": "restream"
     },
     {
       "time": "1:00:49",
@@ -87,7 +122,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "cheguei tarde hj, ja jogou partida ai ne? fez a lista dos mates hj?"
+      "text": "cheguei tarde hj, ja jogou partida ai ne? fez a lista dos mates hj?",
+      "source": "restream"
     },
     {
       "time": "1:02:40",
@@ -95,7 +131,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "To ligado, muito bom"
+      "text": "To ligado, muito bom",
+      "source": "restream"
     },
     {
       "time": "1:04:36",
@@ -103,7 +140,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "dei uma olhada aqui e esse primeiro erro ai é um pouco dificil de ver o porque de ser erro. o negocio é que depois desse lance ele pode tomar o outro cavalo de bispo"
+      "text": "dei uma olhada aqui e esse primeiro erro ai é um pouco dificil de ver o porque de ser erro. o negocio é que depois desse lance ele pode tomar o outro cavalo de bispo",
+      "source": "restream"
     },
     {
       "time": "1:04:56",
@@ -111,7 +149,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "quando o bispo sai da frente da dama ela ataca o seu cavalo junto com o outro cavalo"
+      "text": "quando o bispo sai da frente da dama ela ataca o seu cavalo junto com o outro cavalo",
+      "source": "restream"
     },
     {
       "time": "1:05:19",
@@ -119,7 +158,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "vai ter dois ataques no seu cavalo e apenas uma defesa"
+      "text": "vai ter dois ataques no seu cavalo e apenas uma defesa",
+      "source": "restream"
+    },
+    {
+      "time": "1:14:29",
+      "seconds": 4469,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MuriloInacioB",
+      "text": "a razao de dama f3 da maquina é segurar o bispo que ta solto pra poder tirar o cavalo sem perder o bispo",
+      "source": "youtube"
     },
     {
       "time": "1:14:48",
@@ -127,7 +176,10 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Jaé flw"
+      "text": "Jaé flw",
+      "source": "restream"
     }
-  ]
+  ],
+  "youtube_video_id": "ppkWqcbV0gk",
+  "restream_event_id": "74e618e3-5e49-4fa3-ba1c-bcb571923fc9"
 }

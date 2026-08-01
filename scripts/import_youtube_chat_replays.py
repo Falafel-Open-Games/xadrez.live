@@ -11,7 +11,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT_DIR = ROOT / "content" / "fcz"
 DEFAULT_CACHE_DIR = Path("/tmp/xadrez-chat")
-DEFAULT_OUTPUT_DIR = ROOT / "data" / "chat_replays"
+DEFAULT_OUTPUT_DIR = ROOT / "data" / "youtube_chat_replays"
 
 
 def fail(message: str) -> None:
@@ -243,6 +243,8 @@ def import_replays(
         output = {
             "session_number": session_number,
             "youtube_video_id": youtube_id,
+            "source": "youtube",
+            "platforms": ["YouTube"],
             "message_count": len(messages),
             "messages": messages,
         }

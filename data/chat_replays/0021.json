@@ -1,13 +1,16 @@
 {
   "session_number": "0021",
-  "youtube_video_id": "in24qnwP368",
-  "restream_event_id": "4a026212-cee8-4dff-a845-07ec7c96d48b",
-  "source": "restream",
+  "source": "merged",
+  "sources": [
+    "restream",
+    "youtube"
+  ],
   "platforms": [
     "Restream",
-    "Twitch"
+    "Twitch",
+    "YouTube"
   ],
-  "message_count": 3,
+  "message_count": 4,
   "messages": [
     {
       "time": "0:00",
@@ -15,7 +18,20 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "bom dia chat, a live começa em 8 min"
+      "text": "bom dia chat, a live começa em 8 min",
+      "source": "restream"
+    },
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "bom dia chat, a live começa em 8 min",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
     },
     {
       "time": "1:15",
@@ -23,7 +39,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 1",
-      "text": "from 5 viewers to raid bait status PeakPy. com 🔥 carried me @sedentarismo"
+      "text": "from 5 viewers to raid bait status PeakPy. com 🔥 carried me @sedentarismo",
+      "source": "restream"
     },
     {
       "time": "6:03",
@@ -31,7 +48,10 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 2",
-      "text": "Your stream's dead revives it with viewers Peakpy .c0m 🎉 (remove the space) @sedentarismo"
+      "text": "Your stream's dead revives it with viewers Peakpy .c0m 🎉 (remove the space) @sedentarismo",
+      "source": "restream"
     }
-  ]
+  ],
+  "youtube_video_id": "in24qnwP368",
+  "restream_event_id": "4a026212-cee8-4dff-a845-07ec7c96d48b"
 }

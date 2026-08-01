@@ -1,13 +1,15 @@
 {
   "session_number": "0024",
-  "youtube_video_id": "1MAFFK8Y3t0",
-  "restream_event_id": "ba83949e-6a08-4d64-b9d9-9c8cc99d0f6a",
-  "source": "restream",
+  "source": "merged",
+  "sources": [
+    "restream",
+    "youtube"
+  ],
   "platforms": [
     "Restream",
     "YouTube"
   ],
-  "message_count": 5,
+  "message_count": 6,
   "messages": [
     {
       "time": "0:00",
@@ -15,7 +17,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "Person 1",
-      "text": "Um Match Fabricio, Filipe e GE EME Torri deve render um espetáculo"
+      "text": "Um Match Fabricio, Filipe e GE EME Torri deve render um espetáculo",
+      "source": "restream"
     },
     {
       "time": "0:00",
@@ -23,7 +26,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "Person 2",
-      "text": "Sim, Wave. haahahhaahaha"
+      "text": "Sim, Wave. haahahhaahaha",
+      "source": "restream"
     },
     {
       "time": "0:00",
@@ -31,7 +35,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "Person 2",
-      "text": "Vou organizar isso aí mais adiante. hahahahah"
+      "text": "Vou organizar isso aí mais adiante. hahahahah",
+      "source": "restream"
     },
     {
       "time": "0:00",
@@ -39,7 +44,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "Person 2",
-      "text": "O Fabricio ri IGUALZINHO ao rith. Só que ele é mais moderado."
+      "text": "O Fabricio ri IGUALZINHO ao rith. Só que ele é mais moderado.",
+      "source": "restream"
     },
     {
       "time": "0:00",
@@ -47,7 +53,22 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "bom dia chat, live começa em 1 min"
+      "text": "bom dia chat, live começa em 1 min",
+      "source": "restream"
+    },
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "bom dia chat, live começa em 1 min",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
     }
-  ]
+  ],
+  "youtube_video_id": "1MAFFK8Y3t0",
+  "restream_event_id": "ba83949e-6a08-4d64-b9d9-9c8cc99d0f6a"
 }

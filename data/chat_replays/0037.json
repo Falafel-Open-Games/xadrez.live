@@ -1,22 +1,48 @@
 {
   "session_number": "0037",
-  "youtube_video_id": "LmHPMA7ui7U",
-  "restream_event_id": "841714b2-31ad-45bf-bcc2-44786047faf6",
-  "source": "restream",
+  "source": "merged",
+  "sources": [
+    "restream",
+    "youtube",
+    "twitch"
+  ],
   "platforms": [
     "Restream",
     "Twitch",
     "YouTube"
   ],
-  "message_count": 22,
+  "message_count": 30,
   "messages": [
+    {
+      "time": "2:47",
+      "seconds": 167,
+      "platform": "Twitch",
+      "channel": "sedentarismo",
+      "author": "@sedentarismo",
+      "text": "bom dia chat",
+      "source": "twitch",
+      "twitch_vod_id": "2826118843"
+    },
+    {
+      "time": "2:51",
+      "seconds": 171,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "bom dia chat",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
+    },
     {
       "time": "2:58",
       "seconds": 178,
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "bom dia chat"
+      "text": "bom dia chat",
+      "source": "restream"
     },
     {
       "time": "19:46",
@@ -24,7 +50,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "tem um duplo ali pra ser considerado"
+      "text": "tem um duplo ali pra ser considerado",
+      "source": "restream"
     },
     {
       "time": "22:28",
@@ -32,7 +59,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Bom dia! Top top"
+      "text": "Bom dia! Top top",
+      "source": "restream"
     },
     {
       "time": "23:08",
@@ -40,7 +68,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Estava sem aquecimento"
+      "text": "Estava sem aquecimento",
+      "source": "restream"
     },
     {
       "time": "26:09",
@@ -48,7 +77,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Lembra de usar o CCT checks-captures-threats, olha os checks primeiros, depois as capturas e as amea;as.. tem M1 ae"
+      "text": "Lembra de usar o CCT checks-captures-threats, olha os checks primeiros, depois as capturas e as amea;as.. tem M1 ae",
+      "source": "restream"
     },
     {
       "time": "27:50",
@@ -56,7 +86,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "está aquecendo rsrsrs"
+      "text": "está aquecendo rsrsrs",
+      "source": "restream"
     },
     {
       "time": "38:45",
@@ -64,7 +95,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "se capturar direto, vc perdia a dama pro bispo...."
+      "text": "se capturar direto, vc perdia a dama pro bispo....",
+      "source": "restream"
     },
     {
       "time": "40:36",
@@ -72,7 +104,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@kauaskewer",
-      "text": "Opa"
+      "text": "Opa",
+      "source": "restream"
     },
     {
       "time": "40:46",
@@ -80,7 +113,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@kauaskewer",
-      "text": "Joga cocm os inscritos?"
+      "text": "Joga cocm os inscritos?",
+      "source": "restream"
     },
     {
       "time": "42:07",
@@ -88,7 +122,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Gambito do Rei é agressividade na veia, tu gosta de adrenalina hein rsrsrs"
+      "text": "Gambito do Rei é agressividade na veia, tu gosta de adrenalina hein rsrsrs",
+      "source": "restream"
     },
     {
       "time": "55:13",
@@ -96,7 +131,30 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Fabricio Zaruana agressivo, capturou as peças tudo e acabou com o oponente"
+      "text": "Fabricio Zaruana agressivo, capturou as peças tudo e acabou com o oponente",
+      "source": "restream"
+    },
+    {
+      "time": "1:07:54",
+      "seconds": 4074,
+      "platform": "Twitch",
+      "channel": "sedentarismo",
+      "author": "@sedentarismo",
+      "text": "kauaskewer08 me adiciona no lichess se tiver conta: fcz",
+      "source": "twitch",
+      "twitch_vod_id": "2826118843"
+    },
+    {
+      "time": "1:07:57",
+      "seconds": 4077,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "kauaskewer08 me adiciona no lichess se tiver conta: fcz",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
     },
     {
       "time": "1:08:05",
@@ -104,7 +162,30 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "kauaskewer08 me adiciona no lichess se tiver conta: fcz"
+      "text": "kauaskewer08 me adiciona no lichess se tiver conta: fcz",
+      "source": "restream"
+    },
+    {
+      "time": "1:08:13",
+      "seconds": 4093,
+      "platform": "Twitch",
+      "channel": "sedentarismo",
+      "author": "@sedentarismo",
+      "text": "no chess.com meu username é fczuardi",
+      "source": "twitch",
+      "twitch_vod_id": "2826118843"
+    },
+    {
+      "time": "1:08:16",
+      "seconds": 4096,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "no chess.com meu username é fczuardi",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
     },
     {
       "time": "1:08:24",
@@ -112,7 +193,30 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "no chess.com meu username é fczuardi"
+      "text": "no chess.com meu username é fczuardi",
+      "source": "restream"
+    },
+    {
+      "time": "1:08:29",
+      "seconds": 4109,
+      "platform": "Twitch",
+      "channel": "sedentarismo",
+      "author": "@sedentarismo",
+      "text": "se puder ser na live de amanha ou offline eu prefiro",
+      "source": "twitch",
+      "twitch_vod_id": "2826118843"
+    },
+    {
+      "time": "1:08:32",
+      "seconds": 4112,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "se puder ser na live de amanha ou offline eu prefiro",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
     },
     {
       "time": "1:08:40",
@@ -120,7 +224,8 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "se puder ser na live de amanha ou offline eu prefiro"
+      "text": "se puder ser na live de amanha ou offline eu prefiro",
+      "source": "restream"
     },
     {
       "time": "1:09:00",
@@ -128,7 +233,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Deu pra aprender junto contigo! Obrigado pela live!"
+      "text": "Deu pra aprender junto contigo! Obrigado pela live!",
+      "source": "restream"
     },
     {
       "time": "1:11:01",
@@ -136,7 +242,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "hahahahaahahah"
+      "text": "hahahahaahahah",
+      "source": "restream"
     },
     {
       "time": "1:12:21",
@@ -144,7 +251,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Sem problemas hehehe"
+      "text": "Sem problemas hehehe",
+      "source": "restream"
     },
     {
       "time": "1:15:33",
@@ -152,7 +260,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "é que bloqueio o bispo... cavalo g6 defenderia tbm"
+      "text": "é que bloqueio o bispo... cavalo g6 defenderia tbm",
+      "source": "restream"
     },
     {
       "time": "1:17:39",
@@ -160,7 +269,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "sua analise é muito boa! Diga-se de passagem"
+      "text": "sua analise é muito boa! Diga-se de passagem",
+      "source": "restream"
     },
     {
       "time": "1:19:28",
@@ -168,7 +278,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@unknown",
-      "text": "ʏᴏ ʙʀᴏ, ᴊᴜꜱᴛ ᴡᴀɴᴛᴇᴅ ᴛᴏ ꜱʜᴏᴡ ꜱᴏᴍᴇ ʀᴇᴀʟ ʟᴏᴠᴇ ꜰᴏʀ ʏᴏᴜʀ ꜱᴛʀᴇᴀᴍ ᴄᴀᴜꜱᴇ ʏᴏᴜ’ᴠᴇ ɢᴇɴᴜɪɴᴇʟʏ ɢᴏᴛ ᴄʀᴀᴢʏ ᴘᴏᴛᴇɴᴛɪᴀʟ ᴀɴᴅ ɪ’ᴅ ʟᴏᴠᴇ ᴛᴏ ᴄᴏɴɴᴇᴄᴛ ʏᴏᴜ ᴡɪᴛʜ ᴀ ᴛᴏᴘ ᴛᴡɪᴛᴄʜ ꜱᴛʀᴇᴀᴍᴇʀ ᴡʜᴏ ᴘᴜʟʟꜱ ᴛʜᴏᴜꜱᴀɴᴅꜱ ᴏꜰ ʟɪᴠᴇ ᴠɪᴇᴡᴇʀꜱ ᴀɴᴅ ʜᴀꜱ ᴏᴠᴇʀ 41.2k ꜰᴏʟʟᴏᴡᴇʀꜱ. ʜᴇ ᴀᴄᴛᴜᴀʟʟʏ ʜᴇʟᴘꜱ ꜱᴍᴀʟʟᴇʀ ᴄʀᴇᴀᴛᴏʀꜱ ɢʀᴏᴡ ᴛʜᴇ ʀɪɢʜᴛ ᴡᴀʏ, ᴡɪᴛʜ ʀᴇᴀʟ ᴠɪᴇᴡᴇʀꜱ, ᴀᴄᴛɪᴠᴇ ᴄʜᴀᴛ, ᴀɴᴅ ʟᴏʏᴀʟ ꜱᴜᴘᴘᴏʀᴛᴇʀꜱ ᴡʜᴏ ꜱᴜʙ, ɢɪꜰᴛ, ᴀɴᴅ ᴅᴏɴᴀᴛᴇ. ɪꜰ ʏᴏᴜ’ʀᴇ ɪɴᴛᴇʀᴇꜱᴛᴇᴅ, ᴀᴅᴅ ʜɪᴍ ᴏɴ ᴅɪꜱᴄᴏʀᴅ 👉  Staxmontana_1 ᴀɴᴅ ᴛᴇʟʟ ʜɪᴍ  ROYAL ꜱᴇɴᴛ ʏᴏᴜ. ᴛʜɪꜱ ᴄᴏᴜʟᴅ ʙᴇ ᴛʜᴇ ᴘᴜꜱʜ ʏᴏᴜʀ ꜱᴛʀᴇᴀᴍ ɴᴇᴇᴅꜱ"
+      "text": "ʏᴏ ʙʀᴏ, ᴊᴜꜱᴛ ᴡᴀɴᴛᴇᴅ ᴛᴏ ꜱʜᴏᴡ ꜱᴏᴍᴇ ʀᴇᴀʟ ʟᴏᴠᴇ ꜰᴏʀ ʏᴏᴜʀ ꜱᴛʀᴇᴀᴍ ᴄᴀᴜꜱᴇ ʏᴏᴜ’ᴠᴇ ɢᴇɴᴜɪɴᴇʟʏ ɢᴏᴛ ᴄʀᴀᴢʏ ᴘᴏᴛᴇɴᴛɪᴀʟ ᴀɴᴅ ɪ’ᴅ ʟᴏᴠᴇ ᴛᴏ ᴄᴏɴɴᴇᴄᴛ ʏᴏᴜ ᴡɪᴛʜ ᴀ ᴛᴏᴘ ᴛᴡɪᴛᴄʜ ꜱᴛʀᴇᴀᴍᴇʀ ᴡʜᴏ ᴘᴜʟʟꜱ ᴛʜᴏᴜꜱᴀɴᴅꜱ ᴏꜰ ʟɪᴠᴇ ᴠɪᴇᴡᴇʀꜱ ᴀɴᴅ ʜᴀꜱ ᴏᴠᴇʀ 41.2k ꜰᴏʟʟᴏᴡᴇʀꜱ. ʜᴇ ᴀᴄᴛᴜᴀʟʟʏ ʜᴇʟᴘꜱ ꜱᴍᴀʟʟᴇʀ ᴄʀᴇᴀᴛᴏʀꜱ ɢʀᴏᴡ ᴛʜᴇ ʀɪɢʜᴛ ᴡᴀʏ, ᴡɪᴛʜ ʀᴇᴀʟ ᴠɪᴇᴡᴇʀꜱ, ᴀᴄᴛɪᴠᴇ ᴄʜᴀᴛ, ᴀɴᴅ ʟᴏʏᴀʟ ꜱᴜᴘᴘᴏʀᴛᴇʀꜱ ᴡʜᴏ ꜱᴜʙ, ɢɪꜰᴛ, ᴀɴᴅ ᴅᴏɴᴀᴛᴇ. ɪꜰ ʏᴏᴜ’ʀᴇ ɪɴᴛᴇʀᴇꜱᴛᴇᴅ, ᴀᴅᴅ ʜɪᴍ ᴏɴ ᴅɪꜱᴄᴏʀᴅ 👉  Staxmontana_1 ᴀɴᴅ ᴛᴇʟʟ ʜɪᴍ  ROYAL ꜱᴇɴᴛ ʏᴏᴜ. ᴛʜɪꜱ ᴄᴏᴜʟᴅ ʙᴇ ᴛʜᴇ ᴘᴜꜱʜ ʏᴏᴜʀ ꜱᴛʀᴇᴀᴍ ɴᴇᴇᴅꜱ",
+      "source": "restream",
+      "twitch_vod_id": "2826118843"
     },
     {
       "time": "1:21:41",
@@ -176,7 +288,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Agora entendi, quando vc não joga agressivo, o Stockfish pedi pra vc ser, agora está explicado sua agressividade hehehe"
+      "text": "Agora entendi, quando vc não joga agressivo, o Stockfish pedi pra vc ser, agora está explicado sua agressividade hehehe",
+      "source": "restream"
     },
     {
       "time": "1:24:45",
@@ -184,7 +297,10 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "Person 1",
-      "text": "Eu já to fazendo um relatório de custos aqui e vendo sua live em outra tela. Bom dia e bom trabalho ae FCZ!"
+      "text": "Eu já to fazendo um relatório de custos aqui e vendo sua live em outra tela. Bom dia e bom trabalho ae FCZ!",
+      "source": "restream"
     }
-  ]
+  ],
+  "youtube_video_id": "LmHPMA7ui7U",
+  "restream_event_id": "841714b2-31ad-45bf-bcc2-44786047faf6"
 }

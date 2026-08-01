@@ -1,13 +1,15 @@
 {
   "session_number": "0028",
-  "youtube_video_id": "Dnt-SyRm5lE",
-  "restream_event_id": "42f9fed8-d2ce-46d8-82d5-c26c3e536992",
-  "source": "restream",
+  "source": "merged",
+  "sources": [
+    "restream",
+    "youtube"
+  ],
   "platforms": [
     "Restream",
     "YouTube"
   ],
-  "message_count": 38,
+  "message_count": 53,
   "messages": [
     {
       "time": "0:00",
@@ -15,7 +17,20 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "bom dia chat, live começa em 3 min"
+      "text": "bom dia chat, live começa em 3 min",
+      "source": "restream"
+    },
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "bom dia chat, live começa em 3 min",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
     },
     {
       "time": "0:38",
@@ -23,7 +38,11 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@fczuardi",
-      "text": "teste"
+      "text": "teste",
+      "source": "restream",
+      "badges": [
+        "Owner"
+      ]
     },
     {
       "time": "1:19",
@@ -31,7 +50,11 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@fczuardi",
-      "text": "1 minuto para pegar o café e ja começamos"
+      "text": "1 minuto para pegar o café e ja começamos",
+      "source": "restream",
+      "badges": [
+        "Owner"
+      ]
     },
     {
       "time": "44:10",
@@ -39,7 +62,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Bom dia mano! To vendo em silencio hoje, muito triste aquele fork... Bom que aprendeu a tomar cuidado com isso"
+      "text": "Bom dia mano! To vendo em silencio hoje, muito triste aquele fork... Bom que aprendeu a tomar cuidado com isso",
+      "source": "restream"
     },
     {
       "time": "44:30",
@@ -47,7 +71,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "acontece"
+      "text": "acontece",
+      "source": "restream"
     },
     {
       "time": "44:30",
@@ -55,7 +80,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "hahaha"
+      "text": "hahaha",
+      "source": "restream"
     },
     {
       "time": "46:00",
@@ -63,7 +89,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@JeanCarlos-nd1zk",
-      "text": "salve"
+      "text": "salve",
+      "source": "restream"
     },
     {
       "time": "49:22",
@@ -71,7 +98,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@JeanCarlos-nd1zk",
-      "text": "Vc está conseguindo subir seu rating?"
+      "text": "Vc está conseguindo subir seu rating?",
+      "source": "restream"
     },
     {
       "time": "51:43",
@@ -79,7 +107,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@JeanCarlos-nd1zk",
-      "text": "resolver exercícios táticos são bons mas tem que colocá-los em prática"
+      "text": "resolver exercícios táticos são bons mas tem que colocá-los em prática",
+      "source": "restream"
     },
     {
       "time": "52:04",
@@ -87,7 +116,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@JeanCarlos-nd1zk",
-      "text": "posso te dar uma dicas enquanto vc joga as partidas"
+      "text": "posso te dar uma dicas enquanto vc joga as partidas",
+      "source": "restream"
     },
     {
       "time": "1:03:49",
@@ -95,7 +125,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Vamo FCZ!!! vitoria vitoria"
+      "text": "Vamo FCZ!!! vitoria vitoria",
+      "source": "restream"
     },
     {
       "time": "1:16:15",
@@ -103,7 +134,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@Martins-CR",
-      "text": "dobra as torre"
+      "text": "dobra as torre",
+      "source": "restream"
     },
     {
       "time": "1:17:36",
@@ -111,7 +143,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@Martins-CR",
-      "text": "toma de piao"
+      "text": "toma de piao",
+      "source": "restream"
     },
     {
       "time": "1:17:56",
@@ -119,7 +152,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@Martins-CR",
-      "text": "caramba , dava pra tomar de piao kk"
+      "text": "caramba , dava pra tomar de piao kk",
+      "source": "restream"
     },
     {
       "time": "1:18:26",
@@ -127,7 +161,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "valeu valeu"
+      "text": "valeu valeu",
+      "source": "restream"
     },
     {
       "time": "1:20:17",
@@ -135,7 +170,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@Martins-CR",
-      "text": "n dava mesmo"
+      "text": "n dava mesmo",
+      "source": "restream"
     },
     {
       "time": "1:20:28",
@@ -143,7 +179,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@Martins-CR",
-      "text": "era isso"
+      "text": "era isso",
+      "source": "restream"
     },
     {
       "time": "1:21:58",
@@ -151,7 +188,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "podia ter sacado o rook ali, salvava do empate"
+      "text": "podia ter sacado o rook ali, salvava do empate",
+      "source": "restream"
     },
     {
       "time": "1:23:49",
@@ -159,7 +197,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "vi uma melhor que a minha ainda"
+      "text": "vi uma melhor que a minha ainda",
+      "source": "restream"
     },
     {
       "time": "1:23:49",
@@ -167,7 +206,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@Martins-CR",
-      "text": "nao , ele viria de bispo pra pegar o piao"
+      "text": "nao , ele viria de bispo pra pegar o piao",
+      "source": "restream"
     },
     {
       "time": "1:24:30",
@@ -175,7 +215,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@Martins-CR",
-      "text": "quando vc avança piao , ele toma de bispo e vc tras a torre da segunda linha g2"
+      "text": "quando vc avança piao , ele toma de bispo e vc tras a torre da segunda linha g2",
+      "source": "restream"
     },
     {
       "time": "1:26:51",
@@ -183,7 +224,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@Martins-CR",
-      "text": "to imaginando ordens diferentes das jogadas que poderia dar certo"
+      "text": "to imaginando ordens diferentes das jogadas que poderia dar certo",
+      "source": "restream"
     },
     {
       "time": "1:31:03",
@@ -191,7 +233,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "parecia barulho de msn hahaha fui jogado no passado"
+      "text": "parecia barulho de msn hahaha fui jogado no passado",
+      "source": "restream"
     },
     {
       "time": "1:33:24",
@@ -199,7 +242,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@p.maciel7353",
-      "text": "Você está sendo chamado para uma partida"
+      "text": "Você está sendo chamado para uma partida",
+      "source": "restream"
+    },
+    {
+      "time": "1:47:14",
+      "seconds": 6434,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@Martins-CR",
+      "text": "vai com o rei agr",
+      "source": "youtube"
     },
     {
       "time": "1:47:53",
@@ -207,7 +260,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@Martins-CR",
-      "text": "vai com o rei agr"
+      "text": "vai com o rei agr",
+      "source": "restream"
+    },
+    {
+      "time": "1:48:03",
+      "seconds": 6483,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@Martins-CR",
+      "text": "tinha q antecipar as jogadas",
+      "source": "youtube"
     },
     {
       "time": "1:48:44",
@@ -215,7 +278,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@Martins-CR",
-      "text": "tinha q antecipar as jogadas"
+      "text": "tinha q antecipar as jogadas",
+      "source": "restream"
+    },
+    {
+      "time": "1:49:52",
+      "seconds": 6592,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@Martins-CR",
+      "text": "na hora que ele tomou de torre vc ja tinha que levar o rei até h3",
+      "source": "youtube"
     },
     {
       "time": "1:50:34",
@@ -223,7 +296,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@Martins-CR",
-      "text": "na hora que ele tomou de torre vc ja tinha que levar o rei até h3"
+      "text": "na hora que ele tomou de torre vc ja tinha que levar o rei até h3",
+      "source": "restream"
+    },
+    {
+      "time": "1:50:48",
+      "seconds": 6648,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@Martins-CR",
+      "text": "o rei sobe",
+      "source": "youtube"
     },
     {
       "time": "1:51:35",
@@ -231,7 +314,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@Martins-CR",
-      "text": "o rei sobe"
+      "text": "o rei sobe",
+      "source": "restream"
+    },
+    {
+      "time": "1:52:01",
+      "seconds": 6721,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@Martins-CR",
+      "text": "poderia dar duplo de cavalo dps disso",
+      "source": "youtube"
     },
     {
       "time": "1:52:46",
@@ -239,7 +332,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@Martins-CR",
-      "text": "poderia dar duplo de cavalo dps disso"
+      "text": "poderia dar duplo de cavalo dps disso",
+      "source": "restream"
+    },
+    {
+      "time": "1:55:08",
+      "seconds": 6908,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@Martins-CR",
+      "text": "n precisa ir até h3 , o stockfisch recomenda dar duplo antes até",
+      "source": "youtube"
     },
     {
       "time": "1:55:47",
@@ -247,7 +350,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@Martins-CR",
-      "text": "n precisa ir até h3 , o stockfisch recomenda dar duplo antes até"
+      "text": "n precisa ir até h3 , o stockfisch recomenda dar duplo antes até",
+      "source": "restream"
+    },
+    {
+      "time": "1:58:36",
+      "seconds": 7116,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@Mateus99T",
+      "text": "salve",
+      "source": "youtube"
     },
     {
       "time": "1:59:19",
@@ -255,7 +368,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "Person 6",
-      "text": "salve"
+      "text": "salve",
+      "source": "restream"
+    },
+    {
+      "time": "1:59:44",
+      "seconds": 7184,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@Martins-CR",
+      "text": "ai nesse jogo teria que prever tudo antes , pq quando chega naquela situação nao tem muito oq fazer mesmo. até seria bom analisar essa parte",
+      "source": "youtube"
     },
     {
       "time": "2:00:29",
@@ -263,7 +386,35 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@Martins-CR",
-      "text": "ai nesse jogo teria que prever tudo antes , pq quando chega naquela situação nao tem muito oq fazer mesmo. até seria bom analisar essa parte"
+      "text": "ai nesse jogo teria que prever tudo antes , pq quando chega naquela situação nao tem muito oq fazer mesmo. até seria bom analisar essa parte",
+      "source": "restream"
+    },
+    {
+      "time": "2:00:58",
+      "seconds": 7258,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@p.maciel7353",
+      "text": "Fabricio, o PhelpsAceofSpaces sou eu",
+      "source": "youtube"
+    },
+    {
+      "time": "2:01:08",
+      "seconds": 7268,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@p.maciel7353",
+      "text": "Ace of Spaces é o Ace Frehley do Kiss",
+      "source": "youtube"
+    },
+    {
+      "time": "2:01:34",
+      "seconds": 7294,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@p.maciel7353",
+      "text": "também estou aprendendo, gostei de jogar com você e depois gostaria de jogar outras vezes com vocês",
+      "source": "youtube"
     },
     {
       "time": "2:01:40",
@@ -271,7 +422,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@p.maciel7353",
-      "text": "Fabricio, o PhelpsAceofSpaces sou eu"
+      "text": "Fabricio, o PhelpsAceofSpaces sou eu",
+      "source": "restream"
     },
     {
       "time": "2:01:50",
@@ -279,7 +431,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@p.maciel7353",
-      "text": "Ace of Spaces é o Ace Frehley do Kiss"
+      "text": "Ace of Spaces é o Ace Frehley do Kiss",
+      "source": "restream"
     },
     {
       "time": "2:02:20",
@@ -287,7 +440,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@p.maciel7353",
-      "text": "também estou aprendendo, gostei de jogar com você e depois gostaria de jogar outras vezes com vocês"
+      "text": "também estou aprendendo, gostei de jogar com você e depois gostaria de jogar outras vezes com vocês",
+      "source": "restream"
+    },
+    {
+      "time": "2:02:33",
+      "seconds": 7353,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@Martins-CR",
+      "text": "printei pra pegar essa posição , acho q eu conseguiria dar mate, mas durante o jogo com pressão do tempo e tals eu nao veria essas jogadas",
+      "source": "youtube"
     },
     {
       "time": "2:03:11",
@@ -295,7 +458,32 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@Martins-CR",
-      "text": "printei pra pegar essa posição , acho q eu conseguiria dar mate, mas durante o jogo com pressão do tempo e tals eu nao veria essas jogadas"
+      "text": "printei pra pegar essa posição , acho q eu conseguiria dar mate, mas durante o jogo com pressão do tempo e tals eu nao veria essas jogadas",
+      "source": "restream"
+    },
+    {
+      "time": "2:07:13",
+      "seconds": 7633,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "https://lichess.org/2wpUVBjy/white#20",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
+    },
+    {
+      "time": "2:07:23",
+      "seconds": 7643,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "https://lichess.org/OHr11ie9/white#26",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
     },
     {
       "time": "2:07:47",
@@ -303,7 +491,8 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "https://lichess.org/2wpUVBjy/white#20"
+      "text": "https://lichess.org/2wpUVBjy/white#20",
+      "source": "restream"
     },
     {
       "time": "2:07:57",
@@ -311,7 +500,10 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "https://lichess.org/OHr11ie9/white#26"
+      "text": "https://lichess.org/OHr11ie9/white#26",
+      "source": "restream"
     }
-  ]
+  ],
+  "youtube_video_id": "Dnt-SyRm5lE",
+  "restream_event_id": "42f9fed8-d2ce-46d8-82d5-c26c3e536992"
 }

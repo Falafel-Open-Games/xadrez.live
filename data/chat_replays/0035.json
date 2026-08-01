@@ -1,13 +1,15 @@
 {
   "session_number": "0035",
-  "youtube_video_id": "TwpStrMDyts",
-  "restream_event_id": "06a7532a-c141-4d82-9607-4f339d11afed",
-  "source": "restream",
+  "source": "merged",
+  "sources": [
+    "restream",
+    "youtube"
+  ],
   "platforms": [
     "Restream",
     "YouTube"
   ],
-  "message_count": 9,
+  "message_count": 10,
   "messages": [
     {
       "time": "0:00",
@@ -15,7 +17,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "Person 1",
-      "text": "pra que anota tudo que faz? qual a vantagem, eu mesmo nao faço isso"
+      "text": "pra que anota tudo que faz? qual a vantagem, eu mesmo nao faço isso",
+      "source": "restream"
     },
     {
       "time": "0:00",
@@ -23,7 +26,8 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "oi mihael, nao tinha visto sua pergunta"
+      "text": "oi mihael, nao tinha visto sua pergunta",
+      "source": "restream"
     },
     {
       "time": "0:00",
@@ -31,7 +35,8 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "nao sei se tem muita vantagem em catalogar tudo que faco em forma de texto"
+      "text": "nao sei se tem muita vantagem em catalogar tudo que faco em forma de texto",
+      "source": "restream"
     },
     {
       "time": "0:00",
@@ -39,7 +44,8 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "até pq o video com tudo ja está gravado e no lichess o historico de partidas tb fica gravado"
+      "text": "até pq o video com tudo ja está gravado e no lichess o historico de partidas tb fica gravado",
+      "source": "restream"
     },
     {
       "time": "0:00",
@@ -47,7 +53,8 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "mas eu gravo para dar insumos ao meu site de registros xadrez.live"
+      "text": "mas eu gravo para dar insumos ao meu site de registros xadrez.live",
+      "source": "restream"
     },
     {
       "time": "0:00",
@@ -55,7 +62,8 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "eu alimento as paginas das sessoes com estes metadados, na esperança de ajudar o bot do Google a melhor rankear meu site (SEO)"
+      "text": "eu alimento as paginas das sessoes com estes metadados, na esperança de ajudar o bot do Google a melhor rankear meu site (SEO)",
+      "source": "restream"
     },
     {
       "time": "0:00",
@@ -63,7 +71,20 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "tudo meio na base da experimentação mesmo... nao sei se ajuda tanto assim, só uma intuição"
+      "text": "tudo meio na base da experimentação mesmo... nao sei se ajuda tanto assim, só uma intuição",
+      "source": "restream"
+    },
+    {
+      "time": "1:42",
+      "seconds": 102,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "teste",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
     },
     {
       "time": "1:52",
@@ -71,7 +92,8 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "teste"
+      "text": "teste",
+      "source": "restream"
     },
     {
       "time": "25:11",
@@ -79,7 +101,10 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MatheusGabriel-rb2md",
-      "text": "bb2+"
+      "text": "bb2+",
+      "source": "restream"
     }
-  ]
+  ],
+  "youtube_video_id": "TwpStrMDyts",
+  "restream_event_id": "06a7532a-c141-4d82-9607-4f339d11afed"
 }

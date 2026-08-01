@@ -1,14 +1,16 @@
 {
   "session_number": "0023",
-  "youtube_video_id": "VrOIrqLam4w",
-  "restream_event_id": "5af797ee-5e76-4eb2-b8af-1e9adbda6ab9",
-  "source": "restream",
+  "source": "merged",
+  "sources": [
+    "restream",
+    "youtube"
+  ],
   "platforms": [
     "Restream",
     "Twitch",
     "YouTube"
   ],
-  "message_count": 91,
+  "message_count": 148,
   "messages": [
     {
       "time": "0:00",
@@ -16,7 +18,20 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "bom dia chat, transmissão começa em 2 min"
+      "text": "bom dia chat, transmissão começa em 2 min",
+      "source": "restream"
+    },
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "bom dia chat, transmissão começa em 2 min",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
     },
     {
       "time": "9:28",
@@ -24,7 +39,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "credo?"
+      "text": "credo?",
+      "source": "restream"
     },
     {
       "time": "10:29",
@@ -32,7 +48,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "eu nem acordei ainda"
+      "text": "eu nem acordei ainda",
+      "source": "restream"
     },
     {
       "time": "10:49",
@@ -40,7 +57,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "mate in 2"
+      "text": "mate in 2",
+      "source": "restream"
     },
     {
       "time": "12:20",
@@ -48,7 +66,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "quanto tmpo joga, meu filho?"
+      "text": "quanto tmpo joga, meu filho?",
+      "source": "restream"
     },
     {
       "time": "15:11",
@@ -56,7 +75,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "algum estudo?"
+      "text": "algum estudo?",
+      "source": "restream"
     },
     {
       "time": "16:42",
@@ -64,7 +84,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "conselho"
+      "text": "conselho",
+      "source": "restream"
     },
     {
       "time": "17:12",
@@ -72,7 +93,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "isso não é pra iniciante"
+      "text": "isso não é pra iniciante",
+      "source": "restream"
     },
     {
       "time": "17:52",
@@ -80,7 +102,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "vc precisa aprender os princípios básicos, antes de adentrar abertura"
+      "text": "vc precisa aprender os princípios básicos, antes de adentrar abertura",
+      "source": "restream"
     },
     {
       "time": "18:23",
@@ -88,7 +111,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MihaelKeehl-yf1zb",
-      "text": "oloko, ô o Ethreal ai,salve ai ethereal"
+      "text": "oloko, ô o Ethreal ai,salve ai ethereal",
+      "source": "restream"
     },
     {
       "time": "18:53",
@@ -96,7 +120,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "levantei pra mijar e vim aqui só bisbilhotar"
+      "text": "levantei pra mijar e vim aqui só bisbilhotar",
+      "source": "restream"
     },
     {
       "time": "19:53",
@@ -104,7 +129,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "não faço live"
+      "text": "não faço live",
+      "source": "restream"
     },
     {
       "time": "20:24",
@@ -112,7 +138,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "não sei qujem é, mas creio já visto por aí"
+      "text": "não sei qujem é, mas creio já visto por aí",
+      "source": "restream"
     },
     {
       "time": "20:54",
@@ -120,7 +147,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MihaelKeehl-yf1zb",
-      "text": "eu tava focando no meu triunfo enxadristico"
+      "text": "eu tava focando no meu triunfo enxadristico",
+      "source": "restream"
     },
     {
       "time": "21:24",
@@ -128,7 +156,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MihaelKeehl-yf1zb",
-      "text": "queria pegar 2mil em tempo recorde"
+      "text": "queria pegar 2mil em tempo recorde",
+      "source": "restream"
     },
     {
       "time": "21:34",
@@ -136,7 +165,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "aí eu estava apenas comentando com o MI e a Andrea"
+      "text": "aí eu estava apenas comentando com o MI e a Andrea",
+      "source": "restream"
     },
     {
       "time": "21:54",
@@ -144,7 +174,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "Perdomo"
+      "text": "Perdomo",
+      "source": "restream"
     },
     {
       "time": "22:55",
@@ -152,7 +183,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "Mikhael... esqueça isso de rating"
+      "text": "Mikhael... esqueça isso de rating",
+      "source": "restream"
     },
     {
       "time": "23:05",
@@ -160,7 +192,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "a busca desesperada pelo rating"
+      "text": "a busca desesperada pelo rating",
+      "source": "restream"
     },
     {
       "time": "23:15",
@@ -168,7 +201,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "MI Perdomo"
+      "text": "MI Perdomo",
+      "source": "restream"
     },
     {
       "time": "23:35",
@@ -176,7 +210,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "fica tanquilo"
+      "text": "fica tanquilo",
+      "source": "restream"
     },
     {
       "time": "23:55",
@@ -184,7 +219,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MihaelKeehl-yf1zb",
-      "text": "eu jogo xadrez até com os alienigenas"
+      "text": "eu jogo xadrez até com os alienigenas",
+      "source": "restream"
     },
     {
       "time": "24:26",
@@ -192,7 +228,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "dá uma parada. vou te explicar a posição"
+      "text": "dá uma parada. vou te explicar a posição",
+      "source": "restream"
     },
     {
       "time": "24:36",
@@ -200,7 +237,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "dai vc vai pensar oque deva fazer"
+      "text": "dai vc vai pensar oque deva fazer",
+      "source": "restream"
     },
     {
       "time": "25:26",
@@ -208,7 +246,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MihaelKeehl-yf1zb",
-      "text": "@EtherealWave-bt7zo como esquece isso de rating, tem que ter metas no xadrez, ninguem joga xadrez só por joga, tem atingir as metas, para se motivar e depois almejar algo ainda maior"
+      "text": "@EtherealWave-bt7zo como esquece isso de rating, tem que ter metas no xadrez, ninguem joga xadrez só por joga, tem atingir as metas, para se motivar e depois almejar algo ainda maior",
+      "source": "restream"
     },
     {
       "time": "25:56",
@@ -216,7 +255,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MihaelKeehl-yf1zb",
-      "text": "até criança pega 2mil de rating, porque que eu não vo pega"
+      "text": "até criança pega 2mil de rating, porque que eu não vo pega",
+      "source": "restream"
     },
     {
       "time": "27:07",
@@ -224,7 +264,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "não sei o seu nível enxadrístico. por ter 1500 ou 2000 não significa que jogue bem ou mal. apenas uma parãmetro onde pode eventualmente conseguir mesmo jogando 3 mil partidas com alguém de 500"
+      "text": "não sei o seu nível enxadrístico. por ter 1500 ou 2000 não significa que jogue bem ou mal. apenas uma parãmetro onde pode eventualmente conseguir mesmo jogando 3 mil partidas com alguém de 500",
+      "source": "restream"
     },
     {
       "time": "27:57",
@@ -232,7 +273,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "a meta seria: entender as coisas. o rating é consequencia do teu aprendizado"
+      "text": "a meta seria: entender as coisas. o rating é consequencia do teu aprendizado",
+      "source": "restream"
     },
     {
       "time": "30:18",
@@ -240,7 +282,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "vc vai jogar isso, no seu nível, e o adversário vai jogar algo totalmente diferente, pois o teu adversário ainda no teu mesmo nível, ele não está entendendo."
+      "text": "vc vai jogar isso, no seu nível, e o adversário vai jogar algo totalmente diferente, pois o teu adversário ainda no teu mesmo nível, ele não está entendendo.",
+      "source": "restream"
     },
     {
       "time": "30:39",
@@ -248,7 +291,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "nessa posição o teu rei não pode ficar na frente da tua torre."
+      "text": "nessa posição o teu rei não pode ficar na frente da tua torre.",
+      "source": "restream"
     },
     {
       "time": "31:19",
@@ -256,7 +300,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "deve ganhar a \"oposição\", forçando o adversário ir cada vez mais pro canto"
+      "text": "deve ganhar a \"oposição\", forçando o adversário ir cada vez mais pro canto",
+      "source": "restream"
     },
     {
       "time": "31:19",
@@ -264,7 +309,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MihaelKeehl-yf1zb",
-      "text": "mas se inverte fica a mesma coisa, pega rating = aprende mais, os 2mil é só uma direção pra saber pra onde eu tenho que ir"
+      "text": "mas se inverte fica a mesma coisa, pega rating = aprende mais, os 2mil é só uma direção pra saber pra onde eu tenho que ir",
+      "source": "restream"
     },
     {
       "time": "31:39",
@@ -272,7 +318,44 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "Person 1",
-      "text": "oposição é quando as casa entre os reis são ímpares"
+      "text": "oposição é quando as casa entre os reis são ímpares",
+      "source": "restream"
+    },
+    {
+      "time": "32:48",
+      "seconds": 1968,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@EtherealWave-bt7zo",
+      "text": "busca-se rating pra conseguir alguma coisa de classificação. não de melhor a enxadrística. Te dou um exemplo. pra conseguir norma de GM tem que ter um rating me´dio de 2500, não que esse GM de 2500",
+      "source": "youtube"
+    },
+    {
+      "time": "32:52",
+      "seconds": 1972,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@EtherealWave-bt7zo",
+      "text": "seja o grande GM",
+      "source": "youtube"
+    },
+    {
+      "time": "33:11",
+      "seconds": 1991,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@EtherealWave-bt7zo",
+      "text": "mas enfim. é a geração Z se expressando",
+      "source": "youtube"
+    },
+    {
+      "time": "33:18",
+      "seconds": 1998,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@EtherealWave-bt7zo",
+      "text": "tenha um bom dia e bons estudos",
+      "source": "youtube"
     },
     {
       "time": "33:35",
@@ -280,7 +363,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "busca-se rating pra conseguir alguma coisa de classificação. não de melhor a enxadrística. Te dou um exemplo. pra conseguir norma de GM tem que ter um rating me´dio de 2500, não que esse GM de 2500"
+      "text": "busca-se rating pra conseguir alguma coisa de classificação. não de melhor a enxadrística. Te dou um exemplo. pra conseguir norma de GM tem que ter um rating me´dio de 2500, não que esse GM de 2500",
+      "source": "restream"
     },
     {
       "time": "33:45",
@@ -288,7 +372,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "seja o grande GM"
+      "text": "seja o grande GM",
+      "source": "restream"
     },
     {
       "time": "33:55",
@@ -296,7 +381,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "mas enfim. é a geração Z se expressando"
+      "text": "mas enfim. é a geração Z se expressando",
+      "source": "restream"
+    },
+    {
+      "time": "33:55",
+      "seconds": 2035,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@EtherealWave-bt7zo",
+      "text": "não, é em resposta ao Mikhail",
+      "source": "youtube"
     },
     {
       "time": "34:05",
@@ -304,7 +399,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "tenha um bom dia e bons estudos"
+      "text": "tenha um bom dia e bons estudos",
+      "source": "restream"
     },
     {
       "time": "34:45",
@@ -312,7 +408,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "não, é em resposta ao Mikhail"
+      "text": "não, é em resposta ao Mikhail",
+      "source": "restream"
+    },
+    {
+      "time": "38:03",
+      "seconds": 2283,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MihaelKeehl-yf1zb",
+      "text": "mas pra quem é mais burro igual eu, simplifica o xadrez torna tudo mais facil, não quero dizer que os 2mil seja no sentido literal, quero dizer que seja apenas um nível do jogabilidade, não errar,",
+      "source": "youtube"
     },
     {
       "time": "38:47",
@@ -320,7 +426,35 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MihaelKeehl-yf1zb",
-      "text": "mas pra quem é mais burro igual eu, simplifica o xadrez torna tudo mais facil, não quero dizer que os 2mil seja no sentido literal, quero dizer que seja apenas um nível do jogabilidade, não errar,"
+      "text": "mas pra quem é mais burro igual eu, simplifica o xadrez torna tudo mais facil, não quero dizer que os 2mil seja no sentido literal, quero dizer que seja apenas um nível do jogabilidade, não errar,",
+      "source": "restream"
+    },
+    {
+      "time": "39:45",
+      "seconds": 2385,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MihaelKeehl-yf1zb",
+      "text": "eu tenho que ter uma meta (os 2mil), senão eu não sei oque eu tô fazendo, ler livros, aprender xadrez, aprender tudo relacionado a xadrez é um meio para atingir esses 2mil",
+      "source": "youtube"
+    },
+    {
+      "time": "39:50",
+      "seconds": 2390,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@EtherealWave-bt7zo",
+      "text": "Eu não estou te cobrando nada. vc começou ontem. me refiro aos exercicios que fez ali. vc estava adivinhando os lances. com o estudo, vc pensa oque deve ser feito, e então faz.",
+      "source": "youtube"
+    },
+    {
+      "time": "39:55",
+      "seconds": 2395,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Quanto depois dos 40? :rolling_on_the_floor_laughing:",
+      "source": "youtube"
     },
     {
       "time": "40:38",
@@ -328,7 +462,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MihaelKeehl-yf1zb",
-      "text": "eu tenho que ter uma meta (os 2mil), senão eu não sei oque eu tô fazendo, ler livros, aprender xadrez, aprender tudo relacionado a xadrez é um meio para atingir esses 2mil"
+      "text": "eu tenho que ter uma meta (os 2mil), senão eu não sei oque eu tô fazendo, ler livros, aprender xadrez, aprender tudo relacionado a xadrez é um meio para atingir esses 2mil",
+      "source": "restream"
     },
     {
       "time": "40:38",
@@ -336,7 +471,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "Eu não estou te cobrando nada. vc começou ontem. me refiro aos exercicios que fez ali. vc estava adivinhando os lances. com o estudo, vc pensa oque deve ser feito, e então faz."
+      "text": "Eu não estou te cobrando nada. vc começou ontem. me refiro aos exercicios que fez ali. vc estava adivinhando os lances. com o estudo, vc pensa oque deve ser feito, e então faz.",
+      "source": "restream"
+    },
+    {
+      "time": "40:44",
+      "seconds": 2444,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Bom dia!! hahaha",
+      "source": "youtube"
     },
     {
       "time": "40:48",
@@ -344,7 +489,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Quanto depois dos 40? 🤣"
+      "text": "Quanto depois dos 40? 🤣",
+      "source": "restream"
+    },
+    {
+      "time": "41:29",
+      "seconds": 2489,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Bom não se preocupe, à medida que você for atualizando sua série eu vou te substituindo na anterior. haha",
+      "source": "youtube"
     },
     {
       "time": "41:39",
@@ -352,7 +507,26 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Bom dia!! hahaha"
+      "text": "Bom dia!! hahaha",
+      "source": "restream"
+    },
+    {
+      "time": "41:44",
+      "seconds": 2504,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Meu vovô José Raul Capablanca.",
+      "source": "youtube"
+    },
+    {
+      "time": "42:10",
+      "seconds": 2530,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Herdei a ideia do nome, mas do xadrez a gente passou longíssimo.",
+      "source": "youtube"
     },
     {
       "time": "42:19",
@@ -360,7 +534,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Bom não se preocupe, à medida que você for atualizando sua série eu vou te substituindo na anterior. haha"
+      "text": "Bom não se preocupe, à medida que você for atualizando sua série eu vou te substituindo na anterior. haha",
+      "source": "restream"
     },
     {
       "time": "42:29",
@@ -368,7 +543,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Meu vovô José Raul Capablanca."
+      "text": "Meu vovô José Raul Capablanca.",
+      "source": "restream"
     },
     {
       "time": "43:00",
@@ -376,7 +552,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Herdei a ideia do nome, mas do xadrez a gente passou longíssimo."
+      "text": "Herdei a ideia do nome, mas do xadrez a gente passou longíssimo.",
+      "source": "restream"
+    },
+    {
+      "time": "43:03",
+      "seconds": 2583,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Vovô era brabo. Jogava extremamente \"Simples\"",
+      "source": "youtube"
     },
     {
       "time": "43:50",
@@ -384,7 +570,26 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Vovô era brabo. Jogava extremamente \"Simples\""
+      "text": "Vovô era brabo. Jogava extremamente \"Simples\"",
+      "source": "restream"
+    },
+    {
+      "time": "44:02",
+      "seconds": 2642,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Não leve o EtherealWave em consideração. Ele joga muito xadrez mas ele ta parado no tempo nas interações sociais. Na época dele os professores batiam nos alunos ainda. :rolling_on_the_floor_laughing:",
+      "source": "youtube"
+    },
+    {
+      "time": "44:45",
+      "seconds": 2685,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@EtherealWave-bt7zo",
+      "text": "sim, estou parado no tempo. tá",
+      "source": "youtube"
     },
     {
       "time": "44:51",
@@ -392,7 +597,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Não leve o EtherealWave em consideração. Ele joga muito xadrez mas ele ta parado no tempo nas interações sociais. Na época dele os professores batiam nos alunos ainda. 🤣"
+      "text": "Não leve o EtherealWave em consideração. Ele joga muito xadrez mas ele ta parado no tempo nas interações sociais. Na época dele os professores batiam nos alunos ainda. 🤣",
+      "source": "restream"
+    },
+    {
+      "time": "45:19",
+      "seconds": 2719,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Eu vi somente esses dias as evoluções das notações das partidas. Hoje a gente anda trocando as iniciais das peças por desenhos. haha",
+      "source": "youtube"
     },
     {
       "time": "45:41",
@@ -400,7 +615,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "sim, estou parado no tempo. tá"
+      "text": "sim, estou parado no tempo. tá",
+      "source": "restream"
     },
     {
       "time": "46:11",
@@ -408,7 +624,26 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Eu vi somente esses dias as evoluções das notações das partidas. Hoje a gente anda trocando as iniciais das peças por desenhos. haha"
+      "text": "Eu vi somente esses dias as evoluções das notações das partidas. Hoje a gente anda trocando as iniciais das peças por desenhos. haha",
+      "source": "restream"
+    },
+    {
+      "time": "46:24",
+      "seconds": 2784,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MihaelKeehl-yf1zb",
+      "text": "tem um cara que eu acompanho, que explica xadrez de forma bem simples, ele ensina bastante coisa pra quem tá no inicio, o nome é xadrez andy french, você podia ver as playlists",
+      "source": "youtube"
+    },
+    {
+      "time": "46:53",
+      "seconds": 2813,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MihaelKeehl-yf1zb",
+      "text": "certeza que você aprenderia muito, daria até pra assistir em live, eu assisto e to evoluindo muito",
+      "source": "youtube"
     },
     {
       "time": "47:12",
@@ -416,7 +651,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MihaelKeehl-yf1zb",
-      "text": "tem um cara que eu acompanho, que explica xadrez de forma bem simples, ele ensina bastante coisa pra quem tá no inicio, o nome é xadrez andy french, você podia ver as playlists"
+      "text": "tem um cara que eu acompanho, que explica xadrez de forma bem simples, ele ensina bastante coisa pra quem tá no inicio, o nome é xadrez andy french, você podia ver as playlists",
+      "source": "restream"
     },
     {
       "time": "47:42",
@@ -424,7 +660,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MihaelKeehl-yf1zb",
-      "text": "certeza que você aprenderia muito, daria até pra assistir em live, eu assisto e to evoluindo muito"
+      "text": "certeza que você aprenderia muito, daria até pra assistir em live, eu assisto e to evoluindo muito",
+      "source": "restream"
+    },
+    {
+      "time": "47:47",
+      "seconds": 2867,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Se riu ta ótimo. Tudo comigo é pela diversão. Acho que o Etherealwave sabe disso. hahaha",
+      "source": "youtube"
     },
     {
       "time": "48:32",
@@ -432,7 +678,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Se riu ta ótimo. Tudo comigo é pela diversão. Acho que o Etherealwave sabe disso. hahaha"
+      "text": "Se riu ta ótimo. Tudo comigo é pela diversão. Acho que o Etherealwave sabe disso. hahaha",
+      "source": "restream"
+    },
+    {
+      "time": "48:43",
+      "seconds": 2923,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Qual é a sua limitação?",
+      "source": "youtube"
     },
     {
       "time": "49:33",
@@ -440,7 +696,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Qual é a sua limitação?"
+      "text": "Qual é a sua limitação?",
+      "source": "restream"
     },
     {
       "time": "50:02",
@@ -448,7 +705,35 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 4",
-      "text": "@sedentarismo V͉iewers *** 🐧 (remove the space)"
+      "text": "@sedentarismo V͉iewers *** 🐧 (remove the space)",
+      "source": "restream"
+    },
+    {
+      "time": "51:04",
+      "seconds": 3064,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MihaelKeehl-yf1zb",
+      "text": "esse papo de geração ai não leva a nada, no final são todos seres humanos, os caras gostam de rotulam, esses ai são geração z, ah não sei oque, no final ta todo mundo no mesmo planeta",
+      "source": "youtube"
+    },
+    {
+      "time": "51:18",
+      "seconds": 3078,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MihaelKeehl-yf1zb",
+      "text": "respirando do mesmo ar, da mesma água",
+      "source": "youtube"
+    },
+    {
+      "time": "51:24",
+      "seconds": 3084,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Você disse que tinha uma limitação e que o xadrez te ajudava nisso também.",
+      "source": "youtube"
     },
     {
       "time": "51:54",
@@ -456,7 +741,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MihaelKeehl-yf1zb",
-      "text": "esse papo de geração ai não leva a nada, no final são todos seres humanos, os caras gostam de rotulam, esses ai são geração z, ah não sei oque, no final ta todo mundo no mesmo planeta"
+      "text": "esse papo de geração ai não leva a nada, no final são todos seres humanos, os caras gostam de rotulam, esses ai são geração z, ah não sei oque, no final ta todo mundo no mesmo planeta",
+      "source": "restream"
     },
     {
       "time": "52:14",
@@ -464,7 +750,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Você disse que tinha uma limitação e que o xadrez te ajudava nisso também."
+      "text": "Você disse que tinha uma limitação e que o xadrez te ajudava nisso também.",
+      "source": "restream"
     },
     {
       "time": "52:14",
@@ -472,7 +759,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MihaelKeehl-yf1zb",
-      "text": "respirando do mesmo ar, da mesma água"
+      "text": "respirando do mesmo ar, da mesma água",
+      "source": "restream"
+    },
+    {
+      "time": "52:23",
+      "seconds": 3143,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Esse problema aí é muito bom. Só agora eu vi a sequência.",
+      "source": "youtube"
     },
     {
       "time": "53:15",
@@ -480,7 +777,26 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Esse problema aí é muito bom. Só agora eu vi a sequência."
+      "text": "Esse problema aí é muito bom. Só agora eu vi a sequência.",
+      "source": "restream"
+    },
+    {
+      "time": "54:23",
+      "seconds": 3263,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "SIm!! Eu também comecei no xadrez pra me ajudar nisso. Hoje em dia eu perco a maioria das partidas por hiperfoco. Eu pego uma linha só e sigo nela até a derrota. hahahaahahaha",
+      "source": "youtube"
+    },
+    {
+      "time": "54:33",
+      "seconds": 3273,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Deixo de ver as outras possibilidades. hahaha",
+      "source": "youtube"
     },
     {
       "time": "55:16",
@@ -488,7 +804,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "SIm!! Eu também comecei no xadrez pra me ajudar nisso. Hoje em dia eu perco a maioria das partidas por hiperfoco. Eu pego uma linha só e sigo nela até a derrota. hahahaahahaha"
+      "text": "SIm!! Eu também comecei no xadrez pra me ajudar nisso. Hoje em dia eu perco a maioria das partidas por hiperfoco. Eu pego uma linha só e sigo nela até a derrota. hahahaahahaha",
+      "source": "restream"
     },
     {
       "time": "55:26",
@@ -496,7 +813,26 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Deixo de ver as outras possibilidades. hahaha"
+      "text": "Deixo de ver as outras possibilidades. hahaha",
+      "source": "restream"
+    },
+    {
+      "time": "55:49",
+      "seconds": 3349,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "A torre ali é mate, mas tinha mate capturando a torre com o peão promovendo pra dama ou torre",
+      "source": "youtube"
+    },
+    {
+      "time": "56:29",
+      "seconds": 3389,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@EtherealWave-bt7zo",
+      "text": "Vc deve ser da geração Z, com certeza. Não vou abrir discussão na live do rapaz aí.",
+      "source": "youtube"
     },
     {
       "time": "56:36",
@@ -504,7 +840,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "A torre ali é mate, mas tinha mate capturando a torre com o peão promovendo pra dama ou torre"
+      "text": "A torre ali é mate, mas tinha mate capturando a torre com o peão promovendo pra dama ou torre",
+      "source": "restream"
     },
     {
       "time": "57:17",
@@ -512,7 +849,26 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "Vc deve ser da geração Z, com certeza. Não vou abrir discussão na live do rapaz aí."
+      "text": "Vc deve ser da geração Z, com certeza. Não vou abrir discussão na live do rapaz aí.",
+      "source": "restream"
+    },
+    {
+      "time": "58:29",
+      "seconds": 3509,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MihaelKeehl-yf1zb",
+      "text": "geração z, geração y, geração x, nada disso importa, oque importa é o QI",
+      "source": "youtube"
+    },
+    {
+      "time": "59:17",
+      "seconds": 3557,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Esse moço aí ta te ajudando, Fabricio. a galera de 2.000 num perderia esses peões grátis que você ta oferendo aí não. hahahahahaha",
+      "source": "youtube"
     },
     {
       "time": "59:39",
@@ -520,7 +876,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MihaelKeehl-yf1zb",
-      "text": "geração z, geração y, geração x, nada disso importa, oque importa é o QI"
+      "text": "geração z, geração y, geração x, nada disso importa, oque importa é o QI",
+      "source": "restream"
+    },
+    {
+      "time": "1:00:24",
+      "seconds": 3624,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MihaelKeehl-yf1zb",
+      "text": "inteligência que reina nesse mundo, não tal geração",
+      "source": "youtube"
     },
     {
       "time": "1:00:29",
@@ -528,7 +894,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Esse moço aí ta te ajudando, Fabricio. a galera de 2.000 num perderia esses peões grátis que você ta oferendo aí não. hahahahahaha"
+      "text": "Esse moço aí ta te ajudando, Fabricio. a galera de 2.000 num perderia esses peões grátis que você ta oferendo aí não. hahahahahaha",
+      "source": "restream"
     },
     {
       "time": "1:01:40",
@@ -536,7 +903,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MihaelKeehl-yf1zb",
-      "text": "inteligência que reina nesse mundo, não tal geração"
+      "text": "inteligência que reina nesse mundo, não tal geração",
+      "source": "restream"
+    },
+    {
+      "time": "1:02:00",
+      "seconds": 3720,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@EtherealWave-bt7zo",
+      "text": "Quando falo em geração Z logicamente não é generalizado. Mas é um fato consumado a deficiência cognitiva em nossa sociedade a diferença de gerações.",
+      "source": "youtube"
     },
     {
       "time": "1:03:10",
@@ -544,7 +921,26 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "Quando falo em geração Z logicamente não é generalizado. Mas é um fato consumado a deficiência cognitiva em nossa sociedade a diferença de gerações."
+      "text": "Quando falo em geração Z logicamente não é generalizado. Mas é um fato consumado a deficiência cognitiva em nossa sociedade a diferença de gerações.",
+      "source": "restream"
+    },
+    {
+      "time": "1:03:21",
+      "seconds": 3801,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "A realização de que é blitz e o jogo desandando em altíssima velocidade. hahahahaahahaha",
+      "source": "youtube"
+    },
+    {
+      "time": "1:04:30",
+      "seconds": 3870,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "A sua calma decepção e descontentamento com o blitz tornou esse final muito engraçado. hahaahahaha Se você tiver tempo, faça shorts e reels com esses trechos.",
+      "source": "youtube"
     },
     {
       "time": "1:04:31",
@@ -552,7 +948,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "A realização de que é blitz e o jogo desandando em altíssima velocidade. hahahahaahahaha"
+      "text": "A realização de que é blitz e o jogo desandando em altíssima velocidade. hahahahaahahaha",
+      "source": "restream"
+    },
+    {
+      "time": "1:04:50",
+      "seconds": 3890,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Só esse trecho final já é legal demais. hahahahahaha",
+      "source": "youtube"
     },
     {
       "time": "1:05:42",
@@ -560,7 +966,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "A sua calma decepção e descontentamento com o blitz tornou esse final muito engraçado. hahaahahaha Se você tiver tempo, faça shorts e reels com esses trechos."
+      "text": "A sua calma decepção e descontentamento com o blitz tornou esse final muito engraçado. hahaahahaha Se você tiver tempo, faça shorts e reels com esses trechos.",
+      "source": "restream"
     },
     {
       "time": "1:06:02",
@@ -568,7 +975,44 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Só esse trecho final já é legal demais. hahahahahaha"
+      "text": "Só esse trecho final já é legal demais. hahahahahaha",
+      "source": "restream"
+    },
+    {
+      "time": "1:07:36",
+      "seconds": 4056,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@EtherealWave-bt7zo",
+      "text": "um 2150 invitando alguém de 1200 pra jogar com rating só pode partir de alguém que procura apenas rating.",
+      "source": "youtube"
+    },
+    {
+      "time": "1:07:59",
+      "seconds": 4079,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Deixa eu ver se entendi. Você, Fabrício, deu uma aula sobre como o xadrez te ajuda a ter foco... e aí na sequência você larga tudo o que estava focado pra ser destruído por um 2.000 de rating em blitz",
+      "source": "youtube"
+    },
+    {
+      "time": "1:08:01",
+      "seconds": 4081,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "kkkkkkkkkkkkkkk",
+      "source": "youtube"
+    },
+    {
+      "time": "1:08:09",
+      "seconds": 4089,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@EtherealWave-bt7zo",
+      "text": "assim, revela-se oque consiste dentro do cérebro do vivente",
+      "source": "youtube"
     },
     {
       "time": "1:08:53",
@@ -576,7 +1020,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "um 2150 invitando alguém de 1200 pra jogar com rating só pode partir de alguém que procura apenas rating."
+      "text": "um 2150 invitando alguém de 1200 pra jogar com rating só pode partir de alguém que procura apenas rating.",
+      "source": "restream"
     },
     {
       "time": "1:09:13",
@@ -584,7 +1029,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "kkkkkkkkkkkkkkk"
+      "text": "kkkkkkkkkkkkkkk",
+      "source": "restream"
     },
     {
       "time": "1:09:13",
@@ -592,7 +1038,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Deixa eu ver se entendi. Você, Fabrício, deu uma aula sobre como o xadrez te ajuda a ter foco... e aí na sequência você larga tudo o que estava focado pra ser destruído por um 2.000 de rating em blitz"
+      "text": "Deixa eu ver se entendi. Você, Fabrício, deu uma aula sobre como o xadrez te ajuda a ter foco... e aí na sequência você larga tudo o que estava focado pra ser destruído por um 2.000 de rating em blitz",
+      "source": "restream"
     },
     {
       "time": "1:09:24",
@@ -600,7 +1047,26 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "assim, revela-se oque consiste dentro do cérebro do vivente"
+      "text": "assim, revela-se oque consiste dentro do cérebro do vivente",
+      "source": "restream"
+    },
+    {
+      "time": "1:14:53",
+      "seconds": 4493,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Se eu pudesse te dar um conselho, se comprar eu te peço o pix pois aceito, mas se quiser de graça, te sugeriria a não levar tão em consideração esses termos aí das engines.",
+      "source": "youtube"
+    },
+    {
+      "time": "1:16:02",
+      "seconds": 4562,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "A engine leva em consideração uma falha, um erro, ou apenas um desvio baseado em linhas longuíssimas.",
+      "source": "youtube"
     },
     {
       "time": "1:16:07",
@@ -608,7 +1074,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Se eu pudesse te dar um conselho, se comprar eu te peço o pix pois aceito, mas se quiser de graça, te sugeriria a não levar tão em consideração esses termos aí das engines."
+      "text": "Se eu pudesse te dar um conselho, se comprar eu te peço o pix pois aceito, mas se quiser de graça, te sugeriria a não levar tão em consideração esses termos aí das engines.",
+      "source": "restream"
     },
     {
       "time": "1:17:17",
@@ -616,7 +1083,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "A engine leva em consideração uma falha, um erro, ou apenas um desvio baseado em linhas longuíssimas."
+      "text": "A engine leva em consideração uma falha, um erro, ou apenas um desvio baseado em linhas longuíssimas.",
+      "source": "restream"
+    },
+    {
+      "time": "1:17:34",
+      "seconds": 4654,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Existe capivaradas e existe chances perdidas... ambos são dados como \"blunders\"",
+      "source": "youtube"
     },
     {
       "time": "1:18:48",
@@ -624,7 +1101,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Existe capivaradas e existe chances perdidas... ambos são dados como \"blunders\""
+      "text": "Existe capivaradas e existe chances perdidas... ambos são dados como \"blunders\"",
+      "source": "restream"
     },
     {
       "time": "1:19:58",
@@ -632,7 +1110,26 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "Person 3",
-      "text": "Porém ambos recebem a mesma classificação."
+      "text": "Porém ambos recebem a mesma classificação.",
+      "source": "restream"
+    },
+    {
+      "time": "1:21:30",
+      "seconds": 4890,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "É o que falei, a engine vê lances tão longes que se você levar ela 100% em consideração você nunca vai achar que fez um bom jogo. hahah",
+      "source": "youtube"
+    },
+    {
+      "time": "1:21:54",
+      "seconds": 4914,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Esse cavalo aí a explicação dele deve vir em 20, 30 lances à frente.",
+      "source": "youtube"
     },
     {
       "time": "1:23:10",
@@ -640,7 +1137,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "É o que falei, a engine vê lances tão longes que se você levar ela 100% em consideração você nunca vai achar que fez um bom jogo. hahah"
+      "text": "É o que falei, a engine vê lances tão longes que se você levar ela 100% em consideração você nunca vai achar que fez um bom jogo. hahah",
+      "source": "restream"
     },
     {
       "time": "1:23:40",
@@ -648,7 +1146,35 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Esse cavalo aí a explicação dele deve vir em 20, 30 lances à frente."
+      "text": "Esse cavalo aí a explicação dele deve vir em 20, 30 lances à frente.",
+      "source": "restream"
+    },
+    {
+      "time": "1:24:00",
+      "seconds": 5040,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Você troca peças iguais, os bispos, mas enfraquece seu rei.",
+      "source": "youtube"
+    },
+    {
+      "time": "1:25:30",
+      "seconds": 5130,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Nessa aí você perde o peão de E com o cavalo ainda atacando sua dama.",
+      "source": "youtube"
+    },
+    {
+      "time": "1:25:38",
+      "seconds": 5138,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Dama e bispo de G",
+      "source": "youtube"
     },
     {
       "time": "1:25:41",
@@ -656,7 +1182,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Você troca peças iguais, os bispos, mas enfraquece seu rei."
+      "text": "Você troca peças iguais, os bispos, mas enfraquece seu rei.",
+      "source": "restream"
     },
     {
       "time": "1:27:12",
@@ -664,7 +1191,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Nessa aí você perde o peão de E com o cavalo ainda atacando sua dama."
+      "text": "Nessa aí você perde o peão de E com o cavalo ainda atacando sua dama.",
+      "source": "restream"
     },
     {
       "time": "1:27:22",
@@ -672,7 +1200,26 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Dama e bispo de G"
+      "text": "Dama e bispo de G",
+      "source": "restream"
+    },
+    {
+      "time": "1:27:50",
+      "seconds": 5270,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@EtherealWave-bt7zo",
+      "text": "segundo princípio. procurar não mover duas vezes a mesma peça na abertura",
+      "source": "youtube"
+    },
+    {
+      "time": "1:27:55",
+      "seconds": 5275,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Eu acho que você reparou que era blitz com quase 30 segundos. Você citou que era blitz e o relógio te avisou.",
+      "source": "youtube"
     },
     {
       "time": "1:29:33",
@@ -680,7 +1227,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "segundo princípio. procurar não mover duas vezes a mesma peça na abertura"
+      "text": "segundo princípio. procurar não mover duas vezes a mesma peça na abertura",
+      "source": "restream"
     },
     {
       "time": "1:29:43",
@@ -688,7 +1236,26 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Eu acho que você reparou que era blitz com quase 30 segundos. Você citou que era blitz e o relógio te avisou."
+      "text": "Eu acho que você reparou que era blitz com quase 30 segundos. Você citou que era blitz e o relógio te avisou.",
+      "source": "restream"
+    },
+    {
+      "time": "1:30:19",
+      "seconds": 5419,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Seu principal aprendizado foi: Não jogar Blitz contra pessoas com rating violentamente maior que o seu. hahahaahhahaahah",
+      "source": "youtube"
+    },
+    {
+      "time": "1:30:55",
+      "seconds": 5455,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@EtherealWave-bt7zo",
+      "text": "pra jogar um c5, é preciso saber qual o plano da defesa siciliana.",
+      "source": "youtube"
     },
     {
       "time": "1:32:04",
@@ -696,7 +1263,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Seu principal aprendizado foi: Não jogar Blitz contra pessoas com rating violentamente maior que o seu. hahahaahhahaahah"
+      "text": "Seu principal aprendizado foi: Não jogar Blitz contra pessoas com rating violentamente maior que o seu. hahahaahhahaahah",
+      "source": "restream"
     },
     {
       "time": "1:32:34",
@@ -704,7 +1272,44 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "pra jogar um c5, é preciso saber qual o plano da defesa siciliana."
+      "text": "pra jogar um c5, é preciso saber qual o plano da defesa siciliana.",
+      "source": "restream"
+    },
+    {
+      "time": "1:37:21",
+      "seconds": 5841,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@EtherealWave-bt7zo",
+      "text": "Bg7 bf6 Be5",
+      "source": "youtube"
+    },
+    {
+      "time": "1:37:57",
+      "seconds": 5877,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Abertura é enquanto você ainda está desenvolvendo as peças. Você moveu seu bispo muitas vezes",
+      "source": "youtube"
+    },
+    {
+      "time": "1:38:19",
+      "seconds": 5899,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "O negócio é que sua partida quase que acaba na abertura. Nem o roque você chegou a fazer.",
+      "source": "youtube"
+    },
+    {
+      "time": "1:38:33",
+      "seconds": 5913,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@CapaBlunderChess",
+      "text": "Seu jogo quase que acabou na abertura ainda.",
+      "source": "youtube"
     },
     {
       "time": "1:39:08",
@@ -712,7 +1317,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@EtherealWave-bt7zo",
-      "text": "Bg7 bf6 Be5"
+      "text": "Bg7 bf6 Be5",
+      "source": "restream"
     },
     {
       "time": "1:39:38",
@@ -720,7 +1326,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Abertura é enquanto você ainda está desenvolvendo as peças. Você moveu seu bispo muitas vezes"
+      "text": "Abertura é enquanto você ainda está desenvolvendo as peças. Você moveu seu bispo muitas vezes",
+      "source": "restream"
     },
     {
       "time": "1:39:58",
@@ -728,7 +1335,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "O negócio é que sua partida quase que acaba na abertura. Nem o roque você chegou a fazer."
+      "text": "O negócio é que sua partida quase que acaba na abertura. Nem o roque você chegou a fazer.",
+      "source": "restream"
     },
     {
       "time": "1:40:19",
@@ -736,7 +1344,10 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@CapaBlunderChess",
-      "text": "Seu jogo quase que acabou na abertura ainda."
+      "text": "Seu jogo quase que acabou na abertura ainda.",
+      "source": "restream"
     }
-  ]
+  ],
+  "youtube_video_id": "VrOIrqLam4w",
+  "restream_event_id": "5af797ee-5e76-4eb2-b8af-1e9adbda6ab9"
 }

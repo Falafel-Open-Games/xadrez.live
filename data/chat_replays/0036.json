@@ -1,21 +1,48 @@
 {
   "session_number": "0036",
-  "youtube_video_id": "eNZX931OWRQ",
-  "restream_event_id": "84d12cd8-25aa-40fb-8aa9-b042daa9cef5",
-  "source": "restream",
+  "source": "merged",
+  "sources": [
+    "restream",
+    "youtube",
+    "twitch"
+  ],
   "platforms": [
     "Restream",
+    "Twitch",
     "YouTube"
   ],
-  "message_count": 2,
+  "message_count": 4,
   "messages": [
+    {
+      "time": "10:31",
+      "seconds": 631,
+      "platform": "Twitch",
+      "channel": "sedentarismo",
+      "author": "@sedentarismo",
+      "text": "bom dia chat",
+      "source": "twitch",
+      "twitch_vod_id": "2825296288"
+    },
+    {
+      "time": "10:32",
+      "seconds": 632,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "bom dia chat",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
+    },
     {
       "time": "10:42",
       "seconds": 642,
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "bom dia chat"
+      "text": "bom dia chat",
+      "source": "restream"
     },
     {
       "time": "49:43",
@@ -23,7 +50,10 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@diogoandrade8524",
-      "text": "o peao em d6 está de graça"
+      "text": "o peao em d6 está de graça",
+      "source": "restream"
     }
-  ]
+  ],
+  "youtube_video_id": "eNZX931OWRQ",
+  "restream_event_id": "84d12cd8-25aa-40fb-8aa9-b042daa9cef5"
 }

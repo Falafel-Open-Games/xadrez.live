@@ -1,13 +1,15 @@
 {
   "session_number": "0043",
-  "youtube_video_id": "h8r5zFdH75s",
-  "restream_event_id": "30654d03-d8cf-4672-ba8d-1930a9b50e76",
-  "source": "restream",
+  "source": "merged",
+  "sources": [
+    "restream",
+    "youtube"
+  ],
   "platforms": [
     "Restream",
     "YouTube"
   ],
-  "message_count": 89,
+  "message_count": 111,
   "messages": [
     {
       "time": "0:00",
@@ -15,7 +17,8 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "teste de manutencao do chat do restream para avaliar a possibilidade de usar o userscript"
+      "text": "teste de manutencao do chat do restream para avaliar a possibilidade de usar o userscript",
+      "source": "restream"
     },
     {
       "time": "0:00",
@@ -23,7 +26,8 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "bom dia chat"
+      "text": "bom dia chat",
+      "source": "restream"
     },
     {
       "time": "0:00",
@@ -31,7 +35,8 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "teste chat"
+      "text": "teste chat",
+      "source": "restream"
     },
     {
       "time": "0:00",
@@ -39,7 +44,23 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@fczuardi",
-      "text": "bom dia chat"
+      "text": "bom dia chat",
+      "source": "restream",
+      "badges": [
+        "Owner"
+      ]
+    },
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "teste chat",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
     },
     {
       "time": "12:47",
@@ -47,7 +68,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@matheusnunes2977",
-      "text": "bom dia"
+      "text": "bom dia",
+      "source": "restream"
     },
     {
       "time": "14:08",
@@ -55,7 +77,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@matheusnunes2977",
-      "text": "eu fui com outra conta ontem"
+      "text": "eu fui com outra conta ontem",
+      "source": "restream"
     },
     {
       "time": "18:50",
@@ -63,7 +86,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@RagMenezes",
-      "text": "Bom dia!"
+      "text": "Bom dia!",
+      "source": "restream"
     },
     {
       "time": "19:10",
@@ -71,7 +95,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@RagMenezes",
-      "text": "Como se faz uma live ou grava um vídeo com a tela do pc aparecendo?"
+      "text": "Como se faz uma live ou grava um vídeo com a tela do pc aparecendo?",
+      "source": "restream"
     },
     {
       "time": "19:31",
@@ -79,7 +104,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@RagMenezes",
-      "text": "Ou dividindo a tela com a sua?"
+      "text": "Ou dividindo a tela com a sua?",
+      "source": "restream"
     },
     {
       "time": "22:52",
@@ -87,7 +113,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@matheusnunes2977",
-      "text": "vc só usa o lichess? ou também usa outro site/app?"
+      "text": "vc só usa o lichess? ou também usa outro site/app?",
+      "source": "restream"
     },
     {
       "time": "28:15",
@@ -95,7 +122,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Bom dia"
+      "text": "Bom dia",
+      "source": "restream"
     },
     {
       "time": "29:25",
@@ -103,7 +131,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Bom dia! Cravada hein"
+      "text": "Bom dia! Cravada hein",
+      "source": "restream"
     },
     {
       "time": "29:36",
@@ -111,7 +140,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Que bacana isso ae! Top demais"
+      "text": "Que bacana isso ae! Top demais",
+      "source": "restream"
     },
     {
       "time": "31:16",
@@ -119,7 +149,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "repara se a rainha pode fazer algo depois de torre... cravou"
+      "text": "repara se a rainha pode fazer algo depois de torre... cravou",
+      "source": "restream"
     },
     {
       "time": "31:27",
@@ -127,7 +158,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Ele não pode mover a dama pq ficou cravada"
+      "text": "Ele não pode mover a dama pq ficou cravada",
+      "source": "restream"
     },
     {
       "time": "33:48",
@@ -135,7 +167,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Voce não consegue tomar o bispo pois ele ta cravado. Voce tem que ficar mais atento com cravadas"
+      "text": "Voce não consegue tomar o bispo pois ele ta cravado. Voce tem que ficar mais atento com cravadas",
+      "source": "restream"
     },
     {
       "time": "33:58",
@@ -143,7 +176,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "o peão no caso esta cravado"
+      "text": "o peão no caso esta cravado",
+      "source": "restream"
     },
     {
       "time": "34:38",
@@ -151,7 +185,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@matheusnunes2977",
-      "text": "pode falar as respostas?"
+      "text": "pode falar as respostas?",
+      "source": "restream"
     },
     {
       "time": "35:39",
@@ -159,7 +194,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@matheusnunes2977",
-      "text": "Td3#"
+      "text": "Td3#",
+      "source": "restream"
     },
     {
       "time": "35:49",
@@ -167,7 +203,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Se mover torre, pra onde o rei vai"
+      "text": "Se mover torre, pra onde o rei vai",
+      "source": "restream"
     },
     {
       "time": "35:59",
@@ -175,7 +212,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "?"
+      "text": "?",
+      "source": "restream"
     },
     {
       "time": "36:39",
@@ -183,7 +221,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "boaaa"
+      "text": "boaaa",
+      "source": "restream"
     },
     {
       "time": "37:30",
@@ -191,7 +230,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "o famoso \"ultimo respiro\" do Fabricio hahaha"
+      "text": "o famoso \"ultimo respiro\" do Fabricio hahaha",
+      "source": "restream"
     },
     {
       "time": "38:40",
@@ -199,7 +239,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Calma, cade o CCT?"
+      "text": "Calma, cade o CCT?",
+      "source": "restream"
     },
     {
       "time": "38:50",
@@ -207,7 +248,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "isso tomar"
+      "text": "isso tomar",
+      "source": "restream"
     },
     {
       "time": "39:51",
@@ -215,7 +257,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Sim, pq voce tava cogitando mover o rei em vez de tomar kk"
+      "text": "Sim, pq voce tava cogitando mover o rei em vez de tomar kk",
+      "source": "restream"
     },
     {
       "time": "41:01",
@@ -223,7 +266,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Boa, não ta precisando nem de ajuda mais"
+      "text": "Boa, não ta precisando nem de ajuda mais",
+      "source": "restream"
     },
     {
       "time": "41:22",
@@ -231,7 +275,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@matheusnunes2977",
-      "text": "Posso te fazer uma pergunta? vc só pratica táticas ou tem algum estudo a mais?se eu puder aconselhar vc acredito que aprender a vencer os finais vai te dar uma boa vantagens nas partidas."
+      "text": "Posso te fazer uma pergunta? vc só pratica táticas ou tem algum estudo a mais?se eu puder aconselhar vc acredito que aprender a vencer os finais vai te dar uma boa vantagens nas partidas.",
+      "source": "restream"
     },
     {
       "time": "44:53",
@@ -239,7 +284,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Opa, se quiser ajuda pra treinar isso ai depois. Essa parte de Piece checkmates é realmente o basico que todo mundo precisa saber fazer"
+      "text": "Opa, se quiser ajuda pra treinar isso ai depois. Essa parte de Piece checkmates é realmente o basico que todo mundo precisa saber fazer",
+      "source": "restream"
     },
     {
       "time": "45:13",
@@ -247,7 +293,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Mate com uma dama, mate com uma ou duas torres, mate com dois bispos e tals"
+      "text": "Mate com uma dama, mate com uma ou duas torres, mate com dois bispos e tals",
+      "source": "restream"
     },
     {
       "time": "46:04",
@@ -255,7 +302,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Rafa Chess é da hora hahah"
+      "text": "Rafa Chess é da hora hahah",
+      "source": "restream"
     },
     {
       "time": "46:04",
@@ -263,7 +311,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Mate com Tomates"
+      "text": "Mate com Tomates",
+      "source": "restream"
     },
     {
       "time": "47:45",
@@ -271,7 +320,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@matheusnunes2977",
-      "text": "vc pode fazer na Live se quiser. acredito que é muito importante ainda mais na sua evolução,pq quando pula etapas(se vc aprender uma abertura agr por exemplo) vai ter uma base fraca no xadrez."
+      "text": "vc pode fazer na Live se quiser. acredito que é muito importante ainda mais na sua evolução,pq quando pula etapas(se vc aprender uma abertura agr por exemplo) vai ter uma base fraca no xadrez.",
+      "source": "restream"
+    },
+    {
+      "time": "48:33",
+      "seconds": 2913,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@matheusnunes2977",
+      "text": "seria muito bom pra vc:grinning_face_with_smiling_eyes:",
+      "source": "youtube"
     },
     {
       "time": "48:35",
@@ -279,7 +338,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Veja Gotham Chess, é muito massa"
+      "text": "Veja Gotham Chess, é muito massa",
+      "source": "restream"
     },
     {
       "time": "48:45",
@@ -287,7 +347,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@matheusnunes2977",
-      "text": "seria muito bom pra vc😄"
+      "text": "seria muito bom pra vc😄",
+      "source": "restream"
     },
     {
       "time": "49:05",
@@ -295,7 +356,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "é uma boa"
+      "text": "é uma boa",
+      "source": "restream"
     },
     {
       "time": "52:47",
@@ -303,7 +365,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "O mate de philidor é bonito"
+      "text": "O mate de philidor é bonito",
+      "source": "restream"
     },
     {
       "time": "52:57",
@@ -311,7 +374,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "so fiz um até hj na vida"
+      "text": "so fiz um até hj na vida",
+      "source": "restream"
     },
     {
       "time": "53:47",
@@ -319,7 +383,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Corredor e escadinha é direto neh hahaha"
+      "text": "Corredor e escadinha é direto neh hahaha",
+      "source": "restream"
     },
     {
       "time": "55:28",
@@ -327,7 +392,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Mate Corredor é o Back Rank Mate, e Mate de escadinha é o ladder mate"
+      "text": "Mate Corredor é o Back Rank Mate, e Mate de escadinha é o ladder mate",
+      "source": "restream"
     },
     {
       "time": "58:19",
@@ -335,7 +401,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "No menu Comunidade, amigos"
+      "text": "No menu Comunidade, amigos",
+      "source": "restream"
     },
     {
       "time": "1:00:00",
@@ -343,7 +410,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Ele ta jogando o fino"
+      "text": "Ele ta jogando o fino",
+      "source": "restream"
     },
     {
       "time": "1:01:21",
@@ -351,7 +419,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "So foi falar... kkk"
+      "text": "So foi falar... kkk",
+      "source": "restream"
     },
     {
       "time": "1:01:41",
@@ -359,7 +428,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "e outra não pode olhar chat enquanto joga n, fecha esse chat rapaiz"
+      "text": "e outra não pode olhar chat enquanto joga n, fecha esse chat rapaiz",
+      "source": "restream"
     },
     {
       "time": "1:03:52",
@@ -367,7 +437,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Ele esquecendo das cravadas..."
+      "text": "Ele esquecendo das cravadas...",
+      "source": "restream"
     },
     {
       "time": "1:04:22",
@@ -375,7 +446,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Sim, ele ainda tem dificuldade em ver as cravadas"
+      "text": "Sim, ele ainda tem dificuldade em ver as cravadas",
+      "source": "restream"
     },
     {
       "time": "1:04:32",
@@ -383,7 +455,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "ainda bem que o oponente também n viu kk"
+      "text": "ainda bem que o oponente também n viu kk",
+      "source": "restream"
     },
     {
       "time": "1:04:52",
@@ -391,7 +464,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "hahahahaahahah"
+      "text": "hahahahaahahah",
+      "source": "restream"
     },
     {
       "time": "1:05:13",
@@ -399,7 +473,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "o oponente pendurou o bispo KKKKKK"
+      "text": "o oponente pendurou o bispo KKKKKK",
+      "source": "restream"
     },
     {
       "time": "1:05:23",
@@ -407,7 +482,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "aiai é mt bom"
+      "text": "aiai é mt bom",
+      "source": "restream"
     },
     {
       "time": "1:05:33",
@@ -415,7 +491,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Pensei que não ia ver hehehehe"
+      "text": "Pensei que não ia ver hehehehe",
+      "source": "restream"
     },
     {
       "time": "1:05:53",
@@ -423,7 +500,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "mds magina ele toma o bispo"
+      "text": "mds magina ele toma o bispo",
+      "source": "restream"
     },
     {
       "time": "1:06:13",
@@ -431,7 +509,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "tomar doiiiiii"
+      "text": "tomar doiiiiii",
+      "source": "restream"
     },
     {
       "time": "1:06:23",
@@ -439,7 +518,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "ele viu amem"
+      "text": "ele viu amem",
+      "source": "restream"
     },
     {
       "time": "1:06:33",
@@ -447,7 +527,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Eu sempre acho que ele não vai ver heheh"
+      "text": "Eu sempre acho que ele não vai ver heheh",
+      "source": "restream"
     },
     {
       "time": "1:06:53",
@@ -455,7 +536,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "tem que confiar mais no streamer kk"
+      "text": "tem que confiar mais no streamer kk",
+      "source": "restream"
     },
     {
       "time": "1:07:54",
@@ -463,7 +545,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "hahaaahah verdade Vamo Fabricio Caruana Agressividade"
+      "text": "hahaaahah verdade Vamo Fabricio Caruana Agressividade",
+      "source": "restream"
     },
     {
       "time": "1:10:05",
@@ -471,7 +554,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "KKKKKKKKKK \"que ideia ridicula\""
+      "text": "KKKKKKKKKK \"que ideia ridicula\"",
+      "source": "restream"
     },
     {
       "time": "1:10:25",
@@ -479,7 +563,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "hahahaha"
+      "text": "hahahaha",
+      "source": "restream"
     },
     {
       "time": "1:12:46",
@@ -487,7 +572,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "de ambos os lados KKK"
+      "text": "de ambos os lados KKK",
+      "source": "restream"
     },
     {
       "time": "1:12:46",
@@ -495,7 +581,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "da pra ter mate ai em"
+      "text": "da pra ter mate ai em",
+      "source": "restream"
     },
     {
       "time": "1:13:17",
@@ -503,7 +590,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "brancas mais fácil de ver, ele com 9 segundos, vai ser dificil ver"
+      "text": "brancas mais fácil de ver, ele com 9 segundos, vai ser dificil ver",
+      "source": "restream"
     },
     {
       "time": "1:19:40",
@@ -511,7 +599,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "85% de precisão foi bem demais, gerencia de relógio é que tá osso"
+      "text": "85% de precisão foi bem demais, gerencia de relógio é que tá osso",
+      "source": "restream"
     },
     {
       "time": "1:21:21",
@@ -519,7 +608,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Cavalo ataca um peão defendido, faz muito mesmo não..."
+      "text": "Cavalo ataca um peão defendido, faz muito mesmo não...",
+      "source": "restream"
     },
     {
       "time": "1:22:32",
@@ -527,7 +617,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "até o lance 4 voce jogou uma abertura perfeitamente. So pecou no tempo. Agora e5 foi precipitado, entregou o peão. Avançar o peão não é sua prioridade, o desenvolvimento e o roque é prioridade."
+      "text": "até o lance 4 voce jogou uma abertura perfeitamente. So pecou no tempo. Agora e5 foi precipitado, entregou o peão. Avançar o peão não é sua prioridade, o desenvolvimento e o roque é prioridade.",
+      "source": "restream"
     },
     {
       "time": "1:22:32",
@@ -535,7 +626,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@jeanmaciel4579",
-      "text": "h3 pra evitar a cravada"
+      "text": "h3 pra evitar a cravada",
+      "source": "restream"
     },
     {
       "time": "1:23:52",
@@ -543,7 +635,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@jeanmaciel4579",
-      "text": "Em vez de Kc6, e6 e Bd6 e 0-0 ia te ajudar"
+      "text": "Em vez de Kc6, e6 e Bd6 e 0-0 ia te ajudar",
+      "source": "restream"
     },
     {
       "time": "1:24:12",
@@ -551,7 +644,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@matheusnunes2977",
-      "text": "na real o cavalo nessa casa foi ruim nao porque ataca um peão defendido(isso tanto faz) mas porq ele limita o jogo das brancas perdendo o lance de c4 que é muito típico na abertura de d4."
+      "text": "na real o cavalo nessa casa foi ruim nao porque ataca um peão defendido(isso tanto faz) mas porq ele limita o jogo das brancas perdendo o lance de c4 que é muito típico na abertura de d4.",
+      "source": "restream"
     },
     {
       "time": "1:24:43",
@@ -559,7 +653,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@matheusnunes2977",
-      "text": "vc comete esse mesmo erro movendo o cavalo pra c6 e perdendo o c5"
+      "text": "vc comete esse mesmo erro movendo o cavalo pra c6 e perdendo o c5",
+      "source": "restream"
+    },
+    {
+      "time": "1:25:52",
+      "seconds": 5152,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@jeanmaciel4579",
+      "text": "c4 é temático, geralmente alguns jogam exc4 que é um impreciso, deixando jogar o e5 direto controlando o centro e deixando um descoberto no peão preto de c",
+      "source": "youtube"
     },
     {
       "time": "1:26:35",
@@ -567,7 +671,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@jeanmaciel4579",
-      "text": "c4 é temático, geralmente alguns jogam exc4 que é um impreciso, deixando jogar o e5 direto controlando o centro e deixando um descoberto no peão preto de c"
+      "text": "c4 é temático, geralmente alguns jogam exc4 que é um impreciso, deixando jogar o e5 direto controlando o centro e deixando um descoberto no peão preto de c",
+      "source": "restream"
+    },
+    {
+      "time": "1:26:53",
+      "seconds": 5213,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MuriloInacioB",
+      "text": "Galera não vamos fazer uma tempestade em copo d'agua, bloquear o peão de c com o cavalo é no maximo uma imprecisão e não vai fazer ele perder por causa disso.",
+      "source": "youtube"
     },
     {
       "time": "1:27:36",
@@ -575,7 +689,26 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Galera não vamos fazer uma tempestade em copo d'agua, bloquear o peão de c com o cavalo é no maximo uma imprecisão e não vai fazer ele perder por causa disso."
+      "text": "Galera não vamos fazer uma tempestade em copo d'agua, bloquear o peão de c com o cavalo é no maximo uma imprecisão e não vai fazer ele perder por causa disso.",
+      "source": "restream"
+    },
+    {
+      "time": "1:27:39",
+      "seconds": 5259,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@jeanmaciel4579",
+      "text": "Definitivamente não, mas vale comentar pra entender idéias melhores",
+      "source": "youtube"
+    },
+    {
+      "time": "1:27:50",
+      "seconds": 5270,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@matheusnunes2977",
+      "text": "isso é um plano mais pro meio jogo nao é um lance chave.poso te sugerir mover o cavalo pra f6 jogar e6 e dai sim com o apoio do bispo jogar o seu c5? compreendeu?",
+      "source": "youtube"
     },
     {
       "time": "1:28:26",
@@ -583,7 +716,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@jeanmaciel4579",
-      "text": "Definitivamente não, mas vale comentar pra entender idéias melhores"
+      "text": "Definitivamente não, mas vale comentar pra entender idéias melhores",
+      "source": "restream"
     },
     {
       "time": "1:28:36",
@@ -591,7 +725,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@matheusnunes2977",
-      "text": "isso é um plano mais pro meio jogo nao é um lance chave.poso te sugerir mover o cavalo pra f6 jogar e6 e dai sim com o apoio do bispo jogar o seu c5? compreendeu?"
+      "text": "isso é um plano mais pro meio jogo nao é um lance chave.poso te sugerir mover o cavalo pra f6 jogar e6 e dai sim com o apoio do bispo jogar o seu c5? compreendeu?",
+      "source": "restream"
+    },
+    {
+      "time": "1:29:33",
+      "seconds": 5373,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@jeanmaciel4579",
+      "text": "É um blunder porque perde um peão e você moveu 2x a mesma peça na abertura",
+      "source": "youtube"
     },
     {
       "time": "1:30:17",
@@ -599,7 +743,44 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@jeanmaciel4579",
-      "text": "É um blunder porque perde um peão e você moveu 2x a mesma peça na abertura"
+      "text": "É um blunder porque perde um peão e você moveu 2x a mesma peça na abertura",
+      "source": "restream"
+    },
+    {
+      "time": "1:31:53",
+      "seconds": 5513,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@matheusnunes2977",
+      "text": "eu tava falando de antes, ta tendo um deley na Live",
+      "source": "youtube"
+    },
+    {
+      "time": "1:35:50",
+      "seconds": 5750,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MuriloInacioB",
+      "text": "o outro bispo em e2, o bispo de casas brancas",
+      "source": "youtube"
+    },
+    {
+      "time": "1:35:52",
+      "seconds": 5752,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MuriloInacioB",
+      "text": "isso",
+      "source": "youtube"
+    },
+    {
+      "time": "1:37:23",
+      "seconds": 5843,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MuriloInacioB",
+      "text": "Volta no erro do oponente e tenta calcular o porque que é um erro e tenta pensar qual lance seria melhor voce fazer pra explorar. (Lance 10 do oponente)",
+      "source": "youtube"
     },
     {
       "time": "1:37:48",
@@ -607,7 +788,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "isso"
+      "text": "isso",
+      "source": "restream"
     },
     {
       "time": "1:37:48",
@@ -615,7 +797,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "o outro bispo em e2, o bispo de casas brancas"
+      "text": "o outro bispo em e2, o bispo de casas brancas",
+      "source": "restream"
     },
     {
       "time": "1:39:19",
@@ -623,7 +806,35 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Volta no erro do oponente e tenta calcular o porque que é um erro e tenta pensar qual lance seria melhor voce fazer pra explorar. (Lance 10 do oponente)"
+      "text": "Volta no erro do oponente e tenta calcular o porque que é um erro e tenta pensar qual lance seria melhor voce fazer pra explorar. (Lance 10 do oponente)",
+      "source": "restream"
+    },
+    {
+      "time": "1:39:43",
+      "seconds": 5983,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MuriloInacioB",
+      "text": "Ele errou pois tem 3 ataques no cavalo do oponente e apenas uma defesa",
+      "source": "youtube"
+    },
+    {
+      "time": "1:40:33",
+      "seconds": 6033,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MuriloInacioB",
+      "text": "a sua imprecisão foi tomar de cavalo pois o cavalo estava cravado e ele podia tomar de cavalo",
+      "source": "youtube"
+    },
+    {
+      "time": "1:41:37",
+      "seconds": 6097,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MuriloInacioB",
+      "text": "falei errado",
+      "source": "youtube"
     },
     {
       "time": "1:41:40",
@@ -631,7 +842,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Ele errou pois tem 3 ataques no cavalo do oponente e apenas uma defesa"
+      "text": "Ele errou pois tem 3 ataques no cavalo do oponente e apenas uma defesa",
+      "source": "restream"
     },
     {
       "time": "1:42:30",
@@ -639,7 +851,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "a sua imprecisão foi tomar de cavalo pois o cavalo estava cravado e ele podia tomar de cavalo"
+      "text": "a sua imprecisão foi tomar de cavalo pois o cavalo estava cravado e ele podia tomar de cavalo",
+      "source": "restream"
     },
     {
       "time": "1:43:31",
@@ -647,7 +860,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "falei errado"
+      "text": "falei errado",
+      "source": "restream"
     },
     {
       "time": "1:43:31",
@@ -655,7 +869,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "Person 4",
-      "text": "opa não ataca a torre"
+      "text": "opa não ataca a torre",
+      "source": "restream"
+    },
+    {
+      "time": "1:43:40",
+      "seconds": 6220,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MuriloInacioB",
+      "text": "é imprecisão porque tem uma sequencia que da pra voce recuperar parte do material e voce ainda fica bem na partida.",
+      "source": "youtube"
     },
     {
       "time": "1:45:32",
@@ -663,7 +887,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "é imprecisão porque tem uma sequencia que da pra voce recuperar parte do material e voce ainda fica bem na partida."
+      "text": "é imprecisão porque tem uma sequencia que da pra voce recuperar parte do material e voce ainda fica bem na partida.",
+      "source": "restream"
+    },
+    {
+      "time": "1:46:29",
+      "seconds": 6389,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MuriloInacioB",
+      "text": "a dama defende a o garfo de peão que voce cogitou ai o lance d4",
+      "source": "youtube"
     },
     {
       "time": "1:48:23",
@@ -671,7 +905,26 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "a dama defende a o garfo de peão que voce cogitou ai o lance d4"
+      "text": "a dama defende a o garfo de peão que voce cogitou ai o lance d4",
+      "source": "restream"
+    },
+    {
+      "time": "1:49:28",
+      "seconds": 6568,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MuriloInacioB",
+      "text": "Peça cravada tem que colocar pressão",
+      "source": "youtube"
+    },
+    {
+      "time": "1:49:55",
+      "seconds": 6595,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MuriloInacioB",
+      "text": "ou seja Bc5 e Qe7 são lances que aumentam a pressão no bispo cravado",
+      "source": "youtube"
     },
     {
       "time": "1:51:24",
@@ -679,7 +932,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Peça cravada tem que colocar pressão"
+      "text": "Peça cravada tem que colocar pressão",
+      "source": "restream"
     },
     {
       "time": "1:51:55",
@@ -687,7 +941,35 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "ou seja Bc5 e Qe7 são lances que aumentam a pressão no bispo cravado"
+      "text": "ou seja Bc5 e Qe7 são lances que aumentam a pressão no bispo cravado",
+      "source": "restream"
+    },
+    {
+      "time": "1:52:00",
+      "seconds": 6720,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MuriloInacioB",
+      "text": "Vou no mesmo esquema que voce tava fazendo nas notas da partida, uma listinha.",
+      "source": "youtube"
+    },
+    {
+      "time": "1:52:04",
+      "seconds": 6724,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MuriloInacioB",
+      "text": "Pecados:Gastou tempo em lances desnecessarios.Não priorizou o desenvolvimento e o roque.Não prestou atenção na cravada.Quando se esta com vantagem material o plano é trocar as peças.",
+      "source": "youtube"
+    },
+    {
+      "time": "1:53:38",
+      "seconds": 6818,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@MuriloInacioB",
+      "text": "Dama b6 ameaça Torre d1 mate",
+      "source": "youtube"
     },
     {
       "time": "1:55:26",
@@ -695,7 +977,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Vou no mesmo esquema que voce tava fazendo nas notas da partida, uma listinha."
+      "text": "Vou no mesmo esquema que voce tava fazendo nas notas da partida, uma listinha.",
+      "source": "restream"
     },
     {
       "time": "1:55:36",
@@ -703,7 +986,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Pecados:Gastou tempo em lances desnecessarios.Não priorizou o desenvolvimento e o roque.Não prestou atenção na cravada.Quando se esta com vantagem material o plano é trocar as peças."
+      "text": "Pecados:Gastou tempo em lances desnecessarios.Não priorizou o desenvolvimento e o roque.Não prestou atenção na cravada.Quando se esta com vantagem material o plano é trocar as peças.",
+      "source": "restream"
+    },
+    {
+      "time": "1:56:36",
+      "seconds": 6996,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@matheusnunes2977",
+      "text": "Acredito que esses erros são na verdade consequencia dessas 2 coisas, descuido seu com as peças, e falta de coompreenção sobre os ``Conceitos´´, vlw pela live .",
+      "source": "youtube"
     },
     {
       "time": "1:57:07",
@@ -711,7 +1004,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Dama b6 ameaça Torre d1 mate"
+      "text": "Dama b6 ameaça Torre d1 mate",
+      "source": "restream"
     },
     {
       "time": "2:00:30",
@@ -719,7 +1013,10 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@matheusnunes2977",
-      "text": "Acredito que esses erros são na verdade consequencia dessas 2 coisas, descuido seu com as peças, e falta de coompreenção sobre os ``Conceitos´´, vlw pela live ."
+      "text": "Acredito que esses erros são na verdade consequencia dessas 2 coisas, descuido seu com as peças, e falta de coompreenção sobre os ``Conceitos´´, vlw pela live .",
+      "source": "restream"
     }
-  ]
+  ],
+  "youtube_video_id": "h8r5zFdH75s",
+  "restream_event_id": "30654d03-d8cf-4672-ba8d-1930a9b50e76"
 }

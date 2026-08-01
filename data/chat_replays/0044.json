@@ -1,14 +1,17 @@
 {
   "session_number": "0044",
-  "youtube_video_id": "fKTsjGyavpU",
-  "restream_event_id": "552eba90-8f1e-4ec4-b551-4045d1ea1020",
-  "source": "restream",
+  "source": "merged",
+  "sources": [
+    "restream",
+    "youtube",
+    "twitch"
+  ],
   "platforms": [
     "Restream",
     "Twitch",
     "YouTube"
   ],
-  "message_count": 55,
+  "message_count": 61,
   "messages": [
     {
       "time": "0:00",
@@ -16,7 +19,30 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "bom dia chat"
+      "text": "bom dia chat",
+      "source": "restream"
+    },
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "bom dia chat",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
+    },
+    {
+      "time": "4:54",
+      "seconds": 294,
+      "platform": "Twitch",
+      "channel": "sedentarismo",
+      "author": "@PhenomBR",
+      "text": "41 raiders from PhenomBR have joined!",
+      "source": "twitch",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "5:37",
@@ -24,7 +50,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@PhenomBR",
-      "text": "Salve mano <3"
+      "text": "Salve mano <3",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "5:55",
@@ -32,7 +60,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@HEYYEYAAYAEYAAYAEYAAE",
-      "text": "Bom dia"
+      "text": "Bom dia",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "6:04",
@@ -40,7 +70,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@juhst92_",
-      "text": "Salve"
+      "text": "Salve",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "6:20",
@@ -48,7 +80,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@voidera_",
-      "text": "gankzada do mano phenom"
+      "text": "gankzada do mano phenom",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "6:27",
@@ -56,7 +90,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@HEYYEYAAYAEYAAYAEYAAE",
-      "text": "RAIDZADA"
+      "text": "RAIDZADA",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "7:30",
@@ -64,7 +100,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@PhenomBR",
-      "text": "Cara, mais de jogos AUSHSUAH"
+      "text": "Cara, mais de jogos AUSHSUAH",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "7:33",
@@ -72,7 +110,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@PhenomBR",
-      "text": "Mas tava no Xadrezin"
+      "text": "Mas tava no Xadrezin",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "7:34",
@@ -80,7 +120,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@HEYYEYAAYAEYAAYAEYAAE",
-      "text": "Xadrez as vezes só"
+      "text": "Xadrez as vezes só",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "7:38",
@@ -88,7 +130,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@PhenomBR",
-      "text": "Com meus humildes 1000 de elo"
+      "text": "Com meus humildes 1000 de elo",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "7:52",
@@ -96,7 +140,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@voidera_",
-      "text": "ele amassou um caba ai q dizia ter 2k"
+      "text": "ele amassou um caba ai q dizia ter 2k",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "7:52",
@@ -104,7 +150,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@PhenomBR",
-      "text": "***"
+      "text": "***",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "8:17",
@@ -112,7 +160,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@PhenomBR",
-      "text": "chess ponto com"
+      "text": "chess ponto com",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "8:37",
@@ -120,7 +170,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@PhenomBR",
-      "text": "Tmj po <3"
+      "text": "Tmj po <3",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "8:54",
@@ -128,7 +180,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@PhenomBR",
-      "text": "Relaxa, o bot taxa mesmo"
+      "text": "Relaxa, o bot taxa mesmo",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "8:56",
@@ -136,7 +190,53 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@PhenomBR",
-      "text": "AUSHAUSH"
+      "text": "AUSHAUSH",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
+    },
+    {
+      "time": "9:09",
+      "seconds": 549,
+      "platform": "Twitch",
+      "channel": "sedentarismo",
+      "author": "@sedentarismo",
+      "text": "fczuardi",
+      "source": "twitch",
+      "twitch_vod_id": "2831862250"
+    },
+    {
+      "time": "9:11",
+      "seconds": 551,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "fczuardi",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
+    },
+    {
+      "time": "9:11",
+      "seconds": 551,
+      "platform": "Twitch",
+      "channel": "sedentarismo",
+      "author": "@sedentarismo",
+      "text": "fcz",
+      "source": "twitch",
+      "twitch_vod_id": "2831862250"
+    },
+    {
+      "time": "9:13",
+      "seconds": 553,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "fcz",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
     },
     {
       "time": "9:20",
@@ -144,7 +244,8 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "fczuardi"
+      "text": "fczuardi",
+      "source": "restream"
     },
     {
       "time": "9:22",
@@ -152,7 +253,8 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "fcz"
+      "text": "fcz",
+      "source": "restream"
     },
     {
       "time": "14:12",
@@ -160,7 +262,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@ryanmelo-s2b",
-      "text": "você ainda está aprendendo ??"
+      "text": "você ainda está aprendendo ??",
+      "source": "restream"
     },
     {
       "time": "23:47",
@@ -168,7 +271,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Bom dia"
+      "text": "Bom dia",
+      "source": "restream"
     },
     {
       "time": "23:57",
@@ -176,7 +280,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "esse ai é interessante"
+      "text": "esse ai é interessante",
+      "source": "restream"
     },
     {
       "time": "25:48",
@@ -184,7 +289,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Bom dia FCZ! Bom dia Murilão!"
+      "text": "Bom dia FCZ! Bom dia Murilão!",
+      "source": "restream"
     },
     {
       "time": "26:18",
@@ -192,7 +298,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Calcula essa captura Qf3 gxf3 e tenta achar o próximo lance. (usando cct dnv)"
+      "text": "Calcula essa captura Qf3 gxf3 e tenta achar o próximo lance. (usando cct dnv)",
+      "source": "restream"
     },
     {
       "time": "26:28",
@@ -200,7 +307,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Qxf3"
+      "text": "Qxf3",
+      "source": "restream"
     },
     {
       "time": "28:29",
@@ -208,7 +316,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Boa, assim voce ganhou uma torre inteira a mais no final da linha"
+      "text": "Boa, assim voce ganhou uma torre inteira a mais no final da linha",
+      "source": "restream"
     },
     {
       "time": "29:00",
@@ -216,7 +325,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Ganhou a torre, muito massa eu não tinha visto! Murilo é outro nível, top demais"
+      "text": "Ganhou a torre, muito massa eu não tinha visto! Murilo é outro nível, top demais",
+      "source": "restream"
     },
     {
       "time": "30:51",
@@ -224,7 +334,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Bom dia mchessters, valeu ai kkkk"
+      "text": "Bom dia mchessters, valeu ai kkkk",
+      "source": "restream"
     },
     {
       "time": "33:12",
@@ -232,7 +343,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Boa"
+      "text": "Boa",
+      "source": "restream"
     },
     {
       "time": "33:22",
@@ -240,7 +352,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "mate sufocado agr"
+      "text": "mate sufocado agr",
+      "source": "restream"
     },
     {
       "time": "33:53",
@@ -248,7 +361,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Basicamente as peças dele atrapalham ele de fugir e voce vai la e da check de cavalo"
+      "text": "Basicamente as peças dele atrapalham ele de fugir e voce vai la e da check de cavalo",
+      "source": "restream"
     },
     {
       "time": "34:53",
@@ -256,7 +370,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "A ideia desse puzzle é desviar a dama da defesa de f7"
+      "text": "A ideia desse puzzle é desviar a dama da defesa de f7",
+      "source": "restream"
     },
     {
       "time": "36:24",
@@ -264,7 +379,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Boa"
+      "text": "Boa",
+      "source": "restream"
     },
     {
       "time": "37:14",
@@ -272,7 +388,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "slc achou rapido"
+      "text": "slc achou rapido",
+      "source": "restream"
     },
     {
       "time": "37:24",
@@ -280,7 +397,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Nossa cabeça de 800 pensa sempre em capturas primeiro, bom treinar outras lógicas"
+      "text": "Nossa cabeça de 800 pensa sempre em capturas primeiro, bom treinar outras lógicas",
+      "source": "restream"
     },
     {
       "time": "37:45",
@@ -288,7 +406,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "esse exemplo 4 é grande slc"
+      "text": "esse exemplo 4 é grande slc",
+      "source": "restream"
     },
     {
       "time": "39:35",
@@ -296,7 +415,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Morphy pra mim me lembra Power Ranger, hora de morfar"
+      "text": "Morphy pra mim me lembra Power Ranger, hora de morfar",
+      "source": "restream"
     },
     {
       "time": "39:56",
@@ -304,7 +424,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "KKKKKKKK"
+      "text": "KKKKKKKK",
+      "source": "restream"
     },
     {
       "time": "40:37",
@@ -312,7 +433,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@nicolich41",
-      "text": "Bom dia!"
+      "text": "Bom dia!",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "41:04",
@@ -320,7 +443,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@nicolich41",
-      "text": "Uma dica: o rei morre afogado."
+      "text": "Uma dica: o rei morre afogado.",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "41:16",
@@ -328,7 +453,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "ele pode tomar de dama, boce sacrifica a dama de forma a forçar ele tomar de torre"
+      "text": "ele pode tomar de dama, boce sacrifica a dama de forma a forçar ele tomar de torre",
+      "source": "restream"
     },
     {
       "time": "43:27",
@@ -336,7 +462,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "o seu cavalo precisa apoiar a dama em c8 pra ele so poder tomar de torre."
+      "text": "o seu cavalo precisa apoiar a dama em c8 pra ele so poder tomar de torre.",
+      "source": "restream"
     },
     {
       "time": "46:09",
@@ -344,7 +471,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "tem certeza que voce nao pode jogar Nb6?"
+      "text": "tem certeza que voce nao pode jogar Nb6?",
+      "source": "restream"
     },
     {
       "time": "48:10",
@@ -352,7 +480,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "agora as coisas mudaram seu cavalo defende c8..."
+      "text": "agora as coisas mudaram seu cavalo defende c8...",
+      "source": "restream"
     },
     {
       "time": "48:20",
@@ -360,7 +489,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "isso boa"
+      "text": "isso boa",
+      "source": "restream"
     },
     {
       "time": "48:40",
@@ -368,7 +498,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Muito da hora, eu duvido que eu conseguiria ver isso durante o jogo, preciso estudar mais"
+      "text": "Muito da hora, eu duvido que eu conseguiria ver isso durante o jogo, preciso estudar mais",
+      "source": "restream"
     },
     {
       "time": "48:50",
@@ -376,7 +507,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Muito da hora"
+      "text": "Muito da hora",
+      "source": "restream"
     },
     {
       "time": "49:20",
@@ -384,7 +516,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "desse mate afogado so fiz um na vida, é muito raro acontecer e muito dificil de ver quando ele é possivel kkk"
+      "text": "desse mate afogado so fiz um na vida, é muito raro acontecer e muito dificil de ver quando ele é possivel kkk",
+      "source": "restream"
     },
     {
       "time": "50:21",
@@ -392,7 +525,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@MuriloInacioB",
-      "text": "Tenho compromisso às 10 então não poderei acompanhar o resto da live. Bons estudos."
+      "text": "Tenho compromisso às 10 então não poderei acompanhar o resto da live. Bons estudos.",
+      "source": "restream"
     },
     {
       "time": "51:01",
@@ -400,7 +534,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Valeu Murilo! Até mais!"
+      "text": "Valeu Murilo! Até mais!",
+      "source": "restream"
     },
     {
       "time": "1:04:23",
@@ -408,7 +543,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@JustiChess",
-      "text": "verdade eu sofro sempre com isso"
+      "text": "verdade eu sofro sempre com isso",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "1:07:45",
@@ -416,7 +553,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@JustiChess",
-      "text": "BomDia.."
+      "text": "BomDia..",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "1:08:49",
@@ -424,7 +563,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@JustiChess",
-      "text": "gostei como vc fez o site?"
+      "text": "gostei como vc fez o site?",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "1:11:20",
@@ -432,7 +573,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@JustiChess",
-      "text": "sim valeu"
+      "text": "sim valeu",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "1:11:29",
@@ -440,7 +583,9 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@JustiChess",
-      "text": "vou brincar depois tb gostei da ideia.."
+      "text": "vou brincar depois tb gostei da ideia..",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     },
     {
       "time": "1:12:03",
@@ -448,7 +593,11 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "@JustiChess",
-      "text": "blz"
+      "text": "blz",
+      "source": "restream",
+      "twitch_vod_id": "2831862250"
     }
-  ]
+  ],
+  "youtube_video_id": "fKTsjGyavpU",
+  "restream_event_id": "552eba90-8f1e-4ec4-b551-4045d1ea1020"
 }

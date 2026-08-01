@@ -23,6 +23,9 @@ update-youtube-chat-acks:
 import-youtube-chat-replays CACHE_DIR="/tmp/xadrez-chat" EXTRA="":
   @python3 scripts/import_youtube_chat_replays.py --cache-dir {{CACHE_DIR}} {{EXTRA}}
 
+merge-chat-replays EXTRA="":
+  @python3 scripts/merge_chat_replays.py {{EXTRA}}
+
 import-youtube-transcripts CACHE_DIR="/tmp/xadrez-transcripts" EXTRA="":
   @python3 scripts/import_youtube_transcripts.py --cache-dir {{CACHE_DIR}} {{EXTRA}}
 
@@ -58,12 +61,14 @@ restream-refresh-token:
 
 refresh-youtube-replay-data RECENT="5":
   @python3 scripts/import_youtube_chat_replays.py --cache-dir /tmp/xadrez-chat --latest {{RECENT}} --download
+  @python3 scripts/merge_chat_replays.py --latest {{RECENT}}
   @python3 scripts/import_youtube_transcripts.py --cache-dir /tmp/xadrez-transcripts --latest {{RECENT}}
 
 refresh-replay-data RECENT="5":
   @python3 scripts/import_youtube_chat_replays.py --cache-dir /tmp/xadrez-chat --latest {{RECENT}} --download
   @python3 scripts/import_twitch_chat_replays.py --cache-dir /tmp/xadrez-twitch-chat --playlist-end {{RECENT}}
   @python3 scripts/import_restream_chat_replays.py --cache-dir /tmp/xadrez-restream-chat --latest {{RECENT}} || echo "Restream chat unavailable; keeping YouTube-only chat fallback"
+  @python3 scripts/merge_chat_replays.py --latest {{RECENT}}
   @python3 scripts/import_youtube_transcripts.py --cache-dir /tmp/xadrez-transcripts --latest {{RECENT}}
   @python3 scripts/import_openai_transcripts.py --latest 1 || echo "OpenAI transcript unavailable; keeping existing transcript fallback"
   @python3 scripts/import_whisper_transcripts.py --latest 1 --source-id faster-whisper --output-suffix faster-whisper --whisper-cache-dir /tmp/xadrez-faster-whisper-cache --whisper-cmd "whisper-ctranslate2 --model turbo --compute_type int8 --batched True --batch_size 8" || echo "Faster Whisper CLI transcript unavailable; keeping existing transcript fallback"

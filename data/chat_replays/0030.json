@@ -1,14 +1,16 @@
 {
   "session_number": "0030",
-  "youtube_video_id": "lEDN6z2Penw",
-  "restream_event_id": "2b080739-7317-42c7-8d17-4170591389bd",
-  "source": "restream",
+  "source": "merged",
+  "sources": [
+    "restream",
+    "youtube"
+  ],
   "platforms": [
     "Restream",
     "Twitch",
     "YouTube"
   ],
-  "message_count": 37,
+  "message_count": 68,
   "messages": [
     {
       "time": "0:00",
@@ -16,7 +18,8 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "bom dia"
+      "text": "bom dia",
+      "source": "restream"
     },
     {
       "time": "0:00",
@@ -24,7 +27,32 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "atrasado mas ligando a transmissao"
+      "text": "atrasado mas ligando a transmissao",
+      "source": "restream"
+    },
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "bom dia",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
+    },
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "atrasado mas ligando a transmissao",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
     },
     {
       "time": "1:25",
@@ -32,7 +60,8 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 1",
-      "text": "bom dia twitch"
+      "text": "bom dia twitch",
+      "source": "restream"
     },
     {
       "time": "2:57",
@@ -40,7 +69,20 @@
       "platform": "Twitch",
       "channel": "sedentarismo",
       "author": "Person 2",
-      "text": "We specialize in promoting Twitch channels — check out our website: *** 😱 (remove space)"
+      "text": "We specialize in promoting Twitch channels — check out our website: *** 😱 (remove space)",
+      "source": "restream"
+    },
+    {
+      "time": "18:16",
+      "seconds": 1096,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@fczuardi",
+      "text": "https://lichess.org/broadcast/x-torne...",
+      "source": "youtube",
+      "badges": [
+        "Owner"
+      ]
     },
     {
       "time": "18:25",
@@ -48,7 +90,17 @@
       "platform": "Restream",
       "channel": "",
       "author": "Host",
-      "text": "https://lichess.org/broadcast/x-torneio-internacional-de-xadrez-sesc-caioba-standard/round-9/Yar24TEc/TzhGIG93"
+      "text": "https://lichess.org/broadcast/x-torneio-internacional-de-xadrez-sesc-caioba-standard/round-9/Yar24TEc/TzhGIG93",
+      "source": "restream"
+    },
+    {
+      "time": "48:47",
+      "seconds": 2927,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@makunotch",
+      "text": "bom dia fabricio, tudo joia? :grinning_face:",
+      "source": "youtube"
     },
     {
       "time": "49:04",
@@ -56,7 +108,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "bom dia fabricio, tudo joia? 😀"
+      "text": "bom dia fabricio, tudo joia? 😀",
+      "source": "restream"
+    },
+    {
+      "time": "50:15",
+      "seconds": 3015,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@makunotch",
+      "text": "to não, jaja vou ter q sair, rsrs vim so dar um oi e deixar o like :grinning_face:",
+      "source": "youtube"
     },
     {
       "time": "50:35",
@@ -64,7 +126,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "to não, jaja vou ter q sair, rsrs vim so dar um oi e deixar o like 😀"
+      "text": "to não, jaja vou ter q sair, rsrs vim so dar um oi e deixar o like 😀",
+      "source": "restream"
+    },
+    {
+      "time": "53:13",
+      "seconds": 3193,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@makunotch",
+      "text": "esse ta dificil. :eyes:",
+      "source": "youtube"
     },
     {
       "time": "53:26",
@@ -72,7 +144,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "esse ta dificil. 👀"
+      "text": "esse ta dificil. 👀",
+      "source": "restream"
     },
     {
       "time": "53:46",
@@ -80,7 +153,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "mas vai na manha q da de fazer rsrs"
+      "text": "mas vai na manha q da de fazer rsrs",
+      "source": "restream"
     },
     {
       "time": "55:17",
@@ -88,7 +162,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Bom dia, se tirasse a torre tem mate corredor pras brancas, cuidado haha"
+      "text": "Bom dia, se tirasse a torre tem mate corredor pras brancas, cuidado haha",
+      "source": "restream"
     },
     {
       "time": "57:18",
@@ -96,7 +171,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "n tem lance de peão rsrs"
+      "text": "n tem lance de peão rsrs",
+      "source": "restream"
     },
     {
       "time": "57:48",
@@ -104,7 +180,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "jogou muuuito"
+      "text": "jogou muuuito",
+      "source": "restream"
+    },
+    {
+      "time": "1:04:42",
+      "seconds": 3882,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@mchessters",
+      "text": "Eu sou muito ruim nesses finais ainda tbm, oposição e tals é difícil ainda",
+      "source": "youtube"
     },
     {
       "time": "1:05:24",
@@ -112,7 +198,26 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Eu sou muito ruim nesses finais ainda tbm, oposição e tals é difícil ainda"
+      "text": "Eu sou muito ruim nesses finais ainda tbm, oposição e tals é difícil ainda",
+      "source": "restream"
+    },
+    {
+      "time": "1:05:34",
+      "seconds": 3934,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@makunotch",
+      "text": "nessas posições vc precisa travar o rei adversaio sem deixar ele entrar nas sua cadeia",
+      "source": "youtube"
+    },
+    {
+      "time": "1:06:07",
+      "seconds": 3967,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@makunotch",
+      "text": "jogando o rei f5 vc joga o rei dele pra cima e limita os movimentos dele, colocando ele em zuug, ele so pode mexer o rei.",
+      "source": "youtube"
     },
     {
       "time": "1:06:15",
@@ -120,7 +225,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "nessas posições vc precisa travar o rei adversaio sem deixar ele entrar nas sua cadeia"
+      "text": "nessas posições vc precisa travar o rei adversaio sem deixar ele entrar nas sua cadeia",
+      "source": "restream"
+    },
+    {
+      "time": "1:06:38",
+      "seconds": 3998,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@makunotch",
+      "text": "o lance dele é \"obrigatorio\" porq é o unico q defende o peão da base.",
+      "source": "youtube"
     },
     {
       "time": "1:06:45",
@@ -128,7 +243,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "jogando o rei f5 vc joga o rei dele pra cima e limita os movimentos dele, colocando ele em zuug, ele so pode mexer o rei."
+      "text": "jogando o rei f5 vc joga o rei dele pra cima e limita os movimentos dele, colocando ele em zuug, ele so pode mexer o rei.",
+      "source": "restream"
     },
     {
       "time": "1:07:15",
@@ -136,7 +252,44 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "o lance dele é \"obrigatorio\" porq é o unico q defende o peão da base."
+      "text": "o lance dele é \"obrigatorio\" porq é o unico q defende o peão da base.",
+      "source": "restream"
+    },
+    {
+      "time": "1:08:26",
+      "seconds": 4106,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@mchessters",
+      "text": "Entendi makunotch! Se subisse meu rei ele avança o peão e liberava, entendi obrigado!",
+      "source": "youtube"
+    },
+    {
+      "time": "1:08:31",
+      "seconds": 4111,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@makunotch",
+      "text": "zuug é o nome q se da quando todas os movimentos são ruins ou ele n pode fazer outro movimento.",
+      "source": "youtube"
+    },
+    {
+      "time": "1:08:56",
+      "seconds": 4136,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@makunotch",
+      "text": "@terterear isso. dessa forma ele tem q afastar o rei, e vc entra com o seu",
+      "source": "youtube"
+    },
+    {
+      "time": "1:09:05",
+      "seconds": 4145,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@makunotch",
+      "text": "traduz pra vc ver o significados rsrs",
+      "source": "youtube"
     },
     {
       "time": "1:09:06",
@@ -144,7 +297,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Entendi makunotch! Se subisse meu rei ele avança o peão e liberava, entendi obrigado!"
+      "text": "Entendi makunotch! Se subisse meu rei ele avança o peão e liberava, entendi obrigado!",
+      "source": "restream"
     },
     {
       "time": "1:09:06",
@@ -152,7 +306,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "zuug é o nome q se da quando todas os movimentos são ruins ou ele n pode fazer outro movimento."
+      "text": "zuug é o nome q se da quando todas os movimentos são ruins ou ele n pode fazer outro movimento.",
+      "source": "restream"
     },
     {
       "time": "1:09:36",
@@ -160,7 +315,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "@terterear isso. dessa forma ele tem q afastar o rei, e vc entra com o seu"
+      "text": "@terterear isso. dessa forma ele tem q afastar o rei, e vc entra com o seu",
+      "source": "restream"
+    },
+    {
+      "time": "1:09:43",
+      "seconds": 4183,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@mchessters",
+      "text": "Pensei que era chinês",
+      "source": "youtube"
     },
     {
       "time": "1:09:46",
@@ -168,7 +333,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "traduz pra vc ver o significados rsrs"
+      "text": "traduz pra vc ver o significados rsrs",
+      "source": "restream"
     },
     {
       "time": "1:10:27",
@@ -176,7 +342,26 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Pensei que era chinês"
+      "text": "Pensei que era chinês",
+      "source": "restream"
+    },
+    {
+      "time": "1:18:04",
+      "seconds": 4684,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@makunotch",
+      "text": "vc tinha uma boa, mas n da pra saber se ele ia fazer rsrs era so vc tirar a bada para d7, se ele toma vc ganhava a dama dele.",
+      "source": "youtube"
+    },
+    {
+      "time": "1:18:23",
+      "seconds": 4703,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@makunotch",
+      "text": "dama*",
+      "source": "youtube"
     },
     {
       "time": "1:18:41",
@@ -184,7 +369,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "vc tinha uma boa, mas n da pra saber se ele ia fazer rsrs era so vc tirar a bada para d7, se ele toma vc ganhava a dama dele."
+      "text": "vc tinha uma boa, mas n da pra saber se ele ia fazer rsrs era so vc tirar a bada para d7, se ele toma vc ganhava a dama dele.",
+      "source": "restream"
+    },
+    {
+      "time": "1:18:57",
+      "seconds": 4737,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@makunotch",
+      "text": "verdade, foi mal.",
+      "source": "youtube"
     },
     {
       "time": "1:19:01",
@@ -192,7 +387,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "dama*"
+      "text": "dama*",
+      "source": "restream"
     },
     {
       "time": "1:19:31",
@@ -200,7 +396,35 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "verdade, foi mal."
+      "text": "verdade, foi mal.",
+      "source": "restream"
+    },
+    {
+      "time": "1:27:22",
+      "seconds": 5242,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@makunotch",
+      "text": "noooo, quase. vc tinha bispo a3 no lugar de bispo e1.",
+      "source": "youtube"
+    },
+    {
+      "time": "1:27:54",
+      "seconds": 5274,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@mchessters",
+      "text": "GG",
+      "source": "youtube"
+    },
+    {
+      "time": "1:28:03",
+      "seconds": 5283,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@makunotch",
+      "text": "a3 m C3",
+      "source": "youtube"
     },
     {
       "time": "1:28:05",
@@ -208,7 +432,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "noooo, quase. vc tinha bispo a3 no lugar de bispo e1."
+      "text": "noooo, quase. vc tinha bispo a3 no lugar de bispo e1.",
+      "source": "restream"
     },
     {
       "time": "1:28:35",
@@ -216,7 +441,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "GG"
+      "text": "GG",
+      "source": "restream"
     },
     {
       "time": "1:28:46",
@@ -224,7 +450,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "a3 m C3"
+      "text": "a3 m C3",
+      "source": "restream"
+    },
+    {
+      "time": "1:29:46",
+      "seconds": 5386,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@mchessters",
+      "text": "Faltou só rodar a faca, jogo bom pra aprender, eu gostei",
+      "source": "youtube"
     },
     {
       "time": "1:30:26",
@@ -232,7 +468,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Faltou só rodar a faca, jogo bom pra aprender, eu gostei"
+      "text": "Faltou só rodar a faca, jogo bom pra aprender, eu gostei",
+      "source": "restream"
+    },
+    {
+      "time": "1:32:55",
+      "seconds": 5575,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@makunotch",
+      "text": "dama* rsrs escrevi errado",
+      "source": "youtube"
     },
     {
       "time": "1:33:38",
@@ -240,7 +486,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "dama* rsrs escrevi errado"
+      "text": "dama* rsrs escrevi errado",
+      "source": "restream"
+    },
+    {
+      "time": "1:33:48",
+      "seconds": 5628,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@makunotch",
+      "text": "no lance 12, vc poderia ter tirado a dama d7",
+      "source": "youtube"
     },
     {
       "time": "1:34:29",
@@ -248,7 +504,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "no lance 12, vc poderia ter tirado a dama d7"
+      "text": "no lance 12, vc poderia ter tirado a dama d7",
+      "source": "restream"
+    },
+    {
+      "time": "1:35:14",
+      "seconds": 5714,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@makunotch",
+      "text": "se ele toma, ele perde a dama. mas é torcer pra ele errar kkk realmente, o seu foi melhor",
+      "source": "youtube"
     },
     {
       "time": "1:35:49",
@@ -256,7 +522,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "se ele toma, ele perde a dama. mas é torcer pra ele errar kkk realmente, o seu foi melhor"
+      "text": "se ele toma, ele perde a dama. mas é torcer pra ele errar kkk realmente, o seu foi melhor",
+      "source": "restream"
+    },
+    {
+      "time": "1:37:57",
+      "seconds": 5877,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@makunotch",
+      "text": "acho melhor analisar primeiro sem o stock, pra tentar entender se tinha algo melhor por vc mesmo, com o stock vc fica muito fixado no lance da maquina, mas so o magnus joga igual uma maquina kkk",
+      "source": "youtube"
     },
     {
       "time": "1:38:34",
@@ -264,7 +540,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "acho melhor analisar primeiro sem o stock, pra tentar entender se tinha algo melhor por vc mesmo, com o stock vc fica muito fixado no lance da maquina, mas so o magnus joga igual uma maquina kkk"
+      "text": "acho melhor analisar primeiro sem o stock, pra tentar entender se tinha algo melhor por vc mesmo, com o stock vc fica muito fixado no lance da maquina, mas so o magnus joga igual uma maquina kkk",
+      "source": "restream"
+    },
+    {
+      "time": "1:38:56",
+      "seconds": 5936,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@mchessters",
+      "text": "Sempre quando joga esse bispo no cavalo cravando a Rainha eu chamo de Ruy Lopes tbm hahaha",
+      "source": "youtube"
     },
     {
       "time": "1:39:35",
@@ -272,7 +558,26 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Sempre quando joga esse bispo no cavalo cravando a Rainha eu chamo de Ruy Lopes tbm hahaha"
+      "text": "Sempre quando joga esse bispo no cavalo cravando a Rainha eu chamo de Ruy Lopes tbm hahaha",
+      "source": "restream"
+    },
+    {
+      "time": "1:44:07",
+      "seconds": 6247,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@mchessters",
+      "text": "A única vantagem das brancas nesse jogo foi o relógio",
+      "source": "youtube"
+    },
+    {
+      "time": "1:44:30",
+      "seconds": 6270,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@mchessters",
+      "text": "Tudo era ruim pra ele haha",
+      "source": "youtube"
     },
     {
       "time": "1:44:48",
@@ -280,7 +585,8 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "A única vantagem das brancas nesse jogo foi o relógio"
+      "text": "A única vantagem das brancas nesse jogo foi o relógio",
+      "source": "restream"
     },
     {
       "time": "1:45:08",
@@ -288,7 +594,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@mchessters",
-      "text": "Tudo era ruim pra ele haha"
+      "text": "Tudo era ruim pra ele haha",
+      "source": "restream"
+    },
+    {
+      "time": "1:47:19",
+      "seconds": 6439,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@makunotch",
+      "text": ":grinning_face: vamos uma partida depois de vc terminar sua analise?",
+      "source": "youtube"
     },
     {
       "time": "1:48:00",
@@ -296,7 +612,17 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "😀 vamos uma partida depois de vc terminar sua analise?"
+      "text": "😀 vamos uma partida depois de vc terminar sua analise?",
+      "source": "restream"
+    },
+    {
+      "time": "1:49:35",
+      "seconds": 6575,
+      "platform": "YouTube",
+      "channel": "",
+      "author": "@makunotch",
+      "text": "pode pode :beaming_face_with_smiling_eyes:",
+      "source": "youtube"
     },
     {
       "time": "1:50:12",
@@ -304,7 +630,10 @@
       "platform": "YouTube",
       "channel": "Fabricio C Zuardi",
       "author": "@makunotch",
-      "text": "pode pode 😁"
+      "text": "pode pode 😁",
+      "source": "restream"
     }
-  ]
+  ],
+  "youtube_video_id": "lEDN6z2Penw",
+  "restream_event_id": "2b080739-7317-42c7-8d17-4170591389bd"
 }
