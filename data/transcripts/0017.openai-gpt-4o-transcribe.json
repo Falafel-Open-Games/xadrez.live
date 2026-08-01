@@ -1,0 +1,463 @@
+{
+  "session_number": "0017",
+  "youtube_video_id": "MqgbX7A1Ssw",
+  "language": "pt",
+  "source": "openai-api",
+  "source_id": "openai-gpt-4o-transcribe",
+  "model": "gpt-4o-transcribe",
+  "response_format": "json",
+  "initial_prompt": "Transcrição em português brasileiro de uma live de xadrez. Vocabulário esperado: Lichess, lichess.org, Chess.com, Stockfish, YouTube, Twitch, Restream, GoatCounter, roque, fianchetto, Sicilian Defense, Scandinavian Defense, Puzzle do dia, Puzzle Streak, Puzzle Storm, Puzzle Racer, blunder, rating, mate, xeque, blitz, rapid. Frases comuns: puzzle do dia, resposta com a dama, a resposta é, qual é a resposta. Restream é o nome da plataforma de transmissão, não transcreva como restring.",
+  "block_count": 83,
+  "audio_seconds": 3491.362,
+  "elapsed_seconds": 59.391,
+  "estimated_cost_usd": 0.132417,
+  "raw_usage": [
+    {
+      "type": "tokens",
+      "total_tokens": 13557,
+      "input_tokens": 12123,
+      "input_token_details": {
+        "text_tokens": 124,
+        "audio_tokens": 11999
+      },
+      "output_tokens": 1434
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 13062,
+      "input_tokens": 12123,
+      "input_token_details": {
+        "text_tokens": 124,
+        "audio_tokens": 11999
+      },
+      "output_tokens": 939
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 13085,
+      "input_tokens": 11037,
+      "input_token_details": {
+        "text_tokens": 124,
+        "audio_tokens": 10913
+      },
+      "output_tokens": 2048
+    }
+  ],
+  "blocks": [
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "text": "Bom dia, bom dia stream. Acabei de ligar aqui. Hoje meio que tem novidades. Como que eu faço aqui? Tem um pouquinho de setup para fazer, mas tem uma novidade boa que eu acho. Live chat."
+    },
+    {
+      "time": "0:39",
+      "seconds": 39,
+      "text": "Deixa eu só botar o chat visível aqui. Por acaso tiver alguma coisa aqui. Open selector. É sempre a hora que dá medo de crashar tudo aqui no meu setup. Deu certo sem crashar. Estou safe."
+    },
+    {
+      "time": "1:17",
+      "seconds": 77,
+      "text": "Vamos diminuir os tamanhos das coisas aqui. Pronto, aqui deve ser o suficiente. Um pouquinho menos. Acho que esse aqui é o suficiente. A grande novidade do dia, deixa eu ver aqui. Update, description, render. Ok."
+    },
+    {
+      "time": "2:02",
+      "seconds": 122,
+      "text": "Hoje a gente vai testar uma coisa meio maluca que eu fiz de última hora aqui. Que é o meu fluxo de trabalho. Trabalho. Já está crescendo aí."
+    },
+    {
+      "time": "2:31",
+      "seconds": 151,
+      "text": "E quem acompanhou as lives recentes sabe que tem muita coisa ali que eu pego do copy paste para o meu sistema da página aqui, xadrez.live."
+    },
+    {
+      "time": "3:00",
+      "seconds": 180,
+      "text": "Então, normalmente eu pego aqui no github, abro a sessão do dia aqui, o código markdown. Não é uma página html, nada. Ele é basicamente um formulário aqui em toml. Porque ele é só um front matter de markdown."
+    },
+    {
+      "time": "3:43",
+      "seconds": 223,
+      "text": "E se nenhuma palavra que eu estou falando aqui fizer sentido, se tudo estiver aparecendo grego, é normal."
+    },
+    {
+      "time": "4:05",
+      "seconds": 245,
+      "text": "Não espero que ninguém saiba esses termos aí, porque são coisas de programação totalmente não relevantes para o xadrez."
+    },
+    {
+      "time": "4:30",
+      "seconds": 270,
+      "text": "Mas, não sei se o Mihail está aí hoje ou não, ou se está muito cedo para ele, inspirado pelo nosso amigo Mihail do chat. Aliás, estou falando aqui que nem um bobo. Nem sei se a live começou no youtube."
+    },
+    {
+      "time": "5:12",
+      "seconds": 312,
+      "text": "É para ter começado, né? Deixa eu ver. Começou. Beleza, beleza, beleza. O microfone está funcionando, a live está funcionando. Olha aqui, eu fiz um user script."
+    },
+    {
+      "time": "5:45",
+      "seconds": 345,
+      "text": "Está todo improvisado por enquanto, porque está misturando português e inglês. É de partida, fechar, não sei o que. Mas, deixa eu passar o último update que eu tinha feito aqui. GG, git push."
+    },
+    {
+      "time": "6:25",
+      "seconds": 385,
+      "text": "É uma outra janela, estou fazendo isso. Estou fazendo um deploy ao vivo durante a live. Peço desculpas, eu deveria ter feito isso antes."
+    },
+    {
+      "time": "6:54",
+      "seconds": 414,
+      "text": "Mas, a grande novidade do dia é que eu não vou precisar ficar dando copy paste das coisas, porque agora eu tenho um user script super perigoso aqui. Não façam isso em casa, tá galera?"
+    },
+    {
+      "time": "7:32",
+      "seconds": 452,
+      "text": "Se vocês não sabem 100% o que vai estar rodando num user script, tipo esses do scriptcat, nem instala em scriptcat. Isso aqui é uma coisa perigosa."
+    },
+    {
+      "time": "8:03",
+      "seconds": 483,
+      "text": "Ele dá permissões para scripts fazer coisas no seu navegador, que não é legal dar permissão. Mas, se você meio que souber o que está fazendo... Estou na versão 0.3.0. Aí, pode ser útil."
+    },
+    {
+      "time": "8:41",
+      "seconds": 521,
+      "text": "E aqui a minha intenção, talvez no futuro, é ter um perfil de navegador só para essas lives. Rodar coisa separada e tal, porque eu tenho um pouco de medo de deixar essas coisas tipo scriptcat habilitadas."
+    },
+    {
+      "time": "9:24",
+      "seconds": 564,
+      "text": "Então, é uma coisa que eu vou deixar habilitada só durante a live, porque realmente é um bagulho perigoso de estar rodando no browser. Enfim, vamos para o que interessa."
+    },
+    {
+      "time": "9:59",
+      "seconds": 599,
+      "text": "Agora, quando eu entro no Liches, tem esse quadradinho xadrez.live aqui, que é uma coisa que o meu user script colocou lá. Então, agora a gente vai testar se isso aqui está funcionando."
+    },
+    {
+      "time": "10:38",
+      "seconds": 638,
+      "text": "Vamos para a nossa rotina normal, que começa com o Puzzle of the Day. Então, o Puzzle of the Day já tem um endereço aqui. Então, eu estou na minha sessão 17 desse diário. Vamos ver. Limpar o Scratch. Ok. Então, tá."
+    },
+    {
+      "time": "11:22",
+      "seconds": 682,
+      "text": "Eu acho que ele vai usar esse campo aqui como Scratchpad. Se eu apertar o botão Puzzle do dia, ele... Ok, beleza. Ele já preencheu com a URL certa aqui."
+    },
+    {
+      "time": "11:54",
+      "seconds": 714,
+      "text": "Um campo que, no final das contas, eu vou usar lá no GitHub para atualizar minha página. Então, ao invés de ficar a cada momento dando copy-paste de cada coisinha, GitHub, cadê meu GitHub, xadrez.live."
+    },
+    {
+      "time": "12:36",
+      "seconds": 756,
+      "text": "Então, eu vou dar só um copy-paste no final da sessão. Alguma coisa para adiantar a minha vida aqui. Eu não precisar ficar... Eu espero que as sessões ganhem algum tempo aqui, porque eu vou editar isso aqui uma vez só."
+    },
+    {
+      "time": "13:22",
+      "seconds": 802,
+      "text": "Então, essa linha já está preenchida aqui no meu TomL. Enfim, vamos fazer o Puzzle of the Day. Não sei se seria legal ter um botãozinho de esconder e mostrar, mas eu acho que está ok. Ai, ai, ai, cadê?"
+    },
+    {
+      "time": "14:04",
+      "seconds": 844,
+      "text": "Por exemplo, ele está entrando na frente do... Ele entrou na frente do negócio que é da interface do Liches, que é importante de eu enxergar, que é isso aqui. Então, primeira versão desse user script, então tudo bem."
+    },
+    {
+      "time": "14:49",
+      "seconds": 889,
+      "text": "Se não funcionar, tudo não tem problema. Puzzle do dia, eu sou as pretas. Puzzle do dia, eu sou as pretas. Deixa eu ver aqui, vou dar um bom dia para o chat do YouTube aqui. YouTube, sign in."
+    },
+    {
+      "time": "15:29",
+      "seconds": 929,
+      "text": "Estou no celular aqui, vou dar um minutinho. Tem chat aqui, tem, né? Bom dia, chat. Ok. Só para ver se esse chat aqui do Restream vai funcionar ou não. Eu tenho minhas dúvidas. Aqui ele pegou e lá ele não pegou, né?"
+    },
+    {
+      "time": "16:13",
+      "seconds": 973,
+      "text": "Aqui dá um reload, talvez? Eu estou com o chat certo. Embed chat. Launch chat. Talvez estava com o chat errado, vamos ver. Não, ele não apareceu o bom dia aqui no outro também que eu abri. Estranho. Tudo bem."
+    },
+    {
+      "time": "16:57",
+      "seconds": 1017,
+      "text": "Não vou ver mensagens da Twitch. Engraçado. Esse chat aqui era para estar funcionando. Eu vou deixar sem chat por enquanto. De tempos em tempos eu dou uma olhadinha no chat aqui. Tudo meio improvisado, mas vamos lá."
+    },
+    {
+      "time": "17:42",
+      "seconds": 1062,
+      "text": "Puzzle 1 da sequência. Ninguém no chat. Vamos continuar falando sozinho. Acho que é ninguém no chat, né? Eu posso deixar meu celular no mudo e ficar olhando aqui. Eu acho que o celular está no mudo. Deixa eu ver."
+    },
+    {
+      "time": "18:26",
+      "seconds": 1106,
+      "text": "O celular nem deu play no vídeo. O celular está tocando aqui, mas está no mudo. Beleza. Então, pelo menos se alguém do YouTube aparecer, eu vou ter uma confiança de que eu estou vendo o chat. Beleza."
+    },
+    {
+      "time": "19:08",
+      "seconds": 1148,
+      "text": "Puzzle número 1 da sequência. Eu jogo com as pretas. A rainha aqui deve ser a resposta, né? Está protegida. O cara pode fugir para cá. Se isso acontecer... Tem um caminho para cá. Ninguém meça minha rainha."
+    },
+    {
+      "time": "19:51",
+      "seconds": 1191,
+      "text": "Eu acho que essa é a primeira parte, correto?"
+    },
+    {
+      "time": "20:00",
+      "seconds": 1200,
+      "text": "Segunda parte, bom, aqui parece bem correto, tem uma outra aqui, mas eu acho que meio que dá na mesma, e aqui fico na mira da torre, eu chutaria aqui, correto?"
+    },
+    {
+      "time": "20:55",
+      "seconds": 1255,
+      "text": "Primeiro puzzle resolvido, vamos testar um botão do nosso user script que é addPuzzle, ele mete aqui, tentativa em andamento, legal, parece que está funcionando, nosso user script, essa é a section que eu quero, display 9 nela, certo, aí eu consigo dar um toggle visibility aqui, tá bom, continuar a sequência, puzzle de número 2, ninguém no chat ainda, puzzle de número 2, 21 minutos de live, puzzle de número 2, tem um check com a rainha aqui, rei foge para cá ou para cá, o que eu ganhei com isso?"
+    },
+    {
+      "time": "23:49",
+      "seconds": 1429,
+      "text": "Meus cavalos estão protegendo essas casas, alright, mexer um cavalo me liberaria um bispo para alguma coisa, eu tenho um bispo que pode mirar para cá, se isso fizer alguma coisa, aqui não é check, cavalo aqui não é check de jeito nenhum, aqui também não, a melhor ideia que eu tenho até o momento é a rainha aqui, ninguém ameaça ela, até de boa, esse cara foge para algum lado, eu pego alguma peça, certo?"
+    },
+    {
+      "time": "26:09",
+      "seconds": 1569,
+      "text": "Se ele fugir, por exemplo, para cá, eu pego um bispo, não é lá grandes coisas, né? Daqui eu poderia andar... Essa é a minha melhor ideia até o momento, 1, 2, 3."
+    },
+    {
+      "time": "27:05",
+      "seconds": 1625,
+      "text": "Depois que ele vier aqui, mas se bem que aqui, aí sim eu posso chegar com um cavalo e dar outro check, certo que eu tenho esse aqui, se ele vier para lá, ninguém chega aqui, de qualquer forma, eu acho que a resposta do puzzle começa aqui."
+    },
+    {
+      "time": "28:27",
+      "seconds": 1707,
+      "text": "Correto, a defesa dele foi vir com a torre, posso comer um bispo dele sem grandes consequências, acho que é isso que eu tenho que fazer, certo? Posso comer esse? Não, eu acho que é isso que eu tenho que fazer."
+    },
+    {
+      "time": "29:40",
+      "seconds": 1780,
+      "text": "Continuo correto, e acabou o puzzle, beleza. Então, feito o segundo puzzle da sequência, addPuzzle, isso aqui está aumentando para lá, né? Um, dois puzzles, beleza, um url certo. Devia ter um jeito de..."
+    },
+    {
+      "time": "30:50",
+      "seconds": 1850,
+      "text": "Collapse children, addAttributes, hideElement, acho que isso faz o que eu quero. Aí tiro o hideElement, legal, mais fácil, faço com o mouse aqui, hideElement, beleza."
+    },
+    {
+      "time": "31:48",
+      "seconds": 1908,
+      "text": "Próximo puzzle da sequência, terceiro puzzle de 5, se não der tudo certo aqui."
+    },
+    {
+      "time": "32:15",
+      "seconds": 1935,
+      "text": "Eu jogo com as pretas, puzzle de número 3, puzzle de número 3, 21 minutos de live, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3, puzzle de número 3"
+    },
+    {
+      "time": "40:00",
+      "seconds": 2400,
+      "text": "Para onde iria o jogo se isso fosse feito? Para um outro lugar qualquer, né? Onde eu não ganho rainha. Mas esse aqui eu obrigatoriamente ganho rainha. Ele não é obrigado a comer meu bispo aqui?"
+    },
+    {
+      "time": "40:26",
+      "seconds": 2426,
+      "text": "Ah, o rei tá pinado pelo bispo. Realmente, era melhor jogada e eu não vi. Tudo bem, acabou a sequência, eu fui até o 5. É o mínimo do mínimo que eu me dei aqui. Então, vamos fechar a tentativa. Tentativa em andamento."
+    },
+    {
+      "time": "40:56",
+      "seconds": 2456,
+      "text": "O que fechar a tentativa me dá? Já copiar esse copiarão L aqui. Bloco copiando. Só porque é a primeira vez que eu estou usando essa extensão, eu não sei o que ela vai fazer. Quantos puzzles dessas... Conto com 5."
+    },
+    {
+      "time": "41:25",
+      "seconds": 2485,
+      "text": "Nota opcional. Não vi uma cravada de bispo. Certo, não vi uma cravada de bispo. Resolvi só 5. Copiarão L. Esconder o elemento. Certo. 40 minutos de live. Vou jogar um casual, né? Se bem que..."
+    },
+    {
+      "time": "41:51",
+      "seconds": 2511,
+      "text": "Chat tá bem mudo, poderia jogar ranqueada. Acho que não tem problema. Ninguém vai me acusar de nada porque o chat tá mudo. Vou jogar... Errado jogar ranqueada em live. Eu vou me arriscar. Criar um lobby game."
+    },
+    {
+      "time": "42:20",
+      "seconds": 2540,
+      "text": "Não vou me arriscar não. Vou botar casual mesmo. O interessante aqui é a prática, é a análise. Deixo que a minha escalada no ranking eu faço offline. Sei lá. Tem prós e contras de cada um. Vou no casual."
+    },
+    {
+      "time": "42:47",
+      "seconds": 2567,
+      "text": "10 minutos sem incrementos. Que vença o melhor. Partida já tem ID, né? Poderia dar... Ah, tá. Cancela. Sei lá. Abertura, cancela tudo. Veio aqui E4. Vamos sem perder tempo. Fabrício. Sem perder tempo. O que eu quero..."
+    },
+    {
+      "time": "43:17",
+      "seconds": 2597,
+      "text": "Mirror match. O cara quer o meu peão. Hum... O cara quer só defender o peão dele. Tá na boa. Eu posso fazer graça aqui ou vir pra cá. Vamos vir na maciota aqui. Meio passivo, sem mexer com ninguém."
+    },
+    {
+      "time": "43:44",
+      "seconds": 2624,
+      "text": "Deixa eu achar essa section lá que eu quero dar um hide nesse elemento aqui. Ele já jogou? Não. Boa. Controle do tempo. É importante. Tô jogando com alguém de rating mais baixo que o meu."
+    },
+    {
+      "time": "44:09",
+      "seconds": 2649,
+      "text": "Seria interessante eu ganhar, mas é um casual. Aprender é mais legal do que ganhar. Então vamos lá. Espantasse bispo. Terminar o meu development. Terminar o meu desenvolvimento, porque ele já tá na beira do rock dele."
+    },
+    {
+      "time": "44:39",
+      "seconds": 2679,
+      "text": "Eu faço o meu rock também. Tá tudo certo. Rock, rock. Deve ser as próximas jogadas. Rock curto contra rock curto. Não. Ele decidiu me dar um bispo por um cavalo. Eu gosto da troca, então eu faço. Aí ele..."
+    },
+    {
+      "time": "45:07",
+      "seconds": 2707,
+      "text": "A nova troca dele é o quê? Um peão. Por que esse peão não estava protegido, né? O meu development não foi super bom aqui. Tudo bem. Aí ele vai pegar um... Outro peão meu e me tirar a possibilidade do rock."
+    },
+    {
+      "time": "45:35",
+      "seconds": 2735,
+      "text": "É exatamente o que ele faz. Tudo bem. Se eu não tivesse vindo aqui, esse bispo ainda poderia comer o cavalo. Ah, me ofereceu um empate. Não, cara. Casual. Vamos jogar mais um pouquinho. Casual."
+    },
+    {
+      "time": "46:01",
+      "seconds": 2761,
+      "text": "Nós dois estamos com bastante peça ainda, cara. Vamos jogar mais um pouquinho antes de... Ah, o cara saiu. Beleza. O cara desistiu. O que eu aguardo dessa análise é ter talvez uma inaccuracy. O jogo foi tão curto."
+    },
+    {
+      "time": "46:30",
+      "seconds": 2790,
+      "text": "Veio até a rodada 7. Eu acho que eu quero outro jogo. Mas eu já vou preenchendo, então, os dados desse jogo. Strike attempt. Extra games. Será que ele vai adicionar outro se eu botar edge partida?"
+    },
+    {
+      "time": "46:57",
+      "seconds": 2817,
+      "text": "Primeira vez que eu estou usando isso aqui. Resultado ruim. Eu joguei com black. Isso aqui poderia ser drop down, né? Abertura... I don't know yet. URL da abertura também não sei. Nota opcional. Oponente... Desistiu."
+    },
+    {
+      "time": "47:27",
+      "seconds": 2847,
+      "text": "Cedo. Turno 7. Esse talvez seja um problema de jogar casual, né? Não tem nada em jogo. Desistir. Claim victory. Desistir não dá nada para ninguém, né? Na próxima eu vou jogar ranqueada."
+    },
+    {
+      "time": "47:52",
+      "seconds": 2872,
+      "text": "Mesmo sabendo que a chance de perder é grande. Claim victory. Analysis board. Aqui no analysis board eu consigo... Cadê o meu section aqui? Aqui no analysis board eu consigo ver o opening aqui, né? Então..."
+    },
+    {
+      "time": "48:20",
+      "seconds": 2900,
+      "text": "Four Nights Game Spanish Variation. Foi isso que aconteceu nesse jogo. Então, se eu voltar esse cara aqui... Deixa eu ver se ele está adicionando extra games. Está um monte, né? Ah, vou pôr simplesmente opening URL aqui."
+    },
+    {
+      "time": "48:50",
+      "seconds": 2930,
+      "text": "Eu não posso editar? Isso é chato. All right, vai. Primeira versão disso aqui. Tá bom. Se eu colar esse frontmatter aqui do jeito que veio. Foda-se. É o mesmo jogo. Tira isso aqui. Copiar."
+    },
+    {
+      "time": "49:16",
+      "seconds": 2956,
+      "text": "Eu não esperava que na primeira live com o user script recém criado isso fosse me tirar todo o trabalho manual. Mas já tirou algum. Estou levemente satisfeito com esse user script."
+    },
+    {
+      "time": "49:40",
+      "seconds": 2980,
+      "text": "Tenho um feedback interessante para a versão 0.4 dele que nós vamos usar amanhã. Por enquanto ainda tive que colar manualmente duas partes da minha burocracia aqui. Tá tudo certo."
+    },
+    {
+      "time": "50:05",
+      "seconds": 3005,
+      "text": "Vamos para a análise do jogo que é o que interessa. A live já deve estar perto de uma hora. Hoje não vai ser muito longa não porque eu tenho compromisso às 10. Então não vai dar tempo de outra partida. Infelizmente."
+    },
+    {
+      "time": "50:34",
+      "seconds": 3034,
+      "text": "Vamos... Queria ter jogado uma partida mais longa do que 7 turnos. Meu oponente se frustrou com alguma coisa. Eu pegando dois cavalos dele. Não, peguei um bispo e um cavalo."
+    },
+    {
+      "time": "50:58",
+      "seconds": 3058,
+      "text": "Acho que ele se frustrou com essa minha vantagem material aqui. Essa barra preta maior. Mas pô, começo do jogo. Brasileiro não desiste nunca. Cadê? Hide element. O jogo até teve para o lado dele em um momento aqui."
+    },
+    {
+      "time": "51:27",
+      "seconds": 3087,
+      "text": "É isso, ele deu um blunder e acabou o jogo. Mas eu tenho que aprender aí. Eu tive um mistake. Que foi... Ele teve um mistake. Não. Esse mistake foi... Está aparecendo... Ah tá, o meu peão foi mistake aqui. Tá, entendi."
+    },
+    {
+      "time": "51:57",
+      "seconds": 3117,
+      "text": "Então o meu mistake foi... Não deveria ter feito esse peãozinho aqui. Que é aquela ideia de que... Ele vindo aqui... Não, por que isso foi um mistake? Bispo D4 teria sido melhor. O Stockfish gostaria que..."
+    },
+    {
+      "time": "52:25",
+      "seconds": 3145,
+      "text": "Eu vendo um peão ameaçado, eu ameaçasse dois cavalos. É, a coisa de chegar juntinho no cavalo... Normalmente o problema de chegar juntinho no cavalo é que o cavalo pula e vai sair dali."
+    },
+    {
+      "time": "52:50",
+      "seconds": 3170,
+      "text": "Mas chegar juntinho em dois cavalos, só um vai sair pulando. Mas eu não acho... Eu não acho que eu viria aqui para comer esse cavalo. Está super protegido. Por que eu comeria esse cavalo?"
+    },
+    {
+      "time": "53:16",
+      "seconds": 3196,
+      "text": "Esse jogo do Stockfish continua assim. Rock, Rock. Cavalo dele não é mais interessante para comer minha torre. Ele faz outra coisa. Continua o jogo... Eu tendo..."
+    },
+    {
+      "time": "53:38",
+      "seconds": 3218,
+      "text": "Tá, então nenhuma dessas continuações, o Bispo é louco de sair comendo aqui. Mas eu estou com um Bispo numa casa relevante. Acho que é isso, né? Vantagem. E eu não... Eu não..."
+    },
+    {
+      "time": "54:02",
+      "seconds": 3242,
+      "text": "Mas esse jogo aqui, eu queria saber como esse jogo continua. Se fosse Bispo aqui... Cavalo aqui é Blunder para o lado dele, né? Com certeza isso aqui é um Blunder, né? Cadê? Nós estamos jogando essa Branch. É Blunder."
+    },
+    {
+      "time": "54:32",
+      "seconds": 3272,
+      "text": "Dupla interrogação. Knight C6 seria melhor. Então, se o cara continuasse a ideia que ele estava... A minha continuação ia ser a mesma continuação que eu fiz no jogo."
+    },
+    {
+      "time": "54:54",
+      "seconds": 3294,
+      "text": "Com a diferença que eu estou com um Bispo melhor posicionado em tese, alguma coisa assim. Então tá. Esse foi o meu Mistake. Não teve Blunder, teve Mistake. Accuracy 79%. O cara... Um jogo que acabou muito cedo."
+    },
+    {
+      "time": "55:23",
+      "seconds": 3323,
+      "text": "Infelizmente. 53 minutos de live. Poderia parar por aqui. Deixa eu ver como estamos. Eu acho que eu vou parar por aqui. Porque eu tenho compromisso às 10. Foi esse o motivo que a live começou mais cedo hoje."
+    },
+    {
+      "time": "55:51",
+      "seconds": 3351,
+      "text": "E eu vou parar por aqui. Porque nesses 10 minutinhos até o meu compromisso das 10, eu vou dar um update nesse User Script aqui. Que parece que tem potencial de ficar útil para o meu dia a dia."
+    },
+    {
+      "time": "56:17",
+      "seconds": 3377,
+      "text": "Ganhar tempo nessas lives aí. Nessas minhas burocracias de preencher o Markdown. Que preenche o site que eu estou registrando. Esse diário que é o xadrez.live. Essa sessão 17 que está vazia. Começa às 10."
+    },
+    {
+      "time": "56:45",
+      "seconds": 3405,
+      "text": "Minha rotina é encerrar a sessão. E regerar a página já com os dados do que aconteceu na sessão. O que aconteceu no treino, o que aconteceu nas partidas. Uma descriçãozinha. Isso aqui é meio inútil."
+    },
+    {
+      "time": "57:12",
+      "seconds": 3432,
+      "text": "Talvez eu arranque fora essa parte. E gerar esse thumbnail do POS. Está vendo que ele é diferente do PRE. Então o POS fala o número da sessão, quem ganhou, qual foi a abertura."
+    },
+    {
+      "time": "57:36",
+      "seconds": 3456,
+      "text": "Tem algumas coisas na própria imagem de capa aqui. O gerador dessa imagem de capa. O gerador da imagem de capa pré-live. Essa aqui. Ele é só um gerador de imagem mesmo."
+    },
+    {
+      "time": "57:59",
+      "seconds": 3479,
+      "text": "É um script meu que troca o número da sessão e o horário da live. Isso aqui vai ficar meio"
+    }
+  ]
+}
