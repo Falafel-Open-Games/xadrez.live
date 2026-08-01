@@ -25,6 +25,11 @@
 {% set youtube_url = "https://www.youtube.com/watch?v=" ~ video_id %}
 {% set chat_replay_path = "data/chat_replays/" ~ page.extra.session_number ~ ".json" %}
 {% set chat_replay = load_data(path=chat_replay_path, required=false) %}
+{% set twitch_chat_replay_path = "data/twitch_chat_replays/" ~ page.extra.session_number ~ ".json" %}
+{% set twitch_chat_replay = load_data(path=twitch_chat_replay_path, required=false) %}
+{% if not chat_replay and twitch_chat_replay %}
+  {% set chat_replay = twitch_chat_replay %}
+{% endif %}
 {% set youtube_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".youtube.json" %}
 {% set faster_whisper_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".faster-whisper.json" %}
 {% set whisper_cli_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".whisper-cli.json" %}

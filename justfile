@@ -27,10 +27,13 @@ import-youtube-transcripts CACHE_DIR="/tmp/xadrez-transcripts" EXTRA="":
   @python3 scripts/import_youtube_transcripts.py --cache-dir {{CACHE_DIR}} {{EXTRA}}
 
 import-whisper-transcript SESSION EXTRA="":
-  @OPENBLAS_NUM_THREADS=4 OMP_NUM_THREADS=4 MKL_NUM_THREADS=4 NUMEXPR_NUM_THREADS=4 python3 scripts/import_whisper_transcripts.py {{EXTRA}} {{SESSION}}
+  @python3 scripts/import_whisper_transcripts.py --source-id faster-whisper --output-suffix faster-whisper --whisper-cache-dir /tmp/xadrez-faster-whisper-cache --whisper-cmd "whisper-ctranslate2 --model turbo --threads 4 --compute_type int8 --batched True --batch_size 8" {{EXTRA}} {{SESSION}}
 
 import-faster-whisper-transcript SESSION EXTRA="":
   @python3 scripts/import_whisper_transcripts.py --source-id faster-whisper --output-suffix faster-whisper --whisper-cache-dir /tmp/xadrez-faster-whisper-cache --whisper-cmd "whisper-ctranslate2 --model turbo --threads 4 --compute_type int8 --batched True --batch_size 8" {{EXTRA}} {{SESSION}}
+
+import-slow-whisper-transcript SESSION EXTRA="":
+  @OPENBLAS_NUM_THREADS=4 OMP_NUM_THREADS=4 MKL_NUM_THREADS=4 NUMEXPR_NUM_THREADS=4 python3 scripts/import_whisper_transcripts.py {{EXTRA}} {{SESSION}}
 
 import-openai-transcript SESSION EXTRA="":
   @python3 scripts/import_openai_transcripts.py {{EXTRA}} {{SESSION}}

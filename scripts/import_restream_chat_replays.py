@@ -114,8 +114,20 @@ def extract_front_matter(text: str, path: Path) -> str:
     return text[3:end].strip()
 
 
-def session_youtube_ids(min_session: int) -> list[dict[str, str]]:
-    sessions: list[dict[str, str]] = []
+def youtube_supporter_names(extra: dict[str, Any]) -> list[str]:
+    names = []
+    for supporter in extra.get("supporters", []):
+        if not isinstance(supporter, dict):
+            continue
+        platform = str(supporter.get("platform") or "").strip().lower()
+        name = str(supporter.get("name") or "").strip()
+        if platform == "youtube" and name:
+            names.append(name)
+    return names
+
+
+def session_youtube_ids(min_session: int) -> list[dict[str, Any]]:
+    sessions: list[dict[str, Any]] = []
     for path in sorted(CONTENT_DIR.glob("[0-9][0-9][0-9][0-9].md")):
         if int(path.stem) < min_session:
             continue
@@ -137,6 +149,7 @@ def session_youtube_ids(min_session: int) -> list[dict[str, str]]:
                     "title": str(data.get("title") or ""),
                     "date": str(data.get("date") or ""),
                     "chat_author_aliases": extra.get("chat_author_aliases") if isinstance(extra.get("chat_author_aliases"), dict) else {},
+                    "youtube_supporters": youtube_supporter_names(extra),
                 }
             )
 
@@ -429,6 +442,43 @@ def normalize_messages(
     return sorted(normalized, key=lambda message: int(message["seconds"]))
 
 
+def infer_single_youtube_supporter_alias(
+    raw_messages: list[dict],
+    event: dict,
+    author_aliases: dict[str, str],
+    youtube_timed_authors: dict[tuple[str, int], str],
+    youtube_text_authors: dict[str, str],
+    youtube_supporters: list[str],
+) -> dict[str, str]:
+    aliases = dict(author_aliases)
+    unresolved_authors: set[str] = set()
+    resolved_authors = set(youtube_timed_authors.values()) | set(youtube_text_authors.values()) | set(aliases.values())
+    start = event_start(event)
+
+    for raw in raw_messages:
+        if str(raw.get("platform") or "").strip() != "YouTube":
+            continue
+
+        author = str(raw.get("author") or "").strip()
+        text = str(raw.get("text") or "").strip()
+        if not text or not ANON_AUTHOR_RE.match(author) or author in aliases:
+            continue
+
+        seconds = 0
+        message_time = parse_timestamp(str(raw.get("timestamp") or ""))
+        if start and message_time:
+            seconds = max(0, round((message_time - start).total_seconds()))
+
+        if youtube_timed_authors.get((text, seconds)) or youtube_text_authors.get(text):
+            continue
+        unresolved_authors.add(author)
+
+    candidate_supporters = [name for name in youtube_supporters if name not in resolved_authors]
+    if len(unresolved_authors) == 1 and len(candidate_supporters) == 1:
+        aliases[next(iter(unresolved_authors))] = candidate_supporters[0]
+    return aliases
+
+
 def import_replays(
     token: str,
     cache_dir: Path,
@@ -471,10 +521,18 @@ def import_replays(
         youtube_timed_authors, youtube_text_authors = youtube_author_lookups(youtube_messages, youtube_match_window)
         twitch_messages = load_static_chat_messages(twitch_data_dir / f"{session['session_number']}.json")
         twitch_timed_authors, twitch_text_authors = youtube_author_lookups(twitch_messages, youtube_match_window)
-        messages = normalize_messages(
+        aliases = infer_single_youtube_supporter_alias(
             raw_messages,
             event,
             aliases if isinstance(aliases, dict) else {},
+            youtube_timed_authors,
+            youtube_text_authors,
+            session.get("youtube_supporters", []),
+        )
+        messages = normalize_messages(
+            raw_messages,
+            event,
+            aliases,
             youtube_timed_authors,
             youtube_text_authors,
             twitch_timed_authors,
