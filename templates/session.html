@@ -30,6 +30,9 @@
 {% if not chat_replay and twitch_chat_replay %}
   {% set chat_replay = twitch_chat_replay %}
 {% endif %}
+{% set highlights_path = "data/highlights/" ~ page.extra.session_number ~ ".json" %}
+{% set highlights = load_data(path=highlights_path, required=false) %}
+{% set show_highlights = highlights and highlights.highlights %}
 {% set youtube_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".youtube.json" %}
 {% set faster_whisper_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".faster-whisper.json" %}
 {% set whisper_cli_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".whisper-cli.json" %}
@@ -95,6 +98,18 @@
 {% set show_live_chat = page.extra.status_tone != "ended" %}
 {% set show_chat_replay = page.extra.status_tone == "ended" and chat_replay and chat_replay.messages %}
 {% set show_transcript = page.extra.status_tone == "ended" and transcript_source_count > 0 %}
+{% set notes_heading = '<h2 id="notas">Notas</h2>' %}
+{% set has_session_notes = page.content and page.content is containing(notes_heading) %}
+{% set session_notes_html = "" %}
+{% set remaining_content_html = page.content %}
+{% if has_session_notes %}
+  {% set content_before_notes = page.content | split(pat=notes_heading) | first %}
+  {% set content_after_notes = page.content | split(pat=notes_heading) | last %}
+  {% set content_after_notes_parts = content_after_notes | split(pat="<h2") %}
+  {% set session_notes_body_html = content_after_notes_parts | first %}
+  {% set session_notes_html = notes_heading ~ session_notes_body_html %}
+  {% set remaining_content_html = content_before_notes %}
+{% endif %}
 <article class="session">
   <div class="session-kicker">{{ config.title }}</div>
   <h1>Sessão #{{ page.extra.session_number }}</h1>
@@ -118,26 +133,72 @@
     <a class="button button-secondary" href="{{ page.extra.lichess_url }}" rel="noopener noreferrer">Abrir Lichess</a>
   </div>
 
-  <section class="live-room{% if not show_live_chat %} live-room-video-only{% endif %}" aria-label="sala da live">
-    <div class="video-panel">
-      <iframe
-        title="Live no YouTube"
-        data-youtube-player
-        src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen>
-      </iframe>
-    </div>
+  {% if session_notes_html %}
+    <div class="session-video-notes-layout">
+  {% endif %}
 
-    {% if show_live_chat %}
-      <div class="chat-panel">
+    <section class="live-room{% if not show_live_chat %} live-room-video-only{% endif %}" aria-label="sala da live">
+      <div class="video-panel">
         <iframe
-          title="Chat ao vivo no YouTube"
-          src="https://www.youtube.com/live_chat?v={{ video_id }}&embed_domain=xadrez.live&dark_theme=1">
+          title="Live no YouTube"
+          data-youtube-player
+          src="https://www.youtube.com/embed/{{ video_id }}?enablejsapi=1"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen>
         </iframe>
       </div>
-    {% endif %}
-  </section>
+
+      {% if show_live_chat %}
+        <div class="chat-panel">
+          <iframe
+            title="Chat ao vivo no YouTube"
+            src="https://www.youtube.com/live_chat?v={{ video_id }}&embed_domain=xadrez.live&dark_theme=1">
+          </iframe>
+        </div>
+      {% endif %}
+    </section>
+
+    {% if session_notes_html %}
+      <section class="session-notes session-notes-inline">
+        <div class="notes-body">
+          {{ session_notes_html | safe }}
+        </div>
+      </section>
+    </div>
+  {% endif %}
+
+  {% if show_highlights or show_chat_replay or show_transcript %}
+    <div class="session-replay-layout">
+  {% endif %}
+
+  {% if show_highlights %}
+    <section class="highlights-section" data-replay-tabs data-youtube-url="{{ youtube_url }}">
+      <div class="replay-header">
+        <h2>Possíveis destaques</h2>
+      </div>
+      <ol class="highlight-list">
+        {% for highlight in highlights.highlights %}
+          <li class="highlight-item" data-seconds="{{ highlight.start_seconds }}">
+            <a class="replay-time" href="{{ youtube_url }}&t={{ highlight.start_seconds }}s" rel="noopener noreferrer">{{ highlight.time }}</a>
+            <div class="highlight-body">
+              <small class="highlight-meta">
+                {{ highlight.duration }}
+                {% if highlight.kind is defined and highlight.kind %}
+                  <span class="chat-replay-platform">{{ highlight.kind }}</span>
+                {% endif %}
+              </small>
+              {% if highlight.summary is defined and highlight.summary %}
+                <p>{{ highlight.summary }}</p>
+              {% endif %}
+              {% if highlight.reason is defined and highlight.reason %}
+                <small>{{ highlight.reason }}</small>
+              {% endif %}
+            </div>
+          </li>
+        {% endfor %}
+      </ol>
+    </section>
+  {% endif %}
 
   {% if show_chat_replay or show_transcript %}
     <section class="replay-section" data-replay-tabs data-youtube-url="{{ youtube_url }}">
@@ -145,8 +206,8 @@
         <h2>Replay da sessão</h2>
         {% if show_chat_replay and show_transcript %}
           <div class="replay-tabs" role="tablist" aria-label="Modo do replay">
-            <button class="replay-tab is-active" type="button" data-replay-tab="chat" role="tab" aria-selected="true">Chat</button>
-            <button class="replay-tab" type="button" data-replay-tab="merged" role="tab" aria-selected="false">Mesclado</button>
+            <button class="replay-tab is-active" type="button" data-replay-tab="merged" role="tab" aria-selected="true">Mesclado</button>
+            <button class="replay-tab" type="button" data-replay-tab="chat" role="tab" aria-selected="false">Chat</button>
             <button class="replay-tab" type="button" data-replay-tab="transcript" role="tab" aria-selected="false">Transcrição</button>
           </div>
         {% endif %}
@@ -185,7 +246,7 @@
       {% endif %}
 
       {% if show_chat_replay and show_transcript %}
-        <ol class="replay-list replay-panel" data-replay-panel="merged" data-transcript-list="merged" data-transcript-source-active="{{ transcript_source_id }}">
+        <ol class="replay-list replay-panel is-active" data-replay-panel="merged" data-transcript-list="merged" data-transcript-source-active="{{ transcript_source_id }}">
           {% for message in chat_replay.messages %}
             <li class="replay-item replay-item-chat" data-seconds="{{ message.seconds }}" data-order="0">
               <a class="replay-time" href="{{ youtube_url }}&t={{ message.seconds }}s" rel="noopener noreferrer">{{ message.time }}</a>
@@ -213,7 +274,7 @@
       {% endif %}
 
       {% if show_chat_replay %}
-        <ol class="replay-list replay-panel is-active" data-replay-panel="chat">
+        <ol class="replay-list replay-panel{% if not show_transcript %} is-active{% endif %}" data-replay-panel="chat">
           {% for message in chat_replay.messages %}
             <li class="replay-item replay-item-chat" data-seconds="{{ message.seconds }}">
               <a class="replay-time" href="{{ youtube_url }}&t={{ message.seconds }}s" rel="noopener noreferrer">{{ message.time }}</a>
@@ -270,216 +331,171 @@
     </section>
   {% endif %}
 
+  {% if show_highlights or show_chat_replay or show_transcript %}
+    </div>
+  {% endif %}
+
   <section class="session-summary">
     <h2>Resumo da sessão</h2>
     <div class="summary-groups">
-      <section class="summary-group">
-        <h3>Treino</h3>
-        <dl>
-          {% if page.extra.puzzle_of_the_day_url is defined and page.extra.puzzle_of_the_day_url %}
-            <div>
-              <dt>Puzzle do dia</dt>
-              <dd><a href="{{ page.extra.puzzle_of_the_day_url }}" rel="noopener noreferrer">Abrir puzzle no Lichess</a></dd>
-            </div>
-          {% endif %}
-          {% if page.extra.puzzles is defined and page.extra.puzzles %}
-            <div>
-              <dt>Puzzles rating</dt>
-              <dd>{{ page.extra.puzzles }}</dd>
-            </div>
-          {% endif %}
-          {% if page.extra.streak is defined and page.extra.streak %}
-            <div>
-              <dt>Streak</dt>
-              <dd>{{ page.extra.streak }}</dd>
-            </div>
-          {% endif %}
-          {% if page.extra.streak_attempts is defined and page.extra.streak_attempts %}
-            <div>
-              <dt>{% if page.extra.streak_attempts | length > 1 %}Sequências{% else %}Sequência{% endif %}</dt>
-              <dd>
-                <div class="streak-list">
-                  {% for attempt in page.extra.streak_attempts %}
-                    <section class="streak-summary">
-                      {% if page.extra.streak_attempts | length > 1 %}
-                        <h4>Tentativa {{ loop.index }}</h4>
-                      {% endif %}
-                      {% if attempt.solved is defined and attempt.solved %}
-                        <p class="streak-score">
-                          {{ attempt.solved }}{% if page.extra.streak_goal is defined and page.extra.streak_goal %} / {{ page.extra.streak_goal }}{% endif %}
-                        </p>
-                      {% endif %}
-                      {% if attempt.note is defined and attempt.note %}
-                        <p class="streak-note">{{ attempt.note }}</p>
-                      {% endif %}
-                      {% if attempt.puzzles is defined and attempt.puzzles %}
-                        <ul class="puzzle-sequence">
-                          {% for puzzle_entry in attempt.puzzles %}
-                            {% set puzzle_id = puzzle_entry
-                              | replace(from="https://lichess.org/training/", to="")
-                              | replace(from="http://lichess.org/training/", to="")
-                              | replace(from="https://www.lichess.org/training/", to="")
-                              | replace(from="http://www.lichess.org/training/", to="")
-                            %}
-                            {% if puzzle_entry is starting_with("http") %}
-                              {% set puzzle_url = puzzle_entry %}
-                            {% else %}
-                              {% set puzzle_url = "https://lichess.org/training/" ~ puzzle_entry %}
-                            {% endif %}
-                            <li><a href="{{ puzzle_url | safe }}" rel="noopener noreferrer">{{ puzzle_id }}</a></li>
-                          {% endfor %}
-                        </ul>
-                      {% endif %}
-                    </section>
-                  {% endfor %}
-                </div>
-              </dd>
-            </div>
-          {% elif page.extra.streak_best_sequence is defined and page.extra.streak_best_sequence %}
-            {% set streak_best_solved = page.extra.streak_best_sequence | length %}
-            {% if not page.extra.streak_interrupted | default(value=false) %}
-              {% set streak_best_solved = streak_best_solved - 1 %}
-            {% endif %}
-            <div>
-              <dt>Melhor sequência</dt>
-              <dd>
-                {{ streak_best_solved }}{% if page.extra.streak_goal is defined and page.extra.streak_goal %} / {{ page.extra.streak_goal }}{% endif %}
-                <ul class="puzzle-sequence">
-                  {% for puzzle_entry in page.extra.streak_best_sequence %}
-                    {% set puzzle_id = puzzle_entry
-                      | replace(from="https://lichess.org/training/", to="")
-                      | replace(from="http://lichess.org/training/", to="")
-                      | replace(from="https://www.lichess.org/training/", to="")
-                      | replace(from="http://www.lichess.org/training/", to="")
-                    %}
-                    {% if puzzle_entry is starting_with("http") %}
-                      {% set puzzle_url = puzzle_entry %}
-                    {% else %}
-                      {% set puzzle_url = "https://lichess.org/training/" ~ puzzle_entry %}
-                    {% endif %}
-                    <li><a href="{{ puzzle_url | safe }}" rel="noopener noreferrer">{{ puzzle_id }}</a></li>
-                  {% endfor %}
-                </ul>
-              </dd>
-            </div>
-          {% endif %}
-        </dl>
-      </section>
-
       <section class="summary-group">
         {% if page.extra.games is defined and page.extra.games %}
           <h3>{% if page.extra.games | length > 1 %}Partidas{% else %}Partida{% endif %}</h3>
           <div class="game-list">
             {% for game in page.extra.games %}
+              {% set lichess_game_url = "" %}
+              {% if game.lichess_game_url is defined and game.lichess_game_url %}
+                {% set lichess_game_url = game.lichess_game_url %}
+              {% elif game.platform is defined and game.platform == "lichess" and game.game_url is defined and game.game_url %}
+                {% set lichess_game_url = game.game_url %}
+              {% endif %}
+              {% set lichess_game_id = "" %}
+              {% if lichess_game_url %}
+                {% set lichess_game_id = lichess_game_url
+                  | replace(from="https://lichess.org/", to="")
+                  | replace(from="http://lichess.org/", to="")
+                  | replace(from="https://www.lichess.org/", to="")
+                  | replace(from="http://www.lichess.org/", to="")
+                  | replace(from="/black", to="")
+                  | replace(from="/white", to="")
+                %}
+              {% endif %}
               <section class="game-summary">
                 {% if page.extra.games | length > 1 %}
                   <h4>Partida {{ loop.index }}</h4>
                 {% endif %}
-                <dl>
-                  {% if game.game_url is defined and game.game_url %}
-                    <div>
-                      <dt>Partida</dt>
-                      <dd>
-                        <a href="{{ game.game_url }}" rel="noopener noreferrer">
-                          {% if game.platform is defined and game.platform == "chess.com" %}
-                            Abrir partida no Chess.com
-                          {% elif game.platform is defined and game.platform %}
-                            Abrir partida em {{ game.platform }}
+                <div class="game-summary-layout{% if not lichess_game_id %} game-summary-layout-details-only{% endif %}">
+                  <dl class="game-details">
+                    {% if game.game_url is defined and game.game_url %}
+                      <div>
+                        <dt>Partida</dt>
+                        <dd>
+                          <a href="{{ game.game_url }}" rel="noopener noreferrer">
+                            {% if game.platform is defined and game.platform == "chess.com" %}
+                              Abrir partida no Chess.com
+                            {% elif game.platform is defined and game.platform %}
+                              Abrir partida em {{ game.platform }}
+                            {% else %}
+                              Abrir partida
+                            {% endif %}
+                          </a>
+                        </dd>
+                      </div>
+                    {% elif game.lichess_game_url is defined and game.lichess_game_url %}
+                      <div>
+                        <dt>Partida</dt>
+                        <dd><a href="{{ game.lichess_game_url }}" rel="noopener noreferrer">Abrir partida no Lichess</a></dd>
+                      </div>
+                    {% endif %}
+                    {% if game.result is defined and game.result %}
+                      <div>
+                        <dt>Resultado</dt>
+                        <dd>{{ game.result }}</dd>
+                      </div>
+                    {% endif %}
+                    {% if game.opening is defined and game.opening %}
+                      <div>
+                        <dt>Abertura</dt>
+                        <dd>
+                          {% if game.opening_url is defined and game.opening_url %}
+                            <a href="{{ game.opening_url }}" rel="noopener noreferrer">{{ game.opening }}</a>
                           {% else %}
-                            Abrir partida
+                            {{ game.opening }}
                           {% endif %}
-                        </a>
-                      </dd>
-                    </div>
-                  {% elif game.lichess_game_url is defined and game.lichess_game_url %}
-                    <div>
-                      <dt>Partida</dt>
-                      <dd><a href="{{ game.lichess_game_url }}" rel="noopener noreferrer">Abrir partida no Lichess</a></dd>
-                    </div>
-                  {% endif %}
-                  {% if game.result is defined and game.result %}
-                    <div>
-                      <dt>Resultado</dt>
-                      <dd>{{ game.result }}</dd>
-                    </div>
-                  {% endif %}
-                  {% if game.opening is defined and game.opening %}
-                    <div>
-                      <dt>Abertura</dt>
-                      <dd>
-                        {% if game.opening_url is defined and game.opening_url %}
-                          <a href="{{ game.opening_url }}" rel="noopener noreferrer">{{ game.opening }}</a>
-                        {% else %}
-                          {{ game.opening }}
-                        {% endif %}
-                      </dd>
-                    </div>
-                  {% endif %}
-                  {% if game.color is defined and game.color %}
-                    <div>
-                      <dt>Cor</dt>
-                      <dd>{{ game.color }}</dd>
+                        </dd>
+                      </div>
+                    {% endif %}
+                    {% if game.color is defined and game.color %}
+                      <div>
+                        <dt>Cor</dt>
+                        <dd>{{ game.color }}</dd>
+                      </div>
+                    {% endif %}
+                    {% if game.note is defined and game.note %}
+                      <div>
+                        <dt>Nota</dt>
+                        <dd>{{ game.note }}</dd>
+                      </div>
+                    {% endif %}
+                  </dl>
+                  {% if lichess_game_id %}
+                    <div class="game-embed">
+                      <iframe
+                        title="Replay da partida no Lichess"
+                        src="https://lichess.org/embed/game/{{ lichess_game_id }}?theme=auto&bg=auto"
+                        loading="lazy"
+                        allowtransparency="true"
+                        allowfullscreen>
+                      </iframe>
                     </div>
                   {% endif %}
-                  {% if game.note is defined and game.note %}
-                    <div>
-                      <dt>Nota</dt>
-                      <dd>{{ game.note }}</dd>
-                    </div>
-                  {% endif %}
-                </dl>
+                </div>
               </section>
             {% endfor %}
           </div>
         {% else %}
+          {% set lichess_game_url = "" %}
+          {% if page.extra.lichess_game_url is defined and page.extra.lichess_game_url %}
+            {% set lichess_game_url = page.extra.lichess_game_url %}
+          {% endif %}
+          {% set lichess_game_id = "" %}
+          {% if lichess_game_url %}
+            {% set lichess_game_id = lichess_game_url
+              | replace(from="https://lichess.org/", to="")
+              | replace(from="http://lichess.org/", to="")
+              | replace(from="https://www.lichess.org/", to="")
+              | replace(from="http://www.lichess.org/", to="")
+              | replace(from="/black", to="")
+              | replace(from="/white", to="")
+            %}
+          {% endif %}
           <h3>Partida</h3>
-          <dl>
-            {% if page.extra.lichess_game_url is defined and page.extra.lichess_game_url %}
-              <div>
-                <dt>Partida</dt>
-                <dd><a href="{{ page.extra.lichess_game_url }}" rel="noopener noreferrer">Abrir partida no Lichess</a></dd>
+          <div class="game-summary-layout{% if not lichess_game_id %} game-summary-layout-details-only{% endif %}">
+            <dl class="game-details">
+              {% if page.extra.lichess_game_url is defined and page.extra.lichess_game_url %}
+                <div>
+                  <dt>Partida</dt>
+                  <dd><a href="{{ page.extra.lichess_game_url }}" rel="noopener noreferrer">Abrir partida no Lichess</a></dd>
+                </div>
+              {% endif %}
+              {% if page.extra.result is defined and page.extra.result %}
+                <div>
+                  <dt>Resultado</dt>
+                  <dd>{{ page.extra.result }}</dd>
+                </div>
+              {% endif %}
+              {% if page.extra.opening is defined and page.extra.opening %}
+                <div>
+                  <dt>Abertura</dt>
+                  <dd>
+                    {% if page.extra.opening_url is defined and page.extra.opening_url %}
+                      <a href="{{ page.extra.opening_url }}" rel="noopener noreferrer">{{ page.extra.opening }}</a>
+                    {% else %}
+                      {{ page.extra.opening }}
+                    {% endif %}
+                  </dd>
+                </div>
+              {% endif %}
+              {% if page.extra.color is defined and page.extra.color %}
+                <div>
+                  <dt>Cor</dt>
+                  <dd>{{ page.extra.color }}</dd>
+                </div>
+              {% endif %}
+            </dl>
+            {% if lichess_game_id %}
+              <div class="game-embed">
+                <iframe
+                  title="Replay da partida no Lichess"
+                  src="https://lichess.org/embed/game/{{ lichess_game_id }}?theme=auto&bg=auto"
+                  loading="lazy"
+                  allowtransparency="true"
+                  allowfullscreen>
+                </iframe>
               </div>
             {% endif %}
-            {% if page.extra.result is defined and page.extra.result %}
-              <div>
-                <dt>Resultado</dt>
-                <dd>{{ page.extra.result }}</dd>
-              </div>
-            {% endif %}
-            {% if page.extra.opening is defined and page.extra.opening %}
-              <div>
-                <dt>Abertura</dt>
-                <dd>
-                  {% if page.extra.opening_url is defined and page.extra.opening_url %}
-                    <a href="{{ page.extra.opening_url }}" rel="noopener noreferrer">{{ page.extra.opening }}</a>
-                  {% else %}
-                    {{ page.extra.opening }}
-                  {% endif %}
-                </dd>
-              </div>
-            {% endif %}
-            {% if page.extra.color is defined and page.extra.color %}
-              <div>
-                <dt>Cor</dt>
-                <dd>{{ page.extra.color }}</dd>
-              </div>
-            {% endif %}
-          </dl>
+          </div>
         {% endif %}
-        <dl class="session-stats">
-          {% if page.extra.duration is defined and page.extra.duration %}
-            <div>
-              <dt>Duração</dt>
-              <dd>{{ page.extra.duration }}</dd>
-            </div>
-          {% endif %}
-          {% if page.extra.rapid is defined and page.extra.rapid %}
-            <div>
-              <dt>Rapid</dt>
-              <dd>{{ page.extra.rapid }}</dd>
-            </div>
-          {% endif %}
-        </dl>
       </section>
     </div>
   </section>
@@ -509,13 +525,13 @@
     </section>
   {% endif %}
 
-  {% if page.content %}
+  {% if remaining_content_html %}
     <section class="session-notes">
-      <h2>Agenda e notas</h2>
       <div class="notes-body">
-        {{ page.content | safe }}
+        {{ remaining_content_html | safe }}
       </div>
     </section>
   {% endif %}
+
 </article>
 {% endblock content %}

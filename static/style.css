@@ -186,6 +186,34 @@ h1 {
   max-width: 960px;
 }
 
+.session-video-notes-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 0.72fr);
+  gap: 16px;
+  align-items: start;
+}
+
+.session-video-notes-layout .live-room-video-only {
+  max-width: none;
+}
+
+.session-notes-inline {
+  max-width: none;
+  margin-top: 0;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--panel);
+}
+
+.session-notes-inline .notes-body h2 {
+  margin-bottom: 10px;
+}
+
+.session-notes-inline .notes-body ul {
+  margin-bottom: 0;
+}
+
 .video-panel,
 .chat-panel {
   overflow: hidden;
@@ -202,13 +230,36 @@ h1 {
   min-height: 420px;
 }
 
-.replay-section {
-  max-width: 960px;
+.session-replay-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(280px, 0.9fr);
+  gap: 16px;
+  align-items: start;
   margin-top: 16px;
+}
+
+.replay-section {
+  grid-column: 1;
+  grid-row: 1;
+  margin-top: 0;
   overflow: hidden;
   border: 1px solid var(--line);
   border-radius: 8px;
   background: var(--panel);
+}
+
+.highlights-section {
+  grid-column: 2;
+  grid-row: 1;
+  margin-top: 0;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel);
+}
+
+.session-replay-layout > .highlights-section:only-child {
+  grid-column: 1 / -1;
 }
 
 .replay-header {
@@ -310,6 +361,48 @@ h1 {
   list-style: none;
 }
 
+.highlight-list {
+  max-height: min(65vh, 560px);
+  overflow: auto;
+  margin: 0;
+  padding: 8px 0;
+  list-style: none;
+}
+
+.highlight-item {
+  display: grid;
+  grid-template-columns: 58px minmax(0, 1fr);
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.highlight-body {
+  min-width: 0;
+}
+
+.highlight-meta {
+  display: block;
+  margin-bottom: 3px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.highlight-body p {
+  margin: 0;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+  font-size: 0.92rem;
+}
+
+.highlight-body small {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.78rem;
+}
+
 .replay-item {
   display: grid;
   grid-template-columns: 58px minmax(0, 1fr);
@@ -388,6 +481,10 @@ iframe {
   border-top: 1px solid var(--line);
 }
 
+.session-summary {
+  max-width: 1180px;
+}
+
 .session-summary h2,
 .description h2,
 .session-supporters h2,
@@ -398,7 +495,7 @@ iframe {
 
 .summary-groups {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: minmax(0, 1fr);
   gap: 16px;
   margin: 14px 0 0;
 }
@@ -438,14 +535,33 @@ iframe {
   font-size: 0.9rem;
 }
 
-.session-stats {
-  padding-top: 16px;
-  border-top: 1px solid var(--line);
+.game-summary-layout {
+  display: grid;
+  grid-template-columns: minmax(240px, 0.82fr) minmax(320px, 1fr);
+  gap: 16px;
+  align-items: start;
 }
 
-.game-list + .session-stats,
-.summary-group > dl + .session-stats {
-  margin-top: 16px;
+.game-summary-layout-details-only {
+  grid-template-columns: minmax(0, 1fr);
+}
+
+.game-details {
+  min-width: 0;
+}
+
+.game-embed {
+  min-width: 0;
+  overflow: hidden;
+  aspect-ratio: 600 / 397;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #10120f;
+}
+
+.game-embed iframe {
+  width: 100%;
+  height: 100%;
 }
 
 .session-summary dt {
@@ -834,8 +950,26 @@ iframe {
     grid-template-columns: 1fr;
   }
 
+  .session-video-notes-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .session-replay-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .replay-section,
+  .highlights-section {
+    grid-column: auto;
+    grid-row: auto;
+  }
+
   .chat-panel {
     min-height: 360px;
+  }
+
+  .game-summary-layout {
+    grid-template-columns: 1fr;
   }
 
   .session-actions {

@@ -1,0 +1,130 @@
+{
+  "session_number": "0035",
+  "source": "heuristic",
+  "transcript_source": "openai-gpt-4o-mini-transcribe",
+  "transcript_label": "GPT-4o mini",
+  "window_seconds": 90,
+  "step_seconds": 30,
+  "highlights": [
+    {
+      "start_seconds": 0,
+      "end_seconds": 90,
+      "time": "0:00",
+      "duration": "1:30",
+      "kind": "mistake",
+      "score": 5.6,
+      "summary": "É isso aí, bom dia, deixa eu verificar se meu áudio tá ok. Hoje, novo horário, oito da manhã, começar mais cedo para acabar mais cedo e aproveitar melhor o meu dia…",
+      "reason": "7 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; interação com o chat; plano ou estratégia",
+      "signals": [
+        "7 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "interação com o chat",
+        "plano ou estratégia"
+      ],
+      "chat_count": 7,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 1470,
+      "end_seconds": 1560,
+      "time": "24:30",
+      "duration": "1:30",
+      "kind": "training",
+      "score": 3.35,
+      "summary": "Continua ganhando uma dama. Puzzle de número 4 resolvido. Puzzle de número 5 na sequência. 25 minutos de live. Daqui a pouco é a hora do jogo…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; tema claro de xadrez; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "tema claro de xadrez",
+        "plano ou estratégia",
+        "treino ou puzzle streak",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 1,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 1590,
+      "end_seconds": 1680,
+      "time": "26:30",
+      "duration": "1:30",
+      "kind": "training",
+      "score": 3.8,
+      "summary": "Olha como a barrinha sobe pro lado das brancas. Puzzle de número 5 resolvido. Bebê Matheus Gabriel. Bom dia, Matheus Gabriel. Bebê 2+. Bipitio Plus. Bebê 2+. Bispo de B…",
+      "reason": "erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance; treino ou puzzle streak",
+      "signals": [
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "interação com o chat",
+        "review ou melhor lance",
+        "treino ou puzzle streak"
+      ],
+      "chat_count": 0,
+      "transcript_count": 2
+    },
+    {
+      "start_seconds": 4740,
+      "end_seconds": 4830,
+      "time": "1:19:00",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 5.1,
+      "summary": "Cataco a torre aqui. Olha que coisa. Durante o jogo. Eu falei assim. Nossa, eu cataria com o peão ao invés da torre. Ou Stockfish também. Stockfish acha que C takes D4…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo",
+      "signals": [
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo"
+      ],
+      "chat_count": 0,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 4890,
+      "end_seconds": 4980,
+      "time": "1:21:30",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 4.4,
+      "summary": "Um reroute desse cavalo para cá. Interessante. Não seria o good move. Qual que é o good move da máquina? Como iniciar essas trocas? Sério? Sério, Stockfish? Deixa eu ver…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
+      "signals": [
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 5070,
+      "end_seconds": 5160,
+      "time": "1:24:30",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 4.3,
+      "summary": "A vantagem aumentou. A vantagem baixou. Olha que coisa. Ó, a vantagem vai ficar lá no 4, o Stockfish tá pensando ainda. Ó, a vantagem tá lá naquele 4, ó…",
+      "reason": "erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo",
+      "signals": [
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo"
+      ],
+      "chat_count": 0,
+      "transcript_count": 4
+    }
+  ]
+}

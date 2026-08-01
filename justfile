@@ -26,6 +26,12 @@ import-youtube-chat-replays CACHE_DIR="/tmp/xadrez-chat" EXTRA="":
 merge-chat-replays EXTRA="":
   @python3 scripts/merge_chat_replays.py {{EXTRA}}
 
+suggest-highlights SESSION EXTRA="":
+  @python3 scripts/suggest_highlights.py {{SESSION}} {{EXTRA}}
+
+suggest-highlights-all EXTRA="":
+  @python3 scripts/suggest_highlights.py --all {{EXTRA}}
+
 import-youtube-transcripts CACHE_DIR="/tmp/xadrez-transcripts" EXTRA="":
   @python3 scripts/import_youtube_transcripts.py --cache-dir {{CACHE_DIR}} {{EXTRA}}
 

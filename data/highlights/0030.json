@@ -1,0 +1,135 @@
+{
+  "session_number": "0030",
+  "source": "heuristic",
+  "transcript_source": "openai-gpt-4o-mini-transcribe",
+  "transcript_label": "GPT-4o mini",
+  "window_seconds": 90,
+  "step_seconds": 30,
+  "highlights": [
+    {
+      "start_seconds": 120,
+      "end_seconds": 210,
+      "time": "2:00",
+      "duration": "1:30",
+      "kind": "training",
+      "score": 5.15,
+      "summary": "Vocabulário esperado: Lichess, lichess.org, Chess.com, Stockfish, YouTube, Twitch, Restream, GoatCounter, roque, fianchetto, Sicilian Defense, Scandinavian Defense, Puzzle Streak,…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; abertura ou repertório; treino ou puzzle streak",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "abertura ou repertório",
+        "treino ou puzzle streak"
+      ],
+      "chat_count": 1,
+      "transcript_count": 1
+    },
+    {
+      "start_seconds": 1440,
+      "end_seconds": 1530,
+      "time": "24:00",
+      "duration": "1:30",
+      "kind": "research",
+      "score": 3.3,
+      "summary": "Vamos fazer um Puzzle Strike com um aquecimento aí. Torneio internacional rolando. Quem é que o Rafa tá transmitindo? Rafa tá transmitindo do Fear. Alright. Beleza…",
+      "reason": "tema claro de xadrez; plano ou estratégia; treino ou puzzle streak; pesquisa ou contexto externo",
+      "signals": [
+        "tema claro de xadrez",
+        "plano ou estratégia",
+        "treino ou puzzle streak",
+        "pesquisa ou contexto externo"
+      ],
+      "chat_count": 0,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 4110,
+      "end_seconds": 4200,
+      "time": "1:08:30",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 5.6,
+      "summary": "Pra ele sair desgarrado o peão da base seria o best move pra branco aqui, ó. Não é estranho? Zugzug. Today learning... Que é zugzug. Zug... Zugzug. Zugzwang. Pronounced Zugzwang…",
+      "reason": "8 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; interação com o chat; review ou melhor lance",
+      "signals": [
+        "8 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "tema claro de xadrez",
+        "interação com o chat",
+        "review ou melhor lance"
+      ],
+      "chat_count": 8,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 5250,
+      "end_seconds": 5340,
+      "time": "1:27:30",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 5.95,
+      "summary": "essa capivarada me custou partida. Ah, será que eu devo fazer isso aqui agora? Acho que sim. 20 segundos. 20 segundos! Tu-tu-tu! Pra trazer a torre aqui…",
+      "reason": "5 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
+      "signals": [
+        "5 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 5,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 5610,
+      "end_seconds": 5700,
+      "time": "1:33:30",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 5.45,
+      "summary": "GG. Deixa eu cadastrar esse jogo. Bom, depois eu cadastro. Deixa eu... A análise tá pronta aqui, ó. Olha, o jogo teve praticamente uma boa parte do meu lado…",
+      "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
+      "signals": [
+        "3 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 3,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 6240,
+      "end_seconds": 6330,
+      "time": "1:44:00",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 7.2,
+      "summary": "Esse aqui o Stockfish não gosta. O que teria sido melhor do que fazer isso aqui? Botar a cravada lá teria sido... Teria sido ruim também…",
+      "reason": "4 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
+      "signals": [
+        "4 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 4,
+      "transcript_count": 3
+    }
+  ]
+}

@@ -24,10 +24,12 @@ DEFAULT_INITIAL_PROMPT = (
     "Transcrição em português brasileiro de uma live de xadrez. "
     "Vocabulário esperado: Lichess, lichess.org, Chess.com, Stockfish, YouTube, Twitch, Restream, GoatCounter, "
     "roque, fianchetto, Sicilian Defense, Scandinavian Defense, Puzzle do dia, Puzzle Streak, Puzzle Storm, "
-    "Puzzle Racer, blunder, rating, mate, xeque, blitz, rapid, en passant. "
+    "Puzzle Racer, blunder, rating, mate, xeque, xeque-mate, blitz, rapid, en passant. "
     "Frases comuns: puzzle do dia, resposta com a dama, a resposta é, qual é a resposta. "
     "Quando for o lance ou ameaça ao rei em uma frase em português, prefira xeque; mantenha check em nomes "
     "ou frases em inglês, como Force Online Check e checkmate patterns. "
+    "Quando for o fim da partida, mate no rei, ou ideia de mate em frase em português, prefira xeque-mate; "
+    "mantenha checkmate apenas em títulos, nomes de exercícios ou frases em inglês, como Checkmate Patterns. "
     "En passant é o nome do lance especial de peão; não transcreva como empassant, impassant ou em passando. "
     "Quando a fala se referir ao site ou plataforma de xadrez, transcreva como Lichess, não como lixar, lixares, "
     "lixés ou outras aproximações fonéticas. "
@@ -330,8 +332,14 @@ def run_whisper(
     return output_json
 
 
+def normalize_chess_terms(text: str) -> str:
+    text = re.sub(r"\bcheckmates\b(?!\s+patterns?\b)", "xeque-mates", text, flags=re.I)
+    text = re.sub(r"\bcheckmate\b(?!\s+patterns?\b)", "xeque-mate", text, flags=re.I)
+    return text
+
+
 def clean_text(text: str) -> str:
-    return " ".join(text.replace("\n", " ").split()).strip()
+    return normalize_chess_terms(" ".join(text.replace("\n", " ").split()).strip())
 
 
 def parse_whisper_json(path: Path, max_block_seconds: int) -> list[dict]:
