@@ -26,6 +26,8 @@ DEFAULT_INITIAL_PROMPT = (
     "roque, fianchetto, Sicilian Defense, Scandinavian Defense, Puzzle do dia, Puzzle Streak, Puzzle Storm, "
     "Puzzle Racer, blunder, rating, mate, xeque, blitz, rapid, en passant. "
     "Frases comuns: puzzle do dia, resposta com a dama, a resposta é, qual é a resposta. "
+    "Quando for o lance ou ameaça ao rei em uma frase em português, prefira xeque; mantenha check em nomes "
+    "ou frases em inglês, como Force Online Check e checkmate patterns. "
     "En passant é o nome do lance especial de peão; não transcreva como empassant, impassant ou em passando. "
     "Quando a fala se referir ao site ou plataforma de xadrez, transcreva como Lichess, não como lixar, lixares, "
     "lixés ou outras aproximações fonéticas. "
