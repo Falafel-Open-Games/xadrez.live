@@ -44,6 +44,9 @@ refresh-openai-transcripts RECENT="1" EXTRA="":
 import-restream-chat-replays CACHE_DIR="/tmp/xadrez-restream-chat" EXTRA="":
   @python3 scripts/import_restream_chat_replays.py --cache-dir {{CACHE_DIR}} {{EXTRA}}
 
+import-restream-chat-html SESSION INPUT:
+  @python3 scripts/import_restream_chat_html.py {{SESSION}} {{INPUT}}
+
 import-twitch-chat-replays CACHE_DIR="/tmp/xadrez-twitch-chat" EXTRA="":
   @python3 scripts/import_twitch_chat_replays.py --cache-dir {{CACHE_DIR}} {{EXTRA}}
 

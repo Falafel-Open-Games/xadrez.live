@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.12.0
+// @version      0.13.0
 // @description  Collect chess puzzle, game, notes, and Restream chat usernames during a xadrez.live session.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -761,6 +761,27 @@ note = "${quote(attempt.note)}"`);
     return author.startsWith("@") ? author : `@${author}`;
   }
 
+  function cleanRestreamMessageAuthor(value, platform) {
+    const author = String(value || "")
+      .replace(/[\u200b-\u200d\ufeff]/g, "")
+      .replace(/\s+/g, " ")
+      .trim();
+
+    if (!author || author.length > 80 || /[\n\r]/.test(author)) {
+      return "";
+    }
+    if (/^(YouTube|Twitch|Chat)$/i.test(author) || /^(Today|Yesterday|just now)$/i.test(author)) {
+      return "";
+    }
+    if (/^Restream(?:\.io)?$/i.test(author)) {
+      return "Host";
+    }
+    if ((platform === "YouTube" || platform === "Twitch") && !author.startsWith("@")) {
+      return `@${author}`;
+    }
+    return author;
+  }
+
   function authorFromProfileHref(href) {
     const value = String(href || "");
     const youtube = /youtube\.com\/@([^/?#]+)/i.exec(value);
@@ -822,6 +843,47 @@ note = "${quote(attempt.note)}"`);
       .find(Boolean);
 
     return author || "";
+  }
+
+  function restreamRawAuthorFromCard(card, platform) {
+    const profileAuthor = queryAll(card, 'a[href*="youtube.com/@"], a[href*="twitch.tv/"]')
+      .map((link) => authorFromProfileHref(link.getAttribute("href")))
+      .find(Boolean);
+    if (profileAuthor) {
+      return profileAuthor;
+    }
+
+    return queryAll(
+      card,
+      [
+        ".MuiTypography-subtitle2",
+        '[data-testid*="author" i]',
+        '[data-testid*="sender" i]',
+        '[data-testid*="username" i]',
+        '[class*="author" i]',
+        '[class*="sender" i]',
+        '[class*="username" i]',
+        '[class*="user-name" i]',
+        '[class*="display-name" i]',
+      ].join(", "),
+    )
+      .map((element) => cleanRestreamMessageAuthor(element.textContent, platform))
+      .find(Boolean) || "";
+  }
+
+  function restreamClockFromCard(card) {
+    const value = queryAll(card, ".MuiTypography-caption, time, [datetime], [class*='time' i], [class*='timestamp' i]")
+      .map((element) => element.getAttribute("datetime") || element.textContent)
+      .map((text) => String(text || "").trim())
+      .find((text) => /^\d{1,2}:\d{2}:\d{2}$/.test(text));
+    return value || "";
+  }
+
+  function restreamTextFromCard(card) {
+    const value = queryAll(card, ".chat-text-normal, [data-testid*='message' i], [class*='message-text' i], [class*='text' i]")
+      .map((element) => String(element.textContent || "").replace(/\s+/g, " ").trim())
+      .find(Boolean);
+    return value || "";
   }
 
   function restreamAuthorFromEmbedMessage(message) {
@@ -925,6 +987,64 @@ note = "${quote(attempt.note)}"`);
     });
   }
 
+  function restreamReplayMessages() {
+    const cards = queryAll(
+      document,
+      [
+        '[id^="message-card-studio-"]',
+        '[data-testid*="message" i]',
+        '[class*="message-card" i]',
+        '[class*="chat-message" i]',
+        '[role="listitem"]',
+      ].join(", "),
+    );
+
+    const seen = new Set();
+    return cards
+      .map((card) => {
+        const platform = restreamCardPlatform(card);
+        const author = restreamRawAuthorFromCard(card, platform);
+        const clock = restreamClockFromCard(card);
+        const text = restreamTextFromCard(card);
+        return { clock, platform, channel: "", author, text };
+      })
+      .filter((message) => {
+        if (!message.clock || !message.author || !message.text) {
+          return false;
+        }
+        if (message.author === "Host" && message.text === "Read & reply to messages from multiple platforms here.") {
+          return false;
+        }
+        const key = `${message.clock}\0${message.platform}\0${message.author}\0${message.text}`;
+        if (seen.has(key)) {
+          return false;
+        }
+        seen.add(key);
+        return true;
+      });
+  }
+
+  function copyRestreamReplayJson() {
+    const messages = restreamReplayMessages();
+    if (!messages.length) {
+      window.alert("No Restream chat messages found in the currently loaded page.");
+      return;
+    }
+
+    copyText(
+      JSON.stringify(
+        {
+          source: "restream-userscript",
+          exportedAt: new Date().toISOString(),
+          pageUrl: location.href,
+          messages,
+        },
+        null,
+        2,
+      ),
+    );
+  }
+
   function mergeSupporters(state, supporters) {
     const byKey = new Map();
 
@@ -979,6 +1099,7 @@ note = "${quote(attempt.note)}"`);
     const disabledUnlessGame = canAddGame ? "" : ' disabled title="Open a Lichess or Chess.com game first"';
     const scannedRestreamSupporters = isRestreamChatPage ? restreamSupporters() : [];
     const restreamCount = isRestreamChatPage ? scannedRestreamSupporters.length : 0;
+    const restreamReplayCount = isRestreamChatPage ? restreamReplayMessages().length : 0;
     const savedSupporterCount = (state.supporters || []).length;
     const previewText = buildToml(state);
     const panel = document.createElement("section");
@@ -1079,7 +1200,7 @@ note = "${quote(attempt.note)}"`);
         </p>
         ${
           isRestreamChatPage
-            ? `<p class="xlc-meta">Restream chat: ${restreamCount} supporter(s) found in loaded messages</p>`
+            ? `<p class="xlc-meta">Restream chat: ${restreamCount} supporter(s), ${restreamReplayCount} replay message(s) loaded</p>`
             : ""
         }
         <div class="xlc-row">
@@ -1103,7 +1224,7 @@ note = "${quote(attempt.note)}"`);
           isRestreamChatPage
             ? `<div class="xlc-row">
                 <button type="button" data-action="scan-restream-thanks">Add chat thanks</button>
-                <button type="button" data-action="refresh">Scan chat</button>
+                <button type="button" data-action="copy-restream-replay">Copy chat JSON</button>
               </div>`
             : ""
         }
@@ -1167,6 +1288,9 @@ note = "${quote(attempt.note)}"`);
                 : "No Restream usernames found in the currently loaded page.",
             );
           }
+          break;
+        case "copy-restream-replay":
+          copyRestreamReplayJson();
           break;
         case "reset":
           nextState = resetSession(nextState);
