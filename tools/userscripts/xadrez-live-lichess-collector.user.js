@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.13.2
+// @version      0.13.3
 // @description  Collect chess puzzle, game, notes, and Restream chat usernames during a xadrez.live session.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -22,8 +22,6 @@
     YouTube: new Set(["fczuardi"]),
     Twitch: new Set(["sedentarismo"]),
   };
-  let restreamPanelObserver = null;
-  let restreamPanelRetryTimer = null;
 
   const DEFAULT_STATE = {
     active: false,
@@ -1089,41 +1087,12 @@ note = "${quote(attempt.note)}"`);
     return next;
   }
 
-  function retryRestreamPanelWhenChatLoads() {
-    if (!isRestreamPage() || restreamPanelObserver || restreamPanelRetryTimer) {
-      return;
+  function isFramedWindow() {
+    try {
+      return window.self !== window.top;
+    } catch (_) {
+      return true;
     }
-
-    let attempts = 0;
-    const retry = () => {
-      attempts += 1;
-      restreamPanelRetryTimer = null;
-      if (restreamSupporters().length || restreamReplayMessages().length) {
-        if (restreamPanelObserver) {
-          restreamPanelObserver.disconnect();
-          restreamPanelObserver = null;
-        }
-        renderPanel();
-        return;
-      }
-      if (attempts < 30) {
-        restreamPanelRetryTimer = window.setTimeout(retry, 1000);
-      }
-    };
-
-    restreamPanelObserver = new MutationObserver(() => {
-      if (restreamSupporters().length || restreamReplayMessages().length) {
-        restreamPanelObserver.disconnect();
-        restreamPanelObserver = null;
-        if (restreamPanelRetryTimer) {
-          window.clearTimeout(restreamPanelRetryTimer);
-          restreamPanelRetryTimer = null;
-        }
-        renderPanel();
-      }
-    });
-    restreamPanelObserver.observe(document.body, { childList: true, subtree: true });
-    restreamPanelRetryTimer = window.setTimeout(retry, 1000);
   }
 
   function renderPanel() {
@@ -1139,15 +1108,13 @@ note = "${quote(attempt.note)}"`);
     const scannedRestreamSupporters = isRestreamChatPage ? restreamSupporters() : [];
     const restreamCount = isRestreamChatPage ? scannedRestreamSupporters.length : 0;
     const restreamReplayCount = isRestreamChatPage ? restreamReplayMessages().length : 0;
-    if (isRestreamChatPage && restreamCount === 0 && restreamReplayCount === 0) {
-      retryRestreamPanelWhenChatLoads();
-      return;
-    }
     const savedSupporterCount = (state.supporters || []).length;
     const previewText = buildToml(state);
     const panel = document.createElement("section");
     panel.id = PANEL_ID;
-    panel.className = state.collapsed ? "is-collapsed" : "";
+    panel.className = [state.collapsed ? "is-collapsed" : "", isFramedWindow() ? "is-framed" : ""]
+      .filter(Boolean)
+      .join(" ");
     panel.innerHTML = `
       <style>
         #${PANEL_ID} {
@@ -1167,6 +1134,9 @@ note = "${quote(attempt.note)}"`);
         #${PANEL_ID}.is-collapsed {
           width: auto;
           padding: 6px;
+        }
+        #${PANEL_ID}.is-framed {
+          bottom: 66px;
         }
         #${PANEL_ID} h2 {
           margin: 0 0 8px;
