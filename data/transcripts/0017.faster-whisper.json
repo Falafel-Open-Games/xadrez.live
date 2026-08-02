@@ -1,0 +1,392 @@
+{
+  "session_number": "0017",
+  "youtube_video_id": "MqgbX7A1Ssw",
+  "language": "Portuguese",
+  "source": "faster-whisper",
+  "model": "turbo",
+  "whisper_cmd": "whisper-ctranslate2 --model turbo --threads 2 --compute_type int8 --batched True --batch_size 4",
+  "initial_prompt": "Transcrição em português brasileiro de uma live de xadrez. Vocabulário esperado: Lichess, lichess.org, Chess.com, Stockfish, YouTube, Twitch, Restream, GoatCounter, roque, fianchetto, Sicilian Defense, Scandinavian Defense, Puzzle do dia, Puzzle Streak, Puzzle Storm, Puzzle Racer, blunder, rating, mate, xeque, xeque-mate, blitz, rapid, en passant. Frases comuns: puzzle do dia, resposta com a dama, a resposta é, qual é a resposta. Quando for o lance ou ameaça ao rei em uma frase em português, prefira xeque; mantenha check em nomes ou frases em inglês, como Force Online Check e checkmate patterns. Quando for o fim da partida, mate no rei, ou ideia de mate em frase em português, prefira xeque-mate; mantenha checkmate apenas em títulos, nomes de exercícios ou frases em inglês, como Checkmate Patterns. En passant é o nome do lance especial de peão; não transcreva como empassant, impassant ou em passando. Quando a fala se referir ao site ou plataforma de xadrez, transcreva como Lichess, não como lixar, lixares, lixés ou outras aproximações fonéticas. Restream é o nome da plataforma de transmissão, não transcreva como restring.",
+  "block_count": 76,
+  "blocks": [
+    {
+      "time": "0:21",
+      "seconds": 21,
+      "text": "Bom dia, bom dia stream. Acabei de ligar aqui. Hoje meio que tem novidades. ... ... ... ... ... ... ... ..."
+    },
+    {
+      "time": "1:04",
+      "seconds": 64,
+      "text": "Deu certo sem crachá, tô safe, manhas das coisas aqui. Aqui deve ser o suficiente. que esse aqui é o suficiente. A grande novidade do dia, deixa eu ver aqui. OK. Tá, hoje a gente vai testar uma coisa meio maluca que eu fiz de última hora aqui."
+    },
+    {
+      "time": "1:48",
+      "seconds": 108,
+      "text": "que é o nosso, o meu fluxo de trabalho. Trabalho! Já tá crescendo aí e quem acompanhou as lives recentes sabe que tem muita coisa ali que eu pego do copy paste pro meu sistema da página aqui xadrez.live Então, tipo, normalmente eu pego aqui no github, abro a seção do dia aqui, o código markdown, que tem um, não é uma página HTML nada, ele é basicamente um formulário aqui em tom ml, porque ele é só um front matter de markdown e se nenhuma palavra que eu tô falando aqui fizer sentido, se tudo..."
+    },
+    {
+      "time": "2:46",
+      "seconds": 166,
+      "text": "se estiver aparecendo grego, é normal. Não espero que ninguém saiba esses termos aí, porque são coisas de programação totalmente não relevante para xadrez. Mas, não sei se o Mihail está aí hoje ou não, ou se está muito cedo para ele. Inspirado pelo nosso amigo Mihail, do chat. Aliás, estou falando aqui que nem um bobo. Nem sei se a live começou no YouTube."
+    },
+    {
+      "time": "3:23",
+      "seconds": 203,
+      "text": "É pra ter começado, né? Deixa eu ver. Começou. Beleza. Beleza. Beleza. Beleza. Tá. Microfone tá funcionando. Live tá funcionando. É... Olha aqui, ó. Eu fiz um user script. Tá todo improvisado por enquanto. Tá misturando português e inglês, né? É de partida, fechar, não sei o quê. É... Mas, deixa eu passar o último update que eu tinha feito aqui. Ah, ggit push em uma outra janela, estou fazendo isso. Estou fazendo..."
+    },
+    {
+      "time": "4:07",
+      "seconds": 247,
+      "text": "Deploy ao vivo, durante a live. Peço desculpas, eu deveria ter feito isso antes. Mas, a grande novidade do dia é, eu não vou precisar ficar dando copy paste das coisas, porque agora eu tenho um user script super perigoso aqui. Não façam isso em casa, tá galera? Se vocês... não sabem 100% o que que vai estar rodando num user script, tipo esses do ScriptCatch. Nem instalem ScriptCatch, isso aqui é uma coisa perigosa. Ele dá permissões para scripts fazer coisas no seu navegador, que não é legal dar permissão. Mas se você meio que souber o que está fazendo..."
+    },
+    {
+      "time": "5:02",
+      "seconds": 302,
+      "text": "Estou na versão 0.3.0, aí pode ser útil. E aqui a minha intenção talvez no futuro é ter um perfil de navegador só para essas lives. rodar coisas separadas e tal, porque eu tenho um pouco de medo de deixar essas coisas tipo script cat habilitada. Então, é uma coisa que vou deixar habilitada só durante a live, porque realmente é um bagulho perigoso de estar rodando no browser. Enfim, vamos para o que interessa. Agora, quando eu entro no Lichess, tem esse quadradinho xadrez.live aqui que é..."
+    },
+    {
+      "time": "5:47",
+      "seconds": 347,
+      "text": "uma coisa que o meu UserScript colocou lá. Então agora a gente vai testar se isso aqui está funcionando. Vamos para a nossa rotina normal, que começa com o puzzle of the day. Então, o puzzle of the day, ele já tem um endereço aqui. Então, eu estou na minha sessão 17 desse diário. Vamos ver. Ah, limpar o screenshot, ok. Então tá, eu acho que ele vai usar esse campo aqui como Scratch Pad. Se eu apertar o botão Puzzle do dia, ele... Ó que beleza! Já preencheu com a URL certa aqui, um campo que no final das contas, eu vou usar lá no GitHub pra atualizar minha página. Então ao invés de ficar a cada momento dando copy paste de cada coisinha..."
+    },
+    {
+      "time": "6:45",
+      "seconds": 405,
+      "text": "github, cadê meu github? xadrez.live Então, eu vou dar só um copy paste no final da sessão, né? Alguma coisa para adiantar a minha vida aqui, eu não precisar ficar... Eu espero que as sessões ganhem algum tempo aqui, porque eu vou editar isso aqui uma vez só. Então, ó, essa linha já tá preenchida aqui no meu tom L. Enfim, vamos fazer o pause over the day. Não sei se tem... seria legal ter um botãozinho de esconder e mostrar, mas eu acho que tá ok. Ai, ai, ai, cadê? É, por exemplo, ele tá entrando na frente do..."
+    },
+    {
+      "time": "7:39",
+      "seconds": 459,
+      "text": "entrou na frente de um negócio que é da interface do Lichess que é importante de eu enxergar, que é isso aqui. Então, a primeira versão desse user script, então, tudo bem. Se não funcionar tudo, não tem problema. Puzzle do dia, eu sou as pretas. Puzzle do dia, eu sou as pretas. Deixa eu ver aqui, vou dar um bom dia pro chat do YouTube aqui."
+    },
+    {
+      "time": "8:09",
+      "seconds": 489,
+      "text": "YouTube? Sign in? Estou no celular aqui. Dá um minutinho. Tá, tem chat aqui? Tem, né? Então... Bom dia, chat. Ok. só pra ver se esse chat aqui do restream vai funcionar ou não. Eu tenho minhas dúvidas. Aqui ele pegou e lá ele não pegou, né? Aqui dá um reload talvez. Eu tô com o chat certo. Embed chat."
+    },
+    {
+      "time": "9:01",
+      "seconds": 541,
+      "text": "um chat. Talvez estava com o chat errado, vamos ver. Não, ele não apareceu o bom dia aqui no outro também que eu abri. Estranho. Tudo bem. Não vou ver mensagens da Twitch. Vou deixar engraçado. Esse chat aqui era pra tá funcionando. Vou deixar sem chat por enquanto. Tempos em tempos eu dou uma olhadinha no chat aqui. Tudo meio improvisado, mas vamos lá. Puzzle do dia, eu sou as pretas. Que que é isso aqui? É, tô começando... De ontem pra hoje perdi bastante rating porque... Aquela coisa do viciado, né?"
+    },
+    {
+      "time": "9:48",
+      "seconds": 588,
+      "text": "Perde uma, já quer jogar de novo e tal. Enfim, caí aí uns 40 pontos de classificação de ontem pra hoje. Vamos lá, faz parte da vida. Eu sou as pretas. O que que esse puzzle quer? Não tem check pra mim aqui em nenhum lugar."
+    },
+    {
+      "time": "10:18",
+      "seconds": 618,
+      "text": "direto não. Ah, tem um peão ameaçando um cavalo meu. Ah, que mais? Qual que é o contexto desse puzzle aqui? Alguém que comeu alguma coisa minha que tava no C3. Então, saiu alguém de B, veio pra C, capturando uma peça que era provavelmente um bispo aqui, pela listagem. Então tá. Qual que é o contexto aqui? Alguém comeu meu bispo, tá ameaçando comer meu cavalo. Eu tenho uma ameaça pra rainha dele, que é só isso. O que mais que eu tenho? Eu tenho meu outro cavalo aqui."
+    },
+    {
+      "time": "11:18",
+      "seconds": 678,
+      "text": "que também pode ameaçar a rainha dele, defender, espião, pegar essa coisa aqui, não sei, ou vir pra cá depois. Aqui é check, né? Tá. Esse meu cavalo aqui parece ter um pouquinho mais de possibilidades. Eu diria que isso aqui não é uma ideia ridícula. Vamos deixar ela paradinha aí como uma primeira ideia. Esse cavalinho aqui."
+    },
+    {
+      "time": "12:09",
+      "seconds": 729,
+      "text": "Tem mais alguma ideia? Mirabolante aqui? Não, peraí. Aqui não é essa ideia ridícula. Tá. Aqui seria uma outra ideia, mais ou menos parecida. Ah, tá. Então tá. Vamos entender o que é o contexto, né? Esse cavalo tá sendo ameaçado aqui, esse cavalo tá sendo ameaçado aqui. Minha rainha não tem acesso a nada porque tem um peão na frente. Esse peão solto aqui não chega a ser muito atrativo, eu acho. Porque minha rainha tem que andar muito aqui e rotear muito para chegar em qualquer lugar. Então tá. Vamos pensar nesse cavalo. Esse cavalo aqui..."
+    },
+    {
+      "time": "13:18",
+      "seconds": 798,
+      "text": "ameaça, duas pedras, três pedras dele. Ele vai provavelmente, vamos falar que essa é a minha ideia inicial. Vou falar que minha ideia aqui, ele vai mover a rainha para algum lugar. Acho que não, teria que mover essa rainha para algum lugar. O cavalo dele tá vendo essas duas."
+    },
+    {
+      "time": "13:56",
+      "seconds": 836,
+      "text": "O meu cavalo aqui, ele pode ser atacado aqui, sem defesa também. Tá, então vamos voltar pra esse cavalo. O meu cavalo aqui, a única coisa que ele ameaça é esses dois. Ah, ele não vai querer pegar isso aqui, né? Ele vai mexer com a rainha pra algum lugar. Tá parecendo que o começo do puzzle é aqui."
+    },
+    {
+      "time": "14:29",
+      "seconds": 869,
+      "text": "Essa foi a melhor coisa que eu consegui pensar até o momento. Certo. Vou começar com isso então. Avançar o peão não faz sentido. Avançar esse peão. Tipo, se o cara, isso aqui defende esse cavalo e meio que troca um cavalo por um bispo se ele quiser trocar, né?"
+    },
+    {
+      "time": "15:09",
+      "seconds": 909,
+      "text": "São minhas duas primeiras ideias aqui. Um peãozinho aqui que... O que esse peão ganha aqui? Me dá suporte para outras coisas no futuro, mas ninguém chega aqui. Ó, minhas duas ideias aqui. Ideia 1, peão ali, ameaça um bispo. Ideia 2, ameaça uma rainha com possibilidade de rotear pra cá depois. Eu vou dando cavalo. Errado."
+    },
+    {
+      "time": "15:53",
+      "seconds": 953,
+      "text": "Perdi 4 Ratings, acho que no meu User Script, puzzle do dia já tava lá, esse aqui, pra não precisar dar copy paste, tá aqui já, ele manteve. Então tá, só que realmente tá na frente de tudo esse negócio aqui. Gostei disso aqui. Inspect."
+    },
+    {
+      "time": "16:26",
+      "seconds": 986,
+      "text": "Eu vou na próxima atualização disso aqui. Vai sair, cadê? Vou dar um display aqui, tem como hide, meio fácil não, né? Tá, vou dar um hide aqui. Display. display hidden, não existe, não é assim, não, display visible, display none, pronto. Nossa, faz tanto tempo que eu não escrevo HTML, então vai. Então agora a gente tem como ligar e desligar a minha extensão aqui, na próxima versão, versão 0.04, isso vai ser um collapsible window de alguma forma."
+    },
+    {
+      "time": "17:18",
+      "seconds": 1038,
+      "text": "Então tá, get your hint, what? Ah, tá. Ah, ele me deu a chance de fazer de novo. Aqui não é, foi o que a gente tentou. Então já, o resultado desse puzzle foi falha. Minha outra ideia era essa aqui, também não é a solução desse puzzle. Deve ser uma posição mais bizarra, né? Cavalo aqui... que isso também me ameaça rainha. Ah, mas ameaça o bispo junto. Era melhor aqui, tá? Essa era a primeira solução do puzzle. Eu continuo pegando o bispo, correto, e acabou. Essa era a solução, tá? Puzzle of the day. Não fiz, né? Vou botar aqui, sei lá, falha, alguma coisa."
+    },
+    {
+      "time": "18:16",
+      "seconds": 1096,
+      "text": "Vamos para uma sequência de puzzles. PuzzleStrake Eu vou ter que dar um display 9 aqui de novo. Amanhã não vai ter, não vai ser tão improvisado assim, tá? Porque eu fiz de última hora aqui. Então o jeito de eu dar um toggle no visibility tá aqui, bem manual. Mas beleza, a minha esperança é não precisar fazer tanto copy paste quanto eu tava fazendo antes. Puzzle 1 da sequência."
+    },
+    {
+      "time": "18:55",
+      "seconds": 1135,
+      "text": "Ninguém no chat. Vamos continuar falando sozinho. Acho que é, ninguém no chat, né? Tipo, eu posso deixar meu celular no mudo e ficar olhando aqui. Eu acho que o celular tá no mudo. Deixa eu ver. O celular nem deu play, né? No vídeo. Meu celular tá tocando aqui, mas tá no mudo. Beleza. Então, pelo menos, se alguém do YouTube aparecer, eu vou ter uma confiança de que eu tô vendo o chat. Beleza. puzzle número 1 da sequência. Eu jogo com as pretas. A linha aqui deve ser a resposta, né? Tá protegida. O cara pode fugir pra cá."
+    },
+    {
+      "time": "19:47",
+      "seconds": 1187,
+      "text": "se isso acontecer, eu caminho pra cá, ninguém mece minha rainha, tá. Eu acho que essa é a primeira parte, correto. Segunda parte. Bom, aqui parece bem correto. e tem uma outra que é aqui, mas eu acho que meio que dá na mesma, né? E aqui, fico na mira da torre, eu chutaria aqui, correto. Primeiro puzzle resolvido. Vamos testar um botão do nosso User Script que é Add Puzzle Blau. Ele mede aqui. Tentativa em andamento. Legal, legal. Parece que tá funcionando."
+    },
+    {
+      "time": "20:40",
+      "seconds": 1240,
+      "text": "nosso user script. Essa é a section que eu quero. Aí eu consigo dar um toggle visibility aqui, tá bom. Continuar a sequência. Puzzle de número 2. Ninguém no chat ainda. Puzzle de número 2, 21 minutos de live. Puzzle de número 2, tem um check com a rainha aqui. Rei foge pra cá ou pra cá. O que eu ganhei com isso? Meus cavalos estão protegendo essas casas."
+    },
+    {
+      "time": "21:41",
+      "seconds": 1301,
+      "text": "Alright. Mexer um cavalo me liberaria um bispo pra alguma coisa. Eu tenho um bispo que pode mirar pra cá, se isso fizer alguma coisa. Aqui não é cheque. Cavalo aqui não é cheque. Direito nenhum. Aqui também não. A melhor ideia que eu tenho até o momento é rainha aqui."
+    },
+    {
+      "time": "22:13",
+      "seconds": 1333,
+      "text": "ninguem ameaça ela, tá de boa. Esse cara foge pra algum lado, eu pego alguma peça, certo? Se ele fugir, por exemplo, pra cá, eu pego o que? Um bispo? em português, não é lá grandes coisas, né? Daqui eu poderia andar... É, essa é a minha melhor ideia até o momento, tá? Um, dois, três. Ahn... Depois que ele vier aqui, mas se bem que aqui ó, aí sim eu posso chegar com um cavalo e dar outro check, né? Certo que tem esse aqui. Ahn... Se ele vier pra lá..."
+    },
+    {
+      "time": "23:06",
+      "seconds": 1386,
+      "text": "ninguém chega aqui. De qualquer forma, eu acho que a resposta do puzzle começa aqui. Reto. A defesa dele foi vir com a torre. Posso comer um bispo dele, sem grandes consequências. Acho que é isso que eu tenho que fazer, certo? Posso comer esse? Não. Eu acho que é isso que eu tenho que fazer."
+    },
+    {
+      "time": "23:48",
+      "seconds": 1428,
+      "text": "Continua correto. E acabou o puzzle. Beleza. Então, feito o segundo puzzle da sequência, addPuzzle. Isso aqui tá aumentando pra lá, né? Um, dois puzzles. Beleza. URL certa. Devia ter um jeito de... Collapsed children... And attributes... Hide elements... Ah lá! Acho que isso faz o que eu quero... Aí tira o Hide elements... Ah legal! Mais fácil! Posso ir com o mouse aqui... Hide elements... Beleza! Próximo puzzle da sequência... Terceiro puzzle de sim..."
+    },
+    {
+      "time": "24:39",
+      "seconds": 1479,
+      "text": "se der tudo certo aqui. Eu jogo com as pretas. Puzzle de número 3 no nosso treino tático. Aquecimento antes de um jogo. Estou vendo uma sequência de derrotas humilhantes. Ok, eu tenho um bispo que anda na diagonal branca."
+    },
+    {
+      "time": "25:11",
+      "seconds": 1511,
+      "text": "a rainha dele está inalcançável para mim. Bom, começar ganhando uma rainha parece um começo bom de puzzle. Ele ia comer com o rei e ficar nessa casa branca que eu tenho gente para ameaçar a casa branca aí, que seria"
+    },
+    {
+      "time": "25:41",
+      "seconds": 1541,
+      "text": "ou esse, muito perto do rei aqui, não sei se vale a pena. Aqui não dá porque tem um bispo me travando, um peão me travando. Tá, essa ideia, trocar rainha, é a ideia 1. Deve ter coisa melhor que isso. Ou talvez não. O rei dele tá nessa casa? Eu... Isso aqui não me dá nada, né? Rei dele estando naquela casa, o que que eu tenho pra fazer?"
+    },
+    {
+      "time": "26:27",
+      "seconds": 1587,
+      "text": "deixar ele comer minha rainha não faz sentido, né? Tipo, esperar ele aqui não faz sentido. Porque eu tô desperdiçando um check com captura, que é uma coisa boa. Essa parece a melhor ideia até o momento, apesar de ser uma troca de peças e eu não saber como eu continuo daqui. Poderia continuar aqui... Aqui outro check perdeu outra peça, não sei se vale a pena. Esse peão não chega lá, eu não sei como continuar. Mas tudo me diz que o começo é aqui, agora eu não sei como continuar depois que eu fizer isso."
+    },
+    {
+      "time": "27:21",
+      "seconds": 1641,
+      "text": "a lógica diz que está no momento de trocar a rainha. Ele tem uma torre a mais, né? Talvez se tiver como evitar a troca de peça seria melhor, mas eu realmente não sei se tem como evitar. Levar a minha rainha pra cá? Que foge da rainha dele... Né? Não sei se eu quero fugir. Eu quero atacar."
+    },
+    {
+      "time": "27:55",
+      "seconds": 1675,
+      "text": "Se vier pra cá, eu deixo, né? Essas duas estão protegidas pelo meu peão. Seria lugares melhor pra minha rainha tá. Mas aí eu tô só adiando minhas movimentações ali. Não consegui pensar em nada melhor do que dar um check e trocar rainhas. Nada muito melhor que isso até o momento, porque se uma dessas duas me desse acesso a outra peça, a história era outra. Os checks nesse rei aqui estão meio vagabundos. O que que tem aqui?"
+    },
+    {
+      "time": "28:44",
+      "seconds": 1724,
+      "text": "Não tem nada pra mim aqui, na real. Tem isso aqui pra eu tentar ganhar o cavalo. Tá, boa. Tá, tá, tá, tá, tá. Tem uma outra ideia. Então tem essa ideia meio suicida, ideia 1, entregar a minha rainha. Ideia 2 é forçar ele a fazer outra coisa com o rei, dando um check aqui. se o rei vai sair dessa posição, eu cato a rainha dele. Isso seria bem melhor na real. Então, vamos falar que ele pode fugir do meu cheque com o bispo, indo pra trás ou comendo o bispo. Em qualquer dos dois casos, ele desgrudou da rainha. Achei a resposta do puzzle, hein?"
+    },
+    {
+      "time": "29:34",
+      "seconds": 1774,
+      "text": "Esse é o puzzle 3. Eu acho que o primeiro movimento correto é o bispo aqui. Tá certo. O cara desgrudou da rainha, eu pego a rainha. Certo. Resolvemos o puzzle de número 3. Add puzzle. Agora que tem o RL. Então minha lista de puzzles agora tem 1, 2, 3. Ótimo. esconde de novo esse elemento. Vamos continuar a sequência. Cadê meu celular? Ver se algo existe no mundo das lives? Não. Não tem ninguém assistindo. Eu podia ligar o YouTube aqui pra ver se tem... Esse aqui não tem analytics, né?"
+    },
+    {
+      "time": "30:27",
+      "seconds": 1827,
+      "text": "excelente health, os analíticos não estão aqui. Legal no youtube aqui, só pra matar minhas curiosidades. Cadê? Eu tô live, certo? Go live? Eu já tô live. Espero. Então é isso, tá rolando uma live aqui, praticando xadrez. que 30 minutos, ah tá, aí aqui tem o chat. Ó, já teve teve um pico aqui de quatro pessoas. Beleza, o pessoal tá meio mudo no chat, mas vamos continuar. Ah, puzzle de número quatro. Eu sou as pretas. Puzzle de número quatro. Eu sou as pretas. Puzzle de número quatro. Eu sou as pretas. O que fazer?"
+    },
+    {
+      "time": "31:24",
+      "seconds": 1884,
+      "text": "Minha torre está sendo ameaçada, meu bispo está sendo ameaçado. O rei dele está em uma diagonal escura, então talvez eu possa entrar com meu bispo aqui para não perder a torre. O rei dele vem para cá."
+    },
+    {
+      "time": "31:56",
+      "seconds": 1916,
+      "text": "Eu cato a torre dele, tá? Tá, tá, tá, tá, tá, tá, tá, peraí. Então, ameaçar um cara com cheque do bispo aqui, ele vai ser obrigado a pegar meu bispo, eu ganhei uma torre. Ficou um endgame onde eu tô com torre e ele com bispo. Torre é melhor que bispo. Essa é a minha ideia 1, parece fazer sentido. Ideia número 1 é isso. Vamos ver se tem coisa melhor que isso."
+    },
+    {
+      "time": "32:32",
+      "seconds": 1952,
+      "text": "ideia número 2, tirar o bispo da frente por aqui. Aí, no final das contas, esse cara vai ter que fugir da mesma maneira. Ele pode fugir comendo minha torre, que é o que eu não quero, né? Ideia número 1 é melhor. Vamos de ideia número 1. Deve ser a resposta do puzzle. Correto, correto, correto. Resolvemos o puzzle de número 4. Mostra o elemento para eu poder apertar o botãozinho Add Puzzle. Então agora estamos com 1, 2, 3, 4 puzzles resolvidos. Esconde o elemento de novo."
+    },
+    {
+      "time": "33:20",
+      "seconds": 2000,
+      "text": "próximo puzzle da sequência. Próximo puzzle da sequência, sete pessoas assistindo. Aí eu jogo com as pretas no YouTube, né? Tá na Twitch também, vai saber quantos tem lá. A puzzle de número 5 veio de um jogo Blitz entre duas pessoas muito bem ranqueadas, 2.300 e pouco de cada lado."
+    },
+    {
+      "time": "33:53",
+      "seconds": 2033,
+      "text": "O cara inclusive tem um título, CM, e é da Rússia. Something Master. Não sei nem os títulos. Tá bom. Puzzle de número 5, eu jogo com as pretas. Existe um check aqui na diagonal. que ele pode fugir com o rei. Se isso acontecer, eu cato a rainha. Se ele catar a minha rainha, eu tenho como pegar de volta ali. Tá bom. Ideia número 1. Minha primeira ideia é chegar aqui pra catar essa rainha de alguma forma. Ganhar essa rainhazinha."
+    },
+    {
+      "time": "34:50",
+      "seconds": 2090,
+      "text": "né? Porque o check aqui, ele vai ter que tirar a ameaça do check. Se ele fugir pra qualquer lado, eu cato a rainha. Se a rainha me catar, eu cato a rainha. É a minha melhor ideia até o momento. Não acho que tenha nada melhor que isso pra fazer. Deve ser o best move. Tem um runner aqui, meio sem futuro, não sei. Ah! E outra, né? Essa bateria aqui também tá defendendo esse peão. E vir pra cá, eu mantenho, de certa forma, essa defesa, né? Rest. Quinto. Eu vou chutar aqui. Não tô conseguindo enxergar nada melhor que isso. Esse cantinho aqui é pior, né? É pior. Tá. My best shot is here."
+    },
+    {
+      "time": "35:53",
+      "seconds": 2153,
+      "text": "movimento estava correto, agora pega rainha, certo? Tem algo melhor que pegar rainha? Não tem um outro check fácil aqui, vamos pegar rainha. Pronto! Essa era a resposta do puzzle. Mostra o elemento de novo. Adiciona mais um puzzle resolvido. Esconde o elemento. Vamos para o próximo puzzle da sequência, puzzle de número 6. O puzzle de número 6 foi num jogo entre pessoas de rating 1700. O jogo anterior era de gente mais alta, mas a dificuldade desse puzzle aparentemente é maior. Não lembro quanto que era do outro. Vamos lá. Eu jogo com as pretas."
+    },
+    {
+      "time": "36:52",
+      "seconds": 2212,
+      "text": "Qual que é o melhor movimento possível aqui? Ganhar o bispo? Ameaçando a rainha. E depois que a rainha fugir... Bom... Ganhar com o peão aqui também abre essa torre aqui pra algum lugar interessante. Minha primeira ideia tá com cara de ser minha melhor ideia é isso. A outra ideia..."
+    },
+    {
+      "time": "37:36",
+      "seconds": 2256,
+      "text": "Seria isso. Se tivesse coisas aqui, seria interessante porque o peão não faz nada disso, né? Mas, aqui eu estou dando um bispo, sendo que eu podia estar dando um peão. Mais fácil aqui, né? Como é aqui... Talvez ele não queira isso, porque uma rainha por uma torre não vale a pena. Então, a minha primeira ideia para esse puzzle seria aqui. Não dá check no rei, não faz nada nesse sentido."
+    },
+    {
+      "time": "38:23",
+      "seconds": 2303,
+      "text": "Essa minha rainha tem algum movimento interessante? Se sacrificar por alguém aqui? Eu não sei. Não parece fazer sentido. Minha ideia é muito simples aqui, por isso que eu estou meio hesitante de que talvez ela esteja errada. Se eu não fizer nada, meu bispo... que é uma troca de bispos, ele quer isso, mas depois ele ganha a torre, né? Então tá. A minha única ideia até o momento é isso. Existe algo melhor que isso? Não sei. Já deu cinco puzzles, eu vou arriscar mesmo. Isso foi a melhor coisa que eu consegui pensar. Às 9h39 da manhã. Sério?"
+    },
+    {
+      "time": "39:29",
+      "seconds": 2369,
+      "text": "o Stockfish não tem medo de entregar um bispo. porque a torre mantém-se protegida, né? Então... Acho que é isso, né? Esse é melhor que o outro porque não descobre a torre. Deve ser essa a diferença entre um e outro. Ah! E mantém esse... A recaptura protegida ali, né? Pra onde iria o jogo se isso fosse feito?"
+    },
+    {
+      "time": "40:05",
+      "seconds": 2405,
+      "text": "para um outro lugar qualquer, onde eu não ganho rainha. Mas esse aqui eu obrigatoriamente ganho rainha. ele não é obrigado a comer meu bispo aqui. Ah! O rei tá pinado pelo bispo. Realmente... era melhor jogado e eu não vi. Tudo bem. Acabou a sequência. Fui até o 5. É o mínimo do mínimo que eu me dei aqui. Então... vamos..."
+    },
+    {
+      "time": "40:46",
+      "seconds": 2446,
+      "text": "fechar tentativa, tentativa em andamento. O que que fechar tentativa me dá? Deixa eu já copiar esse, copiar tom L aqui. Bloco copiado. Só porque é a primeira vez que eu estou usando essa extensão, não sei o que ela vai fazer. Quantos puzzles dessas conto com 5? Nota opcional. Não vi cravada de bispo."
+    },
+    {
+      "time": "41:21",
+      "seconds": 2481,
+      "text": "Certo, não vi uma cravada de bispo, resolvi só 5, copiar o tom L, esconder o elemento. Certo, 40 minutos de live, jogar um casual, né? Se bem que o chat está bem mudo, poderia jogar ranqueada, acho que não tem problema. Ninguém vai me acusar de nada porque o chat está mudo."
+    },
+    {
+      "time": "41:57",
+      "seconds": 2517,
+      "text": "Vou jogar... Errado jogar ranqueado em live. Eu vou me arriscar. Criar um lobby game. Ah, não vou me arriscar não. Vou botar casual mesmo. O interessante aqui é a prática e a análise. Deixa aqui a minha escalada no ranking. Eu faço offline. Sei lá. Tem pros e contras de cada um. Eu vou no casual."
+    },
+    {
+      "time": "42:39",
+      "seconds": 2559,
+      "text": "10 minutos sem incrementos. Que vença o melhor. Partida já tem... Partida já tem... ID, né? Poderia dar... Ah tá, cancel. Apertura, cancel tudo aqui. Veio aqui... E4. Vamos... sem perder tempo. Vamos ver isso. Sem perder tempo. O que eu quero... Rematch."
+    },
+    {
+      "time": "43:18",
+      "seconds": 2598,
+      "text": "o cara quer o meu peão... um cara quer só defender o peão dele. Tá na boa. Eu posso fazer graça aqui, eu vim pra cá. Vamos vir na maciota aqui, meio passivo, sem mexer com ninguém. Deixa eu achar essa section que eu quero dar um hide nesse elemento aqui. Nossa. Ele já jogou? Não. Boa."
+    },
+    {
+      "time": "43:54",
+      "seconds": 2634,
+      "text": "controle do tempo é importante. Estou jogando com alguém de rating mais baixo que o meu. Seria interessante eu ganhar, mas é um casual aprender mais legal do que ganhar. Ah, espantar esse bispo, terminar o meu development, terminar o meu desenvolvimento, porque ele já tá na beira do rock dele, eu faço meu rock também, tá tudo certo. Rock e rock devem ser as próximas jogadas. Rock curto contra rock curto, não. Ele decidiu me dar um bispo por um cavalo, eu gosto da troca, então eu faço."
+    },
+    {
+      "time": "44:44",
+      "seconds": 2684,
+      "text": "Aí ele, a nova troca dele é o que? Um peão. Por que que esse peão não tava protegido, né? Meu development não foi super bom aqui. Tudo bem. Aí ele vai pegar um outro peão meu e me tirar a possibilidade do rock. É exatamente o que ele faz. Tudo bem."
+    },
+    {
+      "time": "45:18",
+      "seconds": 2718,
+      "text": "se eu não tivesse vindo aqui, esse bispo ainda poderia comer o canal. Ah, me ofereceu empate. Não cara, casual. Vamos jogar mais um pouquinho. Casual. Nós dois estamos com bastante peça ainda. Vamos jogar mais um pouquinho antes de... Ah, o cara saiu. Beleza. O cara desistiu. O que eu aguardo dessa análise é ter, talvez, uma inaccuracy. O jogo foi tão curto, veio até a rodada 7. Eu acho que eu quero outro jogo. Mas eu já vou preenchendo, então, os dados desse jogo, Strake Attempt, Extra Games..."
+    },
+    {
+      "time": "46:14",
+      "seconds": 2774,
+      "text": "será que ele vai adicionar outro, se eu botar edge partida? É a primeira vez que eu estou usando isso aqui. Resultado win, eu joguei com black, isso aqui poderia ser drop down, né? Abertura, I don't know yet. O rl da abertura também não sei. Nota opcional, oponente,"
+    },
+    {
+      "time": "46:49",
+      "seconds": 2809,
+      "text": "desistiu, cedo, turno 7. É, esse talvez seja um problema de jogar casual, né? Não tem nada em jogo. Desistir, claim victory. Desistir não dá nada pra ninguém, né? Na próxima eu vou jogar ranqueada, mesmo sabendo que a chance de perder é grande. Claim victory, análises board. Aqui no análises board eu consigo... Cadê o meu section aqui? Aqui no análises board eu consigo ver o opening aqui, né? Então..."
+    },
+    {
+      "time": "47:45",
+      "seconds": 2865,
+      "text": "fortnite game spanish variation. Foi isso que aconteceu nesse jogo. Então, se eu voltar esse cara aqui, deixa eu ver se ele tá adicionando extra games, tá? Um monte, né? Ah, eu vou pôr simplesmente opening url aqui, eu não posso editar? Hum, isso é chato. Primeira versão disso aqui. Tá bom."
+    },
+    {
+      "time": "48:21",
+      "seconds": 2901,
+      "text": "se eu colar esse Front Matters aqui do jeito que veio, foda-se. É o mesmo jogo, tira isso aqui. copia. Eu não esperava que na primeira live com o User Script recém criado, isso fosse me tirar todo o trabalho manual. Mas já tirou algum, estou levemente satisfeito com esse User Script. Tem um feedback."
+    },
+    {
+      "time": "49:02",
+      "seconds": 2942,
+      "text": "interessante para a versão 0.4 dele, que nós vamos usar amanhã. Por enquanto, ainda tive que colar manualmente duas partes da minha burocracia aqui. Está tudo certo. Vamos para a análise do jogo, que é o que interessa. A live já deve estar perto de uma hora. Hoje não vai ser muito longa não, porque... eu tenho compromisso às dez. Então não vai dar tempo de outra partida. Infelizmente, vamos... Queria ter jogado uma partida mais longa do que sete turnos. Meu oponente..."
+    },
+    {
+      "time": "49:52",
+      "seconds": 2992,
+      "text": "se frustrou com alguma coisa, eu pegando dois cavalos dele, é isso? Não, peguei um bispo e um cavalo. É, acho que ele se frustrou com essa minha vantagem material aqui, essa barra preta maior, mas, pô, começo do jogo, cara. Brasileiro não desiste nunca, cara. Ride Elements. Ó, o jogo até teve pro lado dele em um momento aqui, ó."
+    },
+    {
+      "time": "50:27",
+      "seconds": 3027,
+      "text": "é isso, ele deu um blunder e acabou o jogo. Então ó, mas eu tenho que aprender aí ó, eu tive um mistake que foi... ele teve um mistake? Não, esse mistake foi... tá aparecendo... ah tá, o meu peão foi um mistake aqui, tá entendi. Então meu mistake foi... não deveria ter feito esse peãozinho aqui, que é aquela ideia, né? De que ele vindo aqui... Não... Por que que isso foi um mistake? Bispo d4 teria sido melhor. O Stockfish gostaria que..."
+    },
+    {
+      "time": "51:17",
+      "seconds": 3077,
+      "text": "Eu vendo um peão ameaçado, eu ameaçasse dois cavalos. A coisa de chegar juntinho no cavalo, normalmente o problema de chegar juntinho no cavalo é que o cavalo pula e vai sair dali. Mas chegar juntinho em dois cavalos, só um vai sair pulando. Mas eu não acho..."
+    },
+    {
+      "time": "51:49",
+      "seconds": 3109,
+      "text": "Eu não acho que eu, tipo, viria aqui pra comer esse cavalo. Tá super protegido, porque que eu comeria esse cavalo. Esse jogo do Stockfish continua assim. Rock Rock, o cavalo dele não é mais interessante pra comer minha torre, ele faz outra coisa. Continua o jogo... Eu tendo... Tá, então nenhuma dessas continuações o Bispo é louco de sair comendo aqui. Mas eu estou com o Bispo numa casa relevante... Acho que é isso, né? A vantagem... E eu não... Mas esse jogo aqui, eu queria saber como esse jogo continua..."
+    },
+    {
+      "time": "52:48",
+      "seconds": 3168,
+      "text": "se fosse bispo aqui, cavalo aqui é blunder pro lado dele, né? Com certeza isso aqui é um blunder, né? Cadê? Nós estamos jogando essa branch. é blunder, dupla interrogação, knight 66 seria o melhor. Então, se o cara continuasse a ideia que ele estava, a minha continuação ia ser a mesma continuação que eu fiz no jogo, com a diferença que eu estou com um bispo melhor posicionado em tese, alguma coisa assim. Então tá, esse foi o meu mistake. Não teve blunder, teve mistake."
+    },
+    {
+      "time": "53:33",
+      "seconds": 3213,
+      "text": "accuracy 79%, o cara é um jogo que acabou muito cedo, infelizmente. 53 minutos de live, poderia parar por aqui. Deixa eu ver como estamos. É, eu acho que vou parar por aqui, porque eu tenho compromisso às dez. Foi esse o motivo que a live começou mais cedo hoje. E eu vou parar por aqui, porque nesses dez minutinhos até o meu compromisso das dez, eu vou dar um update nesse User Script aqui, que parece que tem potencial de ficar útil para o meu dia a dia ganhar tempo nessas lives aí."
+    },
+    {
+      "time": "54:17",
+      "seconds": 3257,
+      "text": "Nessas minhas burocracias de preencher o markdown que preenche o site que eu estou registrando esse diário que é o xadrez.live essa sessão 17, né, que tá vazia, começa às 10, minha rotina é encerrar a sessão e regerar a página já com os dados do que aconteceu na sessão, que é tipo o que aconteceu no treino, o que aconteceu nas partidas, uma descriçãozinha, isso aqui é meio inútil, talvez eu arranque fora essa parte, mas e"
+    },
+    {
+      "time": "55:02",
+      "seconds": 3302,
+      "text": "e gerar esse thumbnail do pós. Tá vendo que ele é diferente do do pré. Então o pós fala o número da sessão, quem ganhou, qual foi a abertura. Tem algumas coisas no próprio imagem de capa aqui que o gerador dessa imagem de capa, o gerador da imagem de capa pré-live, essa aqui, ele é só um gerador de imagem mesmo. É um script meu que troca o número da sessão e o horário da live. Isso aqui vai ficar meio fixo pra todos sempre agora. A imagem de capa do pós, que tem uns detalhezinhos no caderno, bastante campo dinâmico aqui, eu ainda tô..."
+    },
+    {
+      "time": "55:57",
+      "seconds": 3357,
+      "text": "destruindo a água do planeta e pedindo para a inteligência artificial resumir tudo que está lá no Markdown e fazer essa imagem de capa para mim, baseada em um template vazio. Com o passar dos dias aí, eu vou melhorar esse sistema para isso, porque isso aqui também não faz ser assim. sentido ser gerado por IA, fora depois da primeira. Mas hoje tá sendo bem preguiçoso, bem prático pra mim. Tô fazendo com a IA, foda-se. Então é isso. Vou encerrar a sessão com uma partida só. Quem quiser me seguir no Lichess, EFCZ, o nome. Eu tô como uma bad de streamer no Lichess."
+    },
+    {
+      "time": "56:58",
+      "seconds": 3418,
+      "text": "Então eu acho que ele mostra quando eu estou ao vivo por algum... Ele fica com esse microfone amarelo. Ontem eu vi isso acontecer. Mas não porque a integração do Lichess com a Twitch está funcionando melhor. Então, inclusive, se tiver chat na Twitch eu nem estou vendo. Eu gostaria que a integração do Lichess com o YouTube, que é o que eu... Comecei no YouTube, não sei se eu tenho muitos planos de dar uma super atenção para a Twitch, mas a integração com a Twitch do Lichess é melhor. Então, eu acho que ele vê que eu estou online e mostra o embed da Twitch aqui dentro. Deixa lá o meu microfone amarelo aqui ó, indireto, não sei o que. Eu vou encerrar por aqui."
+    },
+    {
+      "time": "57:57",
+      "seconds": 3477,
+      "text": "Obrigado a quem assistiu e a quem vai assistir a gravação depois. Até a próxima, provavelmente amanhã. Vou deixar agendado para algum horário de manhã, tipo nove, nove..."
+    }
+  ]
+}

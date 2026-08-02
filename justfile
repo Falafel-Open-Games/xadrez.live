@@ -41,6 +41,25 @@ import-whisper-transcript SESSION EXTRA="":
 import-faster-whisper-transcript SESSION EXTRA="":
   @python3 scripts/import_whisper_transcripts.py --source-id faster-whisper --output-suffix faster-whisper --whisper-cache-dir /tmp/xadrez-faster-whisper-cache --whisper-cmd "whisper-ctranslate2 --model turbo --compute_type int8 --batched True --batch_size 8" {{EXTRA}} {{SESSION}}
 
+import-missing-faster-whisper-transcripts EXTRA="":
+  @sessions="$(python3 scripts/missing_faster_whisper_sessions.py)"; \
+    if [ -z "$sessions" ]; then \
+      echo "No missing faster-whisper transcripts for ended sessions."; \
+      exit 0; \
+    fi; \
+    echo "Importing faster-whisper transcripts for: $sessions"; \
+    OPENBLAS_NUM_THREADS=2 OMP_NUM_THREADS=2 MKL_NUM_THREADS=2 NUMEXPR_NUM_THREADS=2 \
+    nice -n 10 ionice -c2 -n7 \
+    python3 scripts/import_whisper_transcripts.py \
+      --source-id faster-whisper \
+      --output-suffix faster-whisper \
+      --whisper-cache-dir /tmp/xadrez-faster-whisper-cache \
+      --whisper-cmd "whisper-ctranslate2 --model turbo --threads 2 --compute_type int8 --batched True --batch_size 4" \
+      --progress-interval-seconds 600 \
+      --heartbeat-interval-seconds 300 \
+      {{EXTRA}} \
+      $sessions
+
 import-slow-whisper-transcript SESSION EXTRA="":
   @OPENBLAS_NUM_THREADS=4 OMP_NUM_THREADS=4 MKL_NUM_THREADS=4 NUMEXPR_NUM_THREADS=4 python3 scripts/import_whisper_transcripts.py {{EXTRA}} {{SESSION}}
 

@@ -1,0 +1,27 @@
+{
+  "session_number": "0011",
+  "youtube_video_id": "3krJ6EYu6aI",
+  "language": "Portuguese",
+  "source": "faster-whisper",
+  "model": "turbo",
+  "whisper_cmd": "whisper-ctranslate2 --model turbo --threads 2 --compute_type int8 --batched True --batch_size 4",
+  "initial_prompt": "Transcrição em português brasileiro de uma live de xadrez. Vocabulário esperado: Lichess, lichess.org, Chess.com, Stockfish, YouTube, Twitch, Restream, GoatCounter, roque, fianchetto, Sicilian Defense, Scandinavian Defense, Puzzle do dia, Puzzle Streak, Puzzle Storm, Puzzle Racer, blunder, rating, mate, xeque, xeque-mate, blitz, rapid, en passant. Frases comuns: puzzle do dia, resposta com a dama, a resposta é, qual é a resposta. Quando for o lance ou ameaça ao rei em uma frase em português, prefira xeque; mantenha check em nomes ou frases em inglês, como Force Online Check e checkmate patterns. Quando for o fim da partida, mate no rei, ou ideia de mate em frase em português, prefira xeque-mate; mantenha checkmate apenas em títulos, nomes de exercícios ou frases em inglês, como Checkmate Patterns. En passant é o nome do lance especial de peão; não transcreva como empassant, impassant ou em passando. Quando a fala se referir ao site ou plataforma de xadrez, transcreva como Lichess, não como lixar, lixares, lixés ou outras aproximações fonéticas. Restream é o nome da plataforma de transmissão, não transcreva como restring.",
+  "block_count": 3,
+  "blocks": [
+    {
+      "time": "0:04",
+      "seconds": 4,
+      "text": "Fiz alguma cagada no setup do youtube, que mesmo após uma hora e tanto de streaming, o botão go live"
+    },
+    {
+      "time": "0:43",
+      "seconds": 43,
+      "text": "havia sido pressionado. Então, esta live agendada, talvez não tenha sido computada, tenha sido atrelada àquela que foi transmitida."
+    },
+    {
+      "time": "2:01",
+      "seconds": 121,
+      "text": "É isso galera, fim da stream. Depois eu vou tentar colocar pelo menos no site a gravação correta, se é que houve alguma gravação. Perdão pela sessão 11 e foi um desastre."
+    }
+  ]
+}
