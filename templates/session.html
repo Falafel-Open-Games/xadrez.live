@@ -198,7 +198,10 @@
                 {% endif %}
               </small>
               {% if highlight.summary is defined and highlight.summary %}
-                <p>{% if highlight.lead_in is defined and highlight.lead_in %}<span class="highlight-lead-in">…{{ highlight.lead_in }}</span> {% endif %}{{ highlight.summary }}</p>
+                {% if highlight.lead_in is defined and highlight.lead_in %}
+                  <p class="highlight-lead-in">antes: {{ highlight.lead_in }} …</p>
+                {% endif %}
+                <p>{{ highlight.summary }}</p>
               {% endif %}
               {% if highlight.reason is defined and highlight.reason %}
                 <small>{{ highlight.reason }}</small>
