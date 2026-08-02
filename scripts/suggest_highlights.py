@@ -15,6 +15,7 @@ TRANSCRIPT_DIR = ROOT / "data" / "transcripts"
 CHAT_DIR = ROOT / "data" / "chat_replays"
 OUTPUT_DIR = ROOT / "data" / "highlights"
 WORD_RE = re.compile(r"[a-z0-9]+")
+DISPLAY_WORD_RE = re.compile(r"[\wÀ-ÿ]+(?:[-'][\wÀ-ÿ]+)?")
 REFERENCE_ANCHOR_MAX_FORWARD_SECONDS = 8
 
 TRANSCRIPT_SOURCES = [
@@ -66,6 +67,16 @@ def normalize_text(value: str) -> str:
     value = unicodedata.normalize("NFKD", value.lower())
     value = "".join(char for char in value if not unicodedata.combining(char))
     return " ".join(WORD_RE.findall(value))
+
+
+def display_word_tokens(value: str) -> list[tuple[str, str]]:
+    tokens = []
+    for match in DISPLAY_WORD_RE.finditer(value):
+        display = match.group(0)
+        normalized = normalize_text(display)
+        if normalized:
+            tokens.append((normalized, display))
+    return tokens
 
 
 def partial_sequence_match(source_tokens: list[str], reference_tokens: list[str]) -> tuple[float, int]:
@@ -171,32 +182,42 @@ def token_times(items: list[dict[str, Any]], index: int, token_count: int) -> li
     ]
 
 
-def reference_anchor_seconds(
+def reference_anchor(
     summary_text: str,
     fallback_seconds: int,
     reference_items: list[dict[str, Any]],
-) -> int | None:
+) -> dict[str, Any] | None:
     query_tokens = normalize_text(summary_text).split()[:18]
     if len(query_tokens) < 4:
         return None
 
     best_score = 0.0
-    best_seconds: int | None = None
+    best_match: dict[str, Any] | None = None
     for index, item in enumerate(reference_items):
         item_seconds = int(item.get("seconds") or 0)
         if abs(item_seconds - fallback_seconds) > 240:
             continue
-        item_tokens = normalize_text(str(item.get("text") or "")).split()
+        item_text = str(item.get("text") or "")
+        item_display_tokens = display_word_tokens(item_text)
+        item_tokens = [token for token, _display in item_display_tokens]
         score, token_start = partial_sequence_match(query_tokens, item_tokens)
         if score <= best_score:
             continue
         times = token_times(reference_items, index, len(item_tokens))
+        lead_in_tokens = [
+            display
+            for _token, display in item_display_tokens[max(0, token_start - 5) : token_start]
+        ]
         best_score = score
-        best_seconds = times[min(token_start, len(times) - 1)] if times else item_seconds
+        best_match = {
+            "seconds": times[min(token_start, len(times) - 1)] if times else item_seconds,
+            "lead_in": " ".join(lead_in_tokens),
+            "score": round(score, 4),
+        }
 
-    if best_seconds is None or best_score < 0.45:
+    if best_match is None or best_score < 0.45:
         return None
-    return best_seconds
+    return best_match
 
 
 def score_window(transcript_items: list[dict[str, Any]], chat_items: list[dict[str, Any]]) -> tuple[float, list[str]]:
@@ -368,13 +389,15 @@ def suggest_highlights(session: str, limit: int, window_seconds: int, step_secon
         can_refine_anchor = bool(item.pop("_can_refine_anchor", False))
         summary_text = str(item.pop("_summary_text", item["summary"]))
         if transcript_source.endswith(".aligned") and reference_items and can_refine_anchor:
-            reference_seconds = reference_anchor_seconds(summary_text, anchor_seconds, reference_items)
+            reference_match = reference_anchor(summary_text, anchor_seconds, reference_items)
             if (
-                reference_seconds is not None
-                and anchor_seconds <= reference_seconds <= anchor_seconds + REFERENCE_ANCHOR_MAX_FORWARD_SECONDS
+                reference_match is not None
+                and anchor_seconds <= int(reference_match["seconds"]) <= anchor_seconds + REFERENCE_ANCHOR_MAX_FORWARD_SECONDS
             ):
-                item["start_seconds"] = reference_seconds
-                item["time"] = format_time(reference_seconds)
+                item["start_seconds"] = int(reference_match["seconds"])
+                item["time"] = format_time(int(reference_match["seconds"]))
+                if reference_match["lead_in"]:
+                    item["lead_in"] = reference_match["lead_in"]
 
     selected.sort(key=lambda item: int(item["start_seconds"]))
     return {

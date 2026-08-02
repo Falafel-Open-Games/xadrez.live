@@ -396,6 +396,10 @@ h1 {
   font-size: 0.92rem;
 }
 
+.highlight-lead-in {
+  color: color-mix(in srgb, var(--muted) 58%, transparent);
+}
+
 .highlight-body small {
   display: block;
   margin-top: 4px;
