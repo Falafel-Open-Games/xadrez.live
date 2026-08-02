@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.13.7
+// @version      0.13.8
 // @description  Collect chess puzzle, game, notes, and Restream chat usernames during a xadrez.live session.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -753,6 +753,7 @@ note = "${quote(attempt.note)}"`);
 
   function restreamCardPlatformIcon(card) {
     return queryAll(card, 'img.icon-platform, img[src*="restream.io/img/api/platforms/platform-"], img[src*="restream-icon-"]')
+      .filter((element) => !/^status$/i.test(String(element.getAttribute("alt") || "")))
       .map((element) => element.getAttribute("src"))
       .find(Boolean) || "";
   }
@@ -820,7 +821,36 @@ note = "${quote(attempt.note)}"`);
     return "";
   }
 
+  function restreamCardAuthorLabel(card) {
+    return queryAll(
+      card,
+      [
+        ".MuiTypography-subtitle2",
+        ".message-sender",
+        '[data-testid*="author" i]',
+        '[data-testid*="sender" i]',
+        '[data-testid*="username" i]',
+        '[class*="author" i]',
+        '[class*="sender" i]',
+        '[class*="username" i]',
+        '[class*="user-name" i]',
+        '[class*="display-name" i]',
+      ].join(", "),
+    )
+      .map((element) =>
+        String(element.textContent || "")
+          .replace(/[\u200b-\u200d\ufeff]/g, "")
+          .replace(/\s+/g, " ")
+          .trim(),
+      )
+      .find(Boolean) || "";
+  }
+
   function restreamCardPlatform(card) {
+    if (/^Restream(?:\.io)?$/i.test(restreamCardAuthorLabel(card))) {
+      return "Restream";
+    }
+
     const platformIcon = restreamCardPlatformIcon(card);
     const platformFromIcon = restreamPlatformFromSrc(platformIcon);
     if (platformFromIcon) {

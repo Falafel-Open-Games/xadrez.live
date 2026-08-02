@@ -269,7 +269,7 @@ class RestreamChatHTMLParser(HTMLParser):
         clock = " ".join(str(self.card.get("clock") or "").split())
         text = " ".join(html.unescape(str(self.card.get("text") or "")).split())
         images = [str(source) for source in self.card.get("images", [])]
-        platform = detect_platform(images)
+        platform = "Restream" if author in {"Restream", "Restream.io"} else detect_platform(images)
 
         if not author or not clock or not text:
             return
