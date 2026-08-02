@@ -102,16 +102,27 @@ def message_seconds(clock_time: str, start: datetime | None) -> int:
 
 def normalize_author(author: str, platform: str) -> str:
     author = author.strip()
-    if platform == "Restream" and author == "Restream.io":
+    if platform == "Restream" and author in {"Restream", "Restream.io"}:
         return "Host"
     if platform in {"Twitch", "YouTube"} and author and not author.startswith("@"):
         return f"@{author}"
     return author
 
 
-def detect_platform(image_sources: list[str]) -> str:
-    if image_sources and "restream-icon" in image_sources[0]:
+def normalize_platform(value: str) -> str:
+    normalized = value.strip().lower()
+    if not normalized:
+        return ""
+    if "youtube" in normalized or normalized in {"yt", "platform-5"}:
+        return "YouTube"
+    if "twitch" in normalized or normalized in {"tv", "platform-1"}:
+        return "Twitch"
+    if "restream" in normalized:
         return "Restream"
+    return value.strip()
+
+
+def detect_platform(image_sources: list[str]) -> str:
     if any("platform-5" in source for source in image_sources):
         return "YouTube"
     if any("platform-1" in source for source in image_sources):
@@ -121,6 +132,62 @@ def detect_platform(image_sources: list[str]) -> str:
     return ""
 
 
+def flatten_string_values(value) -> list[str]:
+    if isinstance(value, str):
+        return [value]
+    if isinstance(value, list):
+        values = []
+        for item in value:
+            values.extend(flatten_string_values(item))
+        return values
+    if isinstance(value, dict):
+        values = []
+        for item in value.values():
+            values.extend(flatten_string_values(item))
+        return values
+    return []
+
+
+def json_platform(message: dict) -> str:
+    platform_fields = (
+        "sourcePlatform",
+        "source_platform",
+        "originPlatform",
+        "origin_platform",
+        "provider",
+        "service",
+        "network",
+        "platform",
+    )
+    explicit_platforms = [normalize_platform(str(message.get(field) or "")) for field in platform_fields]
+    explicit_platforms = [platform for platform in explicit_platforms if platform]
+
+    image_fields = (
+        "images",
+        "imageSources",
+        "image_sources",
+        "icons",
+        "icon",
+        "platformIcon",
+        "platform_icon",
+        "platformImage",
+        "platform_image",
+    )
+    image_sources = []
+    for field in image_fields:
+        image_sources.extend(flatten_string_values(message.get(field)))
+
+    detected_platform = detect_platform(image_sources)
+    if detected_platform and detected_platform != "Restream":
+        return detected_platform
+
+    for platform in explicit_platforms:
+        if platform != "Restream":
+            return platform
+
+    return detected_platform or (explicit_platforms[0] if explicit_platforms else "")
+
+
 class RestreamChatHTMLParser(HTMLParser):
     def __init__(self) -> None:
         super().__init__(convert_charrefs=True)
@@ -128,39 +195,67 @@ class RestreamChatHTMLParser(HTMLParser):
         self.card: dict | None = None
         self.card_depth = 0
         self.capture: str | None = None
+        self.capture_depth = 0
 
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         attr = {name: value or "" for name, value in attrs}
-        if tag == "div" and attr.get("id", "").startswith("message-card-studio-") and self.card is None:
+        classes = attr.get("class", "")
+        is_message_card = (
+            tag == "div"
+            and (
+                attr.get("id", "").startswith("message-card-studio-")
+                or "message-item" in classes.split()
+            )
+            and self.card is None
+        )
+        if is_message_card:
             self.card = {"author": "", "clock": "", "text": "", "images": []}
             self.card_depth = 1
             self.capture = None
+            self.capture_depth = 0
             return
 
         if self.card is not None:
+            if tag == "img" and attr.get("src"):
+                self.card["images"].append(attr["src"])
+                return
+
             self.card_depth += 1
-            classes = attr.get("class", "")
+            if self.capture is not None:
+                self.capture_depth += 1
+
             if tag == "div" and "MuiTypography-subtitle2" in classes:
                 self.capture = "author"
+                self.capture_depth = 1
+            elif tag == "span" and "message-sender" in classes:
+                self.capture = "author"
+                self.capture_depth = 1
             elif tag == "p" and "MuiTypography-caption" in classes:
                 self.capture = "clock"
+                self.capture_depth = 1
+            elif tag == "div" and "message-time" in classes:
+                self.capture = "clock"
+                self.capture_depth = 1
             elif tag == "span" and "chat-text-normal" in classes:
                 self.capture = "text"
-            elif tag == "img" and attr.get("src"):
-                self.card["images"].append(attr["src"])
+                self.capture_depth = 1
 
     def handle_endtag(self, tag: str) -> None:
         if self.card is None:
             return
 
-        if tag in {"div", "p", "span"}:
-            self.capture = None
+        if self.capture is not None:
+            self.capture_depth -= 1
+            if self.capture_depth <= 0:
+                self.capture = None
+                self.capture_depth = 0
 
         self.card_depth -= 1
         if self.card_depth <= 0:
             self.add_card()
             self.card = None
             self.capture = None
+            self.capture_depth = 0
 
     def handle_data(self, data: str) -> None:
         if self.card is None or self.capture is None:
@@ -178,7 +273,10 @@ class RestreamChatHTMLParser(HTMLParser):
 
         if not author or not clock or not text:
             return
-        if author == "Restream.io" and text == "Read & reply to messages from multiple platforms here.":
+        if platform == "Restream" and author in {"Restream", "Restream.io"} and text in {
+            "Read & reply to messages from multiple platforms here.",
+            "The chat is ready to display messages.",
+        }:
             return
 
         self.messages.append(
@@ -231,7 +329,7 @@ def build_output(session_number: str, content: str) -> dict:
         seconds = int(parsed.pop("seconds", 0) or 0) if not clock else message_seconds(clock, start)
         text = str(parsed.get("text") or "").strip()
         author = str(parsed.get("author") or "").strip()
-        platform = str(parsed.get("platform") or "").strip()
+        platform = json_platform(parsed)
         if not text or not author:
             continue
         messages.append(

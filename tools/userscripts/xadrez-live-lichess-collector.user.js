@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.13.6
+// @version      0.13.7
 // @description  Collect chess puzzle, game, notes, and Restream chat usernames during a xadrez.live session.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -739,16 +739,22 @@ note = "${quote(attempt.note)}"`);
 
   function restreamPlatformFromSrc(src) {
     const value = String(src || "");
-    if (/restream/i.test(value) || value.includes("restream-icon-")) {
-      return "Restream";
-    }
     if (/youtube/i.test(value) || value.includes("platform-5-social.png")) {
       return "YouTube";
     }
     if (/twitch/i.test(value) || value.includes("platform-1.png")) {
       return "Twitch";
     }
+    if (/restream/i.test(value) || value.includes("restream-icon-")) {
+      return "Restream";
+    }
     return "";
+  }
+
+  function restreamCardPlatformIcon(card) {
+    return queryAll(card, 'img.icon-platform, img[src*="restream.io/img/api/platforms/platform-"], img[src*="restream-icon-"]')
+      .map((element) => element.getAttribute("src"))
+      .find(Boolean) || "";
   }
 
   function queryAll(root, selector) {
@@ -815,6 +821,12 @@ note = "${quote(attempt.note)}"`);
   }
 
   function restreamCardPlatform(card) {
+    const platformIcon = restreamCardPlatformIcon(card);
+    const platformFromIcon = restreamPlatformFromSrc(platformIcon);
+    if (platformFromIcon) {
+      return platformFromIcon;
+    }
+
     const platforms = queryAll(
       card,
       'img[src*="restream.io/img/api/platforms/platform-"], img.icon-platform, img[alt], [aria-label], [title]',
@@ -1057,18 +1069,20 @@ note = "${quote(attempt.note)}"`);
     const messages = adminCards
       .map((card) => {
         const platform = restreamCardPlatform(card);
+        const platformIcon = restreamCardPlatformIcon(card);
         const author = restreamRawAuthorFromCard(card, platform);
         const clock = restreamClockFromCard(card);
         const text = restreamTextFromCard(card);
-        return { clock, platform, channel: "", author, text };
+        return { clock, platform, platformIcon, channel: "", author, text };
       });
 
     embedMessages.forEach((message) => {
       const platform = restreamCardPlatform(message);
+      const platformIcon = restreamCardPlatformIcon(message);
       const author = restreamAuthorFromEmbedMessage(message) || "Host";
       const clock = restreamClockFromEmbedMessage(message);
       const text = restreamTextFromEmbedMessage(message);
-      messages.push({ clock, platform, channel: "", author, text });
+      messages.push({ clock, platform, platformIcon, channel: "", author, text });
     });
 
     return messages.filter((message) => {
