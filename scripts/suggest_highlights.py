@@ -231,7 +231,8 @@ def suggest_highlights(session: str, limit: int, window_seconds: int, step_secon
                 summary_text = str(research_item.get("text") or summary_text)
                 anchor_item = research_item
         anchor_seconds = int(anchor_item.get("seconds") or start) if anchor_item else start
-        start_seconds = max(0, anchor_seconds - 8)
+        anchor_preroll_seconds = 0 if transcript_source.endswith(".aligned") else 8
+        start_seconds = max(0, anchor_seconds - anchor_preroll_seconds)
         candidates.append(
             {
                 "start_seconds": start_seconds,
