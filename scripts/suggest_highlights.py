@@ -221,6 +221,7 @@ def suggest_highlights(session: str, limit: int, window_seconds: int, step_secon
         combined_text = " ".join([text, chat_text]).strip()
         kind = highlight_kind(signals, combined_text)
         summary_text = text or chat_text or combined_text
+        anchor_item = next(iter(window_transcript or window_chat), None)
         if kind == "research":
             research_item = next(
                 (item for item in window_transcript if RESEARCH_RE.search(str(item.get("text") or ""))),
@@ -228,11 +229,14 @@ def suggest_highlights(session: str, limit: int, window_seconds: int, step_secon
             )
             if research_item:
                 summary_text = str(research_item.get("text") or summary_text)
+                anchor_item = research_item
+        anchor_seconds = int(anchor_item.get("seconds") or start) if anchor_item else start
+        start_seconds = max(0, anchor_seconds - 8)
         candidates.append(
             {
-                "start_seconds": start,
+                "start_seconds": start_seconds,
                 "end_seconds": min(end, max_seconds),
-                "time": format_time(start),
+                "time": format_time(start_seconds),
                 "duration": format_time(min(window_seconds, max(0, max_seconds - start))),
                 "kind": kind,
                 "score": round(score, 2),

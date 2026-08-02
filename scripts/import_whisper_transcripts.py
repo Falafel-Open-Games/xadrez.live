@@ -26,6 +26,8 @@ DEFAULT_INITIAL_PROMPT = (
     "roque, fianchetto, Sicilian Defense, Scandinavian Defense, Puzzle do dia, Puzzle Streak, Puzzle Storm, "
     "Puzzle Racer, blunder, rating, mate, xeque, xeque-mate, blitz, rapid, en passant. "
     "Frases comuns: puzzle do dia, resposta com a dama, a resposta é, qual é a resposta. "
+    "Peão é a peça de xadrez; em frases como esse peão, um peão, peão passado, peão pendurado, "
+    "peão de e4 ou tomar o peão, não transcreva como espião. "
     "Quando for o lance ou ameaça ao rei em uma frase em português, prefira xeque; mantenha check em nomes "
     "ou frases em inglês, como Force Online Check e checkmate patterns. "
     "Quando for o fim da partida, mate no rei, ou ideia de mate em frase em português, prefira xeque-mate; "
