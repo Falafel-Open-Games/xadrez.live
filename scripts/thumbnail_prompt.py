@@ -97,8 +97,14 @@ def game_platform(game):
 def featured_game(extra):
     games = extra.get("games")
     if isinstance(games, list) and games:
-        for game in games:
-            if isinstance(game, dict) and value(game, "result").lower() in ("win", "won"):
+        for game in reversed(games):
+            if isinstance(game, dict) and (
+                value(game, "game_url")
+                or value(game, "lichess_game_url")
+                or value(game, "result")
+                or value(game, "opening")
+                or value(game, "note")
+            ):
                 return game
 
         last_game = games[-1]
