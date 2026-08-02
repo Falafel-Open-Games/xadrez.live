@@ -4,6 +4,8 @@ from __future__ import annotations
 import argparse
 import json
 import re
+import unicodedata
+from difflib import SequenceMatcher
 from pathlib import Path
 from typing import Any
 
@@ -12,6 +14,8 @@ ROOT = Path(__file__).resolve().parents[1]
 TRANSCRIPT_DIR = ROOT / "data" / "transcripts"
 CHAT_DIR = ROOT / "data" / "chat_replays"
 OUTPUT_DIR = ROOT / "data" / "highlights"
+WORD_RE = re.compile(r"[a-z0-9]+")
+REFERENCE_ANCHOR_MAX_FORWARD_SECONDS = 8
 
 TRANSCRIPT_SOURCES = [
     ("openai-gpt-4o-mini-transcribe.aligned", "GPT-4o mini alinhado"),
@@ -56,6 +60,35 @@ RESEARCH_LOOKUP_RE = re.compile(
     r"(buscar|busca|procurar).{0,40}(google|wikipedia|wiki|termo|nome|enxadrista|jogador))\b",
     re.I,
 )
+
+
+def normalize_text(value: str) -> str:
+    value = unicodedata.normalize("NFKD", value.lower())
+    value = "".join(char for char in value if not unicodedata.combining(char))
+    return " ".join(WORD_RE.findall(value))
+
+
+def partial_sequence_match(source_tokens: list[str], reference_tokens: list[str]) -> tuple[float, int]:
+    if not source_tokens or not reference_tokens:
+        return 0.0, 0
+    window_size = min(len(reference_tokens), max(4, len(source_tokens)))
+    source_text = " ".join(source_tokens)
+    source_set = set(source_tokens)
+    best = 0.0
+    best_start = 0
+    for start in range(0, max(1, len(reference_tokens) - window_size + 1)):
+        candidate_tokens = reference_tokens[start : start + window_size]
+        candidate_text = " ".join(candidate_tokens)
+        candidate_set = set(candidate_tokens)
+        sequence_score = SequenceMatcher(None, source_text, candidate_text).ratio()
+        overlap_score = 0.0
+        if source_set and candidate_set:
+            overlap_score = 2 * len(source_set & candidate_set) / (len(source_set) + len(candidate_set))
+        score = sequence_score * 0.65 + overlap_score * 0.35
+        if score > best:
+            best = score
+            best_start = start
+    return best, best_start
 
 
 def fail(message: str) -> None:
@@ -121,6 +154,49 @@ def available_sessions() -> list[str]:
 
 def window_items(items: list[dict[str, Any]], start: int, end: int) -> list[dict[str, Any]]:
     return [item for item in items if start <= int(item.get("seconds") or 0) < end]
+
+
+def token_times(items: list[dict[str, Any]], index: int, token_count: int) -> list[int]:
+    start_seconds = int(items[index].get("seconds") or 0)
+    if index + 1 < len(items):
+        end_seconds = int(items[index + 1].get("seconds") or start_seconds)
+    else:
+        end_seconds = start_seconds + 60
+    end_seconds = max(start_seconds + 1, min(end_seconds, start_seconds + 120))
+    if token_count <= 1:
+        return [start_seconds]
+    return [
+        round(start_seconds + (end_seconds - start_seconds) * token_index / token_count)
+        for token_index in range(token_count)
+    ]
+
+
+def reference_anchor_seconds(
+    summary_text: str,
+    fallback_seconds: int,
+    reference_items: list[dict[str, Any]],
+) -> int | None:
+    query_tokens = normalize_text(summary_text).split()[:18]
+    if len(query_tokens) < 4:
+        return None
+
+    best_score = 0.0
+    best_seconds: int | None = None
+    for index, item in enumerate(reference_items):
+        item_seconds = int(item.get("seconds") or 0)
+        if abs(item_seconds - fallback_seconds) > 240:
+            continue
+        item_tokens = normalize_text(str(item.get("text") or "")).split()
+        score, token_start = partial_sequence_match(query_tokens, item_tokens)
+        if score <= best_score:
+            continue
+        times = token_times(reference_items, index, len(item_tokens))
+        best_score = score
+        best_seconds = times[min(token_start, len(times) - 1)] if times else item_seconds
+
+    if best_seconds is None or best_score < 0.45:
+        return None
+    return best_seconds
 
 
 def score_window(transcript_items: list[dict[str, Any]], chat_items: list[dict[str, Any]]) -> tuple[float, list[str]]:
@@ -199,6 +275,10 @@ def highlight_kind(signals: list[str], text: str) -> str:
 
 def suggest_highlights(session: str, limit: int, window_seconds: int, step_seconds: int) -> dict[str, Any]:
     transcript_source, transcript_label, transcript_items = transcript_data(session)
+    reference_data = read_json(TRANSCRIPT_DIR / f"{session}.faster-whisper.json")
+    reference_items = []
+    if reference_data and isinstance(reference_data.get("blocks"), list):
+        reference_items = [block for block in reference_data["blocks"] if isinstance(block, dict)]
     chat_items = chat_messages(session)
     if not transcript_items and not chat_items:
         fail(f"{session}: no transcript or chat data")
@@ -246,6 +326,9 @@ def suggest_highlights(session: str, limit: int, window_seconds: int, step_secon
                 "signals": signals,
                 "chat_count": len(window_chat),
                 "transcript_count": len(window_transcript),
+                "_anchor_seconds": anchor_seconds,
+                "_can_refine_anchor": bool(window_transcript),
+                "_summary_text": summary_text,
             }
         )
 
@@ -279,6 +362,19 @@ def suggest_highlights(session: str, limit: int, window_seconds: int, step_secon
         if any(abs(int(candidate["start_seconds"]) - int(existing["start_seconds"])) < window_seconds for existing in selected):
             continue
         selected.append(candidate)
+
+    for item in selected:
+        anchor_seconds = int(item.pop("_anchor_seconds", item["start_seconds"]))
+        can_refine_anchor = bool(item.pop("_can_refine_anchor", False))
+        summary_text = str(item.pop("_summary_text", item["summary"]))
+        if transcript_source.endswith(".aligned") and reference_items and can_refine_anchor:
+            reference_seconds = reference_anchor_seconds(summary_text, anchor_seconds, reference_items)
+            if (
+                reference_seconds is not None
+                and anchor_seconds <= reference_seconds <= anchor_seconds + REFERENCE_ANCHOR_MAX_FORWARD_SECONDS
+            ):
+                item["start_seconds"] = reference_seconds
+                item["time"] = format_time(reference_seconds)
 
     selected.sort(key=lambda item: int(item["start_seconds"]))
     return {
