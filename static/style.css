@@ -403,6 +403,11 @@ h1 {
   font-size: 0.78rem;
 }
 
+.highlight-body .highlight-reason {
+  color: color-mix(in srgb, var(--muted) 50%, transparent);
+  font-size: 0.74rem;
+}
+
 .highlight-body .highlight-lead-in {
   color: color-mix(in srgb, var(--muted) 42%, transparent);
   font-size: 0.76rem;

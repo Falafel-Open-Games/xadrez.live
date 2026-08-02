@@ -17,6 +17,11 @@ OUTPUT_DIR = ROOT / "data" / "highlights"
 WORD_RE = re.compile(r"[a-z0-9]+")
 DISPLAY_WORD_RE = re.compile(r"[\wÀ-ÿ]+(?:[-'][\wÀ-ÿ]+)?")
 REFERENCE_ANCHOR_MAX_FORWARD_SECONDS = 8
+REFERENCE_LEAD_IN_MAX_FORWARD_SECONDS = 20
+REFERENCE_LEAD_IN_MIN_SCORE = 0.7
+SOURCE_LEAD_IN_MAX_GAP_SECONDS = 30
+SOURCE_LEAD_IN_MAX_WORDS = 5
+REFERENCE_LEAD_IN_MAX_WORDS = 5
 
 TRANSCRIPT_SOURCES = [
     ("openai-gpt-4o-mini-transcribe.aligned", "GPT-4o mini alinhado"),
@@ -206,7 +211,7 @@ def reference_anchor(
         times = token_times(reference_items, index, len(item_tokens))
         lead_in_tokens = [
             display
-            for _token, display in item_display_tokens[max(0, token_start - 5) : token_start]
+            for _token, display in item_display_tokens[max(0, token_start - REFERENCE_LEAD_IN_MAX_WORDS) : token_start]
         ]
         best_score = score
         best_match = {
@@ -218,6 +223,25 @@ def reference_anchor(
     if best_match is None or best_score < 0.45:
         return None
     return best_match
+
+
+def source_lead_in(anchor_seconds: int, transcript_items: list[dict[str, Any]], word_count: int = 5) -> str:
+    previous_items = [
+        item
+        for item in transcript_items
+        if int(item.get("seconds") or 0) < anchor_seconds
+        and anchor_seconds - int(item.get("seconds") or 0) <= SOURCE_LEAD_IN_MAX_GAP_SECONDS
+    ]
+    if not previous_items:
+        return ""
+
+    text = " ".join(str(previous_items[-1].get("text") or "").split())
+    sentence_parts = re.split(r"(?<=[.!?])\s+", text)
+    candidate = sentence_parts[-1] if sentence_parts else text
+    words = [display for _token, display in display_word_tokens(candidate)]
+    if len(words) < 4 and len(sentence_parts) > 1:
+        words = [display for _token, display in display_word_tokens(sentence_parts[-2])]
+    return " ".join(words[-SOURCE_LEAD_IN_MAX_WORDS:])
 
 
 def score_window(transcript_items: list[dict[str, Any]], chat_items: list[dict[str, Any]]) -> tuple[float, list[str]]:
@@ -390,14 +414,28 @@ def suggest_highlights(session: str, limit: int, window_seconds: int, step_secon
         summary_text = str(item.pop("_summary_text", item["summary"]))
         if transcript_source.endswith(".aligned") and reference_items and can_refine_anchor:
             reference_match = reference_anchor(summary_text, anchor_seconds, reference_items)
+            reference_seconds = int(reference_match["seconds"]) if reference_match is not None else None
+            refined_anchor = False
             if (
                 reference_match is not None
-                and anchor_seconds <= int(reference_match["seconds"]) <= anchor_seconds + REFERENCE_ANCHOR_MAX_FORWARD_SECONDS
+                and reference_seconds is not None
+                and anchor_seconds <= reference_seconds <= anchor_seconds + REFERENCE_ANCHOR_MAX_FORWARD_SECONDS
             ):
-                item["start_seconds"] = int(reference_match["seconds"])
-                item["time"] = format_time(int(reference_match["seconds"]))
-                if reference_match["lead_in"]:
-                    item["lead_in"] = reference_match["lead_in"]
+                item["start_seconds"] = reference_seconds
+                item["time"] = format_time(reference_seconds)
+                refined_anchor = True
+            if (
+                reference_match is not None
+                and reference_seconds is not None
+                and reference_match["lead_in"]
+                and (refined_anchor or float(reference_match["score"]) >= REFERENCE_LEAD_IN_MIN_SCORE)
+                and anchor_seconds <= reference_seconds <= anchor_seconds + REFERENCE_LEAD_IN_MAX_FORWARD_SECONDS
+            ):
+                item["lead_in"] = source_lead_in(anchor_seconds, transcript_items) or reference_match["lead_in"]
+        if transcript_source.endswith(".aligned") and can_refine_anchor and not item.get("lead_in"):
+            lead_in = source_lead_in(anchor_seconds, transcript_items)
+            if lead_in:
+                item["lead_in"] = lead_in
 
     selected.sort(key=lambda item: int(item["start_seconds"]))
     return {
