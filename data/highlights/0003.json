@@ -1,30 +1,11 @@
 {
   "session_number": "0003",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
-    {
-      "start_seconds": 180,
-      "end_seconds": 270,
-      "time": "3:00",
-      "duration": "1:30",
-      "kind": "training",
-      "score": 3.3,
-      "summary": "Não pode comer com meu rei, com o rei dele. Porque eu tenho dois protegendo aqui. E o que mais? Esse é o Puzzle of the Day. Vamos falar que eu quero andar pra cá. Cheque…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; treino ou puzzle streak; raciocínio em voz alta",
-      "signals": [
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "treino ou puzzle streak",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 3
-    },
     {
       "start_seconds": 2640,
       "end_seconds": 2730,
@@ -42,7 +23,7 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 4
     },
     {
       "start_seconds": 3180,
@@ -51,7 +32,7 @@
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 5.5,
-      "summary": "Qual que é a ideia desse cara? É isso aqui tá em paz. Tá em paz. Qual que era a minha ideia aqui? Proteger minha promoção aqui. Acho que tá safe. Vamos lá…",
+      "summary": "Não chega a ser ruim. Enquanto isso, o que que esse cara tá com ideias aqui? xeque-mate aqui? Não, né? Ah, por causa desse motherfucker. Tá. Então, melhor eu..…",
       "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
@@ -64,7 +45,7 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 2
+      "transcript_count": 3
     },
     {
       "start_seconds": 3270,
@@ -84,16 +65,36 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 4
     },
     {
-      "start_seconds": 4560,
-      "end_seconds": 4650,
-      "time": "1:16:00",
+      "start_seconds": 4020,
+      "end_seconds": 4110,
+      "time": "1:07:00",
+      "duration": "1:30",
+      "kind": "opening",
+      "score": 4.0,
+      "summary": "Vamos jogar com um humano. Quem sabe... Quem sabe não? Rapid. Bora lá. Hum, Sicilian. Haha, filha da puta. Sicilian. Sicilian…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; abertura ou repertório; raciocínio em voz alta",
+      "signals": [
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "plano ou estratégia",
+        "abertura ou repertório",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 4470,
+      "end_seconds": 4560,
+      "time": "1:14:30",
       "duration": "1:30",
       "kind": "opening",
       "score": 3.7,
-      "summary": "Eu não quis ganhar um cavalinho com a torre e botar o pau na mesa. O Stockfish não é tão reckless. Ele gostaria que eu botasse um peãozinho na mesa. É isso? Não…",
+      "summary": "A Laura cometeu três blunders e duas inaccuracies. Eu cometi um blunder. Eu fui mais accurate. Fui mais preciso que ela. 71 vs 52…",
       "reason": "erro ou momento perdido; tema claro de xadrez; review ou melhor lance; abertura ou repertório; raciocínio em voz alta",
       "signals": [
         "erro ou momento perdido",
@@ -103,13 +104,13 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 4
     },
     {
-      "start_seconds": 4680,
-      "end_seconds": 4761,
-      "time": "1:18:00",
-      "duration": "1:21",
+      "start_seconds": 4590,
+      "end_seconds": 4669,
+      "time": "1:16:30",
+      "duration": "1:19",
       "kind": "review",
       "score": 3.7,
       "summary": "Blunder? Blunder porque eu vou perder a rainha? Eu não preciso jogar de rainha pra jogar. Ah, Stockfish. Olha minha barra como diminui só de fazer isso…",

@@ -36,15 +36,25 @@
 {% set youtube_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".youtube.json" %}
 {% set faster_whisper_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".faster-whisper.json" %}
 {% set whisper_cli_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".whisper-cli.json" %}
+{% set openai_mini_aligned_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".openai-gpt-4o-mini-transcribe.aligned.json" %}
 {% set openai_mini_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".openai-gpt-4o-mini-transcribe.json" %}
+{% set openai_aligned_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".openai-gpt-4o-transcribe.aligned.json" %}
 {% set openai_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".openai-gpt-4o-transcribe.json" %}
 {% set openai_whisper_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".openai-whisper-1.json" %}
 {% set legacy_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".json" %}
 {% set youtube_transcript = load_data(path=youtube_transcript_path, required=false) %}
 {% set faster_whisper_transcript = load_data(path=faster_whisper_transcript_path, required=false) %}
 {% set whisper_cli_transcript = load_data(path=whisper_cli_transcript_path, required=false) %}
+{% set openai_mini_aligned_transcript = load_data(path=openai_mini_aligned_transcript_path, required=false) %}
 {% set openai_mini_transcript = load_data(path=openai_mini_transcript_path, required=false) %}
+{% if openai_mini_aligned_transcript and openai_mini_aligned_transcript.blocks %}
+  {% set openai_mini_transcript = openai_mini_aligned_transcript %}
+{% endif %}
+{% set openai_aligned_transcript = load_data(path=openai_aligned_transcript_path, required=false) %}
 {% set openai_transcript = load_data(path=openai_transcript_path, required=false) %}
+{% if openai_aligned_transcript and openai_aligned_transcript.blocks %}
+  {% set openai_transcript = openai_aligned_transcript %}
+{% endif %}
 {% set openai_whisper_transcript = load_data(path=openai_whisper_transcript_path, required=false) %}
 {% set legacy_transcript = load_data(path=legacy_transcript_path, required=false) %}
 {% set show_youtube_transcript = youtube_transcript and youtube_transcript.blocks %}

@@ -1,0 +1,63 @@
+{
+  "session_number": "0011",
+  "youtube_video_id": "3krJ6EYu6aI",
+  "language": "pt",
+  "source": "openai-api",
+  "source_id": "openai-gpt-4o-transcribe-aligned-to-faster-whisper",
+  "model": "gpt-4o-transcribe",
+  "response_format": "json",
+  "initial_prompt": "Transcrição em português brasileiro de uma live de xadrez. Vocabulário esperado: Lichess, lichess.org, Chess.com, Stockfish, YouTube, Twitch, Restream, GoatCounter, roque, fianchetto, Sicilian Defense, Scandinavian Defense, Puzzle do dia, Puzzle Streak, Puzzle Storm, Puzzle Racer, blunder, rating, mate, xeque, blitz, rapid. Frases comuns: puzzle do dia, resposta com a dama, a resposta é, qual é a resposta. Restream é o nome da plataforma de transmissão, não transcreva como restring.",
+  "block_count": 3,
+  "audio_seconds": 145.125,
+  "elapsed_seconds": 2.755,
+  "estimated_cost_usd": 0.004998,
+  "raw_usage": [
+    {
+      "type": "tokens",
+      "total_tokens": 1681,
+      "input_tokens": 1575,
+      "input_token_details": {
+        "text_tokens": 124,
+        "audio_tokens": 1451
+      },
+      "output_tokens": 106
+    }
+  ],
+  "blocks": [
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "text": "Fiz alguma cagada no setup do YouTube, que mesmo após uma hora e tanto de streaming, o botão Go Live não havia sido pressionado.",
+      "timestamp": "0:00"
+    },
+    {
+      "time": "0:35",
+      "seconds": 35,
+      "text": "Então esta live agendada talvez não tenha sido computada, não tenha sido atrelada àquela que foi transmitida. Shrug. É isso, galera. Fim da stream.",
+      "timestamp": "0:35"
+    },
+    {
+      "time": "2:06",
+      "seconds": 126,
+      "text": "Depois eu vou tentar colocar pelo menos no site a gravação correta, se é que houve alguma gravação. Perdão pela sessão 11, foi um desastre.",
+      "timestamp": "2:06"
+    }
+  ],
+  "timestamp_source": "aligned_to_faster_whisper",
+  "timestamp_reference_source_id": "faster-whisper",
+  "timestamp_alignment": {
+    "method": "partial_text_similarity_windows_with_token_time_interpolation",
+    "threshold": 0.36,
+    "max_window_blocks": 3,
+    "max_candidates": 10,
+    "seek_preroll_seconds": 8,
+    "aligned_blocks": 3,
+    "unaligned_blocks": 0,
+    "block_count": 3,
+    "alignment_rate": 1.0,
+    "mean_score": 0.8934,
+    "min_delta_seconds": -10,
+    "max_delta_seconds": 30,
+    "mean_abs_delta_seconds": 13.33
+  }
+}

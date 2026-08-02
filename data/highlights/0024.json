@@ -1,8 +1,8 @@
 {
   "session_number": "0024",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
@@ -23,12 +23,12 @@
         "pesquisa ou contexto externo"
       ],
       "chat_count": 6,
-      "transcript_count": 3
+      "transcript_count": 4
     },
     {
-      "start_seconds": 750,
-      "end_seconds": 840,
-      "time": "12:30",
+      "start_seconds": 570,
+      "end_seconds": 660,
+      "time": "9:30",
       "duration": "1:30",
       "kind": "training",
       "score": 3.9,
@@ -45,13 +45,13 @@
       "transcript_count": 4
     },
     {
-      "start_seconds": 1110,
-      "end_seconds": 1200,
-      "time": "18:30",
+      "start_seconds": 840,
+      "end_seconds": 930,
+      "time": "14:00",
       "duration": "1:30",
       "kind": "training",
       "score": 4.3,
-      "summary": "Material aqui conta mais do que apego pela dama. Eu acho que a resposta é aqui. Correto, correto. Correto. E no final dessas trocas todas eu vou sair com a torre. Ele nem..…",
+      "summary": "Ele defendeu com o bispo, ameaçando minha rainha. Agora, o que eu tenho pra fazer aqui é... Ganhar o cavalo e trocar as rainhas e sobreviver com um bispo a mais que ele…",
       "reason": "reação forte na fala; tema claro de xadrez; review ou melhor lance; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
@@ -62,16 +62,16 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 4
     },
     {
-      "start_seconds": 2040,
-      "end_seconds": 2130,
-      "time": "34:00",
+      "start_seconds": 1980,
+      "end_seconds": 2070,
+      "time": "33:00",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 3.8,
-      "summary": "E se tiver que quebrar a sequência, quebrou, paciência. Era o peão aqui. Tá bom, streak de 13. O peão ali me dava o quê? Vamos ver como que esse jogo segue…",
+      "summary": "Esse peão aqui é uma opção? Não. Esse peão aqui é uma opção? Também não. Isso aqui com um cheque, trazer esse rei aqui me dá o quê? Nada, né? Não, vamos ganhar essa torre, vai…",
       "reason": "reação forte na fala; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; treino ou puzzle streak",
       "signals": [
         "reação forte na fala",
@@ -82,16 +82,16 @@
         "treino ou puzzle streak"
       ],
       "chat_count": 0,
-      "transcript_count": 4
+      "transcript_count": 5
     },
     {
-      "start_seconds": 4110,
-      "end_seconds": 4200,
-      "time": "1:08:30",
+      "start_seconds": 3990,
+      "end_seconds": 4080,
+      "time": "1:06:30",
       "duration": "1:30",
       "kind": "opening",
       "score": 5.2,
-      "summary": "Não, aqui não tinha essa chance, porque esse cavalo tá justamente pra isso. Então esse cavalo ali pra defender o negócio. Isso. Por isso que..…",
+      "summary": "Legal. Legal. Bom ter isso na cabeça, porque isso aqui acontece muito na minha faixa de 800. Sempre vem um engraçadinho com esse bispo aqui, ó…",
       "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; abertura ou repertório; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
@@ -103,16 +103,16 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 5
     },
     {
-      "start_seconds": 4530,
-      "end_seconds": 4620,
-      "time": "1:15:30",
+      "start_seconds": 4290,
+      "end_seconds": 4380,
+      "time": "1:11:30",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 5.9,
-      "summary": "Mas na linha do check nos reis do centro dele, tem a grande vantagem de impedir o rock, estragar o rock do cara, que eu acho que no jogo eu não estraguei o rock do cara, né?…",
+      "summary": "Eu gosto desse tipo de injeção de saco, mas também não é a solução. Stockfish prefere... Check, claro. Check é sempre bom. Então tá…",
       "reason": "reação forte na fala; erro ou momento perdido; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
@@ -125,7 +125,7 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 5
     }
   ]
 }

@@ -1,30 +1,31 @@
 {
   "session_number": "0005",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 1500,
-      "end_seconds": 1590,
-      "time": "25:00",
+      "start_seconds": 1620,
+      "end_seconds": 1710,
+      "time": "27:00",
       "duration": "1:30",
       "kind": "training",
-      "score": 3.95,
-      "summary": "1, 2, 3 também. Fazer ele de bobo. Driblei o motherfucker. Agora é com ele. Agora é com você. Beleza. Pronto. Ah, tá. É, são tipo de situação…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; treino ou puzzle streak",
+      "score": 4.35,
+      "summary": "Isso aqui é um cheque válido. Isso aqui não. Tá. Se eu vier aqui, cheque. Ninguém come minha rainha. O cara tem que fugir. Esse parece o primeiro passo. Errado. Ah, caralho…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
         "1 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
-        "treino ou puzzle streak"
+        "treino ou puzzle streak",
+        "raciocínio em voz alta"
       ],
       "chat_count": 1,
-      "transcript_count": 3
+      "transcript_count": 4
     },
     {
       "start_seconds": 1800,
@@ -32,24 +33,25 @@
       "time": "30:00",
       "duration": "1:30",
       "kind": "training",
-      "score": 3.85,
-      "summary": "Eu só consegui um streak de 6. É mais que 5. Eu tô satisfeito. 31 minutos. Sessãozinha extra, né? Vamos jogar com um ser humano. Play. Come out and play. 10 mais 0 rápido…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; abertura ou repertório; treino ou puzzle streak",
+      "score": 4.55,
+      "summary": "Se a minha rainha estivesse aqui, não seria fácil de pegar. Agora eu entendi a vantagem. Tá bom. Então tá. Recomeçando. O adversário tem um cavalo que pode vim pra cá…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; plano ou estratégia; abertura ou repertório; treino ou puzzle streak",
       "signals": [
         "1 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
         "reação forte na fala",
         "tema claro de xadrez",
+        "plano ou estratégia",
         "abertura ou repertório",
         "treino ou puzzle streak"
       ],
       "chat_count": 1,
-      "transcript_count": 2
+      "transcript_count": 4
     },
     {
-      "start_seconds": 1980,
-      "end_seconds": 2070,
-      "time": "33:00",
+      "start_seconds": 1950,
+      "end_seconds": 2040,
+      "time": "32:30",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 4.3,
@@ -68,9 +70,9 @@
       "transcript_count": 3
     },
     {
-      "start_seconds": 2970,
-      "end_seconds": 3060,
-      "time": "49:30",
+      "start_seconds": 2910,
+      "end_seconds": 3000,
+      "time": "48:30",
       "duration": "1:30",
       "kind": "review",
       "score": 2.9,
@@ -86,27 +88,28 @@
       "transcript_count": 2
     },
     {
-      "start_seconds": 3120,
-      "end_seconds": 3210,
-      "time": "52:00",
+      "start_seconds": 3060,
+      "end_seconds": 3150,
+      "time": "51:00",
       "duration": "1:30",
       "kind": "review",
-      "score": 3.3,
+      "score": 4.0,
       "summary": "Bloquear aqui. Beleza. É pior do que deixar hanging for... É meu bait, pô. Deixa meu bait. Stockfish acha que isso foi uma jogada ruim…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia",
       "signals": [
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
-        "review ou melhor lance"
+        "review ou melhor lance",
+        "plano ou estratégia"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 4
     },
     {
-      "start_seconds": 3390,
-      "end_seconds": 3480,
-      "time": "56:30",
+      "start_seconds": 3270,
+      "end_seconds": 3360,
+      "time": "54:30",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 4.7,

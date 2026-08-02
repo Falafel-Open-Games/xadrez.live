@@ -1,8 +1,8 @@
 {
   "session_number": "0030",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
@@ -46,90 +46,94 @@
       "transcript_count": 3
     },
     {
-      "start_seconds": 4110,
-      "end_seconds": 4200,
-      "time": "1:08:30",
+      "start_seconds": 3930,
+      "end_seconds": 4020,
+      "time": "1:05:30",
       "duration": "1:30",
       "kind": "review",
-      "score": 5.6,
-      "summary": "Pra ele sair desgarrado o peão da base seria o best move pra branco aqui, ó. Não é estranho? Zugzug. Today learning... Que é zugzug. Zug... Zugzug. Zugzwang. Pronounced Zugzwang…",
-      "reason": "8 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; interação com o chat; review ou melhor lance",
-      "signals": [
-        "8 mensagem(ns) no chat",
-        "chat e fala no mesmo trecho",
-        "reação forte na fala",
-        "tema claro de xadrez",
-        "interação com o chat",
-        "review ou melhor lance"
-      ],
-      "chat_count": 8,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 5250,
-      "end_seconds": 5340,
-      "time": "1:27:30",
-      "duration": "1:30",
-      "kind": "time-pressure",
       "score": 5.95,
-      "summary": "essa capivarada me custou partida. Ah, será que eu devo fazer isso aqui agora? Acho que sim. 20 segundos. 20 segundos! Tu-tu-tu! Pra trazer a torre aqui…",
-      "reason": "5 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
+      "summary": "Ah, porque teve mais coisa depois. Tá, tá, tá, tá. Isso aqui que era a resposta certa. Tá certo, tá certo. Então tá. Se alguém puder me explicar... Por que que nessa situação..…",
+      "reason": "5 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
       "signals": [
         "5 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
-        "erro ou momento perdido",
+        "reação forte na fala",
         "tema claro de xadrez",
+        "review ou melhor lance",
         "plano ou estratégia",
-        "pressão no relógio",
-        "plano sob pressão de tempo",
         "raciocínio em voz alta"
       ],
       "chat_count": 5,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 5220,
+      "end_seconds": 5310,
+      "time": "1:27:00",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 7.2,
+      "summary": "Eu queira no middle game preservar mais minha dama. Eu achei que 4 minutos era suficiente pra eu... manejar um endgame vantajoso pra mim. Não foi. Perdi por tempo…",
+      "reason": "4 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório",
+      "signals": [
+        "4 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo",
+        "abertura ou repertório"
+      ],
+      "chat_count": 4,
       "transcript_count": 3
     },
     {
-      "start_seconds": 5610,
-      "end_seconds": 5700,
-      "time": "1:33:30",
+      "start_seconds": 6210,
+      "end_seconds": 6300,
+      "time": "1:43:30",
       "duration": "1:30",
-      "kind": "review",
-      "score": 5.45,
-      "summary": "GG. Deixa eu cadastrar esse jogo. Bom, depois eu cadastro. Deixa eu... A análise tá pronta aqui, ó. Olha, o jogo teve praticamente uma boa parte do meu lado…",
-      "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
+      "kind": "time-pressure",
+      "score": 7.75,
+      "summary": "Esse aqui o Stockfish não gosta. O que teria sido melhor do que fazer isso aqui? Botar a cravada lá teria sido... Teria sido ruim também…",
+      "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
       "signals": [
         "3 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
-        "review ou melhor lance",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 3,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 6240,
-      "end_seconds": 6330,
-      "time": "1:44:00",
-      "duration": "1:30",
-      "kind": "time-pressure",
-      "score": 7.2,
-      "summary": "Esse aqui o Stockfish não gosta. O que teria sido melhor do que fazer isso aqui? Botar a cravada lá teria sido... Teria sido ruim também…",
-      "reason": "4 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
-      "signals": [
-        "4 mensagem(ns) no chat",
-        "chat e fala no mesmo trecho",
-        "reação forte na fala",
-        "erro ou momento perdido",
+        "interação com o chat",
         "review ou melhor lance",
         "plano ou estratégia",
         "pressão no relógio",
         "plano sob pressão de tempo",
         "raciocínio em voz alta"
       ],
-      "chat_count": 4,
-      "transcript_count": 3
+      "chat_count": 3,
+      "transcript_count": 5
+    },
+    {
+      "start_seconds": 6420,
+      "end_seconds": 6510,
+      "time": "1:47:00",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 5.1,
+      "summary": "Esse era o momento. Então, a boa jogada. Esse foi blunder do meu lado E4…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
+      "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 2,
+      "transcript_count": 6
     }
   ]
 }

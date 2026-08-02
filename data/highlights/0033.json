@@ -1,8 +1,8 @@
 {
   "session_number": "0033",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
@@ -13,7 +13,7 @@
       "duration": "1:30",
       "kind": "training",
       "score": 5.4,
-      "summary": "Tá vendo que não tem ninguém defendendo esse peão aqui. Fazer setas hoje vai ser difícil. Levar esse rei aqui. É uma outra ideia. Tem um carinha aqui muito perto da promoção…",
+      "summary": "Já veio chegar o bote aqui na Twitch. Deu um deny no spammer. Tá tudo certo. Bom, hoje eu vou tentar fazer essa live mais rápida. Começou mais cedo e vai terminar mais cedo…",
       "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
         "2 mensagem(ns) no chat",
@@ -26,17 +26,17 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 2,
-      "transcript_count": 3
+      "transcript_count": 4
     },
     {
-      "start_seconds": 1290,
-      "end_seconds": 1380,
-      "time": "21:30",
+      "start_seconds": 1260,
+      "end_seconds": 1350,
+      "time": "21:00",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 4.3,
-      "summary": "Tá todo molhado já. Negócio é sem canudo. Vamos embora. Como é que tá lá? Minha dama. A dama dele tá protegida…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
+      "score": 5.1,
+      "summary": "Devia ter visto isso antes da live, né? Tudo bem. Puzzle de número 2 na sequência. Nesse puzzle, quem joga são as brancas. Nossa senhora, que tanto mal…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
         "erro ou momento perdido",
@@ -44,15 +44,16 @@
         "plano ou estratégia",
         "pressão no relógio",
         "plano sob pressão de tempo",
+        "treino ou puzzle streak",
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 2
+      "transcript_count": 3
     },
     {
-      "start_seconds": 1440,
-      "end_seconds": 1530,
-      "time": "24:00",
+      "start_seconds": 1380,
+      "end_seconds": 1470,
+      "time": "23:00",
       "duration": "1:30",
       "kind": "mistake",
       "score": 3.2,
@@ -66,16 +67,16 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 4
     },
     {
-      "start_seconds": 2190,
-      "end_seconds": 2280,
-      "time": "36:30",
+      "start_seconds": 1950,
+      "end_seconds": 2040,
+      "time": "32:30",
       "duration": "1:30",
       "kind": "training",
       "score": 4.0,
-      "summary": "Caramba, não tô enxergando as coisas. Ah, essa rainha tá defendendo esse peão aqui também. Não sei. Eu acho que é errado trocar a rainha aqui. Ah..…",
+      "summary": "Faz sentido. Se eu trocar a rainha aqui, ele vai ficar com duas torres. Essa coluna vai estar completamente tomada. Eu vou ter que continuar minha vida só com a torre aqui…",
       "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
@@ -86,7 +87,7 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 2
+      "transcript_count": 3
     },
     {
       "start_seconds": 2580,
@@ -107,9 +108,9 @@
       "transcript_count": 3
     },
     {
-      "start_seconds": 3120,
-      "end_seconds": 3210,
-      "time": "52:00",
+      "start_seconds": 3090,
+      "end_seconds": 3180,
+      "time": "51:30",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 4.7,

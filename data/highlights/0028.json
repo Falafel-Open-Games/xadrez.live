@@ -1,15 +1,15 @@
 {
   "session_number": "0028",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 2430,
-      "end_seconds": 2520,
-      "time": "40:30",
+      "start_seconds": 2400,
+      "end_seconds": 2490,
+      "time": "40:00",
       "duration": "1:30",
       "kind": "research",
       "score": 3.2,
@@ -21,28 +21,6 @@
         "consulta em fonte externa"
       ],
       "chat_count": 0,
-      "transcript_count": 2
-    },
-    {
-      "start_seconds": 4650,
-      "end_seconds": 4740,
-      "time": "1:17:30",
-      "duration": "1:30",
-      "kind": "mistake",
-      "score": 5.45,
-      "summary": "Puta, não vi. Bom, na verdade esse cavalo tava lá defendido, né? A rainha come. Eu ainda quero alguma coisa aqui? Trocar. Troca. Ele se quiser meu bispo pode vim pegar. Aí eu..…",
-      "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; plano ou estratégia; raciocínio em voz alta",
-      "signals": [
-        "3 mensagem(ns) no chat",
-        "chat e fala no mesmo trecho",
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "interação com o chat",
-        "plano ou estratégia",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 3,
       "transcript_count": 3
     },
     {
@@ -50,10 +28,10 @@
       "end_seconds": 5040,
       "time": "1:22:30",
       "duration": "1:30",
-      "kind": "review",
-      "score": 5.1,
+      "kind": "opening",
+      "score": 5.9,
       "summary": "Tertariar enxergando boas oportunidades. Aonde que eu me salvava do empate aqui? Deixa eu ver. Eu acho que vai passar, acho que o Stockfish vai enxergar o que você enxergou…",
-      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; abertura ou repertório; raciocínio em voz alta",
       "signals": [
         "2 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
@@ -61,15 +39,40 @@
         "erro ou momento perdido",
         "tema claro de xadrez",
         "review ou melhor lance",
+        "abertura ou repertório",
         "raciocínio em voz alta"
       ],
       "chat_count": 2,
-      "transcript_count": 3
+      "transcript_count": 5
     },
     {
-      "start_seconds": 6390,
-      "end_seconds": 6480,
-      "time": "1:46:30",
+      "start_seconds": 5130,
+      "end_seconds": 5220,
+      "time": "1:25:30",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 6.55,
+      "summary": "Já passei por ela. Isso, era mais ou menos aqui. Esse foi o necrise dele. A minha boa jogada teria sido isso. E essa linha continua com um joguinho complicado aqui…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; raciocínio em voz alta",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo",
+        "abertura ou repertório",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 1,
+      "transcript_count": 6
+    },
+    {
+      "start_seconds": 6600,
+      "end_seconds": 6690,
+      "time": "1:50:00",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 6.5,
@@ -90,47 +93,45 @@
       "transcript_count": 3
     },
     {
-      "start_seconds": 7290,
-      "end_seconds": 7380,
-      "time": "2:01:30",
+      "start_seconds": 6720,
+      "end_seconds": 6810,
+      "time": "1:52:00",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 5.1,
+      "summary": "Ó, o Stockfish já deu o spoiler aqui de que seria peão aqui. Peão aqui, moçada. Tá defendido pelo cavalo. Legal. Cara, não enxerguei isso aqui…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
+      "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 2,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 7260,
+      "end_seconds": 7350,
+      "time": "2:01:00",
       "duration": "1:30",
       "kind": "opening",
-      "score": 6.25,
+      "score": 5.85,
       "summary": "Nossa, esse primeiro foi mais grave na real, porque o começo eu levei bem a abertura ali, né? Até certo ponto da Rui Lopes Bird Variation eu não estava fazendo feio…",
-      "reason": "5 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; review ou melhor lance; pressão no relógio; abertura ou repertório",
+      "reason": "5 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; review ou melhor lance; pressão no relógio; abertura ou repertório",
       "signals": [
         "5 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
         "reação forte na fala",
-        "tema claro de xadrez",
         "review ou melhor lance",
         "pressão no relógio",
         "abertura ou repertório"
       ],
       "chat_count": 5,
       "transcript_count": 3
-    },
-    {
-      "start_seconds": 7560,
-      "end_seconds": 7650,
-      "time": "2:06:00",
-      "duration": "1:30",
-      "kind": "time-pressure",
-      "score": 5.0,
-      "summary": "Eu fiquei com medo do relógio. E me contentei com o empate. Tá. Esse foi o jogo 1. Bird Variation, Rui Lopes, cadastrado. E esse aqui contra o P Mancial foi a derrota…",
-      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; interação com o chat; pressão no relógio; abertura ou repertório; raciocínio em voz alta",
-      "signals": [
-        "2 mensagem(ns) no chat",
-        "chat e fala no mesmo trecho",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "interação com o chat",
-        "pressão no relógio",
-        "abertura ou repertório",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 2,
-      "transcript_count": 4
     }
   ]
 }

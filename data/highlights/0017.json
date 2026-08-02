@@ -1,21 +1,23 @@
 {
   "session_number": "0017",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 840,
-      "end_seconds": 930,
-      "time": "14:00",
+      "start_seconds": 450,
+      "end_seconds": 540,
+      "time": "7:30",
       "duration": "1:30",
       "kind": "training",
-      "score": 3.8,
-      "summary": "Ah, puzzle do dia. Eu sou as pretas. Puzzle do dia. Eu sou as pretas. Deixa eu ver aqui. Vou dar um bom dia pro chat do YouTube aqui. Hum... YouTube, sign in…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; treino ou puzzle streak; raciocínio em voz alta",
+      "score": 4.85,
+      "summary": "Ele entrou na frente de um negócio que é da interface do Lichess, que é importante de eu enxergar, que é isso aqui. Então, a primeira versão desse user script, então, tudo bem…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
@@ -23,42 +25,22 @@
         "treino ou puzzle streak",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 3
+      "chat_count": 1,
+      "transcript_count": 4
     },
     {
       "start_seconds": 2070,
       "end_seconds": 2160,
       "time": "34:30",
       "duration": "1:30",
-      "kind": "review",
-      "score": 4.0,
-      "summary": "Ah, o rei dele tá numa diagonal escura. Então... Talvez eu possa entrar com meu bispo aqui pra não perder a torre. O rei dele vem pra cá. Eu cato a torre dele, tá? Tá, tá, tá, tá…",
-      "reason": "reação forte na fala; tema claro de xadrez; interação com o chat; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
+      "kind": "training",
+      "score": 4.3,
+      "summary": "Essa minha ideia 1 parece fazer sentido. Ideia número 1 é isso. Vamos ver se tem coisa melhor que isso pra fazer. Deve ser o best move…",
+      "reason": "reação forte na fala; tema claro de xadrez; review ou melhor lance; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
         "tema claro de xadrez",
-        "interação com o chat",
         "review ou melhor lance",
-        "plano ou estratégia",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 2340,
-      "end_seconds": 2430,
-      "time": "39:00",
-      "duration": "1:30",
-      "kind": "training",
-      "score": 3.7,
-      "summary": "Se tivesse coisas aqui, seria interessante, porque o peão não faz nada disso, né? Mas aqui eu tô dando um bispo, sendo que eu podia estar dando um peão…",
-      "reason": "erro ou momento perdido; tema claro de xadrez; interação com o chat; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
-      "signals": [
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "interação com o chat",
         "plano ou estratégia",
         "treino ou puzzle streak",
         "raciocínio em voz alta"
@@ -71,13 +53,35 @@
       "end_seconds": 2580,
       "time": "41:30",
       "duration": "1:30",
-      "kind": "opening",
-      "score": 4.6,
+      "kind": "time-pressure",
+      "score": 6.8,
       "summary": "Jogar um casual, né? Se bem que chat tá bem mudo, poderia jogar ranqueada. Acho que não tem problema. Ninguém vai me acusar de nada porque o chat tá mudo. Vou jogar..…",
-      "reason": "reação forte na fala; erro ou momento perdido; interação com o chat; review ou melhor lance; abertura ou repertório; raciocínio em voz alta",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
         "erro ou momento perdido",
+        "tema claro de xadrez",
+        "interação com o chat",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo",
+        "abertura ou repertório",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 2700,
+      "end_seconds": 2790,
+      "time": "45:00",
+      "duration": "1:30",
+      "kind": "opening",
+      "score": 2.9,
+      "summary": "Ah, me ofereceu um empate. Não, cara. Casual. Vamos jogar mais um pouquinho. Casual. Nós dois estamos com bastante peça ainda, cara. Vamos jogar mais um pouquinho antes de..…",
+      "reason": "interação com o chat; review ou melhor lance; abertura ou repertório; raciocínio em voz alta",
+      "signals": [
         "interação com o chat",
         "review ou melhor lance",
         "abertura ou repertório",
@@ -87,9 +91,9 @@
       "transcript_count": 3
     },
     {
-      "start_seconds": 3030,
-      "end_seconds": 3120,
-      "time": "50:30",
+      "start_seconds": 2940,
+      "end_seconds": 3030,
+      "time": "49:00",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 4.7,
@@ -108,9 +112,9 @@
       "transcript_count": 4
     },
     {
-      "start_seconds": 3210,
-      "end_seconds": 3300,
-      "time": "53:30",
+      "start_seconds": 3090,
+      "end_seconds": 3180,
+      "time": "51:30",
       "duration": "1:30",
       "kind": "review",
       "score": 3.6,
@@ -124,7 +128,7 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 4
     }
   ]
 }

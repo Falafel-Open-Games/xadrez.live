@@ -1,19 +1,39 @@
 {
   "session_number": "0001",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 0,
-      "end_seconds": 90,
-      "time": "0:00",
+      "start_seconds": 120,
+      "end_seconds": 210,
+      "time": "2:00",
       "duration": "1:30",
       "kind": "training",
       "score": 3.8,
-      "summary": "Live streaming. Excelente. Live streaming. Where is my streaming? Live. Latest. Chess sessions. Então, Twitter. What is happening? Fuck, não. Ok. What's happening? Learning…",
+      "summary": "Practicing chess. Practice. English, English. Cadê meu dictionary? Ué, tá errado? Practicing, tá certo. Não sei o que que eu tô falando. Practicing chess…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; treino ou puzzle streak; raciocínio em voz alta",
+      "signals": [
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "interação com o chat",
+        "treino ou puzzle streak",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
+      "transcript_count": 2
+    },
+    {
+      "start_seconds": 360,
+      "end_seconds": 450,
+      "time": "6:00",
+      "duration": "1:30",
+      "kind": "training",
+      "score": 3.8,
+      "summary": "Talvez seja errado ganhar o cavalo ao invés de ficar insistindo nos checks. Ah, checkinho com o peão parece bom aqui. All right. Um. Tentar fazer uma sequência de cinco sem errar…",
       "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
@@ -27,55 +47,13 @@
       "transcript_count": 3
     },
     {
-      "start_seconds": 180,
-      "end_seconds": 270,
-      "time": "3:00",
-      "duration": "1:30",
-      "kind": "training",
-      "score": 6.05,
-      "summary": "Best black movie. O que temos? Temos oportunidade de check. Parece que um rei na casa branca. Vamos lá. Por onde começar, né? Aqui, pronto. Check. Achei o best move. Keep going…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance; treino ou puzzle streak; raciocínio em voz alta",
-      "signals": [
-        "1 mensagem(ns) no chat",
-        "chat e fala no mesmo trecho",
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "interação com o chat",
-        "review ou melhor lance",
-        "treino ou puzzle streak",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 1,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 270,
-      "end_seconds": 360,
-      "time": "4:30",
-      "duration": "1:30",
-      "kind": "mistake",
-      "score": 3.0,
-      "summary": "Esses puzzles, eles vão incrementando a dificuldade. Então, ainda bem que eu não errei o fácil, né? Branco. Melhor movimento para o branco. Branco..…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; raciocínio em voz alta",
-      "signals": [
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "interação com o chat",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 2070,
-      "end_seconds": 2160,
-      "time": "34:30",
+      "start_seconds": 2040,
+      "end_seconds": 2130,
+      "time": "34:00",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 4.3,
-      "summary": "Eu vou achar que não é cheque. Muito provavelmente o que ele quer, o primeiro passo é aqui. Mas eu não tô conseguindo enxergar…",
+      "summary": "Vai trazer a rainha aqui pro jogo. Traz a rainha aqui. Vamos falar. Aí eu levo minha torre aqui. Já é xeque-mate. Não, porque eu quero... pode... A rainha dele vai tá aqui…",
       "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; pressão no relógio; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
@@ -86,16 +64,16 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 4
     },
     {
-      "start_seconds": 2250,
-      "end_seconds": 2340,
-      "time": "37:30",
+      "start_seconds": 2190,
+      "end_seconds": 2280,
+      "time": "36:30",
       "duration": "1:30",
       "kind": "review",
       "score": 3.6,
-      "summary": "Fugir pra cá, parece uma boa. Eu sou preto. Não é legal ficar, né? Muito na defensiva. Eu não faço ideia. Tá. Fugi de volta, continuar o meu jogo de develop as coisas…",
+      "summary": "Mas pra isso ela precisaria do bispo aqui do outro lado pra me catar. Quando ele chegar aqui, eu tenho muitas opções. Foda-se. Ah, é um erro jogar esse peão aqui…",
       "reason": "erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
       "signals": [
         "erro ou momento perdido",
@@ -105,24 +83,40 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 4
     },
     {
-      "start_seconds": 6990,
-      "end_seconds": 7080,
-      "time": "1:56:30",
+      "start_seconds": 7020,
+      "end_seconds": 7110,
+      "time": "1:57:00",
       "duration": "1:30",
-      "kind": "time-pressure",
-      "score": 4.6,
-      "summary": "Abençoa meu bispo. Cavalo por um bispo. Tá valendo a pena? Cavalo por um bispo. Talvez esteja valendo a pena. Bom, sem pensar muito. Cavalo por um bispo. Tá…",
-      "reason": "reação forte na fala; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
+      "kind": "review",
+      "score": 2.7,
+      "summary": "Troca aí, please. Ah, não quis. Não gostou da minha ideia. Então... Eu devia ter catado o negócio... Ah não, tinha um peão na frente. Tá bom. Alright, alright…",
+      "reason": "tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
       "signals": [
-        "reação forte na fala",
         "tema claro de xadrez",
         "review ou melhor lance",
         "plano ou estratégia",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
+      "transcript_count": 2
+    },
+    {
+      "start_seconds": 7770,
+      "end_seconds": 7860,
+      "time": "2:09:30",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 3.9,
+      "summary": "Que que eu vou fazer com quatro segundos? Não sei porque que ele fez isso, foda-se. Tá bom, agora vamos andar com esse cara. Zero…",
+      "reason": "reação forte na fala; erro ou momento perdido; review ou melhor lance; pressão no relógio; raciocínio em voz alta",
+      "signals": [
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "review ou melhor lance",
         "pressão no relógio",
-        "plano sob pressão de tempo",
         "raciocínio em voz alta"
       ],
       "chat_count": 0,

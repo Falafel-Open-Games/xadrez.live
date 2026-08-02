@@ -1,15 +1,15 @@
 {
   "session_number": "0004",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 90,
-      "end_seconds": 180,
-      "time": "1:30",
+      "start_seconds": 60,
+      "end_seconds": 150,
+      "time": "1:00",
       "duration": "1:30",
       "kind": "research",
       "score": 3.7,
@@ -23,39 +23,18 @@
         "pesquisa ou contexto externo"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 4
     },
     {
-      "start_seconds": 270,
-      "end_seconds": 360,
-      "time": "4:30",
+      "start_seconds": 330,
+      "end_seconds": 420,
+      "time": "5:30",
       "duration": "1:30",
       "kind": "training",
-      "score": 4.5,
-      "summary": "Eu acho que o começo do puzzle é aqui. Errei o puzzle do dia. Muito bem. Não era comer a resposta também não. Sei lá, vamos ver a resposta. Puzzle do dia…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; treino ou puzzle streak; raciocínio em voz alta",
+      "score": 3.5,
+      "summary": "Não falar que eu quero impedir esse runner. Será que é esse o começo? Não. Get a hint. Esse cara... Por que que move esse cara, ele come minha torre…",
+      "reason": "tema claro de xadrez; review ou melhor lance; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "review ou melhor lance",
-        "treino ou puzzle streak",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 390,
-      "end_seconds": 480,
-      "time": "6:30",
-      "duration": "1:30",
-      "kind": "training",
-      "score": 4.3,
-      "summary": "Promover aqui na diagonal, a torre não pode fazer nada. Essa era a solução do puzzle. Entendi. Então, uma vez vale deixar um aprendizado aqui…",
-      "reason": "reação forte na fala; tema claro de xadrez; review ou melhor lance; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
-      "signals": [
-        "reação forte na fala",
         "tema claro de xadrez",
         "review ou melhor lance",
         "plano ou estratégia",
@@ -63,20 +42,40 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 510,
+      "end_seconds": 600,
+      "time": "8:30",
+      "duration": "1:30",
+      "kind": "training",
+      "score": 3.4,
+      "summary": "Bom, eu posso diminuir o tamanho da caixa, né? Pronto. É isso que eu quero. Não vamos perder tempo nisso. Na agenda, próximo aquecimento aqui…",
+      "reason": "tema claro de xadrez; review ou melhor lance; pressão no relógio; treino ou puzzle streak; raciocínio em voz alta",
+      "signals": [
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "pressão no relógio",
+        "treino ou puzzle streak",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
       "transcript_count": 3
     },
     {
-      "start_seconds": 1950,
-      "end_seconds": 2040,
-      "time": "32:30",
+      "start_seconds": 1920,
+      "end_seconds": 2010,
+      "time": "32:00",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 4.2,
+      "score": 4.7,
       "summary": "A resposta é ganhar uma torre. É isso, né? Pau, pega aí. Vantagem material. Muito bem. Esse foi o puzzle 5. Opa, então deu ok aqui…",
-      "reason": "reação forte na fala; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; treino ou puzzle streak; raciocínio em voz alta",
+      "reason": "reação forte na fala; tema claro de xadrez; interação com o chat; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
         "tema claro de xadrez",
+        "interação com o chat",
         "plano ou estratégia",
         "pressão no relógio",
         "plano sob pressão de tempo",
@@ -84,19 +83,19 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 4
     },
     {
-      "start_seconds": 4530,
-      "end_seconds": 4620,
-      "time": "1:15:30",
+      "start_seconds": 4080,
+      "end_seconds": 4170,
+      "time": "1:08:00",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 3.1,
-      "summary": "Come esse cara aqui, vai. Isso. Cheque. All right. Ah... Não devia ter feito isso. Burro. Agora eu perdi minha vantagem. Esse cavalo tá longe demais, né? Cheque. Hum..…",
-      "reason": "erro ou momento perdido; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo",
+      "score": 3.0,
+      "summary": "Que que eu ganho com isso? Libera essa diagonal pra alguma coisa. Pinar a torre dele. Não é grandes coisas, mas... Esse cara não tá querendo nenhum funny business não, né? Tá bom…",
+      "reason": "reação forte na fala; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo",
       "signals": [
-        "erro ou momento perdido",
+        "reação forte na fala",
         "tema claro de xadrez",
         "plano ou estratégia",
         "pressão no relógio",
@@ -106,21 +105,23 @@
       "transcript_count": 3
     },
     {
-      "start_seconds": 5670,
-      "end_seconds": 5746,
-      "time": "1:34:30",
-      "duration": "1:16",
+      "start_seconds": 5520,
+      "end_seconds": 5610,
+      "time": "1:32:00",
+      "duration": "1:30",
       "kind": "review",
-      "score": 2.5,
-      "summary": "Acabou. Revisado. Review, ok. Nossa Senhora, 1h36min. Vou encerrar por aqui. Eu preencho essas coisas offline. Valeu.",
-      "reason": "reação forte na fala; interação com o chat; review ou melhor lance",
+      "score": 3.5,
+      "summary": "diminui minha barra do mesmo jeito. Stockfish às vezes fuma um que é uma brincadeira, né? Olha as fumadas do Stockfish, pra quê? Caralho, não faz sentido nenhum…",
+      "reason": "reação forte na fala; tema claro de xadrez; interação com o chat; review ou melhor lance; pressão no relógio",
       "signals": [
         "reação forte na fala",
+        "tema claro de xadrez",
         "interação com o chat",
-        "review ou melhor lance"
+        "review ou melhor lance",
+        "pressão no relógio"
       ],
       "chat_count": 0,
-      "transcript_count": 1
+      "transcript_count": 3
     }
   ]
 }

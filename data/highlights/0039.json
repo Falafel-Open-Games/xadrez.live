@@ -1,8 +1,8 @@
 {
   "session_number": "0039",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
@@ -29,29 +29,6 @@
       "transcript_count": 3
     },
     {
-      "start_seconds": 690,
-      "end_seconds": 780,
-      "time": "11:30",
-      "duration": "1:30",
-      "kind": "time-pressure",
-      "score": 5.35,
-      "summary": "Os puzzles do começo costumam ser mais fáceis. Então, sem pensar muito, cheque aqui. Correto. Segundo puzzle da sequência. Quem joga são as brancas. Sem pensar muito, cheque aqui…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; treino ou puzzle streak; raciocínio em voz alta",
-      "signals": [
-        "1 mensagem(ns) no chat",
-        "chat e fala no mesmo trecho",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "plano ou estratégia",
-        "pressão no relógio",
-        "plano sob pressão de tempo",
-        "treino ou puzzle streak",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 1,
-      "transcript_count": 3
-    },
-    {
       "start_seconds": 1050,
       "end_seconds": 1140,
       "time": "17:30",
@@ -68,24 +45,24 @@
         "pesquisa ou contexto externo"
       ],
       "chat_count": 1,
-      "transcript_count": 3
+      "transcript_count": 2
     },
     {
-      "start_seconds": 2700,
-      "end_seconds": 2790,
-      "time": "45:00",
+      "start_seconds": 2370,
+      "end_seconds": 2460,
+      "time": "39:30",
       "duration": "1:30",
       "kind": "training",
-      "score": 5.9,
-      "summary": "Eu tô levando adiante um puzzle que eu já errei, só pra ver se eu fico melhor de endgame. Ah, sério, Stockfish? Esse distanciar do pião pra quê? Pra não afogar o rei? Hum..…",
-      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; treino ou puzzle streak; raciocínio em voz alta",
+      "score": 5.4,
+      "summary": "exato, até para... é, eu acho que é o rei na real, viu? Então tá. Eu acho que limpar o caminho primeiro. Ameaçando a torre. Se a torre vier dar cheque, eu como a torre…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
         "2 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
-        "review ou melhor lance",
+        "plano ou estratégia",
         "treino ou puzzle streak",
         "raciocínio em voz alta"
       ],
@@ -93,48 +70,72 @@
       "transcript_count": 3
     },
     {
-      "start_seconds": 3720,
-      "end_seconds": 3810,
-      "time": "1:02:00",
-      "duration": "1:30",
-      "kind": "review",
-      "score": 5.05,
-      "summary": "Lara, você pensa mais rápido que eu. Você ganhou amistosa. Nossa, eu não quero nem ver análise aqui. Vai dar 10 blunders pro meu lado…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia",
-      "signals": [
-        "1 mensagem(ns) no chat",
-        "chat e fala no mesmo trecho",
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "review ou melhor lance",
-        "plano ou estratégia"
-      ],
-      "chat_count": 1,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 3810,
-      "end_seconds": 3900,
-      "time": "1:03:30",
+      "start_seconds": 3690,
+      "end_seconds": 3780,
+      "time": "1:01:30",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 6.2,
-      "summary": "Meu problema maior nessa partida foi o controle do tempo mesmo, eu acho. Uma das capivaradas com certeza vai ser o que o Daniel Rocha falou aqui. Cadê? Peraí. Ah, capivaradas…",
-      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance; pressão no relógio; raciocínio em voz alta",
+      "score": 6.5,
+      "summary": "É blunder. Blunders, blunders. I don't know. Oh my God. Hoteyes cavalo pra algum lugar. Blunders e mais blunders. 0 segundos. Acabou meu tempo. Tô fudido. Perdi um jogão…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo",
       "signals": [
         "2 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo"
+      ],
+      "chat_count": 2,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 3810,
+      "end_seconds": 3900,
+      "time": "1:03:30",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 4.8,
+      "summary": "Ali no fim de jogo, depois que você entrou, ô Daniel, foi em algum momento aqui, né, que você falou que tinha o bispo para B2. B... Eu ainda tinha um bispo no jogo, tá…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance; raciocínio em voz alta",
+      "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
         "interação com o chat",
         "review ou melhor lance",
-        "pressão no relógio",
         "raciocínio em voz alta"
       ],
       "chat_count": 2,
-      "transcript_count": 3
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 3900,
+      "end_seconds": 3990,
+      "time": "1:05:00",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 6.9,
+      "summary": "Então, eu ainda acho que se a gente colocar os movimentos da máquina, eu ter pego o bispo, um bispo vale mais que um cavalo, ainda talvez seria uma coisa mais interessante, né?…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
+      "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 2,
+      "transcript_count": 4
     }
   ]
 }

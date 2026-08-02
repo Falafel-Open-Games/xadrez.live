@@ -1,8 +1,8 @@
 {
   "session_number": "0020",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
@@ -24,12 +24,12 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 4
     },
     {
-      "start_seconds": 1440,
-      "end_seconds": 1530,
-      "time": "24:00",
+      "start_seconds": 1410,
+      "end_seconds": 1500,
+      "time": "23:30",
       "duration": "1:30",
       "kind": "review",
       "score": 4.4,
@@ -47,9 +47,9 @@
       "transcript_count": 3
     },
     {
-      "start_seconds": 1980,
-      "end_seconds": 2070,
-      "time": "33:00",
+      "start_seconds": 1950,
+      "end_seconds": 2040,
+      "time": "32:30",
       "duration": "1:30",
       "kind": "training",
       "score": 4.3,
@@ -64,7 +64,7 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 4
     },
     {
       "start_seconds": 2610,
@@ -87,7 +87,7 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 4
     },
     {
       "start_seconds": 3750,
@@ -95,41 +95,42 @@
       "time": "1:02:30",
       "duration": "1:30",
       "kind": "training",
-      "score": 5.3,
-      "summary": "Isso é o melhor que eu consegui pensar até o momento. Vou com ela, foda-se. Errado. Puta Stockfish não tem dó de sacrificar peça, vamos ver…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; abertura ou repertório; treino ou puzzle streak; raciocínio em voz alta",
+      "score": 6.0,
+      "summary": "Essa é a minha melhor ideia até o momento. Reforçar a pressão em cima dessa casa. Minha melhor ideia até esse momento. Uma outra ideia seria esse cheque aqui…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; abertura ou repertório; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
         "review ou melhor lance",
+        "plano ou estratégia",
         "abertura ou repertório",
         "treino ou puzzle streak",
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 2
+      "transcript_count": 3
     },
     {
-      "start_seconds": 4920,
-      "end_seconds": 5010,
-      "time": "1:22:00",
+      "start_seconds": 6600,
+      "end_seconds": 6690,
+      "time": "1:50:00",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 4.3,
-      "summary": "Agora ele vai fazer roque longo? Não. Começou no meu bispo. Então, quer amassar bispo mesmo? Talvez eu devesse fugir com o bispo aqui…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
+      "score": 5.1,
+      "summary": "Vai entender, Stockfish também. E acabou. Puta joguinho. Ruim. Ruim dos dois lados. Né? Só consegui pegar esse endgame…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo",
       "signals": [
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
+        "review ou melhor lance",
         "plano ou estratégia",
         "pressão no relógio",
-        "plano sob pressão de tempo",
-        "raciocínio em voz alta"
+        "plano sob pressão de tempo"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 5
     }
   ]
 }

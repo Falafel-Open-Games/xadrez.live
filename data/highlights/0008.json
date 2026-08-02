@@ -1,8 +1,8 @@
 {
   "session_number": "0008",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
@@ -33,105 +33,104 @@
       "end_seconds": 2850,
       "time": "46:00",
       "duration": "1:30",
-      "kind": "training",
-      "score": 5.55,
-      "summary": "Opa, Four Knights? Four Knights. Felipe. A gente tava fazendo puzzle de aquecimento. Agora que eu vou jogar contra um ser humano…",
-      "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; pressão no relógio; abertura ou repertório; treino ou puzzle streak; raciocínio em voz alta",
+      "kind": "time-pressure",
+      "score": 5.75,
+      "summary": "Porque o meu repertório é muito limitado. Eu tenho jogado Four Knights mesmo. Não sei se..…",
+      "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; interação com o chat; pressão no relógio; abertura ou repertório; raciocínio em voz alta",
       "signals": [
         "3 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
         "reação forte na fala",
-        "tema claro de xadrez",
+        "erro ou momento perdido",
+        "interação com o chat",
         "pressão no relógio",
         "abertura ou repertório",
-        "treino ou puzzle streak",
         "raciocínio em voz alta"
       ],
       "chat_count": 3,
       "transcript_count": 3
     },
     {
-      "start_seconds": 2850,
-      "end_seconds": 2940,
-      "time": "47:30",
+      "start_seconds": 3210,
+      "end_seconds": 3300,
+      "time": "53:30",
       "duration": "1:30",
-      "kind": "mistake",
-      "score": 4.4,
-      "summary": "Eu sou ruim ainda, 821. Sei lá, vamos ver o que que esse cara quer aqui. Acho que eu joguei errado já, mas tudo bem. Terminando essa aqui a gente joga, Felipe…",
-      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; raciocínio em voz alta",
+      "kind": "time-pressure",
+      "score": 5.6,
+      "summary": "Que que esse cara quer? E se eu chegar com esse aqui e pedir pra ele tomar uma atitude com essa rainha, né? Ignorar qualquer ameaça do cavalo dele lá…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
         "2 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
         "reação forte na fala",
-        "erro ou momento perdido",
         "tema claro de xadrez",
-        "interação com o chat",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 2,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 4590,
-      "end_seconds": 4680,
-      "time": "1:16:30",
-      "duration": "1:30",
-      "kind": "review",
-      "score": 3.9,
-      "summary": "Que que o Stockfish preferia que eu tivesse feito? Provavelmente o Stockfish é meio malucão. Às vezes ele quer que eu acabe com coisa que não é essa solution…",
-      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; tema claro de xadrez; interação com o chat; review ou melhor lance; raciocínio em voz alta",
-      "signals": [
-        "2 mensagem(ns) no chat",
-        "chat e fala no mesmo trecho",
-        "tema claro de xadrez",
-        "interação com o chat",
-        "review ou melhor lance",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 2,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 5130,
-      "end_seconds": 5220,
-      "time": "1:25:30",
-      "duration": "1:30",
-      "kind": "review",
-      "score": 5.45,
-      "summary": "É, não tem muito como voltar. Coloquei lá que tava... Deixa eu dar um learn from my mistakes de novo aqui. Skip. Esse aqui, né? É, tá. Opa, esse aqui…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
-      "signals": [
-        "1 mensagem(ns) no chat",
-        "chat e fala no mesmo trecho",
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "review ou melhor lance",
         "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo",
+        "treino ou puzzle streak",
         "raciocínio em voz alta"
       ],
-      "chat_count": 1,
-      "transcript_count": 3
+      "chat_count": 2,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 4560,
+      "end_seconds": 4650,
+      "time": "1:16:00",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 4.4,
+      "summary": "Hum. Diminui a torre. Me fudi. É, não tem muito o que fazer não. Pô, valeu Felipe. Ah, eu sou muito ruim, velho. Beleza, vou analisar lá. Pô, valeu mano. Valeu…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance",
+      "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "interação com o chat",
+        "review ou melhor lance"
+      ],
+      "chat_count": 2,
+      "transcript_count": 4
     },
     {
       "start_seconds": 5220,
       "end_seconds": 5310,
       "time": "1:27:00",
       "duration": "1:30",
-      "kind": "time-pressure",
-      "score": 3.75,
-      "summary": "Esse foi a cagada que eu fiz e nem check foi, tá? Então check aqui. A rainha dele poderia entrar na frente. É uma cagada, porque seria xeque-mate…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; pressão no relógio",
+      "kind": "review",
+      "score": 4.35,
+      "summary": "Que eu tava tentando ver o que que seria uma preventiva melhor pra aquela ameaça, né? Tá, mas agora eu tô vendo no jogo. O Stockfish acha que isso aqui... Opa, já foi 2…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance",
       "signals": [
         "1 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
-        "pressão no relógio"
+        "review ou melhor lance"
       ],
       "chat_count": 1,
-      "transcript_count": 2
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 5340,
+      "end_seconds": 5430,
+      "time": "1:29:00",
+      "duration": "1:30",
+      "kind": "mistake",
+      "score": 3.2,
+      "summary": "Tava com tudo pra eu ganhar. Perdi com uma cagada aqui, olha. Certo seria o quê? Sacrificar a rainha? Sacrificar a rainha pra manter minha vantagem no material? Não. Check…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; raciocínio em voz alta",
+      "signals": [
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "plano ou estratégia",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
+      "transcript_count": 4
     }
   ]
 }

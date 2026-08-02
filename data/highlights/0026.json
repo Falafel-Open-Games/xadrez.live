@@ -1,35 +1,38 @@
 {
   "session_number": "0026",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 0,
-      "end_seconds": 90,
-      "time": "0:00",
+      "start_seconds": 420,
+      "end_seconds": 510,
+      "time": "7:00",
       "duration": "1:30",
-      "kind": "training",
-      "score": 4.2,
-      "summary": "Começar a live aqui. Simbora live. Olha o delay. O que que tá upcoming. Upcoming. Já tô transmitindo. Tá. Excelente. Party time. Excelente. Uh-uh-uh. hum Mas estar no modo aqui…",
-      "reason": "4 mensagem(ns) no chat; chat e fala no mesmo trecho; tema claro de xadrez; interação com o chat; treino ou puzzle streak; raciocínio em voz alta",
+      "kind": "time-pressure",
+      "score": 5.35,
+      "summary": "Eu vi que eu tinha um seguidor novo a você aqui. Legal. Pô, valeu, cara. Bom dia! Vamos lá, quarta-feira. Como continua agora esse puzzle? Esse fim de jogo…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; interação com o chat; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; treino ou puzzle streak",
       "signals": [
-        "4 mensagem(ns) no chat",
+        "1 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
+        "reação forte na fala",
         "tema claro de xadrez",
         "interação com o chat",
-        "treino ou puzzle streak",
-        "raciocínio em voz alta"
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo",
+        "treino ou puzzle streak"
       ],
-      "chat_count": 4,
-      "transcript_count": 3
+      "chat_count": 1,
+      "transcript_count": 5
     },
     {
-      "start_seconds": 2520,
-      "end_seconds": 2610,
-      "time": "42:00",
+      "start_seconds": 2490,
+      "end_seconds": 2580,
+      "time": "41:30",
       "duration": "1:30",
       "kind": "training",
       "score": 4.5,
@@ -48,38 +51,36 @@
       "transcript_count": 3
     },
     {
-      "start_seconds": 2850,
-      "end_seconds": 2940,
-      "time": "47:30",
+      "start_seconds": 2610,
+      "end_seconds": 2700,
+      "time": "43:30",
       "duration": "1:30",
-      "kind": "time-pressure",
-      "score": 4.4,
-      "summary": "Sei lá o que que eu ganho pinando, cravando esse peão ali também. Vamos ver. Deixa eu desligar o chat, esqueci. Pronto. Pra tentar ter o foco máximo na partida…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; pressão no relógio; abertura ou repertório; raciocínio em voz alta",
+      "kind": "opening",
+      "score": 4.35,
+      "summary": "Vamos ver se a sorte tá do meu lado hoje. Porque, no meu nível, a sorte ainda conta muito. Sorte ajuda qualquer um, né? Mas, sorte e atenção pra não cometer erros bobos…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; abertura ou repertório; raciocínio em voz alta",
       "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
-        "interação com o chat",
-        "pressão no relógio",
         "abertura ou repertório",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 3
+      "chat_count": 1,
+      "transcript_count": 5
     },
     {
-      "start_seconds": 5430,
-      "end_seconds": 5520,
-      "time": "1:30:30",
+      "start_seconds": 5250,
+      "end_seconds": 5340,
+      "time": "1:27:30",
       "duration": "1:30",
       "kind": "review",
-      "score": 6.15,
-      "summary": "Então, concordamos que cavalo aqui é ruim, porque não faz nada, né? Qual que foi o meu pensamento com esse cavalo aqui? Se eu lembro..…",
-      "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
+      "score": 4.4,
+      "summary": "Não tem muito o que fazer. Então tá. Nossa, em algum momento essa barra teve melhor pro meu lado. Nossa, esse... Esse aqui realmente perdi de forma humilhante…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
       "signals": [
-        "3 mensagem(ns) no chat",
-        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
@@ -87,48 +88,51 @@
         "plano ou estratégia",
         "raciocínio em voz alta"
       ],
+      "chat_count": 0,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 5430,
+      "end_seconds": 5520,
+      "time": "1:30:30",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 5.35,
+      "summary": "Foram quantos blunders? Dois. Perdi rápido. Esse jogo terminou no turno 22. Então... Bom dia, só avisando que o áudio está baixo. Pô, valeu, Rodybon. Valeu…",
+      "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; pressão no relógio; raciocínio em voz alta",
+      "signals": [
+        "3 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "interação com o chat",
+        "pressão no relógio",
+        "raciocínio em voz alta"
+      ],
       "chat_count": 3,
       "transcript_count": 4
     },
     {
-      "start_seconds": 5520,
-      "end_seconds": 5610,
-      "time": "1:32:00",
+      "start_seconds": 5550,
+      "end_seconds": 5640,
+      "time": "1:32:30",
       "duration": "1:30",
-      "kind": "review",
-      "score": 4.45,
-      "summary": "Ah, e depois eu pus o peãozinho aqui, mas quando já era tarde demais. Ah, entendi. Então... Eu acho que... Numa situação aqui... Essa sugestão do Stockfish de vir aqui..…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance; raciocínio em voz alta",
+      "kind": "opening",
+      "score": 4.35,
+      "summary": "Foi meio sufocante mesmo essa partida. Será que isso é algo que eu consigo levar pra minha vida? Qual que é o ensinamento que... Porque aqui, realmente, anteriormente é isso…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; abertura ou repertório; raciocínio em voz alta",
       "signals": [
         "1 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "interação com o chat",
-        "review ou melhor lance",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 1,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 5820,
-      "end_seconds": 5900,
-      "time": "1:37:00",
-      "duration": "1:20",
-      "kind": "opening",
-      "score": 4.1,
-      "summary": "Por que que eu fui com a minha rainha ali? Pra fugir desse cara aqui. Ah, tá. Essa parte realmente... Tá um check. Pegar aqui é suicídio, né? Continuei…",
-      "reason": "reação forte na fala; erro ou momento perdido; review ou melhor lance; abertura ou repertório; raciocínio em voz alta",
-      "signals": [
         "reação forte na fala",
         "erro ou momento perdido",
-        "review ou melhor lance",
+        "tema claro de xadrez",
         "abertura ou repertório",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 3
+      "chat_count": 1,
+      "transcript_count": 4
     }
   ]
 }

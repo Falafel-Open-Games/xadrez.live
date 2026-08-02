@@ -69,6 +69,13 @@ import-openai-transcript SESSION EXTRA="":
 refresh-openai-transcripts RECENT="1" EXTRA="":
   @python3 scripts/import_openai_transcripts.py --latest {{RECENT}} {{EXTRA}}
 
+align-transcript-timestamps SESSION EXTRA="":
+  @python3 scripts/align_transcript_timestamps.py {{EXTRA}} {{SESSION}}
+
+backfill-aligned-openai-transcripts EXTRA="":
+  @python3 scripts/align_transcript_timestamps.py --all-existing --source-suffix openai-gpt-4o-mini-transcribe --output-suffix openai-gpt-4o-mini-transcribe.aligned {{EXTRA}}
+  @python3 scripts/align_transcript_timestamps.py --all-existing --source-suffix openai-gpt-4o-transcribe --output-suffix openai-gpt-4o-transcribe.aligned {{EXTRA}}
+
 import-restream-chat-replays CACHE_DIR="/tmp/xadrez-restream-chat" EXTRA="":
   @python3 scripts/import_restream_chat_replays.py --cache-dir {{CACHE_DIR}} {{EXTRA}}
 

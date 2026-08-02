@@ -1,19 +1,19 @@
 {
   "session_number": "0002",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 210,
-      "end_seconds": 300,
-      "time": "3:30",
+      "start_seconds": 120,
+      "end_seconds": 210,
+      "time": "2:00",
       "duration": "1:30",
       "kind": "training",
       "score": 4.0,
-      "summary": "Vou ter que tirar o cavalo da frente e essa rainha também tá apertando o meu bispo, que quer chegar aqui…",
+      "summary": "Pra depois dar um cheque com o cavalo aqui? O que que eu ganhei? Ganhei um bispo que consegue chegar nessas pretas…",
       "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
@@ -24,12 +24,12 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 5
     },
     {
-      "start_seconds": 330,
-      "end_seconds": 420,
-      "time": "5:30",
+      "start_seconds": 240,
+      "end_seconds": 330,
+      "time": "4:00",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 5.1,
@@ -45,16 +45,16 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 4
     },
     {
-      "start_seconds": 750,
-      "end_seconds": 840,
-      "time": "12:30",
+      "start_seconds": 540,
+      "end_seconds": 630,
+      "time": "9:00",
       "duration": "1:30",
       "kind": "mistake",
       "score": 3.2,
-      "summary": "Ele vai sair pra cá. Ah, mas não tá ameaçado aqui, não é check, né? Tá, entendi por que que eu errei já, então. Então essa é a resposta. Porque aqui continua dando check…",
+      "summary": "Ele comeu como previsto. Ah, eu inicialmente tinha pensado em chegar com a torre aqui, mas... Tem um movimento muito melhor que é o bispo aqui. Faz um fork…",
       "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
@@ -64,12 +64,12 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 5
     },
     {
-      "start_seconds": 990,
-      "end_seconds": 1080,
-      "time": "16:30",
+      "start_seconds": 780,
+      "end_seconds": 870,
+      "time": "13:00",
       "duration": "1:30",
       "kind": "training",
       "score": 4.8,
@@ -87,9 +87,9 @@
       "transcript_count": 3
     },
     {
-      "start_seconds": 2010,
-      "end_seconds": 2100,
-      "time": "33:30",
+      "start_seconds": 1980,
+      "end_seconds": 2070,
+      "time": "33:00",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 6.3,

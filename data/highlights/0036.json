@@ -1,8 +1,8 @@
 {
   "session_number": "0036",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
@@ -28,79 +28,21 @@
       "transcript_count": 3
     },
     {
-      "start_seconds": 840,
-      "end_seconds": 930,
-      "time": "14:00",
+      "start_seconds": 930,
+      "end_seconds": 1020,
+      "time": "15:30",
       "duration": "1:30",
       "kind": "training",
-      "score": 5.2,
-      "summary": "Esse rei vai ficar fugindo, não sei o quê. Em termos de puzzle... Mexer com essa torre do D7 deve ser a resposta. Em termos... De lógica ou estratégia minha..…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
+      "score": 6.0,
+      "summary": "Ela pode tirar essa cravada simplesmente comendo minha outra torre. A coisa que eu tenho mais vontade de fazer é dobrar essa torre. Se é o melhor lance, eu não sei dizer…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; abertura ou repertório; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
         "review ou melhor lance",
         "plano ou estratégia",
-        "treino ou puzzle streak",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 2
-    },
-    {
-      "start_seconds": 1080,
-      "end_seconds": 1170,
-      "time": "18:00",
-      "duration": "1:30",
-      "kind": "time-pressure",
-      "score": 5.2,
-      "summary": "Eu acho que termina parecido. Se eu vier pra cá, Stockfish... Que é errado, tudo bem. Stockfish manda vir pra cá. Aí eu venho aqui. Ah, ele pode comer com esse. E aí..…",
-      "reason": "reação forte na fala; erro ou momento perdido; interação com o chat; review ou melhor lance; pressão no relógio; treino ou puzzle streak; raciocínio em voz alta",
-      "signals": [
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "interação com o chat",
-        "review ou melhor lance",
-        "pressão no relógio",
-        "treino ou puzzle streak",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 3660,
-      "end_seconds": 3750,
-      "time": "1:01:00",
-      "duration": "1:30",
-      "kind": "opening",
-      "score": 3.7,
-      "summary": "Quando Fabrício faz, é inaccuracy. Essa é a lição de hoje, olha. Exatamente o mesmo tabuleiro para Carlsen, Stockfish não vê nada de errado…",
-      "reason": "reação forte na fala; erro ou momento perdido; review ou melhor lance; abertura ou repertório",
-      "signals": [
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "review ou melhor lance",
-        "abertura ou repertório"
-      ],
-      "chat_count": 0,
-      "transcript_count": 2
-    },
-    {
-      "start_seconds": 4740,
-      "end_seconds": 4830,
-      "time": "1:19:00",
-      "duration": "1:30",
-      "kind": "training",
-      "score": 4.4,
-      "summary": "Desligar essas setas aqui que prejudicam o meu cérebro a pensar por si próprio. Tomar não chegou a ser um blunder. Eu só segui adiante o plano que eu estava…",
-      "reason": "erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
-      "signals": [
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "review ou melhor lance",
-        "plano ou estratégia",
+        "abertura ou repertório",
         "treino ou puzzle streak",
         "raciocínio em voz alta"
       ],
@@ -108,9 +50,71 @@
       "transcript_count": 4
     },
     {
-      "start_seconds": 5100,
-      "end_seconds": 5190,
-      "time": "1:25:00",
+      "start_seconds": 1080,
+      "end_seconds": 1170,
+      "time": "18:00",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 5.6,
+      "summary": "É quase forçado esse movimento. Aí sim, eu chegar no check aqui... Eu ganho um bispo. Entendi. Não estava difícil de ver. Eu fui meio cabeça dura. A coisa que eu... Alternativa..…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance; pressão no relógio; treino ou puzzle streak; raciocínio em voz alta",
+      "signals": [
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "interação com o chat",
+        "review ou melhor lance",
+        "pressão no relógio",
+        "treino ou puzzle streak",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 4380,
+      "end_seconds": 4470,
+      "time": "1:13:00",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 4.4,
+      "summary": "Como que eu cheguei nessa situação de dar minha dama aqui, ó…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
+      "signals": [
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 4800,
+      "end_seconds": 4890,
+      "time": "1:20:00",
+      "duration": "1:30",
+      "kind": "training",
+      "score": 4.2,
+      "summary": "E esse rock que... Stockfish não gostou. Inaccuracy. Bom, aqui, acho que o jogo só mudou de novo quando o meu oponente fez essa sequência de cagadas, que foi..…",
+      "reason": "erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance; treino ou puzzle streak; raciocínio em voz alta",
+      "signals": [
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "interação com o chat",
+        "review ou melhor lance",
+        "treino ou puzzle streak",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 5070,
+      "end_seconds": 5160,
+      "time": "1:24:30",
       "duration": "1:30",
       "kind": "opening",
       "score": 4.0,

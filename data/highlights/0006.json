@@ -1,15 +1,15 @@
 {
   "session_number": "0006",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 510,
-      "end_seconds": 600,
-      "time": "8:30",
+      "start_seconds": 570,
+      "end_seconds": 660,
+      "time": "9:30",
       "duration": "1:30",
       "kind": "mistake",
       "score": 3.2,
@@ -26,9 +26,9 @@
       "transcript_count": 2
     },
     {
-      "start_seconds": 1080,
-      "end_seconds": 1170,
-      "time": "18:00",
+      "start_seconds": 1050,
+      "end_seconds": 1140,
+      "time": "17:30",
       "duration": "1:30",
       "kind": "training",
       "score": 5.2,
@@ -47,25 +47,26 @@
       "transcript_count": 2
     },
     {
-      "start_seconds": 2220,
-      "end_seconds": 2310,
-      "time": "37:00",
+      "start_seconds": 2250,
+      "end_seconds": 2340,
+      "time": "37:30",
       "duration": "1:30",
       "kind": "mistake",
-      "score": 1.7,
-      "summary": "Check. Belíssimo. Não pode, não pode, pode. Então. 1, 2. Certo? Não, errado. Tem um pião aqui. Então, 1. Pra onde você vai? Se fodeu. É só isso. Ok, nice. Vamos para o décimo.",
-      "reason": "reação forte na fala; erro ou momento perdido",
+      "score": 2.1,
+      "summary": "Tchitititititititit. xeque-mate. Não pode, não pode, não pode. Tá fodido. Ele teria que... Sei lá, não tem muito o que fazer não. xeque-mate. Check and mate…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez",
       "signals": [
         "reação forte na fala",
-        "erro ou momento perdido"
+        "erro ou momento perdido",
+        "tema claro de xadrez"
       ],
       "chat_count": 0,
-      "transcript_count": 1
+      "transcript_count": 2
     },
     {
-      "start_seconds": 3600,
-      "end_seconds": 3690,
-      "time": "1:00:00",
+      "start_seconds": 3570,
+      "end_seconds": 3660,
+      "time": "59:30",
       "duration": "1:30",
       "kind": "training",
       "score": 5.2,
@@ -84,31 +85,32 @@
       "transcript_count": 2
     },
     {
+      "start_seconds": 3750,
+      "end_seconds": 3840,
+      "time": "1:02:30",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 2.6,
+      "summary": "É isso, né? Rapid, 10 mais zero. Ai brancas. Ai brancas. Ah, vamos. Segue o plano. Não pode perder muito tempo no começo, não. Tá ok. Pelo menos aqui. Tá protegidinho lá também…",
+      "reason": "tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
+      "signals": [
+        "tema claro de xadrez",
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
+      "transcript_count": 3
+    },
+    {
       "start_seconds": 3900,
       "end_seconds": 3990,
       "time": "1:05:00",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 2.2,
-      "summary": "É isso, né? Rapid, 10 mais zero. Ai brancas. Ai brancas. Ah, vamos. Segue o plano. Não pode perder muito tempo no começo, não. Tá ok. Pelo menos aqui. Tá protegidinho lá também…",
-      "reason": "tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo",
-      "signals": [
-        "tema claro de xadrez",
-        "plano ou estratégia",
-        "pressão no relógio",
-        "plano sob pressão de tempo"
-      ],
-      "chat_count": 0,
-      "transcript_count": 1
-    },
-    {
-      "start_seconds": 4380,
-      "end_seconds": 4470,
-      "time": "1:13:00",
-      "duration": "1:30",
-      "kind": "time-pressure",
       "score": 2.3,
-      "summary": "Que que vocês estão falando? Tá na hora de começar a trocação ou não? Meu bispinho pra cá. Ele vai ter que tomar uma atitude aqui…",
+      "summary": "Foda-se, estou perdendo muito tempo analisando. Agora... Agora... Continuar o jogo. Esse bispo. O cara quer fazer um rock do lado da rainha. Ele só tá tirando o bispinho dele…",
       "reason": "erro ou momento perdido; tema claro de xadrez; pressão no relógio; raciocínio em voz alta",
       "signals": [
         "erro ou momento perdido",
@@ -117,7 +119,7 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 2
+      "transcript_count": 4
     }
   ]
 }

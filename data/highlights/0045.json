@@ -1,15 +1,15 @@
 {
   "session_number": "0045",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 780,
-      "end_seconds": 870,
-      "time": "13:00",
+      "start_seconds": 750,
+      "end_seconds": 840,
+      "time": "12:30",
       "duration": "1:30",
       "kind": "training",
       "score": 4.5,
@@ -27,23 +27,22 @@
       "transcript_count": 3
     },
     {
-      "start_seconds": 1290,
-      "end_seconds": 1380,
-      "time": "21:30",
+      "start_seconds": 1440,
+      "end_seconds": 1530,
+      "time": "24:00",
       "duration": "1:30",
       "kind": "research",
-      "score": 3.9,
-      "summary": "Então tá, eu acho que a resposta é sacrificar a dama mesmo. Para depois então chegar ao tal do boden mate. Procurando no Google aqui. Boden mate…",
-      "reason": "tema claro de xadrez; plano ou estratégia; raciocínio em voz alta; pesquisa ou contexto externo; consulta em fonte externa",
+      "score": 3.4,
+      "summary": "Não tem Wikipedia esse? Não deve ser tão famoso. Então tá. Deixa eu fazer o strike para outro dia. Vamos de padrões de mate mesmo…",
+      "reason": "tema claro de xadrez; pressão no relógio; pesquisa ou contexto externo; consulta em fonte externa",
       "signals": [
         "tema claro de xadrez",
-        "plano ou estratégia",
-        "raciocínio em voz alta",
+        "pressão no relógio",
         "pesquisa ou contexto externo",
         "consulta em fonte externa"
       ],
       "chat_count": 0,
-      "transcript_count": 4
+      "transcript_count": 6
     },
     {
       "start_seconds": 2550,
@@ -65,26 +64,48 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 2,
-      "transcript_count": 3
+      "transcript_count": 4
     },
     {
-      "start_seconds": 3720,
-      "end_seconds": 3810,
-      "time": "1:02:00",
+      "start_seconds": 3120,
+      "end_seconds": 3210,
+      "time": "52:00",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 5.45,
+      "summary": "Check... Hum, caí no xeque-mate. Caralho, tô fodido. Check, toma. xeque-mate, me fudi. Eita, pilder. Acho que aqui é onde eu tenho que dar um resign, né? xeque-mate, tô fodido…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 1,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 3750,
+      "end_seconds": 3840,
+      "time": "1:02:30",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 5.35,
-      "summary": "E de certa forma, é mais fácil até de controlar o tempo da live, se eu quiser manter elas dentro de um limite de menor que duas horas, né? Uma hora, uma hora e pouquinho…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; treino ou puzzle streak; raciocínio em voz alta",
+      "score": 5.75,
+      "summary": "Então, no final, acho que eu tô até gostando de progredir aqui no aprender e praticar aqui, né? Ó, meu progresso tá 10% já. A gente fechou esses dois e começou esse aqui…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
       "signals": [
         "1 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
         "erro ou momento perdido",
         "tema claro de xadrez",
+        "review ou melhor lance",
         "plano ou estratégia",
         "pressão no relógio",
         "plano sob pressão de tempo",
-        "treino ou puzzle streak",
         "raciocínio em voz alta"
       ],
       "chat_count": 1,
@@ -97,7 +118,7 @@
       "duration": "1:30",
       "kind": "review",
       "score": 5.35,
-      "summary": "até esse aqui, eu tava pensando em realmente tomar um defensor importante aqui de lugares dessa... dessa vizinhança do rei aqui…",
+      "summary": "Ó, aqui a minha vantagem voltou, entendeu? Porque eu acho que ele respondeu o meu blunder com outro blunder, é isso…",
       "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
       "signals": [
         "3 mensagem(ns) no chat",
@@ -110,26 +131,6 @@
       ],
       "chat_count": 3,
       "transcript_count": 4
-    },
-    {
-      "start_seconds": 4020,
-      "end_seconds": 4110,
-      "time": "1:07:00",
-      "duration": "1:30",
-      "kind": "opening",
-      "score": 4.5,
-      "summary": "Ah, aí beleza, fica... Quem tomar primeiro é que se ferra. Só que... Vamos lá, na linha do Stockfish, se eu tivesse feito isso aqui... Quem que joga agora? Ele, né? Não, isso…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; abertura ou repertório; raciocínio em voz alta",
-      "signals": [
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "review ou melhor lance",
-        "abertura ou repertório",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 3
     }
   ]
 }

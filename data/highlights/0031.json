@@ -1,61 +1,59 @@
 {
   "session_number": "0031",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 1890,
-      "end_seconds": 1980,
-      "time": "31:30",
+      "start_seconds": 480,
+      "end_seconds": 570,
+      "time": "8:00",
       "duration": "1:30",
       "kind": "training",
-      "score": 4.85,
-      "summary": "Dama aqui é a continuação, né? Ah... Parece que sim. Peraí, tem... É... É aqui. Essa é a continuação certa. O rei dele voltou. Um. Nessa eu pego uma torre…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; treino ou puzzle streak; raciocínio em voz alta",
+      "score": 4.0,
+      "summary": "Aí ele vai ter que lidar com a minha rainha. E aí acabaram meus cheques. Deixa eu ver. Ah, beleza…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
-        "1 mensagem(ns) no chat",
-        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
-        "interação com o chat",
+        "plano ou estratégia",
+        "treino ou puzzle streak",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 1260,
+      "end_seconds": 1350,
+      "time": "21:00",
+      "duration": "1:30",
+      "kind": "training",
+      "score": 3.85,
+      "summary": "Ganha peão, ganha material, né? Ah, tá bom, Stockfish faria isso, mas um ser humano ia querer arrancar essa rainha daqui para algum lugar, né? O problema é para onde, né? Pra cá,…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; tema claro de xadrez; review ou melhor lance; treino ou puzzle streak; raciocínio em voz alta",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "tema claro de xadrez",
+        "review ou melhor lance",
         "treino ou puzzle streak",
         "raciocínio em voz alta"
       ],
       "chat_count": 1,
-      "transcript_count": 3
+      "transcript_count": 5
     },
     {
-      "start_seconds": 2490,
-      "end_seconds": 2580,
-      "time": "41:30",
-      "duration": "1:30",
-      "kind": "time-pressure",
-      "score": 4.3,
-      "summary": "Bom, tenho o cavalo protegendo, então tudo bem. Vamos lá. Ai, que puta, eu dei a rainha. Ah, que merda. Resign. Estou muito ruim. Não, muita cagada no começo. Ah, não deu não…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; pressão no relógio; raciocínio em voz alta",
-      "signals": [
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "review ou melhor lance",
-        "pressão no relógio",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 2790,
-      "end_seconds": 2880,
-      "time": "46:30",
+      "start_seconds": 2700,
+      "end_seconds": 2790,
+      "time": "45:00",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 4.7,
-      "summary": "Então, quando você tá jogando com as brancas, você começa com uma pequena vantagem. Se você, já na abertura, fizer esse mistake, o black ganha tempo... E..…",
+      "summary": "Tentando aprender um pouquinho mais sobre a siciliana. Boldler Attack é um erro. This is a mistake. This is a mistake that allows clear equality…",
       "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório",
       "signals": [
         "reação forte na fala",
@@ -67,6 +65,28 @@
         "abertura ou repertório"
       ],
       "chat_count": 0,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 3030,
+      "end_seconds": 3120,
+      "time": "50:30",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 4.5,
+      "summary": "Não vou conseguir limpar esse spammer nesse exato momento. Tá. Ignorem o spam desse bot aí, se alguém estiver no chat da Twitch. No momento eu estou jogando. Uhum…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; tema claro de xadrez; interação com o chat; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
+      "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "tema claro de xadrez",
+        "interação com o chat",
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 2,
       "transcript_count": 3
     },
     {
@@ -75,28 +95,26 @@
       "time": "59:00",
       "duration": "1:30",
       "kind": "research",
-      "score": 4.4,
+      "score": 3.3,
       "summary": "Defesa francesa é ABCD5. Discos transformando toda a ideia por trás dessa French Defense. Ah, tá, é botar um suporte para esse e vir aqui. É isso? Não. Não…",
-      "reason": "tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; pesquisa ou contexto externo",
+      "reason": "tema claro de xadrez; plano ou estratégia; abertura ou repertório; pesquisa ou contexto externo",
       "signals": [
         "tema claro de xadrez",
         "plano ou estratégia",
-        "pressão no relógio",
-        "plano sob pressão de tempo",
         "abertura ou repertório",
         "pesquisa ou contexto externo"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 1
     },
     {
-      "start_seconds": 4140,
-      "end_seconds": 4230,
-      "time": "1:09:00",
+      "start_seconds": 3990,
+      "end_seconds": 4080,
+      "time": "1:06:30",
       "duration": "1:30",
       "kind": "review",
       "score": 4.4,
-      "summary": "Qual que seria uma forma melhor de punir isso aqui? Trazer... Seria sido melhor? Como que isso avança daqui? Isso derruba a barrinha pra um lado. A barrinha estava no 5,5 lá…",
+      "summary": "Então não tem porque eu me preocupar com uma inovação desse tipo. Eu talvez não respondi tão bem a esse blunder dele. Respondi com uma inaccuracy…",
       "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
@@ -107,28 +125,7 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 4290,
-      "end_seconds": 4380,
-      "time": "1:11:30",
-      "duration": "1:30",
-      "kind": "review",
-      "score": 5.0,
-      "summary": "Ele só faria isso aqui, que seria um super blunder de perder a rainha, certo? Uma barra como que vai lá pra cima. Tá…",
-      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
-      "signals": [
-        "2 mensagem(ns) no chat",
-        "chat e fala no mesmo trecho",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "review ou melhor lance",
-        "plano ou estratégia",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 2,
-      "transcript_count": 4
+      "transcript_count": 5
     }
   ]
 }

@@ -1,25 +1,26 @@
 {
   "session_number": "0012",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 660,
-      "end_seconds": 750,
-      "time": "11:00",
+      "start_seconds": 600,
+      "end_seconds": 690,
+      "time": "10:00",
       "duration": "1:30",
       "kind": "training",
-      "score": 4.5,
-      "summary": "Eu posso voltar minha rainha pra uma outra situação de check, né? Tá bom. Ao invés de pegar a torre aqui e perder a rainha, né? Então vamos falar…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; treino ou puzzle streak; raciocínio em voz alta",
+      "score": 5.2,
+      "summary": "É, vou começar o puzzle aqui com essa que eu acho que foi a melhor coisa que eu pensei até o momento. Meus bispos não estão muito pra dar o check no momento, né? Rainha aqui…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
         "review ou melhor lance",
+        "plano ou estratégia",
         "treino ou puzzle streak",
         "raciocínio em voz alta"
       ],
@@ -27,13 +28,13 @@
       "transcript_count": 3
     },
     {
-      "start_seconds": 750,
-      "end_seconds": 840,
-      "time": "12:30",
+      "start_seconds": 690,
+      "end_seconds": 780,
+      "time": "11:30",
       "duration": "1:30",
       "kind": "training",
       "score": 4.4,
-      "summary": "Que raios de solução é essa? Dá um check aqui. Tudo bem, é uma ideia parecida com a que... Que foi a minha. Que é a ideia de dar o check nessa coluna fora do alcance do cavalo…",
+      "summary": "Com talvez a vantagem dele não poder tampar com o cavalo. Não sei se isso chega a ser uma vantagem. Mas tudo bem, vamos ver a solução aqui. Só que fixe. Achar melhor pra nós…",
       "reason": "erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
         "erro ou momento perdido",
@@ -47,13 +48,32 @@
       "transcript_count": 4
     },
     {
-      "start_seconds": 2070,
-      "end_seconds": 2160,
-      "time": "34:30",
+      "start_seconds": 1650,
+      "end_seconds": 1740,
+      "time": "27:30",
+      "duration": "1:30",
+      "kind": "opening",
+      "score": 3.6,
+      "summary": "1, 2, 3, 4, 5. Uma rainha aqui e um rei aqui. É xeque-mate? Não, o rei pode vim pra cá. Mas eu ganho uma rainha, já é alguma coisa…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; abertura ou repertório",
+      "signals": [
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "plano ou estratégia",
+        "abertura ou repertório"
+      ],
+      "chat_count": 0,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 2100,
+      "end_seconds": 2190,
+      "time": "35:00",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 4.6,
-      "summary": "Mas 5 é o mínimo, que é uma ideia. Eu sou as pretas. Meus peões começaram no 8 e tem que andar em direção ao 1. Ninguém... Ah, tem um dele que tá na beira da promoção…",
+      "summary": "Porque é como se eu tivesse... Sei lá. I take. Continue the streak. Então, beleza. Puzzle streak. Ok. Com pelo menos 5…",
       "reason": "tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
         "tema claro de xadrez",
@@ -65,44 +85,25 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 4
     },
     {
-      "start_seconds": 3330,
-      "end_seconds": 3420,
-      "time": "55:30",
+      "start_seconds": 3060,
+      "end_seconds": 3150,
+      "time": "51:00",
       "duration": "1:30",
       "kind": "research",
-      "score": 2.7,
+      "score": 3.1,
       "summary": "O cara tá muito bem com isso aqui. Chegar chegando nos... I don't know. Faster, bro. Ponta o cu. Desligar o chatroom. Faster, bro…",
-      "reason": "erro ou momento perdido; tema claro de xadrez; pesquisa ou contexto externo",
+      "reason": "erro ou momento perdido; tema claro de xadrez; raciocínio em voz alta; pesquisa ou contexto externo",
       "signals": [
         "erro ou momento perdido",
         "tema claro de xadrez",
+        "raciocínio em voz alta",
         "pesquisa ou contexto externo"
       ],
       "chat_count": 0,
-      "transcript_count": 2
-    },
-    {
-      "start_seconds": 3570,
-      "end_seconds": 3660,
-      "time": "59:30",
-      "duration": "1:30",
-      "kind": "review",
-      "score": 4.65,
-      "summary": "É meu grande erro foi não ter comido aquela torre aqui. puta cagada, aquilo lá teria me dado um jogo, uma sobrevida muito boa…",
-      "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
-      "signals": [
-        "3 mensagem(ns) no chat",
-        "chat e fala no mesmo trecho",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "review ou melhor lance",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 3,
-      "transcript_count": 3
+      "transcript_count": 4
     },
     {
       "start_seconds": 3660,

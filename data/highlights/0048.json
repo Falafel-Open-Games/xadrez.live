@@ -1,112 +1,149 @@
 {
   "session_number": "0048",
   "source": "heuristic",
-  "transcript_source": "",
-  "transcript_label": "",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
-    {
-      "start_seconds": 900,
-      "end_seconds": 990,
-      "time": "15:00",
-      "duration": "1:30",
-      "kind": "training",
-      "score": 2.6,
-      "summary": "Era mesmo O objetivo do puzzle era para fazer um garfo Teoricamente você já fez o garfo Sõ falta tomar",
-      "reason": "4 mensagem(ns) no chat; tema claro de xadrez; treino ou puzzle streak",
-      "signals": [
-        "4 mensagem(ns) no chat",
-        "tema claro de xadrez",
-        "treino ou puzzle streak"
-      ],
-      "chat_count": 4,
-      "transcript_count": 0
-    },
     {
       "start_seconds": 1290,
       "end_seconds": 1380,
       "time": "21:30",
       "duration": "1:30",
-      "kind": "opening",
-      "score": 2.95,
-      "summary": "Aproveita e treina variações de abertura com troca de dama Na primeira oportunidade que tenho de simplificar eu o faço hahahah Justo kk",
-      "reason": "3 mensagem(ns) no chat; tema claro de xadrez; plano ou estratégia; abertura ou repertório",
+      "kind": "research",
+      "score": 6.45,
+      "summary": "John Batista Lolli Wikipedia Morreu em 1769 aos 71 anos, nasceu em 1698 numa comuna italiana chamada Nonantola da região Emília Romanha, província de Modena…",
+      "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; tema claro de xadrez; plano ou estratégia; abertura ou repertório; raciocínio em voz alta; pesquisa ou contexto externo; consulta em fonte externa",
       "signals": [
         "3 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "tema claro de xadrez",
         "plano ou estratégia",
-        "abertura ou repertório"
+        "abertura ou repertório",
+        "raciocínio em voz alta",
+        "pesquisa ou contexto externo",
+        "consulta em fonte externa"
       ],
       "chat_count": 3,
-      "transcript_count": 0
+      "transcript_count": 3
     },
     {
-      "start_seconds": 2160,
-      "end_seconds": 2250,
-      "time": "36:00",
+      "start_seconds": 2940,
+      "end_seconds": 3030,
+      "time": "49:00",
       "duration": "1:30",
-      "kind": "chess",
-      "score": 2.8,
-      "summary": "Sacrifício de outra peça na descrição do mate de loli Eu acho que a terceira é um bom exemplo do sacrifício de peça mencionado na descrição Sacrifício de outra peça na descrição…",
-      "reason": "7 mensagem(ns) no chat; tema claro de xadrez; raciocínio em voz alta",
-      "signals": [
-        "7 mensagem(ns) no chat",
-        "tema claro de xadrez",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 7,
-      "transcript_count": 0
-    },
-    {
-      "start_seconds": 2880,
-      "end_seconds": 2970,
-      "time": "48:00",
-      "duration": "1:30",
-      "kind": "moment",
-      "score": 2.55,
-      "summary": "Putzzz Nossa Achei que ele iria fazer o garfo E fez Pseudo-garfo*",
-      "reason": "5 mensagem(ns) no chat; reação forte na fala",
+      "kind": "opening",
+      "score": 7.65,
+      "summary": "Então uma opção é defender esse peão com esse g5, mas na scallop você, ao invés de fazer isso, você vem com o cavalo. Se as brancas jogarem e5, tentando..…",
+      "reason": "5 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; abertura ou repertório; raciocínio em voz alta",
       "signals": [
         "5 mensagem(ns) no chat",
-        "reação forte na fala"
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "abertura ou repertório",
+        "raciocínio em voz alta"
       ],
       "chat_count": 5,
-      "transcript_count": 0
+      "transcript_count": 3
     },
     {
-      "start_seconds": 3330,
-      "end_seconds": 3420,
-      "time": "55:30",
+      "start_seconds": 3660,
+      "end_seconds": 3750,
+      "time": "1:01:00",
       "duration": "1:30",
-      "kind": "mistake",
-      "score": 2.7,
-      "summary": "Mas isso entrega o caba Cavalo* Eu também tô apredendo e jogo recreativamente, mas tem gente que realmente leva a sério e dá esse tipo de rage.…",
-      "reason": "4 mensagem(ns) no chat; erro ou momento perdido; tema claro de xadrez",
+      "kind": "time-pressure",
+      "score": 6.9,
+      "summary": "Então, nesse ponto, eu acho que tem um aprendizado aqui pra tirar. Que é... Aqui a gente tá na abertura ainda, né? Mais ou menos, lance 11…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; raciocínio em voz alta",
       "signals": [
-        "4 mensagem(ns) no chat",
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "erro ou momento perdido",
-        "tema claro de xadrez"
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo",
+        "abertura ou repertório",
+        "raciocínio em voz alta"
       ],
-      "chat_count": 4,
-      "transcript_count": 0
+      "chat_count": 2,
+      "transcript_count": 4
     },
     {
-      "start_seconds": 5310,
-      "end_seconds": 5400,
-      "time": "1:28:30",
+      "start_seconds": 4680,
+      "end_seconds": 4770,
+      "time": "1:18:00",
       "duration": "1:30",
-      "kind": "training",
-      "score": 2.25,
-      "summary": "20 na vdd isso esse lance é mate aquela sequência de 7 lances eu n vi inteira mas eu vi os dois primeiros, e dps eu pensaria o resto kk",
-      "reason": "3 mensagem(ns) no chat; tema claro de xadrez; treino ou puzzle streak",
+      "kind": "opening",
+      "score": 6.6,
+      "summary": "Então, naquela situação lá, eu já estava com o jogo ganho, né? Então, levar... Cadê? Aqui no 20…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; abertura ou repertório; raciocínio em voz alta",
       "signals": [
-        "3 mensagem(ns) no chat",
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
         "tema claro de xadrez",
-        "treino ou puzzle streak"
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "abertura ou repertório",
+        "raciocínio em voz alta"
       ],
-      "chat_count": 3,
-      "transcript_count": 0
+      "chat_count": 2,
+      "transcript_count": 5
+    },
+    {
+      "start_seconds": 5610,
+      "end_seconds": 5700,
+      "time": "1:33:30",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 7.3,
+      "summary": "Você tá sacrificando tempo, que você vai ficar pra trás. Você não tem compensação suficiente pro peão que você sacrificar. Isso aqui, ó, acho que..…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; pressão no relógio; abertura ou repertório; treino ou puzzle streak; raciocínio em voz alta",
+      "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "pressão no relógio",
+        "abertura ou repertório",
+        "treino ou puzzle streak",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 2,
+      "transcript_count": 5
+    },
+    {
+      "start_seconds": 5910,
+      "end_seconds": 6000,
+      "time": "1:38:30",
+      "duration": "1:30",
+      "kind": "research",
+      "score": 7.1,
+      "summary": "Seria legal saber se essa pessoa aqui... Da onde veio esse jogo, né? Veio de algum campeonato? Veio do quê? Ah, é uma pessoa famosa. Tem até o Wikipedia do nome dela…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; abertura ou repertório; raciocínio em voz alta; pesquisa ou contexto externo; consulta em fonte externa",
+      "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "abertura ou repertório",
+        "raciocínio em voz alta",
+        "pesquisa ou contexto externo",
+        "consulta em fonte externa"
+      ],
+      "chat_count": 2,
+      "transcript_count": 3
     }
   ]
 }

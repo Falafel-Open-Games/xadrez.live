@@ -1,22 +1,22 @@
 {
   "session_number": "0042",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 660,
-      "end_seconds": 750,
-      "time": "11:00",
+      "start_seconds": 720,
+      "end_seconds": 810,
+      "time": "12:00",
       "duration": "1:30",
       "kind": "training",
-      "score": 5.2,
+      "score": 4.85,
       "summary": "A minha dama cobre essas duas, tá defendendo essas duas peças que a branca tá ameaçando. Então talvez questionar aqui…",
-      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; treino ou puzzle streak; raciocínio em voz alta",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
-        "2 mensagem(ns) no chat",
+        "1 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
@@ -25,44 +25,60 @@
         "treino ou puzzle streak",
         "raciocínio em voz alta"
       ],
-      "chat_count": 2,
+      "chat_count": 1,
       "transcript_count": 3
+    },
+    {
+      "start_seconds": 2820,
+      "end_seconds": 2910,
+      "time": "47:00",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 4.4,
+      "summary": "Nem quem ganhar ou perder vai ganhar ou perder. Vai todo mundo perder. Não, aqui não faz sentido também. Por que eu faria isso? Tá. Aqui é uma jogada possível…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
+      "signals": [
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
+      "transcript_count": 4
     },
     {
       "start_seconds": 2910,
       "end_seconds": 3000,
       "time": "48:30",
       "duration": "1:30",
-      "kind": "opening",
-      "score": 6.25,
-      "summary": "Essa aqui é uma... Acho que essa jogada do bispo leva ao empate. No mínimo. Se não for derrota. No mínimo. Não, se bobear até derrota. O rei dele pode vir fazer graça aqui. Tá…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; abertura ou repertório; raciocínio em voz alta",
+      "kind": "training",
+      "score": 4.25,
+      "summary": "Ali, onde eu meio que falei que dá pra parar um dos peões avançando. O outro avança. Aí eu já tenho acesso a um dos 3. Liberou. Tá limpando o jogo aqui, né? O bispo dele paradão…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; abertura ou repertório; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
         "1 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
         "reação forte na fala",
-        "erro ou momento perdido",
         "tema claro de xadrez",
-        "review ou melhor lance",
-        "plano ou estratégia",
         "abertura ou repertório",
+        "treino ou puzzle streak",
         "raciocínio em voz alta"
       ],
       "chat_count": 1,
       "transcript_count": 4
     },
     {
-      "start_seconds": 3150,
-      "end_seconds": 3240,
-      "time": "52:30",
+      "start_seconds": 3060,
+      "end_seconds": 3150,
+      "time": "51:00",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 5.35,
+      "score": 4.3,
       "summary": "Se tem um cheque pra forçar movimentos, ganhar tempo. Vou botar minha torre aqui na frente. Se ele tomar, a gente troca uma torre por uma dama. Muito natural vir com a torre aqui…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
       "signals": [
-        "1 mensagem(ns) no chat",
-        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
@@ -71,13 +87,13 @@
         "plano sob pressão de tempo",
         "raciocínio em voz alta"
       ],
-      "chat_count": 1,
+      "chat_count": 0,
       "transcript_count": 3
     },
     {
-      "start_seconds": 4260,
-      "end_seconds": 4350,
-      "time": "1:11:00",
+      "start_seconds": 4080,
+      "end_seconds": 4170,
+      "time": "1:08:00",
       "duration": "1:30",
       "kind": "review",
       "score": 4.4,
@@ -95,45 +111,26 @@
       "transcript_count": 3
     },
     {
-      "start_seconds": 4620,
-      "end_seconds": 4710,
-      "time": "1:17:00",
+      "start_seconds": 5730,
+      "end_seconds": 5820,
+      "time": "1:35:30",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 4.15,
-      "summary": "Então, eu teria morrido quando eu estava construindo um mate aqui. Porque deixei um bispo viver aqui, ó. Eu realmente não dei atenção para esse bispo aqui…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; pressão no relógio; raciocínio em voz alta",
+      "score": 4.95,
+      "summary": "Como a gente analisa isso aqui juntos? Vamos uma? Felps mandou uma. Vixe, gente, hoje é segunda-feira. A razão diz que não. A emoção diz que sim…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; tema claro de xadrez; interação com o chat; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo",
       "signals": [
         "1 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
-        "reação forte na fala",
-        "erro ou momento perdido",
         "tema claro de xadrez",
-        "pressão no relógio",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 1,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 5550,
-      "end_seconds": 5640,
-      "time": "1:32:30",
-      "duration": "1:30",
-      "kind": "review",
-      "score": 4.35,
-      "summary": "Morte lenta tá chegando aí. É, good game. GG. GG, my friends. Eu perdi. Já aborrei. Pronto. Congratulations. Parabéns, Matheus Han. Valeu. Felps tá assistindo…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; interação com o chat; review ou melhor lance; plano ou estratégia",
-      "signals": [
-        "1 mensagem(ns) no chat",
-        "chat e fala no mesmo trecho",
-        "erro ou momento perdido",
         "interação com o chat",
         "review ou melhor lance",
-        "plano ou estratégia"
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo"
       ],
       "chat_count": 1,
-      "transcript_count": 3
+      "transcript_count": 4
     }
   ]
 }

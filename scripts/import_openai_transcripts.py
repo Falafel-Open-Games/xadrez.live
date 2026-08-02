@@ -37,12 +37,28 @@ ENV_PATH = ROOT / ".env"
 DEFAULT_CHUNK_DIR = Path("/tmp/xadrez-openai-transcript-chunks")
 DEFAULT_RESPONSE_CACHE_DIR = Path("/tmp/xadrez-openai-transcripts")
 API_URL = "https://api.openai.com/v1/audio/transcriptions"
+DEFAULT_ESTIMATED_TIMESTAMP_CHUNK_SECONDS = 300
+DEFAULT_SEGMENT_TIMESTAMP_CHUNK_SECONDS = 1200
 MODEL_PRICING = {
     "gpt-4o-transcribe": {"input_per_million": 2.50, "output_per_million": 10.00},
     "gpt-4o-mini-transcribe": {"input_per_million": 1.25, "output_per_million": 5.00},
     "whisper-1": {"audio_per_minute": 0.006},
 }
 SENTENCE_RE = re.compile(r"(?<=[.!?])\s+")
+
+
+def model_supports_segment_timestamps(model: str) -> bool:
+    return model == "whisper-1"
+
+
+def default_chunk_seconds(model: str) -> int:
+    if model_supports_segment_timestamps(model):
+        return DEFAULT_SEGMENT_TIMESTAMP_CHUNK_SECONDS
+    return DEFAULT_ESTIMATED_TIMESTAMP_CHUNK_SECONDS
+
+
+def response_has_segments(response: dict) -> bool:
+    return isinstance(response.get("segments"), list) and bool(response["segments"])
 
 
 def ensure_command(name: str) -> None:
@@ -398,7 +414,11 @@ def import_openai_transcripts(
             unchanged += 1
             continue
 
-        log(f"{session_number}: starting OpenAI API transcript model={model} response_format={response_format}")
+        timestamp_source = "api_segments" if model_supports_segment_timestamps(model) else "estimated_by_chunk_character_position"
+        log(
+            f"{session_number}: starting OpenAI API transcript model={model} "
+            f"response_format={response_format} timestamp_source={timestamp_source}"
+        )
         audio_path = download_audio(youtube_id, audio_cache_dir, yt_dlp, audio_format, force)
         if not audio_path:
             unavailable += 1
@@ -414,7 +434,7 @@ def import_openai_transcripts(
 
         offset_seconds = 0.0
         for index, (chunk, duration_seconds) in enumerate(zip(chunks, chunk_durations), start=1):
-            cache_path = response_cache_dir / session_number / f"{model}-{response_format}-{index:03d}.json"
+            cache_path = response_cache_dir / session_number / f"{model}-{response_format}-{chunk_seconds}s-{index:03d}.json"
             response = load_cached_response(cache_path, force)
             chunk_started_at = time.monotonic()
             if response is None:
@@ -439,6 +459,8 @@ def import_openai_transcripts(
 
             total_duration += duration_seconds
             raw_usage.append(response.get("usage"))
+            if response_has_segments(response):
+                timestamp_source = "api_segments"
             all_blocks.extend(parse_response_blocks(response, offset_seconds, duration_seconds, segment_block_seconds))
             offset_seconds += duration_seconds
 
@@ -465,6 +487,8 @@ def import_openai_transcripts(
             "source_id": source_id,
             "model": model,
             "response_format": response_format,
+            "timestamp_source": timestamp_source,
+            "timestamp_chunk_seconds": chunk_seconds,
             "initial_prompt": prompt,
             "block_count": len(all_blocks),
             "audio_seconds": round(total_audio_duration, 3),
@@ -507,7 +531,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--response-format", default=os.environ.get("OPENAI_TRANSCRIBE_RESPONSE_FORMAT", "auto"))
     parser.add_argument("--language", default=os.environ.get("OPENAI_TRANSCRIBE_LANGUAGE", "pt"))
     parser.add_argument("--prompt", default=os.environ.get("OPENAI_TRANSCRIBE_PROMPT", DEFAULT_INITIAL_PROMPT))
-    parser.add_argument("--chunk-seconds", type=int, default=int(os.environ.get("OPENAI_TRANSCRIBE_CHUNK_SECONDS", "1200")))
+    parser.add_argument("--chunk-seconds", type=int, default=int(os.environ.get("OPENAI_TRANSCRIBE_CHUNK_SECONDS", "0")))
     parser.add_argument("--chunk-bitrate", default=os.environ.get("OPENAI_TRANSCRIBE_CHUNK_BITRATE", "32k"))
     parser.add_argument(
         "--segment-block-seconds",
@@ -524,13 +548,14 @@ def main() -> int:
     args = parse_args()
     if not args.api_key:
         fail("OPENAI_API_KEY is required, or pass --api-key")
-    if args.chunk_seconds <= 0:
-        fail("--chunk-seconds must be positive")
     response_format = args.response_format
     if response_format == "auto":
         response_format = "verbose_json" if args.model == "whisper-1" else "json"
     if response_format not in {"json", "text", "verbose_json"}:
         fail("--response-format must be auto, json, text, or verbose_json")
+    if args.chunk_seconds < 0:
+        fail("--chunk-seconds must be zero for auto or a positive integer")
+    chunk_seconds = args.chunk_seconds or default_chunk_seconds(args.model)
 
     selected_numbers = set(args.sessions) if args.sessions else None
     updated = import_openai_transcripts(
@@ -546,7 +571,7 @@ def main() -> int:
         language=args.language,
         prompt=args.prompt,
         response_format=response_format,
-        chunk_seconds=args.chunk_seconds,
+        chunk_seconds=chunk_seconds,
         chunk_bitrate=args.chunk_bitrate,
         segment_block_seconds=args.segment_block_seconds,
         force=args.force,

@@ -14,7 +14,9 @@ CHAT_DIR = ROOT / "data" / "chat_replays"
 OUTPUT_DIR = ROOT / "data" / "highlights"
 
 TRANSCRIPT_SOURCES = [
+    ("openai-gpt-4o-mini-transcribe.aligned", "GPT-4o mini alinhado"),
     ("openai-gpt-4o-mini-transcribe", "GPT-4o mini"),
+    ("openai-gpt-4o-transcribe.aligned", "GPT-4o alinhado"),
     ("openai-gpt-4o-transcribe", "GPT-4o"),
     ("youtube", "YouTube"),
     ("faster-whisper", "Faster Whisper CLI"),
