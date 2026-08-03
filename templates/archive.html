@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Arquivo | {{ config.title }}{% endblock title %}
+{% block description %}Lista completa das sessões publicadas no xadrez.live.{% endblock description %}
+
+{% block content %}
+{% set sessions = get_section(path="fcz/_index.md") %}
+<article class="archive-page">
+  <div class="session-kicker">arquivo</div>
+  <h1>Arquivo</h1>
+  <p class="tagline">Todas as sessões publicadas.</p>
+
+  <ol class="archive-list">
+    {% for session in sessions.pages | reverse %}
+      {% if not session.draft %}
+        {% set summary_title = session.extra.summary_title | default(value="") %}
+        <li>
+          <a href="{{ session.path }}">{% if summary_title %}{{ session.title }}: {{ summary_title }}{% else %}{{ session.title }}{% endif %}</a>
+          <time datetime="{{ session.date }}">
+            {{ session.date | date(format="%d/%m/%Y") }}{% if session.extra.time is defined and session.extra.time %}, {{ session.extra.time }}{% endif %}
+          </time>
+          {% if session.extra.description is defined and session.extra.description %}
+            <p>{{ session.extra.description | truncate(length=180) }}</p>
+          {% endif %}
+        </li>
+      {% endif %}
+    {% endfor %}
+  </ol>
+</article>
+{% endblock content %}

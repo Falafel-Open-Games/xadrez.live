@@ -986,6 +986,48 @@ iframe {
   font-size: 0.9rem;
 }
 
+.archive-page {
+  max-width: 900px;
+}
+
+.archive-list {
+  display: grid;
+  gap: 14px;
+  margin: 32px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.archive-list li {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 14px;
+}
+
+.archive-list li:last-child {
+  border-bottom: 0;
+}
+
+.archive-list a {
+  color: var(--text);
+  font-weight: 700;
+}
+
+.archive-list a:hover {
+  color: var(--accent);
+}
+
+.archive-list time {
+  display: block;
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.archive-list p {
+  margin: 8px 0 0;
+  color: var(--muted);
+}
+
 pagefind-input,
 pagefind-summary,
 pagefind-results {
