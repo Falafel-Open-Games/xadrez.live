@@ -58,6 +58,9 @@ jobs:
       - name: Build site
         run: zola build
 
+      - name: Generate search index
+        run: npx -y pagefind@1.5.2 --site public
+
       - name: Copy custom domain
         run: cp CNAME public/CNAME
 

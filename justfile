@@ -9,6 +9,11 @@ serve:
 build: update-supporters update-site-stats update-lichess-rating-history
   zola build
 
+pagefind:
+  npx -y pagefind@1.5.2 --site public
+
+build-search: build pagefind
+
 lint-actions:
   actionlint
 

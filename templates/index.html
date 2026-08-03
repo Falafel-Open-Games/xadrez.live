@@ -153,6 +153,7 @@
   <h1>xadrez.live (beta)</h1>
   <p class="tagline">esta página está em construção</p>
   <nav class="home-links" aria-label="Links principais">
+    <a href="/busca/">Busca</a>
     <a href="/apoiadores/">Apoiadores</a>
     <a href="/estatisticas/">Estatísticas</a>
   </nav>
@@ -211,7 +212,7 @@
     </main>
 
     {% if external_streams and ((external_streams.upcoming_streams is defined and external_streams.upcoming_streams) or (external_streams.streams is defined and external_streams.streams)) %}
-      <aside class="home-secondary">
+      <aside class="home-secondary" data-pagefind-ignore>
         {% if external_streams.upcoming_streams is defined and external_streams.upcoming_streams %}
           <section class="session-list-section external-streams-section">
             <h2>Outras próximas sessões</h2>

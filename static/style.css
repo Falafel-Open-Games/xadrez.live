@@ -34,6 +34,10 @@ a {
 }
 
 .site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
   margin-bottom: 56px;
 }
 
@@ -42,6 +46,23 @@ a {
   font-size: 0.95rem;
   font-weight: 700;
   text-decoration: none;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.site-nav a {
+  color: var(--muted);
+}
+
+.site-nav a:hover {
+  color: var(--accent);
 }
 
 .site-footer {
@@ -945,6 +966,39 @@ iframe {
 
 .supporters-table a {
   color: var(--accent);
+}
+
+.search-page {
+  max-width: 880px;
+}
+
+.search-page .tagline {
+  max-width: 720px;
+}
+
+.search-panel {
+  margin-top: 32px;
+}
+
+.search-note {
+  margin-top: 18px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+pagefind-input,
+pagefind-summary,
+pagefind-results {
+  display: block;
+}
+
+pagefind-summary {
+  margin-top: 16px;
+  color: var(--muted);
+}
+
+pagefind-results {
+  margin-top: 16px;
 }
 
 .stats-page {

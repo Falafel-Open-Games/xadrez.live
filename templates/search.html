@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block title %}Busca | {{ config.title }}{% endblock title %}
+{% block description %}Busca nas descrições, notas, chat principal e transcrição mini das sessões.{% endblock description %}
+
+{% block head_extra %}
+  <link rel="stylesheet" href="/pagefind/pagefind-component-ui.css">
+  <script src="/pagefind/pagefind-component-ui.js" type="module"></script>
+{% endblock head_extra %}
+
+{% block content %}
+<article class="search-page" data-pagefind-ignore>
+  <div class="session-kicker">arquivo</div>
+  <h1>Busca</h1>
+  <p class="tagline">Descrições, notas, chat principal e transcrição mini das sessões.</p>
+
+  <div class="search-panel">
+    <pagefind-input placeholder="Buscar nas sessões"></pagefind-input>
+    <pagefind-summary></pagefind-summary>
+    <pagefind-results show-sub-results></pagefind-results>
+  </div>
+  <p class="search-note">
+    O índice é estático e é atualizado no build do site. Ele evita transcrições alternativas e replays brutos duplicados.
+  </p>
+</article>
+{% endblock content %}

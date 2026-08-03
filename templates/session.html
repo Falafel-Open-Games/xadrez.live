@@ -169,7 +169,7 @@
     </section>
 
     {% if session_notes_html %}
-      <section class="session-notes session-notes-inline">
+      <section class="session-notes session-notes-inline" data-pagefind-body>
         <div class="notes-body">
           {{ session_notes_html | safe }}
         </div>
@@ -182,7 +182,7 @@
   {% endif %}
 
   {% if show_highlights %}
-    <section class="highlights-section" data-replay-tabs data-youtube-url="{{ youtube_url }}">
+    <section class="highlights-section" data-replay-tabs data-youtube-url="{{ youtube_url }}" data-pagefind-ignore>
       <div class="replay-header">
         <h2>Possíveis destaques</h2>
       </div>
@@ -224,13 +224,13 @@
       </div>
 
       {% if show_transcript and transcript_source_count == 1 %}
-        <div class="transcript-source-tabs transcript-source-tabs-static">
+        <div class="transcript-source-tabs transcript-source-tabs-static" data-pagefind-ignore>
           <span class="transcript-source-tab is-active">{{ transcript_source_label }}</span>
         </div>
       {% endif %}
 
       {% if show_transcript and transcript_source_count > 1 %}
-        <div class="transcript-source-tabs" role="tablist" aria-label="Fonte da transcrição">
+        <div class="transcript-source-tabs" role="tablist" aria-label="Fonte da transcrição" data-pagefind-ignore>
           {% if show_openai_mini_transcript %}
             <button class="transcript-source-tab is-active" type="button" data-transcript-source="openai-mini" aria-selected="true">GPT-4o mini</button>
           {% endif %}
@@ -256,7 +256,7 @@
       {% endif %}
 
       {% if show_chat_replay and show_transcript %}
-        <ol class="replay-list replay-panel is-active" data-replay-panel="merged" data-transcript-list="merged" data-transcript-source-active="{{ transcript_source_id }}">
+        <ol class="replay-list replay-panel is-active" data-replay-panel="merged" data-transcript-list="merged" data-transcript-source-active="{{ transcript_source_id }}" data-pagefind-body>
           {% for message in chat_replay.messages %}
             <li class="replay-item replay-item-chat" data-seconds="{{ message.seconds }}" data-order="0">
               <a class="replay-time" href="{{ youtube_url }}&t={{ message.seconds }}s" rel="noopener noreferrer">{{ message.time }}</a>
@@ -284,7 +284,7 @@
       {% endif %}
 
       {% if show_chat_replay %}
-        <ol class="replay-list replay-panel{% if not show_transcript %} is-active{% endif %}" data-replay-panel="chat">
+        <ol class="replay-list replay-panel{% if not show_transcript %} is-active{% endif %}" data-replay-panel="chat"{% if show_transcript %} data-pagefind-ignore{% else %} data-pagefind-body{% endif %}>
           {% for message in chat_replay.messages %}
             <li class="replay-item replay-item-chat" data-seconds="{{ message.seconds }}">
               <a class="replay-time" href="{{ youtube_url }}&t={{ message.seconds }}s" rel="noopener noreferrer">{{ message.time }}</a>
@@ -303,7 +303,7 @@
       {% endif %}
 
       {% if show_transcript %}
-        <ol class="replay-list replay-panel{% if not show_chat_replay %} is-active{% endif %}" data-replay-panel="transcript" data-transcript-list="transcript" data-transcript-source-active="{{ transcript_source_id }}">
+        <ol class="replay-list replay-panel{% if not show_chat_replay %} is-active{% endif %}" data-replay-panel="transcript" data-transcript-list="transcript" data-transcript-source-active="{{ transcript_source_id }}"{% if show_chat_replay %} data-pagefind-ignore{% else %} data-pagefind-body{% endif %}>
           {% for block in transcript.blocks %}
             <li class="replay-item replay-item-transcript" data-transcript-generated data-seconds="{{ block.seconds }}" data-order="1">
               <a class="replay-time" href="{{ youtube_url }}&t={{ block.seconds }}s" rel="noopener noreferrer">{{ block.time }}</a>
@@ -317,25 +317,25 @@
 
       {% if show_transcript and transcript_source_count > 1 %}
         {% if show_youtube_transcript %}
-          <script type="application/json" data-transcript-source-data="youtube" data-transcript-source-label="YouTube">{{ youtube_transcript.blocks | json_encode | safe }}</script>
+          <script type="application/json" data-transcript-source-data="youtube" data-transcript-source-label="YouTube" data-pagefind-ignore>{{ youtube_transcript.blocks | json_encode | safe }}</script>
         {% endif %}
         {% if show_faster_whisper_transcript %}
-          <script type="application/json" data-transcript-source-data="faster-whisper" data-transcript-source-label="Faster Whisper CLI">{{ faster_whisper_transcript.blocks | json_encode | safe }}</script>
+          <script type="application/json" data-transcript-source-data="faster-whisper" data-transcript-source-label="Faster Whisper CLI" data-pagefind-ignore>{{ faster_whisper_transcript.blocks | json_encode | safe }}</script>
         {% endif %}
         {% if show_whisper_cli_transcript %}
-          <script type="application/json" data-transcript-source-data="whisper-cli" data-transcript-source-label="Whisper CLI">{{ whisper_cli_transcript.blocks | json_encode | safe }}</script>
+          <script type="application/json" data-transcript-source-data="whisper-cli" data-transcript-source-label="Whisper CLI" data-pagefind-ignore>{{ whisper_cli_transcript.blocks | json_encode | safe }}</script>
         {% endif %}
         {% if show_openai_mini_transcript %}
-          <script type="application/json" data-transcript-source-data="openai-mini" data-transcript-source-label="GPT-4o mini">{{ openai_mini_transcript.blocks | json_encode | safe }}</script>
+          <script type="application/json" data-transcript-source-data="openai-mini" data-transcript-source-label="GPT-4o mini" data-pagefind-ignore>{{ openai_mini_transcript.blocks | json_encode | safe }}</script>
         {% endif %}
         {% if show_openai_transcript %}
-          <script type="application/json" data-transcript-source-data="openai" data-transcript-source-label="GPT-4o">{{ openai_transcript.blocks | json_encode | safe }}</script>
+          <script type="application/json" data-transcript-source-data="openai" data-transcript-source-label="GPT-4o" data-pagefind-ignore>{{ openai_transcript.blocks | json_encode | safe }}</script>
         {% endif %}
         {% if show_openai_whisper_transcript %}
-          <script type="application/json" data-transcript-source-data="openai-whisper" data-transcript-source-label="Whisper API">{{ openai_whisper_transcript.blocks | json_encode | safe }}</script>
+          <script type="application/json" data-transcript-source-data="openai-whisper" data-transcript-source-label="Whisper API" data-pagefind-ignore>{{ openai_whisper_transcript.blocks | json_encode | safe }}</script>
         {% endif %}
         {% if show_legacy_transcript %}
-          <script type="application/json" data-transcript-source-data="legacy" data-transcript-source-label="Legado">{{ legacy_transcript.blocks | json_encode | safe }}</script>
+          <script type="application/json" data-transcript-source-data="legacy" data-transcript-source-label="Legado" data-pagefind-ignore>{{ legacy_transcript.blocks | json_encode | safe }}</script>
         {% endif %}
       {% endif %}
     </section>
@@ -345,7 +345,7 @@
     </div>
   {% endif %}
 
-  <section class="session-summary">
+  <section class="session-summary" data-pagefind-body>
     <h2>Resumo da sessão</h2>
     <div class="summary-groups">
       <section class="summary-group">
@@ -510,13 +510,13 @@
     </div>
   </section>
 
-  <section class="description">
+  <section class="description" data-pagefind-body>
     <h2>Descrição</h2>
     <p>{{ page.extra.description }}</p>
   </section>
 
   {% if page.extra.supporters is defined and page.extra.supporters %}
-    <section class="session-supporters">
+    <section class="session-supporters" data-pagefind-ignore>
       <h2>Agradecimentos</h2>
       <ul>
         {% for supporter in page.extra.supporters %}
@@ -540,7 +540,7 @@
   {% endif %}
 
   {% if remaining_content_html %}
-    <section class="session-notes">
+    <section class="session-notes" data-pagefind-body>
       <div class="notes-body">
         {{ remaining_content_html | safe }}
       </div>
