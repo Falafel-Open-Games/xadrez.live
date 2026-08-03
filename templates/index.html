@@ -144,6 +144,18 @@
 
 {% block title %}xadrez.live (beta){% endblock title %}
 {% block description %}esta página está em construção{% endblock description %}
+{% block head_extra %}
+  <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": {{ config.title | json_encode | safe }},
+      "url": {{ config.base_url | json_encode | safe }},
+      "description": {{ config.description | json_encode | safe }},
+      "inLanguage": "pt-BR"
+    }
+  </script>
+{% endblock head_extra %}
 
 {% block content %}
 {% set sessions = get_section(path="fcz/_index.md") %}
