@@ -276,7 +276,7 @@
       <ol class="highlight-list">
         {% for highlight in highlights.highlights %}
           <li class="highlight-item" data-seconds="{{ highlight.start_seconds }}">
-            <a class="replay-time" href="{{ youtube_url }}&t={{ highlight.start_seconds }}s" rel="noopener noreferrer">{{ highlight.time }}</a>
+            <a class="replay-time" href="{{ youtube_url }}&t={{ highlight.start_seconds }}s" rel="noopener noreferrer" aria-label="Abrir destaque em {{ highlight.time }}">{{ highlight.time }}</a>
             <div class="highlight-body">
               <small class="highlight-meta">
                 {{ highlight.duration }}
@@ -342,11 +342,15 @@
         </div>
       {% endif %}
 
+      {% if show_transcript %}
+        <p class="transcript-source-note" data-pagefind-ignore>Transcrição {{ transcript_source_label }}</p>
+      {% endif %}
+
       {% if show_chat_replay and show_transcript %}
         <ol class="replay-list replay-panel is-active" data-replay-panel="merged" data-transcript-list="merged" data-transcript-source-active="{{ transcript_source_id }}" data-pagefind-body>
           {% for message in chat_replay.messages %}
             <li class="replay-item replay-item-chat" data-seconds="{{ message.seconds }}" data-order="0">
-              <a class="replay-time" href="{{ youtube_url }}&t={{ message.seconds }}s" rel="noopener noreferrer">{{ message.time }}</a>
+              <a class="replay-time" href="{{ youtube_url }}&t={{ message.seconds }}s" rel="noopener noreferrer" aria-label="Abrir video em {{ message.time }}" data-pagefind-ignore>{{ message.time }}</a>
               <div class="replay-body">
                 <strong>
                   {{ message.author }}
@@ -360,9 +364,8 @@
           {% endfor %}
           {% for block in transcript.blocks %}
             <li class="replay-item replay-item-transcript" data-transcript-generated data-seconds="{{ block.seconds }}" data-order="1">
-              <a class="replay-time" href="{{ youtube_url }}&t={{ block.seconds }}s" rel="noopener noreferrer">{{ block.time }}</a>
+              <a class="replay-time" href="{{ youtube_url }}&t={{ block.seconds }}s" rel="noopener noreferrer" aria-label="Abrir video em {{ block.time }}" data-pagefind-ignore>{{ block.time }}</a>
               <div class="replay-body">
-                <strong>Transcrição <span class="chat-replay-platform">{{ transcript_source_label }}</span></strong>
                 <p>{{ block.text }}</p>
               </div>
             </li>
@@ -374,7 +377,7 @@
         <ol class="replay-list replay-panel{% if not show_transcript %} is-active{% endif %}" data-replay-panel="chat"{% if show_transcript %} data-pagefind-ignore{% else %} data-pagefind-body{% endif %}>
           {% for message in chat_replay.messages %}
             <li class="replay-item replay-item-chat" data-seconds="{{ message.seconds }}">
-              <a class="replay-time" href="{{ youtube_url }}&t={{ message.seconds }}s" rel="noopener noreferrer">{{ message.time }}</a>
+              <a class="replay-time" href="{{ youtube_url }}&t={{ message.seconds }}s" rel="noopener noreferrer" aria-label="Abrir video em {{ message.time }}" data-pagefind-ignore>{{ message.time }}</a>
               <div class="replay-body">
                 <strong>
                   {{ message.author }}
@@ -393,7 +396,7 @@
         <ol class="replay-list replay-panel{% if not show_chat_replay %} is-active{% endif %}" data-replay-panel="transcript" data-transcript-list="transcript" data-transcript-source-active="{{ transcript_source_id }}"{% if show_chat_replay %} data-pagefind-ignore{% else %} data-pagefind-body{% endif %}>
           {% for block in transcript.blocks %}
             <li class="replay-item replay-item-transcript" data-transcript-generated data-seconds="{{ block.seconds }}" data-order="1">
-              <a class="replay-time" href="{{ youtube_url }}&t={{ block.seconds }}s" rel="noopener noreferrer">{{ block.time }}</a>
+              <a class="replay-time" href="{{ youtube_url }}&t={{ block.seconds }}s" rel="noopener noreferrer" aria-label="Abrir video em {{ block.time }}" data-pagefind-ignore>{{ block.time }}</a>
               <div class="replay-body">
                 <p>{{ block.text }}</p>
               </div>
