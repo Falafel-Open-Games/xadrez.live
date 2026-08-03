@@ -6,7 +6,7 @@ default:
 serve:
   zola serve
 
-build: update-supporters
+build: update-supporters update-site-stats update-lichess-rating-history
   zola build
 
 lint-actions:
@@ -19,6 +19,9 @@ refresh-external-streams: update-external-streams build
 
 update-youtube-chat-acks:
   @python3 scripts/update_youtube_chat_acks.py
+
+update-chat-supporters EXTRA="":
+  @python3 scripts/update_chat_supporters.py {{EXTRA}}
 
 import-youtube-chat-replays CACHE_DIR="/tmp/xadrez-chat" EXTRA="":
   @python3 scripts/import_youtube_chat_replays.py --cache-dir {{CACHE_DIR}} {{EXTRA}}
@@ -117,6 +120,12 @@ refresh-replay-data RECENT="5":
 
 update-supporters:
   @python3 scripts/update_supporters.py
+
+update-site-stats:
+  @python3 scripts/update_site_stats.py
+
+update-lichess-rating-history:
+  @python3 scripts/update_lichess_rating_history.py
 
 discover-lichess-youtube-streamers LANGUAGE="all" PAGES="80":
   @python3 scripts/discover_lichess_streamers.py --service youtube --language {{LANGUAGE}} --limit-pages {{PAGES}} --latest-video

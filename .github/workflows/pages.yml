@@ -49,6 +49,12 @@ jobs:
       - name: Update supporters data
         run: python3 scripts/update_supporters.py
 
+      - name: Update site stats
+        run: python3 scripts/update_site_stats.py
+
+      - name: Update Lichess rating history
+        run: python3 scripts/update_lichess_rating_history.py
+
       - name: Build site
         run: zola build
 

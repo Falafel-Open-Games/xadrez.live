@@ -1,0 +1,537 @@
+{% extends "base.html" %}
+
+{% block title %}{{ page.title }} | {{ config.title }}{% endblock title %}
+
+{% block description %}{{ page.description | default(value=config.description) }}{% endblock description %}
+
+{% block head_extra %}
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uplot@1.6.32/dist/uPlot.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/uplot@1.6.32/dist/uPlot.iife.min.js" defer></script>
+{% endblock head_extra %}
+
+{% block social_meta %}
+  <meta property="og:site_name" content="{{ config.title }}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="{{ page.title }}">
+  <meta property="og:description" content="{{ page.description | default(value=config.description) }}">
+  <meta name="twitter:card" content="summary">
+{% endblock social_meta %}
+
+{% block content %}
+{% set stats = load_data(path="data/site_stats.toml", required=false) %}
+{% set lichess_ratings = load_data(path="data/lichess_rating_history.toml", required=false) %}
+<article class="stats-page">
+  <div class="session-kicker">acumulado</div>
+  <h1>{{ page.title }}</h1>
+  {{ page.content | safe }}
+
+  {% if stats and stats.summary is defined %}
+    <section class="stats-grid" aria-label="Resumo acumulado">
+      <div class="stat-card">
+        <span>Sessões publicadas</span>
+        <strong>{{ stats.summary.session_count_label }}</strong>
+      </div>
+      <div class="stat-card">
+        <span>Horas gravadas</span>
+        <strong>{{ stats.summary.total_duration_label }}</strong>
+      </div>
+      <div class="stat-card">
+        <span>Palavras transcritas</span>
+        <strong>{{ stats.summary.transcript_word_count_label }}</strong>
+      </div>
+      <div class="stat-card">
+        <span>Partidas jogadas</span>
+        <strong>{{ stats.summary.game_count_label }}</strong>
+      </div>
+      <div class="stat-card">
+        <span>Puzzles resolvidos</span>
+        <strong>{{ stats.summary.puzzles_solved_label }}</strong>
+      </div>
+      <div class="stat-card">
+        <span>Mensagens de chat por sessão</span>
+        <strong>{{ stats.summary.average_chat_messages_label }}</strong>
+      </div>
+      <div class="stat-card">
+        <span>Maior streak</span>
+        <strong>{{ stats.summary.best_streak_label }}</strong>
+      </div>
+      <div class="stat-card">
+        <span>Rapid na última sessão</span>
+        <strong>{{ stats.summary.latest_rapid_label }}</strong>
+      </div>
+      <div class="stat-card">
+        <span>Puzzles na última sessão</span>
+        <strong>{{ stats.summary.latest_puzzles_label }}</strong>
+      </div>
+    </section>
+
+    <div class="stats-columns">
+      {% if stats.results is defined and stats.results %}
+        <section class="stats-panel">
+          <h2>Resultados</h2>
+          <ul class="stats-list">
+            {% for item in stats.results %}
+              <li><span>{{ item.label }}</span><strong>{{ item.count }}</strong></li>
+            {% endfor %}
+          </ul>
+        </section>
+      {% endif %}
+
+      {% if stats.colors is defined and stats.colors %}
+        <section class="stats-panel">
+          <h2>Cores</h2>
+          <ul class="stats-list">
+            {% for item in stats.colors %}
+              <li><span>{{ item.label }}</span><strong>{{ item.count }}</strong></li>
+            {% endfor %}
+          </ul>
+        </section>
+      {% endif %}
+
+      {% if stats.platforms is defined and stats.platforms %}
+        <section class="stats-panel">
+          <h2>Plataformas</h2>
+          <ul class="stats-list">
+            {% for item in stats.platforms %}
+              <li><span>{{ item.label }}</span><strong>{{ item.count }}</strong></li>
+            {% endfor %}
+          </ul>
+        </section>
+      {% endif %}
+    </div>
+
+    <section class="stats-panel stats-wide-panel">
+      <h2>Gráficos</h2>
+      <div class="stats-range-controls" aria-label="Período dos gráficos">
+        <button type="button" data-stats-range="30">1 mês</button>
+        <button type="button" data-stats-range="90" aria-pressed="true">3 meses</button>
+        <button type="button" data-stats-range="365">1 ano</button>
+        <button type="button" data-stats-range="all">Tudo</button>
+      </div>
+      <div class="stats-chart-grid">
+        {% if lichess_ratings and lichess_ratings.series is defined and lichess_ratings.series %}
+          <section class="stats-chart-card stats-chart-card-wide">
+            <div class="stats-chart-header">
+              <div>
+                <h3>Ratings</h3>
+                <p>Rapid e puzzles no Lichess</p>
+              </div>
+              <div class="stats-chart-current">
+                <strong>{{ stats.summary.latest_rapid_label }}</strong>
+                <span>rapid atual</span>
+              </div>
+            </div>
+            <div class="stats-uplot" data-stats-chart="ratings"></div>
+            <div class="stats-chart-actions">
+              <a class="stats-chart-link" href="https://lichess.org/@/fcz/perf/rapid" rel="noopener noreferrer">Rapid no Lichess</a>
+              <a class="stats-chart-link" href="https://lichess.org/@/fcz/perf/puzzle" rel="noopener noreferrer">Puzzles no Lichess</a>
+            </div>
+          </section>
+        {% endif %}
+
+        {% if stats.chat_chart is defined and stats.chat_chart.points is defined and stats.chat_chart.points %}
+          <section class="stats-chart-card stats-chart-card-wide">
+            <div class="stats-chart-header">
+              <div>
+                <h3>Chat por sessão</h3>
+                <p>{{ stats.chat_chart.first_label }} a {{ stats.chat_chart.latest_label }}</p>
+              </div>
+              <div class="stats-chart-current">
+                <strong>{{ stats.summary.average_chat_messages_label }}</strong>
+                <span>média por sessão</span>
+              </div>
+            </div>
+            <div class="stats-uplot" data-stats-chart="chat"></div>
+          </section>
+        {% endif %}
+      </div>
+      <p class="stats-note">
+        Chat usa mensagens de espectadores por sessão. Ratings usam o historico publico do Lichess, atualizado durante o build do site. A pagina oficial continua disponivel no
+        <a href="https://lichess.org/@/fcz/perf/rapid" rel="noopener noreferrer">grafico rapid do Lichess</a>
+        e no <a href="https://lichess.org/@/fcz/perf/puzzle" rel="noopener noreferrer">grafico de puzzles do Lichess</a>.
+      </p>
+    </section>
+
+    <script type="application/json" id="stats-chart-data">
+      {
+        "chat": {% if stats.chat_chart is defined and stats.chat_chart.points is defined %}{{ stats.chat_chart.points | json_encode | safe }}{% else %}[]{% endif %},
+        "ratings": {% if lichess_ratings and lichess_ratings.series is defined %}{{ lichess_ratings.series | json_encode | safe }}{% else %}[]{% endif %}
+      }
+    </script>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        const dataNode = document.getElementById("stats-chart-data");
+        if (!dataNode || !window.uPlot) return;
+
+        const payload = JSON.parse(dataNode.textContent || "{}");
+        const css = getComputedStyle(document.documentElement);
+        const colors = {
+          text: css.getPropertyValue("--text").trim() || "#ece8dc",
+          muted: css.getPropertyValue("--muted").trim() || "#aaa49a",
+          line: css.getPropertyValue("--line").trim() || "#3a352d",
+          accent: css.getPropertyValue("--accent").trim() || "#d8a657",
+          blue: "#80b8ff",
+          green: "#7fd28b",
+        };
+
+        const formatDate = (seconds) => Number.isFinite(seconds)
+          ? new Date(seconds * 1000).toISOString().slice(0, 10)
+          : "-";
+        const formatShortDate = (seconds) => formatDate(seconds).slice(5).replace("-", "/");
+        const sparseLabels = (formatter, maxLabels) => (_u, vals) => {
+          const every = Math.max(1, Math.ceil(vals.length / maxLabels));
+          return vals.map((value, index) => (
+            index % every === 0 || index === vals.length - 1 ? formatter(value) : ""
+          ));
+        };
+        const chartWidth = (element) => Math.max(280, Math.floor(element.getBoundingClientRect().width));
+
+        function makeChart(element, options, data) {
+          const chart = new uPlot(
+            {
+              ...options,
+              width: chartWidth(element),
+              height: 360,
+            },
+            data,
+            element,
+          );
+
+          const resize = () => chart.setSize({ width: chartWidth(element), height: chart.height });
+          window.addEventListener("resize", resize);
+          return chart;
+        }
+
+        const dayToTimestamp = (date) => Math.floor(new Date(`${date}T00:00:00Z`).getTime() / 1000);
+        const byKey = Object.fromEntries((payload.ratings || []).map((series) => [series.key, series]));
+        const rapid = byKey.rapid;
+        const puzzles = byKey.puzzles;
+        const chat = Array.isArray(payload.chat) ? payload.chat : [];
+        const rangeButtons = Array.from(document.querySelectorAll("[data-stats-range]"));
+        const charts = [];
+        let latestTimestamp = 0;
+
+        const registerChart = (chart, kind, fullMin, fullMax, toNativeRange) => {
+          if (Number.isFinite(fullMin) && Number.isFinite(fullMax)) {
+            latestTimestamp = Math.max(latestTimestamp, fullMax);
+          }
+          charts.push({ chart, kind, fullMin, fullMax, toNativeRange });
+        };
+
+        const applyRange = (range) => {
+          const end = latestTimestamp;
+          const start = range === "all" ? null : end - Number(range) * 24 * 60 * 60;
+
+          for (const item of charts) {
+            const minTimestamp = start == null ? item.fullMin : Math.max(item.fullMin, start);
+            const maxTimestamp = item.fullMax;
+            const [min, max] = item.toNativeRange(minTimestamp, maxTimestamp);
+            item.chart.setScale("x", { min, max });
+          }
+
+          for (const button of rangeButtons) {
+            button.setAttribute("aria-pressed", String(button.dataset.statsRange === range));
+          }
+        };
+
+        const ratingsElement = document.querySelector('[data-stats-chart="ratings"]');
+        if (ratingsElement && rapid && puzzles && Array.isArray(rapid.points) && Array.isArray(puzzles.points)) {
+          const sessionMarkersByDate = new Map();
+          for (const point of chat) {
+            if (!point.date || !point.url) continue;
+            const marker = sessionMarkersByDate.get(point.date);
+            if (marker) {
+              marker.labels.push(`#${point.session_number}`);
+            } else {
+              sessionMarkersByDate.set(point.date, {
+                timestamp: dayToTimestamp(point.date),
+                url: point.url,
+                labels: [`#${point.session_number}`],
+                title: point.summary_title || point.title,
+              });
+            }
+          }
+          const sessionMarkersByTimestamp = new Map(
+            Array.from(sessionMarkersByDate.values()).map((marker) => [marker.timestamp, marker]),
+          );
+          const markerLabel = (marker) => `${marker.labels.join(", ")} - ${marker.title || "sessao"}`;
+          const timestamps = Array.from(
+            new Set([
+              ...rapid.points.map((point) => point.timestamp),
+              ...puzzles.points.map((point) => point.timestamp),
+              ...sessionMarkersByTimestamp.keys(),
+            ]),
+          ).sort((left, right) => left - right);
+
+          const indexByTimestamp = new Map(timestamps.map((timestamp, index) => [timestamp, index]));
+          const valuesFor = (points, valueKey, timestampFor) => {
+            const values = Array(timestamps.length).fill(null);
+            for (const point of points) {
+              const timestamp = timestampFor(point);
+              const index = indexByTimestamp.get(timestamp);
+              if (index !== undefined) values[index] = point[valueKey];
+            }
+            return values;
+          };
+
+          const rapidValues = valuesFor(rapid.points, "rating", (point) => point.timestamp);
+          const puzzleValues = valuesFor(puzzles.points, "rating", (point) => point.timestamp);
+          const sessionY = Math.max(
+            ...rapid.points.map((point) => point.rating),
+            ...puzzles.points.map((point) => point.rating),
+          );
+          const sessionValues = timestamps.map((timestamp) => (
+            sessionMarkersByTimestamp.has(timestamp) ? sessionY : null
+          ));
+          const timestampIsVisible = (chart, timestamp) => (
+            Number.isFinite(timestamp)
+              && timestamp >= chart.scales.x.min
+              && timestamp <= chart.scales.x.max
+          );
+          const sessionAtCursor = (chart) => {
+            const index = chart.cursor.idx;
+            if (!Number.isInteger(index) || !timestampIsVisible(chart, timestamps[index])) return null;
+            return sessionMarkersByTimestamp.get(timestamps[index]);
+          };
+
+          const ratingsChart = makeChart(
+            ratingsElement,
+            {
+              cursor: { drag: { setScale: false } },
+              legend: { show: true, live: true },
+              scales: { x: { time: true } },
+              axes: [
+                {
+                  stroke: colors.muted,
+                  grid: { stroke: colors.line, width: 1 },
+                  ticks: { stroke: colors.line },
+                  values: sparseLabels(formatShortDate, 8),
+                },
+                {
+                  label: "Rating",
+                  stroke: colors.muted,
+                  grid: { stroke: colors.line, width: 1 },
+                  ticks: { stroke: colors.line },
+                },
+              ],
+              series: [
+                {
+                  label: "Dia",
+                  value: (chart, raw, seriesIdx, dataIdx) => (
+                    timestampIsVisible(chart, timestamps[dataIdx]) ? formatDate(raw) : "-"
+                  ),
+                },
+                {
+                  label: "Rapid",
+                  stroke: rapid.color || colors.accent,
+                  fill: "rgba(216, 166, 87, 0.08)",
+                  width: 2,
+                  spanGaps: true,
+                  points: { show: true, size: 5 },
+                  value: (chart, raw, seriesIdx, dataIdx) => (
+                    raw == null || !timestampIsVisible(chart, timestamps[dataIdx]) ? "-" : String(raw)
+                  ),
+                },
+                {
+                  label: "Puzzles",
+                  stroke: puzzles.color || colors.blue,
+                  fill: "rgba(128, 184, 255, 0.06)",
+                  width: 2,
+                  spanGaps: true,
+                  points: { show: true, size: 5 },
+                  value: (chart, raw, seriesIdx, dataIdx) => (
+                    raw == null || !timestampIsVisible(chart, timestamps[dataIdx]) ? "-" : String(raw)
+                  ),
+                },
+                {
+                  label: "Sessões",
+                  stroke: "transparent",
+                  fill: "transparent",
+                  width: 0,
+                  points: {
+                    show: true,
+                    size: 9,
+                    stroke: "transparent",
+                    fill: "transparent",
+                  },
+                  value: (chart, raw, seriesIdx, dataIdx) => {
+                    if (raw == null || !timestampIsVisible(chart, timestamps[dataIdx])) return "-";
+                    const marker = sessionMarkersByTimestamp.get(timestamps[dataIdx]);
+                    return marker ? markerLabel(marker) : "-";
+                  },
+                },
+              ],
+              hooks: {
+                ready: [
+                  (chart) => {
+                    const updateCursor = () => {
+                      const marker = sessionAtCursor(chart);
+                      chart.over.style.cursor = marker ? "pointer" : "";
+                      return marker;
+                    };
+                    chart.over.addEventListener("mousemove", updateCursor);
+                    chart.over.addEventListener("mouseleave", () => {
+                      chart.over.style.cursor = "";
+                    });
+                    chart.over.addEventListener("click", () => {
+                      const marker = updateCursor();
+                      if (marker) window.location.href = marker.url;
+                    });
+                  },
+                ],
+              },
+            },
+            [timestamps, rapidValues, puzzleValues, sessionValues],
+          );
+          registerChart(
+            ratingsChart,
+            "ratings",
+            timestamps[0],
+            timestamps[timestamps.length - 1],
+            (min, max) => [min, max],
+          );
+        }
+
+        const chatElement = document.querySelector('[data-stats-chart="chat"]');
+        if (chatElement && chat.length) {
+          const sessions = chat.map((_point, index) => index);
+          const counts = chat.map((point) => point.count);
+          const chatTimestamps = chat.map((point) => dayToTimestamp(point.date));
+          const sessionIsVisible = (chart, index) => (
+            Number.isInteger(index)
+              && sessions[index] >= chart.scales.x.min
+              && sessions[index] <= chart.scales.x.max
+          );
+          const findLastTimestampIndex = (timestamp) => {
+            for (let index = chatTimestamps.length - 1; index >= 0; index -= 1) {
+              if (chatTimestamps[index] <= timestamp) return index;
+            }
+            return -1;
+          };
+          const chatLabel = (index) => {
+            const point = chat[Math.round(index)];
+            return point ? `#${point.session_number}` : "";
+          };
+
+          const nativeChatRange = (minTimestamp, maxTimestamp) => {
+            const minIndex = chatTimestamps.findIndex((timestamp) => timestamp >= minTimestamp);
+            const maxIndexFromEnd = findLastTimestampIndex(maxTimestamp);
+            return [
+              minIndex === -1 ? 0 : Math.max(0, minIndex - 0.5),
+              maxIndexFromEnd === -1 ? sessions[sessions.length - 1] : Math.min(sessions[sessions.length - 1], maxIndexFromEnd + 0.5),
+            ];
+          };
+
+          const chatChart = makeChart(
+            chatElement,
+            {
+              cursor: { drag: { setScale: false } },
+              legend: { show: true, live: true },
+              scales: {
+                y: { range: (_u, min, max) => [0, Math.max(5, max)] },
+              },
+              axes: [
+                {
+                  stroke: colors.muted,
+                  grid: { stroke: colors.line, width: 1 },
+                  ticks: { stroke: colors.line },
+                  values: sparseLabels(chatLabel, 10),
+                },
+                {
+                  label: "Mensagens",
+                  stroke: colors.muted,
+                  grid: { stroke: colors.line, width: 1 },
+                  ticks: { stroke: colors.line },
+                },
+              ],
+              series: [
+                {
+                  label: "Sessão",
+                  value: (chart, raw) => {
+                    const index = Math.round(raw);
+                    if (!sessionIsVisible(chart, index)) return "-";
+                    const point = chat[index];
+                    return point ? `#${point.session_number} - ${point.date}` : "";
+                  },
+                },
+                {
+                  label: "Chat",
+                  stroke: "transparent",
+                  width: 0,
+                  points: { show: false },
+                  value: (chart, raw, seriesIdx, dataIdx) => {
+                    if (raw == null || !sessionIsVisible(chart, dataIdx)) return "-";
+                    const point = chat[dataIdx];
+                    return point ? `${point.count_label} - ${point.summary_title || point.title}` : String(raw);
+                  },
+                },
+              ],
+              hooks: {
+                drawSeries: [
+                  (chart, seriesIdx) => {
+                    if (seriesIdx !== 1) return;
+                    const ctx = chart.ctx;
+                    const zero = chart.valToPos(0, "y", true);
+                    const xMin = chart.scales.x.min;
+                    const xMax = chart.scales.x.max;
+                    const visibleX = chart.data[0].filter((x) => x >= xMin && x <= xMax);
+                    const barGap = visibleX.length > 1
+                      ? Math.min(
+                          ...visibleX.slice(1).map((x, index) => (
+                            chart.valToPos(x, "x", true) - chart.valToPos(visibleX[index], "x", true)
+                          )),
+                        )
+                      : 20;
+                    const barWidth = Math.max(4, Math.min(18, barGap * 0.72));
+                    ctx.save();
+                    ctx.fillStyle = "rgba(127, 210, 139, 0.72)";
+                    for (let index = 0; index < chart.data[0].length; index += 1) {
+                      if (chart.data[0][index] < xMin || chart.data[0][index] > xMax) continue;
+                      const value = chart.data[1][index];
+                      if (value == null) continue;
+                      const x = chart.valToPos(chart.data[0][index], "x", true);
+                      const y = chart.valToPos(value, "y", true);
+                      ctx.fillRect(
+                        Math.round(x - barWidth / 2),
+                        Math.round(y),
+                        Math.round(barWidth),
+                        Math.max(1, Math.round(zero - y)),
+                      );
+                    }
+                    ctx.restore();
+                  },
+                ],
+                ready: [
+                  (chart) => {
+                    chart.root.addEventListener("click", () => {
+                      const idx = chart.cursor.idx;
+                      if (!sessionIsVisible(chart, idx)) return;
+                      const point = chat[idx];
+                      if (point && point.url) window.location.href = point.url;
+                    });
+                  },
+                ],
+              },
+            },
+            [sessions, counts],
+          );
+          registerChart(
+            chatChart,
+            "chat",
+            chatTimestamps[0],
+            chatTimestamps[chatTimestamps.length - 1],
+            nativeChatRange,
+          );
+        }
+
+        for (const button of rangeButtons) {
+          button.addEventListener("click", () => applyRange(button.dataset.statsRange));
+        }
+        if (charts.length) applyRange("90");
+      });
+    </script>
+  {% else %}
+    <p class="session-list-empty">estatísticas ainda não geradas.</p>
+  {% endif %}
+</article>
+{% endblock content %}

@@ -947,6 +947,256 @@ iframe {
   color: var(--accent);
 }
 
+.stats-page {
+  max-width: 1080px;
+}
+
+.stats-page > p {
+  max-width: 760px;
+  color: var(--muted);
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 32px;
+}
+
+.stat-card {
+  min-height: 112px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: var(--panel);
+}
+
+.stat-card span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.stat-card strong {
+  display: block;
+  margin-top: 8px;
+  color: var(--accent);
+  font-size: clamp(1.6rem, 3vw, 2.4rem);
+  line-height: 1.05;
+}
+
+.stats-columns {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.stats-panel {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: var(--panel);
+}
+
+.stats-panel h2 {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+}
+
+.stats-list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.stats-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--muted);
+}
+
+.stats-list strong {
+  color: var(--text);
+}
+
+.stats-wide-panel {
+  margin-top: 24px;
+}
+
+.stats-chart-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.stats-range-controls {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin: 4px 0 14px;
+  padding: 3px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--panel-strong);
+}
+
+.stats-range-controls button {
+  min-height: 30px;
+  border: 0;
+  border-radius: 6px;
+  padding: 0 12px;
+  color: var(--muted);
+  background: transparent;
+  font: inherit;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.stats-range-controls button:hover,
+.stats-range-controls button:focus-visible {
+  color: var(--text);
+  outline: none;
+}
+
+.stats-range-controls button[aria-pressed="true"] {
+  color: var(--bg);
+  background: var(--accent);
+}
+
+.stats-chart-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: var(--panel-strong);
+}
+
+.stats-chart-card-wide {
+  grid-column: 1 / -1;
+}
+
+.stats-chart-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 10px;
+}
+
+.stats-chart-header h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.stats-chart-header p {
+  margin: 2px 0 0;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.stats-chart-current {
+  text-align: right;
+}
+
+.stats-chart-current strong,
+.stats-chart-current span {
+  display: block;
+}
+
+.stats-chart-current strong {
+  color: var(--accent);
+  font-size: 1.4rem;
+  line-height: 1;
+}
+
+.stats-chart-current span {
+  margin-top: 4px;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.stats-chart-link {
+  display: inline-flex;
+  margin-top: 8px;
+  color: var(--accent);
+  font-size: 0.9rem;
+}
+
+.stats-chart-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0 14px;
+  margin-top: 8px;
+}
+
+.stats-uplot {
+  min-height: 240px;
+  cursor: crosshair;
+}
+
+.stats-uplot .uplot {
+  width: 100%;
+  color: var(--muted);
+  background: transparent;
+  font-family: inherit;
+}
+
+.stats-uplot .u-wrap {
+  position: relative;
+}
+
+.stats-uplot .u-title {
+  display: none;
+}
+
+.stats-uplot .u-over,
+.stats-uplot .u-under {
+  overflow: visible;
+}
+
+.stats-uplot .u-legend {
+  margin: 0 0 8px;
+  color: var(--text);
+  font-size: 0.86rem;
+}
+
+.stats-uplot .u-legend th,
+.stats-uplot .u-legend td {
+  padding: 2px 8px 2px 0;
+  color: var(--muted);
+}
+
+.stats-uplot .u-legend .u-value {
+  color: var(--text);
+}
+
+.stats-uplot .u-cursor-x,
+.stats-uplot .u-cursor-y {
+  border-color: var(--accent);
+}
+
+.stats-uplot .u-select {
+  background: rgb(216 166 87 / 0.12);
+}
+
+.stats-note {
+  max-width: 760px;
+  margin: 0;
+  color: var(--muted);
+}
+
+.stats-note a {
+  color: var(--accent);
+}
+
+.stats-table td:nth-child(2) {
+  font-weight: 400;
+}
+
 @media (max-width: 820px) {
   .site-shell {
     width: min(100% - 24px, 1180px);
@@ -977,6 +1227,12 @@ iframe {
 
   .chat-panel {
     min-height: 360px;
+  }
+
+  .stats-grid,
+  .stats-columns,
+  .stats-chart-grid {
+    grid-template-columns: 1fr;
   }
 
   .game-summary-layout {

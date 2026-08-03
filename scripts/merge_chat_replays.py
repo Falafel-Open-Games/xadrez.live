@@ -182,11 +182,36 @@ def duplicate_key(message: dict[str, Any], max_delta_seconds: int) -> tuple[str,
     return (str(message.get("platform") or ""), str(message.get("text") or ""), bucket)
 
 
+def same_known_author(left: dict[str, Any], right: dict[str, Any]) -> bool:
+    left_author = str(left.get("author") or "").strip()
+    right_author = str(right.get("author") or "").strip()
+    if not left_author or not right_author:
+        return True
+    if ANON_AUTHOR_RE.match(left_author) or ANON_AUTHOR_RE.match(right_author):
+        return True
+    return left_author == right_author
+
+
+def known_author(value: Any) -> str:
+    author = str(value or "").strip()
+    if not author or ANON_AUTHOR_RE.match(author):
+        return ""
+    return author
+
+
 def same_message(left: dict[str, Any], right: dict[str, Any], max_delta_seconds: int) -> bool:
+    same_platform = str(left.get("platform") or "") == str(right.get("platform") or "")
+    same_text = str(left.get("text") or "") == str(right.get("text") or "")
+    if not same_platform or not same_text or not same_known_author(left, right):
+        return False
+
+    left_author = known_author(left.get("author"))
+    right_author = known_author(right.get("author"))
+    if left_author and left_author == right_author:
+        return True
+
     return (
-        str(left.get("platform") or "") == str(right.get("platform") or "")
-        and str(left.get("text") or "") == str(right.get("text") or "")
-        and abs(int(left.get("seconds") or 0) - int(right.get("seconds") or 0)) <= max_delta_seconds
+        abs(int(left.get("seconds") or 0) - int(right.get("seconds") or 0)) <= max_delta_seconds
     )
 
 
@@ -242,13 +267,19 @@ def build_replay(
     if not restream_messages and not youtube_messages and not twitch_messages:
         return None
 
-    restream_messages = deanonymize(restream_messages, youtube_messages, twitch_messages, max_delta_seconds)
-    messages = merge_messages([restream_messages, youtube_messages, twitch_messages], max_delta_seconds)
+    if restream_messages:
+        restream_messages = deanonymize(restream_messages, youtube_messages, twitch_messages, max_delta_seconds)
+        messages = merge_messages([restream_messages], max_delta_seconds)
+        sources = ["restream"]
+    else:
+        messages = merge_messages([youtube_messages, twitch_messages], max_delta_seconds)
+        sources = []
+        if youtube_data:
+            sources.append("youtube")
+        if twitch_data:
+            sources.append("twitch")
+
     platforms = sorted({str(message.get("platform") or "") for message in messages if message.get("platform")})
-    sources = []
-    for source_name, data in (("restream", restream_data), ("youtube", youtube_data), ("twitch", twitch_data)):
-        if data:
-            sources.append(source_name)
 
     output: dict[str, Any] = {
         "session_number": session_number,
@@ -320,7 +351,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--youtube-dir", type=Path, default=DEFAULT_YOUTUBE_DIR)
     parser.add_argument("--twitch-dir", type=Path, default=DEFAULT_TWITCH_DIR)
     parser.add_argument("--latest", type=int, help="Only process the latest N ended sessions.")
-    parser.add_argument("--match-window", type=int, default=30)
+    parser.add_argument("--match-window", type=int, default=90)
     return parser.parse_args()
 
 
