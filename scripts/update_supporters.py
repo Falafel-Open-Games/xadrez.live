@@ -15,6 +15,7 @@ SELF_SUPPORTERS = {
     ("youtube", "fczuardi"),
     ("twitch", "sedentarismo"),
 }
+SELF_SUPPORTER_HANDLES = {handle for _platform, handle in SELF_SUPPORTERS}
 
 
 @dataclass
@@ -121,7 +122,8 @@ def normalized_platform(platform: str, url: str) -> str:
 
 
 def is_self_supporter(platform: str, name: str, url: str) -> bool:
-    return (normalized_platform(platform, url), normalized_handle(name)) in SELF_SUPPORTERS
+    handle = normalized_handle(name)
+    return (normalized_platform(platform, url), handle) in SELF_SUPPORTERS or handle in SELF_SUPPORTER_HANDLES
 
 
 def supporter_key(name: str, url: str) -> str:

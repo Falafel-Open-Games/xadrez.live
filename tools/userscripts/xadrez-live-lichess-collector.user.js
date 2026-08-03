@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.13.8
+// @version      0.13.9
 // @description  Collect chess puzzle, game, notes, and Restream chat usernames during a xadrez.live session.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -22,6 +22,7 @@
     YouTube: new Set(["fczuardi"]),
     Twitch: new Set(["sedentarismo"]),
   };
+  const SELF_SUPPORTER_HANDLES = new Set(Object.values(SELF_SUPPORTERS).flatMap((handles) => [...handles]));
 
   const DEFAULT_STATE = {
     active: false,
@@ -1031,7 +1032,8 @@ note = "${quote(attempt.note)}"`);
   }
 
   function isSelfSupporter(platform, name) {
-    return SELF_SUPPORTERS[platform]?.has(normalizedSupporterHandle(name)) || false;
+    const handle = normalizedSupporterHandle(name);
+    return SELF_SUPPORTERS[platform]?.has(handle) || SELF_SUPPORTER_HANDLES.has(handle) || false;
   }
 
   function restreamSupporters() {

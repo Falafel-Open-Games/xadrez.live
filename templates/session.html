@@ -520,13 +520,17 @@
       <h2>Agradecimentos</h2>
       <ul>
         {% for supporter in page.extra.supporters %}
-          {% if supporter.name is defined and supporter.name %}
+          {% set supporter_name = supporter.name | default(value="") %}
+          {% set supporter_platform = supporter.platform | default(value="") %}
+          {% set supporter_url = supporter.url | default(value="") %}
+          {% set is_self_supporter = supporter_name == "@sedentarismo" and (supporter_platform == "Twitch" or supporter_url is containing("twitch.tv/sedentarismo")) %}
+          {% if supporter_name and not is_self_supporter %}
             <li>
-              {% if supporter.platform is defined and supporter.platform %}{{ supporter.platform }}: {% endif %}
-              {% if supporter.url is defined and supporter.url %}
-                <a href="{{ supporter.url }}" rel="noopener noreferrer">{{ supporter.name }}</a>
+              {% if supporter_platform %}{{ supporter_platform }}: {% endif %}
+              {% if supporter_url %}
+                <a href="{{ supporter_url }}" rel="noopener noreferrer">{{ supporter_name }}</a>
               {% else %}
-                {{ supporter.name }}
+                {{ supporter_name }}
               {% endif %}
             </li>
           {% endif %}
