@@ -215,11 +215,27 @@ def timestamp_from_upload_date(upload_date: str) -> int:
     return int(date.timestamp())
 
 
+def timestamp_from_title(value: str) -> int:
+    match = re.search(r"\b(20\d{2})-(\d{2})-(\d{2})[ T](\d{1,2}):(\d{2})\b", value)
+    if not match:
+        return 0
+
+    year, month, day, hour, minute = (int(part) for part in match.groups())
+    try:
+        date = datetime(year, month, day, hour, minute, tzinfo=DISPLAY_TZ)
+    except ValueError:
+        return 0
+    return int(date.astimezone(timezone.utc).timestamp())
+
+
 def publication_timestamp(item: dict) -> int:
     for key in ("timestamp", "release_timestamp"):
         value = item.get(key)
         if isinstance(value, int) and value > 0:
             return value
+    title_timestamp = timestamp_from_title(str(item.get("title") or ""))
+    if title_timestamp:
+        return title_timestamp
     upload_date = str(item.get("upload_date") or "")
     return timestamp_from_upload_date(upload_date)
 
@@ -274,11 +290,16 @@ def scheduled_fields(item: dict) -> dict[str, str | int]:
 
 
 def live_fields(item: dict) -> dict[str, str | int]:
-    now = datetime.now(timezone.utc)
-    display = now.astimezone(DISPLAY_TZ)
+    timestamp = live_start_timestamp(item)
+    live_start = (
+        datetime.fromtimestamp(timestamp, timezone.utc)
+        if timestamp
+        else datetime.now(timezone.utc)
+    )
+    display = live_start.astimezone(DISPLAY_TZ)
     return {
-        "sort_timestamp": int(now.timestamp()),
-        "scheduled_at": now.isoformat(timespec="seconds"),
+        "sort_timestamp": int(live_start.timestamp()),
+        "scheduled_at": live_start.isoformat(timespec="seconds"),
         "scheduled_date": display.date().isoformat(),
         "scheduled_label": "ao vivo agora",
         "scheduled_time": "",

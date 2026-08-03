@@ -6,10 +6,16 @@ from scripts.update_external_streams import (
     filter_latest_stream_per_creator,
     filter_upcoming_streams,
     preserve_existing_if_richer,
+    timestamp_from_title,
 )
 
 
 class PreserveExistingStreamMetadataTest(unittest.TestCase):
+    def test_extracts_timestamp_from_youtube_title_date(self):
+        timestamp = timestamp_from_title("Xadrezin de Leves 2026-07-31 11:47")
+
+        self.assertGreater(timestamp, 0)
+
     def test_preserves_richer_existing_metadata_for_flat_playlist_fallback(self):
         existing = {
             "https://www.youtube.com/watch?v=h3cJk0cgiFA": {
@@ -151,6 +157,19 @@ class PreserveExistingStreamMetadataTest(unittest.TestCase):
             "live_status": "is_live",
             "was_live": False,
             "release_timestamp": now - LIVE_WINDOW_SECONDS - 1,
+        }
+
+        demoted = demote_stale_live_item(item, now)
+
+        self.assertEqual(demoted["live_status"], "was_live")
+        self.assertTrue(demoted["was_live"])
+
+    def test_demotes_stale_live_metadata_using_title_timestamp(self):
+        now = timestamp_from_title("Any stream 2026-08-02 12:00")
+        item = {
+            "title": "Xadrezin de Leves 2026-07-31 11:47",
+            "live_status": "is_live",
+            "was_live": False,
         }
 
         demoted = demote_stale_live_item(item, now)
