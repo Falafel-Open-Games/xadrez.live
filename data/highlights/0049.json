@@ -1,19 +1,19 @@
 {
   "session_number": "0049",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 292,
+      "start_seconds": 308,
       "end_seconds": 390,
-      "time": "4:52",
+      "time": "5:08",
       "duration": "1:30",
       "kind": "training",
       "score": 4.35,
-      "summary": "Outro dia eu abri meu mouse para limpar dentro por conta de um clique que me prejudicou numa partida, mas vamos lá…",
+      "summary": "Ah, parece uma boa levar a dama aqui, tirar ela de perigo e ameaça um cheque perigoso. Ah, do lado do meu oponente não parece ter muita ameaça não…",
       "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
         "1 mensagem(ns) no chat",
@@ -25,33 +25,37 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 1,
-      "transcript_count": 4
+      "transcript_count": 3,
+      "lead_in": "de cheque mate aqui né"
     },
     {
-      "start_seconds": 567,
-      "end_seconds": 630,
-      "time": "9:27",
+      "start_seconds": 568,
+      "end_seconds": 600,
+      "time": "9:28",
       "duration": "1:30",
       "kind": "research",
-      "score": 4.75,
+      "score": 5.85,
       "summary": "É, ontem a gente fez todos esses padrões, todos não, a gente terminou de fazer aqui com os do Loli…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; tema claro de xadrez; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta; pesquisa ou contexto externo",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; treino ou puzzle streak; raciocínio em voz alta; pesquisa ou contexto externo",
       "signals": [
         "1 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
         "tema claro de xadrez",
         "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo",
         "treino ou puzzle streak",
         "raciocínio em voz alta",
         "pesquisa ou contexto externo"
       ],
       "chat_count": 1,
-      "transcript_count": 4
+      "transcript_count": 5,
+      "lead_in": "Ah terminou"
     },
     {
-      "start_seconds": 1492,
+      "start_seconds": 1500,
       "end_seconds": 1590,
-      "time": "24:52",
+      "time": "25:00",
       "duration": "1:30",
       "kind": "opening",
       "score": 5.7,
@@ -68,17 +72,18 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 4,
-      "transcript_count": 4
+      "transcript_count": 4,
+      "lead_in": "vida da dama pelo mate"
     },
     {
-      "start_seconds": 2692,
-      "end_seconds": 2790,
-      "time": "44:52",
+      "start_seconds": 2730,
+      "end_seconds": 2820,
+      "time": "45:30",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 5.7,
-      "summary": "Viu pra cá, por conta dessa proteção, não sei como que eu continuo o bullying aqui. Aí, aqui ele tá um pouquinho mais protegido, né? Não tem... É..…",
-      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
+      "score": 6.5,
+      "summary": "Eu não posso chegar lá com esse tanto, com essa miséria de tempo, né? Aí, não consigo nem aproveitar uma vantagem ridiculamente expressiva aqui, porque..…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; raciocínio em voz alta",
       "signals": [
         "2 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
@@ -88,15 +93,17 @@
         "plano ou estratégia",
         "pressão no relógio",
         "plano sob pressão de tempo",
+        "abertura ou repertório",
         "raciocínio em voz alta"
       ],
       "chat_count": 2,
-      "transcript_count": 4
+      "transcript_count": 4,
+      "lead_in": "pra fazer em 40 segundos"
     },
     {
-      "start_seconds": 3371,
+      "start_seconds": 3373,
       "end_seconds": 3450,
-      "time": "56:11",
+      "time": "56:13",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 5.5,
@@ -113,12 +120,13 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 4
+      "transcript_count": 4,
+      "lead_in": "que a gente estava vendo"
     },
     {
-      "start_seconds": 3783,
-      "end_seconds": 3870,
-      "time": "1:03:03",
+      "start_seconds": 3791,
+      "end_seconds": 3840,
+      "time": "1:03:11",
       "duration": "1:30",
       "kind": "review",
       "score": 4.4,
