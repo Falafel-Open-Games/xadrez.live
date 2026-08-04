@@ -79,3 +79,11 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: main
+
+      - name: Submit recent URLs to IndexNow
+        run: python3 scripts/submit_indexnow.py
