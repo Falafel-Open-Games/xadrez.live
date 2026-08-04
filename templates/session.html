@@ -39,6 +39,9 @@
   {% set youtube_embed_url = "https://www.youtube.com/embed/" ~ page.extra.youtube_video_id %}
   {% set image_url = "" %}
   {% set archive_url = config.base_url ~ "/arquivo/" %}
+  {% set session_time = page.extra.time | default(value="00:00") %}
+  {% set session_date = page.date | date(format="%Y-%m-%d") %}
+  {% set video_upload_date = session_date ~ "T" ~ session_time ~ ":00-03:00" %}
   {% if page.extra.og_image is defined and page.extra.og_image %}
     {% set image_url = get_url(path=page.extra.og_image) %}
   {% endif %}
@@ -51,7 +54,7 @@
       "url": {{ page.permalink | json_encode | safe }},
       "sameAs": {{ youtube_url | json_encode | safe }},
       "embedUrl": {{ youtube_embed_url | json_encode | safe }},
-      "uploadDate": "{{ page.date | date(format="%Y-%m-%d") }}",
+      "uploadDate": {{ video_upload_date | json_encode | safe }},
       "inLanguage": "pt-BR"{% if image_url %},
       "thumbnailUrl": [{{ image_url | json_encode | safe }}]{% endif %}
     }
