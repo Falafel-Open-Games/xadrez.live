@@ -14,6 +14,20 @@ pagefind:
 
 build-search: build pagefind
 
+pre-wrap RECENT="2":
+  @python3 scripts/import_youtube_chat_replays.py --cache-dir /tmp/xadrez-chat --latest {{RECENT}} --download
+  @python3 scripts/import_twitch_chat_replays.py --cache-dir /tmp/xadrez-twitch-chat --playlist-end {{RECENT}}
+  @python3 scripts/import_restream_chat_replays.py --cache-dir /tmp/xadrez-restream-chat --latest {{RECENT}} || echo "Restream chat unavailable; keeping direct-platform chat fallback"
+  @python3 scripts/merge_chat_replays.py --latest {{RECENT}}
+  @python3 scripts/import_youtube_transcripts.py --cache-dir /tmp/xadrez-transcripts --latest {{RECENT}}
+  @python3 scripts/import_openai_transcripts.py --latest {{RECENT}} || echo "OpenAI transcript unavailable; keeping existing transcript fallback"
+  @python3 scripts/import_whisper_transcripts.py --latest {{RECENT}} --source-id faster-whisper --output-suffix faster-whisper --whisper-cache-dir /tmp/xadrez-faster-whisper-cache --whisper-cmd "whisper-ctranslate2 --model turbo --compute_type int8 --batched True --batch_size 8" || echo "Faster Whisper CLI transcript unavailable; keeping existing transcript fallback"
+  @python3 scripts/align_transcript_timestamps.py --latest {{RECENT}} --source-suffix openai-gpt-4o-mini-transcribe --output-suffix openai-gpt-4o-mini-transcribe.aligned
+  @python3 scripts/align_transcript_timestamps.py --latest {{RECENT}} --source-suffix openai-gpt-4o-transcribe --output-suffix openai-gpt-4o-transcribe.aligned
+  @python3 scripts/suggest_highlights.py --latest {{RECENT}}
+  @python3 scripts/update_chat_supporters.py --latest {{RECENT}}
+  @just build-search
+
 lint-actions:
   actionlint
 

@@ -3,32 +3,10 @@
   "source": "heuristic",
   "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
   "transcript_label": "GPT-4o mini alinhado",
+  "limit": 6,
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
-    {
-      "start_seconds": 1313,
-      "end_seconds": 1380,
-      "time": "21:53",
-      "duration": "1:30",
-      "kind": "research",
-      "score": 6.45,
-      "summary": "John Batista Lolli Wikipedia Morreu em 1769 aos 71 anos, nasceu em 1698 numa comuna italiana chamada Nonantola da região Emília Romanha, província de Modena…",
-      "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; tema claro de xadrez; plano ou estratégia; abertura ou repertório; raciocínio em voz alta; pesquisa ou contexto externo; consulta em fonte externa",
-      "signals": [
-        "3 mensagem(ns) no chat",
-        "chat e fala no mesmo trecho",
-        "tema claro de xadrez",
-        "plano ou estratégia",
-        "abertura ou repertório",
-        "raciocínio em voz alta",
-        "pesquisa ou contexto externo",
-        "consulta em fonte externa"
-      ],
-      "chat_count": 3,
-      "transcript_count": 3,
-      "lead_in": "Google for John Batista Lolli"
-    },
     {
       "start_seconds": 2968,
       "end_seconds": 3030,
@@ -36,7 +14,7 @@
       "duration": "1:30",
       "kind": "opening",
       "score": 7.65,
-      "summary": "Então uma opção é defender esse peão com esse g5, mas na scallop você, ao invés de fazer isso, você vem com o cavalo. Se as brancas jogarem e5, tentando..…",
+      "summary": "Então uma opção é defender esse peão com esse G5, mas na escalope você, ao invés de fazer isso, você vem com o cavalo. Se as brancas jogarem E5 tentando..…",
       "reason": "5 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; abertura ou repertório; raciocínio em voz alta",
       "signals": [
         "5 mensagem(ns) no chat",
@@ -51,7 +29,7 @@
       ],
       "chat_count": 5,
       "transcript_count": 3,
-      "lead_in": "Tá falando desse g5 né"
+      "lead_in": "Tá falando desse G5 né"
     },
     {
       "start_seconds": 3673,
@@ -60,7 +38,7 @@
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 6.9,
-      "summary": "Então, nesse ponto, eu acho que tem um aprendizado aqui pra tirar. Que é... Aqui a gente tá na abertura ainda, né? Mais ou menos, lance 11…",
+      "summary": "Então, nesse ponto, eu acho que tem um aprendizado aqui para tirar. Que a gente está na abertura ainda, né? Mais ou menos. Lance 11…",
       "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; raciocínio em voz alta",
       "signals": [
         "2 mensagem(ns) no chat",
@@ -75,8 +53,8 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 2,
-      "transcript_count": 4,
-      "lead_in": "já tá desde o começo"
+      "transcript_count": 5,
+      "lead_in": "já está desde o começo"
     },
     {
       "start_seconds": 4682,
@@ -85,7 +63,7 @@
       "duration": "1:30",
       "kind": "opening",
       "score": 6.6,
-      "summary": "Então, naquela situação lá, eu já estava com o jogo ganho, né? Então, levar... Cadê? Aqui no 20…",
+      "summary": "Então, naquela situação lá, eu já estava com o jogo ganho, né? Então, levar..…",
       "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; abertura ou repertório; raciocínio em voz alta",
       "signals": [
         "2 mensagem(ns) no chat",
@@ -100,7 +78,7 @@
       ],
       "chat_count": 2,
       "transcript_count": 5,
-      "lead_in": "por ganhar mais rápido né"
+      "lead_in": "assisti outro dia cê não"
     },
     {
       "start_seconds": 5610,
@@ -124,17 +102,41 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 2,
-      "transcript_count": 5,
+      "transcript_count": 6,
       "lead_in": "elemento de surpresa aqui ó"
     },
     {
-      "start_seconds": 5974,
+      "start_seconds": 5716,
+      "end_seconds": 5730,
+      "time": "1:35:16",
+      "duration": "1:30",
+      "kind": "research",
+      "score": 6.95,
+      "summary": "Sergei Movsesian contra Maxime Vachier. Prazer, não conheço nenhum dos dois. E aqui as brancas ganham. Não, então vamos tentar ser justo com o Gambito do Elefante, vai…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; abertura ou repertório; raciocínio em voz alta; pesquisa ou contexto externo",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "abertura ou repertório",
+        "raciocínio em voz alta",
+        "pesquisa ou contexto externo"
+      ],
+      "chat_count": 1,
+      "transcript_count": 5,
+      "lead_in": "Pessoas de 2700 vai"
+    },
+    {
+      "start_seconds": 5983,
       "end_seconds": 6000,
-      "time": "1:39:34",
+      "time": "1:39:43",
       "duration": "1:30",
       "kind": "research",
       "score": 7.1,
-      "summary": "Seria legal saber se essa pessoa aqui... Da onde veio esse jogo, né? Veio de algum campeonato? Veio do quê? Ah, é uma pessoa famosa. Tem até o Wikipedia do nome dela…",
+      "summary": "da onde vem esse jogo, né? Veio de algum campeonato? Veio do quê? Ah, é uma pessoa famosa. Tem até o Wikipedia do nome dela. Do Azerbaijão. Azerbaijani Chess Master.",
       "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; abertura ou repertório; raciocínio em voz alta; pesquisa ou contexto externo; consulta em fonte externa",
       "signals": [
         "2 mensagem(ns) no chat",
@@ -149,7 +151,7 @@
       ],
       "chat_count": 2,
       "transcript_count": 3,
-      "lead_in": "foi um jogo importado né"
+      "lead_in": "saber se essa pessoa aqui"
     }
   ]
 }

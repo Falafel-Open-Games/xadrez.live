@@ -148,6 +148,15 @@ def transcript_data(session: str) -> tuple[str, str, list[dict[str, Any]]]:
     return "", "", []
 
 
+def preferred_transcript_source(session: str) -> tuple[str, Path | None]:
+    for suffix, _label in TRANSCRIPT_SOURCES:
+        path = TRANSCRIPT_DIR / f"{session}.{suffix}.json"
+        data = read_json(path)
+        if data and isinstance(data.get("blocks"), list) and data["blocks"]:
+            return suffix, path
+    return "", None
+
+
 def chat_messages(session: str) -> list[dict[str, Any]]:
     data = read_json(CHAT_DIR / f"{session}.json")
     if not data or not isinstance(data.get("messages"), list):
@@ -443,6 +452,7 @@ def suggest_highlights(session: str, limit: int, window_seconds: int, step_secon
         "source": "heuristic",
         "transcript_source": transcript_source,
         "transcript_label": transcript_label,
+        "limit": limit,
         "window_seconds": window_seconds,
         "step_seconds": step_seconds,
         "highlights": selected,
@@ -457,45 +467,88 @@ def write_json_if_changed(path: Path, data: dict[str, Any]) -> bool:
     return True
 
 
+def output_is_current(session: str, output_path: Path, args: argparse.Namespace) -> bool:
+    if not output_path.exists():
+        return False
+
+    try:
+        output = json.loads(output_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return False
+    if not isinstance(output, dict):
+        return False
+
+    transcript_source, transcript_path = preferred_transcript_source(session)
+    expected = {
+        "source": "heuristic",
+        "transcript_source": transcript_source,
+        "limit": args.limit,
+        "window_seconds": args.window_seconds,
+        "step_seconds": args.step_seconds,
+    }
+    if any(output.get(key) != value for key, value in expected.items()):
+        return False
+
+    output_mtime = output_path.stat().st_mtime
+    input_paths = [path for path in [transcript_path, CHAT_DIR / f"{session}.json"] if path is not None and path.exists()]
+    return all(output_mtime >= path.stat().st_mtime for path in input_paths)
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Suggest candidate session highlights from chat and transcript data.")
     parser.add_argument("sessions", nargs="*", help="Session number(s), e.g. 0047")
     parser.add_argument("--all", action="store_true", help="Process every session with local chat or transcript data.")
+    parser.add_argument("--latest", type=int, help="Only process the latest N sessions with local chat or transcript data.")
     parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
     parser.add_argument("--limit", type=int, default=6)
     parser.add_argument("--window-seconds", type=int, default=90)
     parser.add_argument("--step-seconds", type=int, default=30)
+    parser.add_argument("--force", action="store_true", help="Recompute even when the highlight output is current.")
     return parser.parse_args()
 
 
 def main() -> int:
     args = parse_args()
-    sessions = available_sessions() if args.all else args.sessions
+    if args.all:
+        sessions = available_sessions()
+    elif args.latest is not None and args.latest > 0:
+        sessions = available_sessions()[-args.latest :]
+    else:
+        sessions = args.sessions
     if not sessions:
-        fail("provide at least one session or use --all")
+        fail("provide at least one session or use --all/--latest")
 
     args.output_dir.mkdir(parents=True, exist_ok=True)
 
     changed_count = 0
+    current_count = 0
     failed_count = 0
     for session in sessions:
+        output_path = args.output_dir / f"{session}.json"
+        if not args.force and output_is_current(session, output_path, args):
+            current_count += 1
+            print(f"{session}: current {output_path}")
+            continue
+
         try:
             output = suggest_highlights(session, args.limit, args.window_seconds, args.step_seconds)
         except SystemExit:
             failed_count += 1
-            if not args.all:
+            if not args.all and args.latest is None:
                 raise
             continue
 
-        output_path = args.output_dir / f"{session}.json"
         changed = write_json_if_changed(output_path, output)
         if changed:
             changed_count += 1
         verb = "updated" if changed else "unchanged"
         print(f"{session}: {verb} {len(output['highlights'])} highlight candidate(s) in {output_path}")
 
-    print(f"done: {len(sessions) - failed_count} processed, {changed_count} changed, {failed_count} failed")
-    return 1 if failed_count and not args.all else 0
+    print(
+        f"done: {len(sessions) - failed_count} processed, "
+        f"{changed_count} changed, {current_count} current, {failed_count} failed"
+    )
+    return 1 if failed_count and not args.all and args.latest is None else 0
 
 
 if __name__ == "__main__":

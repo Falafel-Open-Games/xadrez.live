@@ -76,6 +76,18 @@ def read_transcript(path: Path) -> dict[str, Any]:
     return data
 
 
+def transcript_json(data: dict[str, Any]) -> str:
+    return json.dumps(data, ensure_ascii=False, indent=2) + "\n"
+
+
+def write_json_if_changed(path: Path, data: dict[str, Any]) -> bool:
+    content = transcript_json(data)
+    if path.exists() and path.read_text(encoding="utf-8") == content:
+        return False
+    path.write_text(content, encoding="utf-8")
+    return True
+
+
 def block_token_times(blocks: list[dict[str, Any]], index: int, token_count: int) -> list[int]:
     start_seconds = int(blocks[index].get("seconds") or 0)
     if index + 1 < len(blocks):
@@ -240,7 +252,9 @@ def align_transcript(
         "threshold": threshold,
         "max_window_blocks": max_window_blocks,
         "max_candidates": max_candidates,
+        "max_time_penalty": max_time_penalty,
         "seek_preroll_seconds": seek_preroll_seconds,
+        "include_block_metadata": include_block_metadata,
         "aligned_blocks": aligned,
         "unaligned_blocks": len(blocks) - aligned,
         "block_count": len(blocks),
@@ -252,6 +266,35 @@ def align_transcript(
     }
     output["blocks"] = blocks
     return output
+
+
+def output_is_current(output_path: Path, source_path: Path, reference_path: Path, args: argparse.Namespace) -> bool:
+    if not output_path.exists():
+        return False
+    output_mtime = output_path.stat().st_mtime
+    if output_mtime < source_path.stat().st_mtime or output_mtime < reference_path.stat().st_mtime:
+        return False
+
+    try:
+        output = json.loads(output_path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return False
+    if not isinstance(output, dict):
+        return False
+    alignment = output.get("timestamp_alignment")
+    if not isinstance(alignment, dict):
+        return False
+
+    expected = {
+        "method": "partial_text_similarity_windows_with_token_time_interpolation",
+        "threshold": args.threshold,
+        "max_window_blocks": args.max_window_blocks,
+        "max_candidates": args.max_candidates,
+        "max_time_penalty": args.max_time_penalty,
+        "seek_preroll_seconds": max(0, args.seek_preroll_seconds),
+        "include_block_metadata": args.include_block_metadata,
+    }
+    return all(alignment.get(key) == value for key, value in expected.items())
 
 
 def parse_args() -> argparse.Namespace:
@@ -268,9 +311,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--seek-preroll-seconds", type=int, default=8)
     parser.add_argument("--include-block-metadata", action="store_true")
     parser.add_argument("--all-existing", action="store_true", help="Align every source transcript that also has the reference transcript.")
+    parser.add_argument("--latest", type=int, help="Only align the latest N matching sessions.")
+    parser.add_argument("--force", action="store_true", help="Recompute even when the aligned transcript output is current.")
     args = parser.parse_args()
-    if not args.sessions and not args.all_existing:
-        parser.error("provide at least one session or use --all-existing")
+    if not args.sessions and not args.all_existing and args.latest is None:
+        parser.error("provide at least one session or use --all-existing/--latest")
     return args
 
 
@@ -286,8 +331,10 @@ def discover_sessions(transcript_dir: Path, source_suffix: str, reference_suffix
 def main() -> int:
     args = parse_args()
     sessions = args.sessions
-    if args.all_existing:
+    if args.all_existing or (args.latest is not None and args.latest > 0):
         discovered = discover_sessions(args.transcript_dir, args.source_suffix, args.reference_suffix)
+        if args.latest is not None and args.latest > 0:
+            discovered = discovered[-args.latest :]
         sessions = sorted(set(sessions) | set(discovered))
     if not sessions:
         print("No matching transcripts to align.")
@@ -297,6 +344,14 @@ def main() -> int:
         source_path = args.transcript_dir / f"{session}.{args.source_suffix}.json"
         reference_path = args.transcript_dir / f"{session}.{args.reference_suffix}.json"
         output_path = args.transcript_dir / f"{session}.{args.output_suffix}.json"
+        if not source_path.exists():
+            fail(f"{source_path} does not exist")
+        if not reference_path.exists():
+            fail(f"{reference_path} does not exist")
+        if not args.force and output_is_current(output_path, source_path, reference_path, args):
+            print(f"{session}: current {output_path.name}")
+            continue
+
         source = read_transcript(source_path)
         reference = read_transcript(reference_path)
         output = align_transcript(
@@ -309,10 +364,11 @@ def main() -> int:
             seek_preroll_seconds=max(0, args.seek_preroll_seconds),
             include_block_metadata=args.include_block_metadata,
         )
-        output_path.write_text(json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+        changed = write_json_if_changed(output_path, output)
         stats = output["timestamp_alignment"]
+        status = "updated" if changed else "unchanged"
         print(
-            f"{session}: aligned {stats['aligned_blocks']}/{stats['block_count']} blocks "
+            f"{session}: {status}; aligned {stats['aligned_blocks']}/{stats['block_count']} blocks "
             f"({stats['alignment_rate']:.1%}), mean |delta| {stats['mean_abs_delta_seconds']}s, "
             f"mean score {stats['mean_score']}"
         )
