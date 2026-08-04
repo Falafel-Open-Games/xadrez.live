@@ -1,0 +1,149 @@
+{
+  "session_number": "0050",
+  "source": "heuristic",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
+  "limit": 6,
+  "window_seconds": 90,
+  "step_seconds": 30,
+  "highlights": [
+    {
+      "start_seconds": 1354,
+      "end_seconds": 1440,
+      "time": "22:34",
+      "duration": "1:30",
+      "kind": "training",
+      "score": 5.4,
+      "summary": "Já tá abrindo pra essa dama fugir, né? Beleza. Ainda assim, eu acho que... pode ser um tema possível desse puzzle aqui. Ameaçar essa dama aqui pra..…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
+      "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "plano ou estratégia",
+        "treino ou puzzle streak",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 2,
+      "transcript_count": 5,
+      "lead_in": "aqui eu troco o cavalo"
+    },
+    {
+      "start_seconds": 1770,
+      "end_seconds": 1800,
+      "time": "29:30",
+      "duration": "1:30",
+      "kind": "research",
+      "score": 5.05,
+      "summary": "Ah, então Emil Skalop é um dos grandes nomes do xadrez aí. Essa partida foi em 1886. Emil Skalop mais um... Ah, o que aconteceu? Don't skip, eu tenho um..…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; tema claro de xadrez; abertura ou repertório; raciocínio em voz alta; pesquisa ou contexto externo; consulta em fonte externa",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "tema claro de xadrez",
+        "abertura ou repertório",
+        "raciocínio em voz alta",
+        "pesquisa ou contexto externo",
+        "consulta em fonte externa"
+      ],
+      "chat_count": 1,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 2803,
+      "end_seconds": 2850,
+      "time": "46:43",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 5.45,
+      "summary": "Se for um de lá, vem com a torre daqui, né? Será que a torre aqui? E por que que ele tomaria com o de H e não com o de F? Né? Se ele tomar com o de F, algo pior acontece. Ó…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 1,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 2919,
+      "end_seconds": 3000,
+      "time": "48:39",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 5.75,
+      "summary": "Beleza, gente. Tá na hora da rápida. 48 minutos de live. Deixa eu botar um desafio na sala de espera lá. A gente tentar aprender num exemplo um pouquinho mais real aqui…",
+      "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; interação com o chat; pressão no relógio; abertura ou repertório; raciocínio em voz alta",
+      "signals": [
+        "3 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "interação com o chat",
+        "pressão no relógio",
+        "abertura ou repertório",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 3,
+      "transcript_count": 5,
+      "lead_in": "G6"
+    },
+    {
+      "start_seconds": 4003,
+      "end_seconds": 4080,
+      "time": "1:06:43",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 5.95,
+      "summary": "E6, tá, Stockfish prefere continuar dando apoio pra esse cara aqui, meio importante…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "interação com o chat",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 1,
+      "transcript_count": 4,
+      "lead_in": "Só"
+    },
+    {
+      "start_seconds": 4637,
+      "end_seconds": 4710,
+      "time": "1:17:17",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 6.9,
+      "summary": "Então acho que a gente já passou por esses erros, né? Aqui era aqui. Aqui mesma coisa. Esses foram os dois erros da partida…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
+      "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 2,
+      "transcript_count": 3,
+      "lead_in": "que a situação estava ruim"
+    }
+  ]
+}
