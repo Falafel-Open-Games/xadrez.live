@@ -51,7 +51,7 @@
       {% endif %}
       {% if stats.summary.total_blunders is defined %}
         <div class="stat-card">
-          <span>Capivaradas</span>
+          <span>Minhas capivaradas</span>
           <strong>{{ stats.summary.total_blunders_label }}</strong>
         </div>
       {% endif %}
@@ -190,7 +190,7 @@
               </div>
               <div class="stats-chart-current">
                 <strong>{{ stats.summary.average_blunders_label }}</strong>
-                <span>média por partida analisada</span>
+                <span>minhas por partida analisada</span>
               </div>
             </div>
             <div class="stats-uplot" data-stats-chart="blunders"></div>
@@ -198,7 +198,7 @@
         {% endif %}
       </div>
       <p class="stats-note">
-        Chat usa mensagens de espectadores por sessão. Capivaradas, erros, imprecisões, precisão e perda média vêm da análise de computador do Lichess quando ela está disponível. Ratings usam o historico publico do Lichess, atualizado durante o build do site. A pagina oficial continua disponivel no
+        Chat usa mensagens de espectadores por sessão. As capivaradas do resumo são só minhas; o gráfico separa minhas capivaradas e as dos oponentes. Erros, imprecisões, precisão e perda média vêm da análise de computador do Lichess quando ela está disponível. Ratings usam o historico publico do Lichess, atualizado durante o build do site. A pagina oficial continua disponivel no
         <a href="https://lichess.org/@/fcz/perf/rapid" rel="noopener noreferrer">grafico rapid do Lichess</a>
         e no <a href="https://lichess.org/@/fcz/perf/puzzle" rel="noopener noreferrer">grafico de puzzles do Lichess</a>.
       </p>
@@ -581,7 +581,8 @@
         const blunderElement = document.querySelector('[data-stats-chart="blunders"]');
         if (blunderElement && blunders.length) {
           const sessions = blunders.map((_point, index) => index);
-          const counts = blunders.map((point) => point.count);
+          const selfCounts = blunders.map((point) => point.self_count ?? point.count ?? 0);
+          const opponentCounts = blunders.map((point) => point.opponent_count ?? 0);
           const blunderTimestamps = blunders.map((point) => dayToTimestamp(point.date));
           const sessionIsVisible = (chart, index) => (
             Number.isInteger(index)
@@ -640,7 +641,7 @@
                   },
                 },
                 {
-                  label: "Capivaradas",
+                  label: "Minhas",
                   stroke: "#f07178",
                   fill: "rgba(240, 113, 120, 0.14)",
                   width: 2,
@@ -648,7 +649,19 @@
                   value: (chart, raw, seriesIdx, dataIdx) => {
                     if (raw == null || !sessionIsVisible(chart, dataIdx)) return "-";
                     const point = blunders[dataIdx];
-                    return point ? `${point.count_label} - ${point.summary_title || point.title}` : String(raw);
+                    return point ? `${point.self_count_label || point.count_label} - ${point.summary_title || point.title}` : String(raw);
+                  },
+                },
+                {
+                  label: "Oponentes",
+                  stroke: colors.blue,
+                  width: 2,
+                  dash: [7, 5],
+                  points: { show: true, size: 5 },
+                  value: (chart, raw, seriesIdx, dataIdx) => {
+                    if (raw == null || !sessionIsVisible(chart, dataIdx)) return "-";
+                    const point = blunders[dataIdx];
+                    return point ? `${point.opponent_count_label || "0"} - ${point.summary_title || point.title}` : String(raw);
                   },
                 },
               ],
@@ -665,7 +678,7 @@
                 ],
               },
             },
-            [sessions, counts],
+            [sessions, selfCounts, opponentCounts],
           );
           registerChart(
             blunderChart,

@@ -8,22 +8,22 @@ total_hours = 73.40
 total_duration_label = "73h24"
 game_count = 67
 game_count_label = "67"
-analysed_game_count = 66
-analysed_game_count_label = "66"
-missing_game_analysis_count = 1
-missing_game_analysis_count_label = "1"
-total_blunders = 196
-total_blunders_label = "196"
-average_blunders = 2.97
-average_blunders_label = "3,0"
+analysed_game_count = 67
+analysed_game_count_label = "67"
+missing_game_analysis_count = 0
+missing_game_analysis_count_label = "0"
+total_blunders = 197
+total_blunders_label = "197"
+average_blunders = 2.94
+average_blunders_label = "2,9"
 total_mistakes = 92
 total_mistakes_label = "92"
-total_inaccuracies = 194
-total_inaccuracies_label = "194"
-average_accuracy = 68.02
-average_accuracy_label = "68,0"
-average_acpl = 88.44
-average_acpl_label = "88,4"
+total_inaccuracies = 198
+total_inaccuracies_label = "198"
+average_accuracy = 67.79
+average_accuracy_label = "67,8"
+average_acpl = 88.96
+average_acpl_label = "89,0"
 puzzles_solved = 273
 puzzles_solved_label = "273"
 best_streak = 18
@@ -695,8 +695,12 @@ summary_title = "Primeira derrota por tempo"
 date = "2026-06-01"
 count = 6
 count_label = "6"
+self_count = 6
+self_count_label = "6"
+opponent_count = 8
+opponent_count_label = "8"
 url = "/fcz/0001/"
-tooltip = "6 capivaradas - Sessão #0001: Primeira derrota por tempo (2026-06-01)"
+tooltip = "6 capivaradas minhas; 8 dos oponentes - Sessão #0001: Primeira derrota por tempo (2026-06-01)"
 
 [[blunder_chart.points]]
 session_number = "0002"
@@ -705,8 +709,12 @@ summary_title = "Puzzle do Dia falhou e timeout"
 date = "2026-06-02"
 count = 3
 count_label = "3"
+self_count = 3
+self_count_label = "3"
+opponent_count = 3
+opponent_count_label = "3"
 url = "/fcz/0002/"
-tooltip = "3 capivaradas - Sessão #0002: Puzzle do Dia falhou e timeout (2026-06-02)"
+tooltip = "3 capivaradas minhas; 3 dos oponentes - Sessão #0002: Puzzle do Dia falhou e timeout (2026-06-02)"
 
 [[blunder_chart.points]]
 session_number = "0003"
@@ -715,8 +723,12 @@ summary_title = "Mate depois do Stockfish"
 date = "2026-06-03"
 count = 1
 count_label = "1"
+self_count = 1
+self_count_label = "1"
+opponent_count = 3
+opponent_count_label = "3"
 url = "/fcz/0003/"
-tooltip = "1 capivarada - Sessão #0003: Mate depois do Stockfish (2026-06-03)"
+tooltip = "1 capivarada minha; 3 dos oponentes - Sessão #0003: Mate depois do Stockfish (2026-06-03)"
 
 [[blunder_chart.points]]
 session_number = "0004"
@@ -725,8 +737,12 @@ summary_title = "Sicilian com pretas e timeout"
 date = "2026-06-04"
 count = 7
 count_label = "7"
+self_count = 7
+self_count_label = "7"
+opponent_count = 8
+opponent_count_label = "8"
 url = "/fcz/0004/"
-tooltip = "7 capivaradas - Sessão #0004: Sicilian com pretas e timeout (2026-06-04)"
+tooltip = "7 capivaradas minhas; 8 dos oponentes - Sessão #0004: Sicilian com pretas e timeout (2026-06-04)"
 
 [[blunder_chart.points]]
 session_number = "0005"
@@ -735,8 +751,12 @@ summary_title = "St. George e capturas perdidas"
 date = "2026-06-04"
 count = 8
 count_label = "8"
+self_count = 8
+self_count_label = "8"
+opponent_count = 4
+opponent_count_label = "4"
 url = "/fcz/0005/"
-tooltip = "8 capivaradas - Sessão #0005: St. George e capturas perdidas (2026-06-04)"
+tooltip = "8 capivaradas minhas; 4 dos oponentes - Sessão #0005: St. George e capturas perdidas (2026-06-04)"
 
 [[blunder_chart.points]]
 session_number = "0006"
@@ -745,8 +765,12 @@ summary_title = "Jogar mais rápido"
 date = "2026-06-10"
 count = 9
 count_label = "9"
+self_count = 9
+self_count_label = "9"
+opponent_count = 6
+opponent_count_label = "6"
 url = "/fcz/0006/"
-tooltip = "9 capivaradas - Sessão #0006: Jogar mais rápido (2026-06-10)"
+tooltip = "9 capivaradas minhas; 6 dos oponentes - Sessão #0006: Jogar mais rápido (2026-06-10)"
 
 [[blunder_chart.points]]
 session_number = "0007"
@@ -755,8 +779,12 @@ summary_title = "Philidor e final por tempo"
 date = "2026-06-12"
 count = 7
 count_label = "7"
+self_count = 7
+self_count_label = "7"
+opponent_count = 9
+opponent_count_label = "9"
 url = "/fcz/0007/"
-tooltip = "7 capivaradas - Sessão #0007: Philidor e final por tempo (2026-06-12)"
+tooltip = "7 capivaradas minhas; 9 dos oponentes - Sessão #0007: Philidor e final por tempo (2026-06-12)"
 
 [[blunder_chart.points]]
 session_number = "0008"
@@ -765,8 +793,12 @@ summary_title = "Petrov e jogos com chat"
 date = "2026-06-13"
 count = 4
 count_label = "4"
+self_count = 4
+self_count_label = "4"
+opponent_count = 3
+opponent_count_label = "3"
 url = "/fcz/0008/"
-tooltip = "4 capivaradas - Sessão #0008: Petrov e jogos com chat (2026-06-13)"
+tooltip = "4 capivaradas minhas; 3 dos oponentes - Sessão #0008: Petrov e jogos com chat (2026-06-13)"
 
 [[blunder_chart.points]]
 session_number = "0009"
@@ -775,8 +807,12 @@ summary_title = "Busch-Gass Gambit e mate"
 date = "2026-06-14"
 count = 1
 count_label = "1"
+self_count = 1
+self_count_label = "1"
+opponent_count = 1
+opponent_count_label = "1"
 url = "/fcz/0009/"
-tooltip = "1 capivarada - Sessão #0009: Busch-Gass Gambit e mate (2026-06-14)"
+tooltip = "1 capivarada minha; 1 do oponente - Sessão #0009: Busch-Gass Gambit e mate (2026-06-14)"
 
 [[blunder_chart.points]]
 session_number = "0010"
@@ -785,8 +821,12 @@ summary_title = "Accelerated London e abandono cedo"
 date = "2026-06-15"
 count = 1
 count_label = "1"
+self_count = 1
+self_count_label = "1"
+opponent_count = 1
+opponent_count_label = "1"
 url = "/fcz/0010/"
-tooltip = "1 capivarada - Sessão #0010: Accelerated London e abandono cedo (2026-06-15)"
+tooltip = "1 capivarada minha; 1 do oponente - Sessão #0010: Accelerated London e abandono cedo (2026-06-15)"
 
 [[blunder_chart.points]]
 session_number = "0011"
@@ -795,8 +835,12 @@ summary_title = "Pirc, cravada perdida e live sem gravação"
 date = "2026-06-16"
 count = 3
 count_label = "3"
+self_count = 3
+self_count_label = "3"
+opponent_count = 4
+opponent_count_label = "4"
 url = "/fcz/0011/"
-tooltip = "3 capivaradas - Sessão #0011: Pirc, cravada perdida e live sem gravação (2026-06-16)"
+tooltip = "3 capivaradas minhas; 4 dos oponentes - Sessão #0011: Pirc, cravada perdida e live sem gravação (2026-06-16)"
 
 [[blunder_chart.points]]
 session_number = "0012"
@@ -805,8 +849,12 @@ summary_title = "Sicilian Defense e falta de plano"
 date = "2026-06-17"
 count = 6
 count_label = "6"
+self_count = 6
+self_count_label = "6"
+opponent_count = 5
+opponent_count_label = "5"
 url = "/fcz/0012/"
-tooltip = "6 capivaradas - Sessão #0012: Sicilian Defense e falta de plano (2026-06-17)"
+tooltip = "6 capivaradas minhas; 5 dos oponentes - Sessão #0012: Sicilian Defense e falta de plano (2026-06-17)"
 
 [[blunder_chart.points]]
 session_number = "0013"
@@ -815,8 +863,12 @@ summary_title = "Four Knights e checkmate"
 date = "2026-06-18"
 count = 1
 count_label = "1"
+self_count = 1
+self_count_label = "1"
+opponent_count = 5
+opponent_count_label = "5"
 url = "/fcz/0013/"
-tooltip = "1 capivarada - Sessão #0013: Four Knights e checkmate (2026-06-18)"
+tooltip = "1 capivarada minha; 5 dos oponentes - Sessão #0013: Four Knights e checkmate (2026-06-18)"
 
 [[blunder_chart.points]]
 session_number = "0014"
@@ -825,8 +877,12 @@ summary_title = "Sicilian, Caro-Kann e jogos do chat"
 date = "2026-06-19"
 count = 5
 count_label = "5"
+self_count = 5
+self_count_label = "5"
+opponent_count = 4
+opponent_count_label = "4"
 url = "/fcz/0014/"
-tooltip = "5 capivaradas - Sessão #0014: Sicilian, Caro-Kann e jogos do chat (2026-06-19)"
+tooltip = "5 capivaradas minhas; 4 dos oponentes - Sessão #0014: Sicilian, Caro-Kann e jogos do chat (2026-06-19)"
 
 [[blunder_chart.points]]
 session_number = "0015"
@@ -835,8 +891,12 @@ summary_title = "Van 't Kruijs e vantagem material"
 date = "2026-06-20"
 count = 1
 count_label = "1"
+self_count = 1
+self_count_label = "1"
+opponent_count = 2
+opponent_count_label = "2"
 url = "/fcz/0015/"
-tooltip = "1 capivarada - Sessão #0015: Van 't Kruijs e vantagem material (2026-06-20)"
+tooltip = "1 capivarada minha; 2 dos oponentes - Sessão #0015: Van 't Kruijs e vantagem material (2026-06-20)"
 
 [[blunder_chart.points]]
 session_number = "0016"
@@ -845,8 +905,12 @@ summary_title = "Philidor e três jogos analisados"
 date = "2026-06-21"
 count = 5
 count_label = "5"
+self_count = 5
+self_count_label = "5"
+opponent_count = 5
+opponent_count_label = "5"
 url = "/fcz/0016/"
-tooltip = "5 capivaradas - Sessão #0016: Philidor e três jogos analisados (2026-06-21)"
+tooltip = "5 capivaradas minhas; 5 dos oponentes - Sessão #0016: Philidor e três jogos analisados (2026-06-21)"
 
 [[blunder_chart.points]]
 session_number = "0017"
@@ -855,8 +919,12 @@ summary_title = "Four Knights e teste do userscript"
 date = "2026-06-22"
 count = 0
 count_label = "0"
+self_count = 0
+self_count_label = "0"
+opponent_count = 1
+opponent_count_label = "1"
 url = "/fcz/0017/"
-tooltip = "0 capivaradas - Sessão #0017: Four Knights e teste do userscript (2026-06-22)"
+tooltip = "0 capivaradas minhas; 1 do oponente - Sessão #0017: Four Knights e teste do userscript (2026-06-22)"
 
 [[blunder_chart.points]]
 session_number = "0018"
@@ -865,8 +933,12 @@ summary_title = "Empate escapou no endgame"
 date = "2026-06-23"
 count = 3
 count_label = "3"
+self_count = 3
+self_count_label = "3"
+opponent_count = 4
+opponent_count_label = "4"
 url = "/fcz/0018/"
-tooltip = "3 capivaradas - Sessão #0018: Empate escapou no endgame (2026-06-23)"
+tooltip = "3 capivaradas minhas; 4 dos oponentes - Sessão #0018: Empate escapou no endgame (2026-06-23)"
 
 [[blunder_chart.points]]
 session_number = "0019"
@@ -875,8 +947,12 @@ summary_title = "Berlin imperfeita e abandono"
 date = "2026-06-24"
 count = 2
 count_label = "2"
+self_count = 2
+self_count_label = "2"
+opponent_count = 4
+opponent_count_label = "4"
 url = "/fcz/0019/"
-tooltip = "2 capivaradas - Sessão #0019: Berlin imperfeita e abandono (2026-06-24)"
+tooltip = "2 capivaradas minhas; 4 dos oponentes - Sessão #0019: Berlin imperfeita e abandono (2026-06-24)"
 
 [[blunder_chart.points]]
 session_number = "0020"
@@ -885,8 +961,12 @@ summary_title = "Múltiplas damas no apuro"
 date = "2026-06-25"
 count = 7
 count_label = "7"
+self_count = 7
+self_count_label = "7"
+opponent_count = 7
+opponent_count_label = "7"
 url = "/fcz/0020/"
-tooltip = "7 capivaradas - Sessão #0020: Múltiplas damas no apuro (2026-06-25)"
+tooltip = "7 capivaradas minhas; 7 dos oponentes - Sessão #0020: Múltiplas damas no apuro (2026-06-25)"
 
 [[blunder_chart.points]]
 session_number = "0021"
@@ -895,8 +975,12 @@ summary_title = "Ruy Lopez e audio corrigido"
 date = "2026-06-26"
 count = 2
 count_label = "2"
+self_count = 2
+self_count_label = "2"
+opponent_count = 1
+opponent_count_label = "1"
 url = "/fcz/0021/"
-tooltip = "2 capivaradas - Sessão #0021: Ruy Lopez e audio corrigido (2026-06-26)"
+tooltip = "2 capivaradas minhas; 1 do oponente - Sessão #0021: Ruy Lopez e audio corrigido (2026-06-26)"
 
 [[blunder_chart.points]]
 session_number = "0022"
@@ -905,8 +989,12 @@ summary_title = "Sequencia de 7 e dama entregue"
 date = "2026-06-27"
 count = 2
 count_label = "2"
+self_count = 2
+self_count_label = "2"
+opponent_count = 3
+opponent_count_label = "3"
 url = "/fcz/0022/"
-tooltip = "2 capivaradas - Sessão #0022: Sequencia de 7 e dama entregue (2026-06-27)"
+tooltip = "2 capivaradas minhas; 3 dos oponentes - Sessão #0022: Sequencia de 7 e dama entregue (2026-06-27)"
 
 [[blunder_chart.points]]
 session_number = "0023"
@@ -915,8 +1003,12 @@ summary_title = "Sequencia interrompida e blitz"
 date = "2026-06-28"
 count = 2
 count_label = "2"
+self_count = 2
+self_count_label = "2"
+opponent_count = 0
+opponent_count_label = "0"
 url = "/fcz/0023/"
-tooltip = "2 capivaradas - Sessão #0023: Sequencia interrompida e blitz (2026-06-28)"
+tooltip = "2 capivaradas minhas; 0 dos oponentes - Sessão #0023: Sequencia interrompida e blitz (2026-06-28)"
 
 [[blunder_chart.points]]
 session_number = "0024"
@@ -925,8 +1017,12 @@ summary_title = "Cheques de dama esquecidos"
 date = "2026-06-29"
 count = 6
 count_label = "6"
+self_count = 6
+self_count_label = "6"
+opponent_count = 7
+opponent_count_label = "7"
 url = "/fcz/0024/"
-tooltip = "6 capivaradas - Sessão #0024: Cheques de dama esquecidos (2026-06-29)"
+tooltip = "6 capivaradas minhas; 7 dos oponentes - Sessão #0024: Cheques de dama esquecidos (2026-06-29)"
 
 [[blunder_chart.points]]
 session_number = "0025"
@@ -935,8 +1031,12 @@ summary_title = "Sicilian, chat e Chess.com"
 date = "2026-06-30"
 count = 3
 count_label = "3"
+self_count = 3
+self_count_label = "3"
+opponent_count = 3
+opponent_count_label = "3"
 url = "/fcz/0025/"
-tooltip = "3 capivaradas - Sessão #0025: Sicilian, chat e Chess.com (2026-06-30)"
+tooltip = "3 capivaradas minhas; 3 dos oponentes - Sessão #0025: Sicilian, chat e Chess.com (2026-06-30)"
 
 [[blunder_chart.points]]
 session_number = "0026"
@@ -945,8 +1045,12 @@ summary_title = "Desenvolvimento em foco"
 date = "2026-07-01"
 count = 2
 count_label = "2"
+self_count = 2
+self_count_label = "2"
+opponent_count = 0
+opponent_count_label = "0"
 url = "/fcz/0026/"
-tooltip = "2 capivaradas - Sessão #0026: Desenvolvimento em foco (2026-07-01)"
+tooltip = "2 capivaradas minhas; 0 dos oponentes - Sessão #0026: Desenvolvimento em foco (2026-07-01)"
 
 [[blunder_chart.points]]
 session_number = "0027"
@@ -955,8 +1059,12 @@ summary_title = "Táticas perdidas na Petrov"
 date = "2026-07-02"
 count = 3
 count_label = "3"
+self_count = 3
+self_count_label = "3"
+opponent_count = 6
+opponent_count_label = "6"
 url = "/fcz/0027/"
-tooltip = "3 capivaradas - Sessão #0027: Táticas perdidas na Petrov (2026-07-02)"
+tooltip = "3 capivaradas minhas; 6 dos oponentes - Sessão #0027: Táticas perdidas na Petrov (2026-07-02)"
 
 [[blunder_chart.points]]
 session_number = "0028"
@@ -965,8 +1073,12 @@ summary_title = "Medo do relógio na Ruy Lopez"
 date = "2026-07-03"
 count = 5
 count_label = "5"
+self_count = 5
+self_count_label = "5"
+opponent_count = 3
+opponent_count_label = "3"
 url = "/fcz/0028/"
-tooltip = "5 capivaradas - Sessão #0028: Medo do relógio na Ruy Lopez (2026-07-03)"
+tooltip = "5 capivaradas minhas; 3 dos oponentes - Sessão #0028: Medo do relógio na Ruy Lopez (2026-07-03)"
 
 [[blunder_chart.points]]
 session_number = "0029"
@@ -975,8 +1087,12 @@ summary_title = "Bispo dado e torre ausente"
 date = "2026-07-04"
 count = 4
 count_label = "4"
+self_count = 4
+self_count_label = "4"
+opponent_count = 4
+opponent_count_label = "4"
 url = "/fcz/0029/"
-tooltip = "4 capivaradas - Sessão #0029: Bispo dado e torre ausente (2026-07-04)"
+tooltip = "4 capivaradas minhas; 4 dos oponentes - Sessão #0029: Bispo dado e torre ausente (2026-07-04)"
 
 [[blunder_chart.points]]
 session_number = "0030"
@@ -985,8 +1101,12 @@ summary_title = "Vantagem perdida no relógio"
 date = "2026-07-05"
 count = 4
 count_label = "4"
+self_count = 4
+self_count_label = "4"
+opponent_count = 4
+opponent_count_label = "4"
 url = "/fcz/0030/"
-tooltip = "4 capivaradas - Sessão #0030: Vantagem perdida no relógio (2026-07-05)"
+tooltip = "4 capivaradas minhas; 4 dos oponentes - Sessão #0030: Vantagem perdida no relógio (2026-07-05)"
 
 [[blunder_chart.points]]
 session_number = "0031"
@@ -995,8 +1115,12 @@ summary_title = "Pawn break e cravadas"
 date = "2026-07-06"
 count = 2
 count_label = "2"
+self_count = 2
+self_count_label = "2"
+opponent_count = 5
+opponent_count_label = "5"
 url = "/fcz/0031/"
-tooltip = "2 capivaradas - Sessão #0031: Pawn break e cravadas (2026-07-06)"
+tooltip = "2 capivaradas minhas; 5 dos oponentes - Sessão #0031: Pawn break e cravadas (2026-07-06)"
 
 [[blunder_chart.points]]
 session_number = "0032"
@@ -1005,18 +1129,26 @@ summary_title = "Atacar antes de desenvolver"
 date = "2026-07-07"
 count = 12
 count_label = "12"
+self_count = 12
+self_count_label = "12"
+opponent_count = 11
+opponent_count_label = "11"
 url = "/fcz/0032/"
-tooltip = "12 capivaradas - Sessão #0032: Atacar antes de desenvolver (2026-07-07)"
+tooltip = "12 capivaradas minhas; 11 dos oponentes - Sessão #0032: Atacar antes de desenvolver (2026-07-07)"
 
 [[blunder_chart.points]]
 session_number = "0033"
 title = "Sessão #0033"
 summary_title = "Puzzles e rapid"
 date = "2026-07-08"
-count = 0
-count_label = "0"
+count = 1
+count_label = "1"
+self_count = 1
+self_count_label = "1"
+opponent_count = 0
+opponent_count_label = "0"
 url = "/fcz/0033/"
-tooltip = "0 capivaradas - Sessão #0033: Puzzles e rapid (2026-07-08)"
+tooltip = "1 capivarada minha; 0 dos oponentes - Sessão #0033: Puzzles e rapid (2026-07-08)"
 
 [[blunder_chart.points]]
 session_number = "0034"
@@ -1025,8 +1157,12 @@ summary_title = "Puzzle torto e abandono"
 date = "2026-07-19"
 count = 0
 count_label = "0"
+self_count = 0
+self_count_label = "0"
+opponent_count = 0
+opponent_count_label = "0"
 url = "/fcz/0034/"
-tooltip = "0 capivaradas - Sessão #0034: Puzzle torto e abandono (2026-07-19)"
+tooltip = "0 capivaradas minhas; 0 dos oponentes - Sessão #0034: Puzzle torto e abandono (2026-07-19)"
 
 [[blunder_chart.points]]
 session_number = "0035"
@@ -1035,8 +1171,12 @@ summary_title = "Abandono cedo e tempo"
 date = "2026-07-20"
 count = 8
 count_label = "8"
+self_count = 8
+self_count_label = "8"
+opponent_count = 11
+opponent_count_label = "11"
 url = "/fcz/0035/"
-tooltip = "8 capivaradas - Sessão #0035: Abandono cedo e tempo (2026-07-20)"
+tooltip = "8 capivaradas minhas; 11 dos oponentes - Sessão #0035: Abandono cedo e tempo (2026-07-20)"
 
 [[blunder_chart.points]]
 session_number = "0036"
@@ -1045,8 +1185,12 @@ summary_title = "Avançar rumo à promoção"
 date = "2026-07-21"
 count = 3
 count_label = "3"
+self_count = 3
+self_count_label = "3"
+opponent_count = 4
+opponent_count_label = "4"
 url = "/fcz/0036/"
-tooltip = "3 capivaradas - Sessão #0036: Avançar rumo à promoção (2026-07-21)"
+tooltip = "3 capivaradas minhas; 4 dos oponentes - Sessão #0036: Avançar rumo à promoção (2026-07-21)"
 
 [[blunder_chart.points]]
 session_number = "0037"
@@ -1055,8 +1199,12 @@ summary_title = "Agressividade na veia"
 date = "2026-07-22"
 count = 9
 count_label = "9"
+self_count = 9
+self_count_label = "9"
+opponent_count = 3
+opponent_count_label = "3"
 url = "/fcz/0037/"
-tooltip = "9 capivaradas - Sessão #0037: Agressividade na veia (2026-07-22)"
+tooltip = "9 capivaradas minhas; 3 dos oponentes - Sessão #0037: Agressividade na veia (2026-07-22)"
 
 [[blunder_chart.points]]
 session_number = "0038"
@@ -1065,8 +1213,12 @@ summary_title = "Três desafios na largada"
 date = "2026-07-23"
 count = 5
 count_label = "5"
+self_count = 5
+self_count_label = "5"
+opponent_count = 2
+opponent_count_label = "2"
 url = "/fcz/0038/"
-tooltip = "5 capivaradas - Sessão #0038: Três desafios na largada (2026-07-23)"
+tooltip = "5 capivaradas minhas; 2 dos oponentes - Sessão #0038: Três desafios na largada (2026-07-23)"
 
 [[blunder_chart.points]]
 session_number = "0039"
@@ -1075,8 +1227,12 @@ summary_title = "Plano esquecido contra a dama"
 date = "2026-07-24"
 count = 2
 count_label = "2"
+self_count = 2
+self_count_label = "2"
+opponent_count = 2
+opponent_count_label = "2"
 url = "/fcz/0039/"
-tooltip = "2 capivaradas - Sessão #0039: Plano esquecido contra a dama (2026-07-24)"
+tooltip = "2 capivaradas minhas; 2 dos oponentes - Sessão #0039: Plano esquecido contra a dama (2026-07-24)"
 
 [[blunder_chart.points]]
 session_number = "0040"
@@ -1085,8 +1241,12 @@ summary_title = "Sete capivaradas e vitória"
 date = "2026-07-25"
 count = 7
 count_label = "7"
+self_count = 7
+self_count_label = "7"
+opponent_count = 7
+opponent_count_label = "7"
 url = "/fcz/0040/"
-tooltip = "7 capivaradas - Sessão #0040: Sete capivaradas e vitória (2026-07-25)"
+tooltip = "7 capivaradas minhas; 7 dos oponentes - Sessão #0040: Sete capivaradas e vitória (2026-07-25)"
 
 [[blunder_chart.points]]
 session_number = "0041"
@@ -1095,8 +1255,12 @@ summary_title = "Cheques de dama e peões"
 date = "2026-07-26"
 count = 5
 count_label = "5"
+self_count = 5
+self_count_label = "5"
+opponent_count = 4
+opponent_count_label = "4"
 url = "/fcz/0041/"
-tooltip = "5 capivaradas - Sessão #0041: Cheques de dama e peões (2026-07-26)"
+tooltip = "5 capivaradas minhas; 4 dos oponentes - Sessão #0041: Cheques de dama e peões (2026-07-26)"
 
 [[blunder_chart.points]]
 session_number = "0042"
@@ -1105,8 +1269,12 @@ summary_title = "Sufoco de cavalos e bispo"
 date = "2026-07-27"
 count = 4
 count_label = "4"
+self_count = 4
+self_count_label = "4"
+opponent_count = 5
+opponent_count_label = "5"
 url = "/fcz/0042/"
-tooltip = "4 capivaradas - Sessão #0042: Sufoco de cavalos e bispo (2026-07-27)"
+tooltip = "4 capivaradas minhas; 5 dos oponentes - Sessão #0042: Sufoco de cavalos e bispo (2026-07-27)"
 
 [[blunder_chart.points]]
 session_number = "0043"
@@ -1115,8 +1283,12 @@ summary_title = "Pressão na peça cravada"
 date = "2026-07-28"
 count = 2
 count_label = "2"
+self_count = 2
+self_count_label = "2"
+opponent_count = 4
+opponent_count_label = "4"
 url = "/fcz/0043/"
-tooltip = "2 capivaradas - Sessão #0043: Pressão na peça cravada (2026-07-28)"
+tooltip = "2 capivaradas minhas; 4 dos oponentes - Sessão #0043: Pressão na peça cravada (2026-07-28)"
 
 [[blunder_chart.points]]
 session_number = "0044"
@@ -1125,8 +1297,12 @@ summary_title = "Equilíbrio recuperado na Sicilian"
 date = "2026-07-29"
 count = 4
 count_label = "4"
+self_count = 4
+self_count_label = "4"
+opponent_count = 6
+opponent_count_label = "6"
 url = "/fcz/0044/"
-tooltip = "4 capivaradas - Sessão #0044: Equilíbrio recuperado na Sicilian (2026-07-29)"
+tooltip = "4 capivaradas minhas; 6 dos oponentes - Sessão #0044: Equilíbrio recuperado na Sicilian (2026-07-29)"
 
 [[blunder_chart.points]]
 session_number = "0045"
@@ -1135,8 +1311,12 @@ summary_title = "O fundão ficou aberto"
 date = "2026-07-30"
 count = 2
 count_label = "2"
+self_count = 2
+self_count_label = "2"
+opponent_count = 2
+opponent_count_label = "2"
 url = "/fcz/0045/"
-tooltip = "2 capivaradas - Sessão #0045: O fundão ficou aberto (2026-07-30)"
+tooltip = "2 capivaradas minhas; 2 dos oponentes - Sessão #0045: O fundão ficou aberto (2026-07-30)"
 
 [[blunder_chart.points]]
 session_number = "0046"
@@ -1145,8 +1325,12 @@ summary_title = "O susto antes do mate"
 date = "2026-07-31"
 count = 3
 count_label = "3"
+self_count = 3
+self_count_label = "3"
+opponent_count = 3
+opponent_count_label = "3"
 url = "/fcz/0046/"
-tooltip = "3 capivaradas - Sessão #0046: O susto antes do mate (2026-07-31)"
+tooltip = "3 capivaradas minhas; 3 dos oponentes - Sessão #0046: O susto antes do mate (2026-07-31)"
 
 [[blunder_chart.points]]
 session_number = "0047"
@@ -1155,8 +1339,12 @@ summary_title = "A torre ficou pendurada"
 date = "2026-08-01"
 count = 3
 count_label = "3"
+self_count = 3
+self_count_label = "3"
+opponent_count = 5
+opponent_count_label = "5"
 url = "/fcz/0047/"
-tooltip = "3 capivaradas - Sessão #0047: A torre ficou pendurada (2026-08-01)"
+tooltip = "3 capivaradas minhas; 5 dos oponentes - Sessão #0047: A torre ficou pendurada (2026-08-01)"
 
 [[blunder_chart.points]]
 session_number = "0048"
@@ -1165,8 +1353,12 @@ summary_title = "Duas vitorias e mates perdidos"
 date = "2026-08-02"
 count = 3
 count_label = "3"
+self_count = 3
+self_count_label = "3"
+opponent_count = 2
+opponent_count_label = "2"
 url = "/fcz/0048/"
-tooltip = "3 capivaradas - Sessão #0048: Duas vitorias e mates perdidos (2026-08-02)"
+tooltip = "3 capivaradas minhas; 2 dos oponentes - Sessão #0048: Duas vitorias e mates perdidos (2026-08-02)"
 
 [[blunder_chart.points]]
 session_number = "0049"
@@ -1175,8 +1367,12 @@ summary_title = "Posicao ganha perdida no relogio"
 date = "2026-08-03"
 count = 8
 count_label = "8"
+self_count = 8
+self_count_label = "8"
+opponent_count = 7
+opponent_count_label = "7"
 url = "/fcz/0049/"
-tooltip = "8 capivaradas - Sessão #0049: Posicao ganha perdida no relogio (2026-08-03)"
+tooltip = "8 capivaradas minhas; 7 dos oponentes - Sessão #0049: Posicao ganha perdida no relogio (2026-08-03)"
 
 [[blunder_chart.points]]
 session_number = "0050"
@@ -1185,8 +1381,12 @@ summary_title = "O cavalo em e7 cobrou a conta"
 date = "2026-08-04"
 count = 1
 count_label = "1"
+self_count = 1
+self_count_label = "1"
+opponent_count = 1
+opponent_count_label = "1"
 url = "/fcz/0050/"
-tooltip = "1 capivarada - Sessão #0050: O cavalo em e7 cobrou a conta (2026-08-04)"
+tooltip = "1 capivarada minha; 1 do oponente - Sessão #0050: O cavalo em e7 cobrou a conta (2026-08-04)"
 
 [[blunder_chart.points]]
 session_number = "0051"
@@ -1195,8 +1395,12 @@ summary_title = "Recorde de streak 18"
 date = "2026-08-05"
 count = 0
 count_label = "0"
+self_count = 0
+self_count_label = "0"
+opponent_count = 2
+opponent_count_label = "2"
 url = "/fcz/0051/"
-tooltip = "0 capivaradas - Sessão #0051: Recorde de streak 18 (2026-08-05)"
+tooltip = "0 capivaradas minhas; 2 dos oponentes - Sessão #0051: Recorde de streak 18 (2026-08-05)"
 
 [[results]]
 key = "loss"
@@ -1227,11 +1431,6 @@ count = 33
 key = "lichess"
 label = "lichess"
 count = 67
-
-[[missing_game_analysis]]
-session_number = "0033"
-game_index = 1
-url = "https://lichess.org/1agwEhNx/black"
 
 [[transcripts]]
 session_number = "0001"

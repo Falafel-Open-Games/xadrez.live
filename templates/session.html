@@ -419,10 +419,6 @@
         </div>
       {% endif %}
 
-      {% if show_transcript %}
-        <p class="transcript-source-note" data-pagefind-ignore>Transcrição {{ transcript_source_label }}</p>
-      {% endif %}
-
       {% if replay_source_count > 1 %}
         <ol class="replay-list replay-panel is-active" data-replay-panel="merged" data-transcript-list="merged" data-transcript-source-active="{{ transcript_source_id }}" data-pagefind-body>
           {% if show_chat_replay %}

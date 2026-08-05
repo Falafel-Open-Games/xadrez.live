@@ -16,6 +16,7 @@ CONTENT_DIR = ROOT / "content" / "fcz"
 TRANSCRIPTS_DIR = ROOT / "data" / "fcz" / "transcripts"
 CHAT_REPLAYS_DIR = ROOT / "data" / "fcz" / "chat_replays"
 LICHESS_GAME_ANALYSIS = ROOT / "data" / "fcz" / "lichess_game_analysis.toml"
+LICHESS_BLUNDERS_DIR = ROOT / "data" / "fcz" / "lichess_blunders"
 OUTPUT = ROOT / "data" / "site_stats.toml"
 CHART_WIDTH = 720
 CHART_HEIGHT = 260
@@ -317,6 +318,25 @@ def load_lichess_game_analysis() -> dict[tuple[str, int], dict[str, Any]]:
     return analysis
 
 
+def opponent_blunders_by_session() -> Counter[str]:
+    counts: Counter[str] = Counter()
+    if not LICHESS_BLUNDERS_DIR.exists():
+        return counts
+
+    for path in sorted(LICHESS_BLUNDERS_DIR.glob("[0-9][0-9][0-9][0-9].json")):
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+        except json.JSONDecodeError:
+            continue
+        events = data.get("events")
+        if not isinstance(events, list):
+            continue
+        for event in events:
+            if isinstance(event, dict) and event.get("is_self") is False:
+                counts[path.stem] += 1
+    return counts
+
+
 def scale_chart_points(values: list[dict[str, Any]], value_key: str = "count") -> dict[str, Any]:
     numeric = [int(item[value_key]) for item in values]
     max_value = max(numeric, default=0)
@@ -421,6 +441,7 @@ def build_stats() -> str:
         for row in analysed_game_rows
         for _ in range(int_value(row.get("blunder")) or 0)
     )
+    opponent_blunders = opponent_blunders_by_session()
     total_puzzles = sum(puzzle_count(session.extra) for session in ended_sessions)
     best_streak = max((int_value(session.extra.get("streak")) or 0 for session in ended_sessions), default=0)
     transcript_sessions, total_words, transcripts = transcript_stats(ended_sessions)
@@ -447,11 +468,17 @@ def build_stats() -> str:
             "summary_title": str(session.extra.get("summary_title") or "").strip(),
             "date": str(session.date),
             "count": blunders_by_session.get(session.number, 0),
+            "self_count": blunders_by_session.get(session.number, 0),
+            "opponent_count": opponent_blunders.get(session.number, 0),
             "url": f"/fcz/{session.number}/",
         }
         for session in ended_sessions
     ]
     blunder_chart = scale_chart_points(blunder_chart_items)
+    blunder_chart_max_value = max(
+        [item["self_count"] for item in blunder_chart_items] + [item["opponent_count"] for item in blunder_chart_items],
+        default=0,
+    )
 
     first_session = ended_sessions[0] if ended_sessions else None
     latest_session = ended_sessions[-1] if ended_sessions else None
@@ -559,18 +586,22 @@ def build_stats() -> str:
             f"latest_session = {toml_string(latest_session.number if latest_session else '')}",
             f"first_label = {toml_string('#' + first_session.number if first_session else '')}",
             f"latest_label = {toml_string('#' + latest_session.number if latest_session else '')}",
-            f"max_value = {blunder_chart['max_value']}",
-            f"max_value_label = {toml_string(format_int(blunder_chart['max_value']))}",
+            f"max_value = {blunder_chart_max_value}",
+            f"max_value_label = {toml_string(format_int(blunder_chart_max_value))}",
             "",
         ]
     )
 
     for point in blunder_chart["scaled"]:
-        blunder_word = "capivarada" if point["count"] == 1 else "capivaradas"
+        self_word = "capivarada minha" if point["self_count"] == 1 else "capivaradas minhas"
+        opponent_word = "do oponente" if point["opponent_count"] == 1 else "dos oponentes"
         session_label = f"Sessão #{point['session_number']}"
         if point["summary_title"]:
             session_label = f"{session_label}: {point['summary_title']}"
-        tooltip = f"{point['count']} {blunder_word} - {session_label} ({point['date']})"
+        tooltip = (
+            f"{point['self_count']} {self_word}; "
+            f"{point['opponent_count']} {opponent_word} - {session_label} ({point['date']})"
+        )
         lines.extend(
             [
                 "[[blunder_chart.points]]",
@@ -580,6 +611,10 @@ def build_stats() -> str:
                 f"date = {toml_string(point['date'])}",
                 f"count = {point['count']}",
                 f"count_label = {toml_string(format_int(point['count']))}",
+                f"self_count = {point['self_count']}",
+                f"self_count_label = {toml_string(format_int(point['self_count']))}",
+                f"opponent_count = {point['opponent_count']}",
+                f"opponent_count_label = {toml_string(format_int(point['opponent_count']))}",
                 f"url = {toml_string(point['url'])}",
                 f"tooltip = {toml_string(tooltip)}",
                 "",
