@@ -161,14 +161,16 @@
 {% set sessions = get_section(path="fcz/_index.md") %}
 {% set external_streams = load_data(path="data/external_streams.toml", required=false) %}
 <article class="home">
-  <div class="session-kicker">diário de xadrez</div>
+  <div class="session-kicker">arquivo de lives de xadrez</div>
   <h1>xadrez.live</h1>
-  <p class="tagline">Lives de treino, puzzles e partidas rapid comentadas sessão por sessão.</p>
+  <p class="tagline">Sessões de treino, puzzles e partidas rapid comentadas. O projeto começa com as lives do fcz e foi pensado para crescer com outros streamers.</p>
   <nav class="home-links" aria-label="Links principais">
+    <a href="/fcz/">fcz</a>
     <a href="/busca/">Busca</a>
     <a href="/arquivo/">Arquivo</a>
     <a href="/apoiadores/">Apoiadores</a>
     <a href="/estatisticas/">Estatísticas</a>
+    <a href="/sobre/">Sobre</a>
   </nav>
 
   <div class="home-columns">
@@ -176,7 +178,7 @@
       <section class="session-list-section">
         <h2>Próximas sessões</h2>
         <div class="session-group">
-          <h3><a href="https://lichess.org/@/fcz" rel="noopener noreferrer">fcz</a></h3>
+          <h3><a href="/fcz/">fcz</a></h3>
           <ul>
             {% set upcoming_count = 0 %}
             {% for session in sessions.pages | reverse %}
@@ -198,7 +200,7 @@
       <section class="session-list-section">
         <h2>Sessões passadas</h2>
         <div class="session-group">
-          <h3><a href="https://lichess.org/@/fcz" rel="noopener noreferrer">fcz</a></h3>
+          <h3><a href="/fcz/">fcz</a></h3>
           <ul data-session-fold>
             {% set past_count = 0 %}
             {% set current_month = "" %}

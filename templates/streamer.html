@@ -1,0 +1,71 @@
+{% extends "base.html" %}
+
+{% block title %}{{ section.title }} | {{ config.title }}{% endblock title %}
+{% block description %}{{ section.extra.description | default(value=config.description) }}{% endblock description %}
+
+{% block social_meta %}
+  <meta property="og:site_name" content="{{ config.title }}">
+  <meta property="og:type" content="profile">
+  <meta property="og:title" content="{{ section.title }} | {{ config.title }}">
+  <meta property="og:description" content="{{ section.extra.description | default(value=config.description) }}">
+  <meta name="twitter:card" content="summary">
+{% endblock social_meta %}
+
+{% block content %}
+<article class="streamer-page">
+  <div class="session-kicker">streamer</div>
+  <h1>{{ section.title }}</h1>
+  <p class="tagline">{{ section.extra.tagline }}</p>
+
+  <nav class="home-links" aria-label="Links de {{ section.title }}">
+    {% if section.extra.lichess_url is defined and section.extra.lichess_url %}
+      <a href="{{ section.extra.lichess_url }}" rel="noopener noreferrer">Lichess</a>
+    {% endif %}
+    {% if section.extra.youtube_url is defined and section.extra.youtube_url %}
+      <a href="{{ section.extra.youtube_url }}" rel="noopener noreferrer">YouTube</a>
+    {% endif %}
+    {% if section.extra.github_url is defined and section.extra.github_url %}
+      <a href="{{ section.extra.github_url }}" rel="noopener noreferrer">GitHub</a>
+    {% endif %}
+  </nav>
+
+  <section class="streamer-intro" data-pagefind-body>
+    {{ section.content | safe }}
+  </section>
+
+  {% set published_sessions = section.pages | filter(attribute="draft", value=false) %}
+  <section class="streamer-stats" aria-label="Resumo de {{ section.title }}">
+    <div>
+      <strong>{{ published_sessions | length }}</strong>
+      <span>sessões publicadas</span>
+    </div>
+    {% if published_sessions | length > 0 %}
+      {% set latest = published_sessions | last %}
+      <div>
+        <strong>{{ latest.date | date(format="%d/%m/%Y") }}</strong>
+        <span>sessão mais recente</span>
+      </div>
+    {% endif %}
+  </section>
+
+  <section class="session-list-section">
+    <h2>Sessões de {{ section.title }}</h2>
+    <ol class="archive-list">
+      {% for session in section.pages | reverse %}
+        {% if not session.draft %}
+          {% set summary_title = session.extra.summary_title | default(value="") %}
+          <li>
+            <a href="{{ session.path }}">{% if summary_title %}{{ session.title }}: {{ summary_title }}{% else %}{{ session.title }}{% endif %}</a>
+            <time datetime="{{ session.date }}">
+              {{ session.date | date(format="%d/%m/%Y") }}{% if session.extra.time is defined and session.extra.time %}, {{ session.extra.time }}{% endif %}
+            </time>
+            {% if session.extra.description is defined and session.extra.description %}
+              <p>{{ session.extra.description | truncate(length=180) }}</p>
+            {% endif %}
+          </li>
+        {% endif %}
+      {% endfor %}
+    </ol>
+  </section>
+</article>
+{% endblock content %}

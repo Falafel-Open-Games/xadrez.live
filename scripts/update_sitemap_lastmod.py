@@ -44,6 +44,8 @@ def content_paths_for_url(url: str, base_url: str) -> list[Path]:
 
     parts = relative.split("/")
     if len(parts) == 1:
+        if parts[0] == "fcz":
+            return [CONTENT_DIR / "fcz" / "_index.md", *session_paths()]
         content_path = CONTENT_DIR / f"{parts[0]}.md"
         if parts[0] in {"arquivo", "busca"}:
             return [content_path, *session_paths()]
@@ -78,6 +80,10 @@ def front_matter_date(path: Path) -> str:
 
 
 def is_dirty(path: Path) -> bool:
+    status = run_git(["status", "--porcelain"], path)
+    if status.stdout.strip():
+        return True
+
     proc = run_git(["diff", "--quiet"], path)
     return proc.returncode == 1
 

@@ -210,6 +210,19 @@
   {% set session_notes_html = notes_heading ~ session_notes_body_html %}
   {% set remaining_content_html = content_before_notes %}
 {% endif %}
+{% set session_section = get_section(path="fcz/_index.md") %}
+{% set previous_session = false %}
+{% set next_session = false %}
+{% for session_page in session_section.pages %}
+  {% if session_page.path == page.path %}
+    {% if loop.index0 > 0 %}
+      {% set_global previous_session = session_section.pages | nth(n=loop.index0 - 1) %}
+    {% endif %}
+    {% if loop.index0 + 1 < session_section.pages | length %}
+      {% set_global next_session = session_section.pages | nth(n=loop.index0 + 1) %}
+    {% endif %}
+  {% endif %}
+{% endfor %}
 <article class="session">
   <div class="session-kicker">{{ config.title }}</div>
   <h1>Sessão #{{ page.extra.session_number }}</h1>
@@ -238,6 +251,23 @@
     <a class="button" href="{{ youtube_url }}" rel="noopener noreferrer">Abrir no YouTube</a>
     <a class="button button-secondary" href="{{ page.extra.lichess_url }}" rel="noopener noreferrer">Abrir Lichess</a>
   </div>
+
+  {% if previous_session or next_session %}
+    <nav class="session-neighbors" aria-label="Navegação entre sessões">
+      {% if previous_session %}
+        <a href="{{ previous_session.path }}" rel="prev">
+          <span>Sessão anterior</span>
+          <strong>#{{ previous_session.extra.session_number }}</strong>
+        </a>
+      {% endif %}
+      {% if next_session %}
+        <a href="{{ next_session.path }}" rel="next">
+          <span>Próxima sessão</span>
+          <strong>#{{ next_session.extra.session_number }}</strong>
+        </a>
+      {% endif %}
+    </nav>
+  {% endif %}
 
   {% if session_notes_html %}
     <div class="session-video-notes-layout">
