@@ -21,6 +21,9 @@ SELF_SUPPORTERS = {
     ("twitch", "sedentarismo"),
 }
 SELF_HANDLES = {handle for _platform, handle in SELF_SUPPORTERS}
+BLOCKED_SUPPORTER_HANDLES = {
+    "gsgsgehwge",
+}
 ANON_AUTHOR_RE = re.compile(r"^Person \d+$")
 UNKNOWN_AUTHORS = {"unknown", "@unknown", "anonymous", "@anonymous"}
 
@@ -115,6 +118,10 @@ def is_self(platform: str, name: str) -> bool:
     return (normalized_platform(platform), handle) in SELF_SUPPORTERS or handle in SELF_HANDLES
 
 
+def is_blocked_supporter(name: str) -> bool:
+    return normalized_handle(name) in BLOCKED_SUPPORTER_HANDLES
+
+
 def inferred_url(platform: str, name: str) -> str:
     handle = name.removeprefix("@").strip()
     if not handle:
@@ -186,6 +193,7 @@ def chat_supporters(session_number: str) -> list[Supporter]:
             or author.lower() in UNKNOWN_AUTHORS
             or ANON_AUTHOR_RE.fullmatch(author)
             or is_self(platform, author)
+            or is_blocked_supporter(author)
         ):
             continue
 
@@ -232,7 +240,7 @@ def parse_person(raw: str, platform: str) -> Supporter | None:
             name = raw.strip()
             url = inferred_url(platform, name)
 
-    if not name or is_self(platform, name) or name.lower() in UNKNOWN_AUTHORS:
+    if not name or is_self(platform, name) or is_blocked_supporter(name) or name.lower() in UNKNOWN_AUTHORS:
         return None
 
     return Supporter(platform, name, url)

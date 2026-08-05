@@ -16,6 +16,9 @@ SELF_SUPPORTERS = {
     ("twitch", "sedentarismo"),
 }
 SELF_SUPPORTER_HANDLES = {handle for _platform, handle in SELF_SUPPORTERS}
+BLOCKED_SUPPORTER_HANDLES = {
+    "gsgsgehwge",
+}
 
 
 @dataclass
@@ -126,6 +129,10 @@ def is_self_supporter(platform: str, name: str, url: str) -> bool:
     return (normalized_platform(platform, url), handle) in SELF_SUPPORTERS or handle in SELF_SUPPORTER_HANDLES
 
 
+def is_blocked_supporter(name: str) -> bool:
+    return normalized_handle(name) in BLOCKED_SUPPORTER_HANDLES
+
+
 def supporter_key(name: str, url: str) -> str:
     if url:
         return url.lower().rstrip("/")
@@ -151,7 +158,7 @@ def collect_supporters() -> dict[str, Supporter]:
 
             if not url:
                 url = inferred_url(platform, name)
-            if is_self_supporter(platform, name, url):
+            if is_self_supporter(platform, name, url) or is_blocked_supporter(name):
                 continue
 
             key = supporter_key(name, url)
@@ -182,7 +189,7 @@ def collect_supporters() -> dict[str, Supporter]:
                 name, url = parse_person(raw_person, platform)
                 if not name:
                     continue
-                if is_self_supporter(platform, name, url):
+                if is_self_supporter(platform, name, url) or is_blocked_supporter(name):
                     continue
 
                 key = supporter_key(name, url)

@@ -32,6 +32,7 @@ TRANSCRIPT_SUFFIXES_BY_PRIORITY = [
     "youtube",
 ]
 SELF_CHAT_AUTHORS = {"host", "fczuardi", "@fczuardi", "sedentarismo", "@sedentarismo"}
+BLOCKED_CHAT_AUTHORS = {"gsgsgehwge", "@gsgsgehwge"}
 
 
 @dataclass
@@ -278,7 +279,7 @@ def is_viewer_chat_message(message: Any) -> bool:
         return False
     author = str(message.get("author") or "").strip().casefold()
     author = author.removeprefix("@")
-    return bool(author) and author not in SELF_CHAT_AUTHORS
+    return bool(author) and author not in SELF_CHAT_AUTHORS and author not in BLOCKED_CHAT_AUTHORS
 
 
 def latest_rating(sessions: list[Session], field: str) -> int:
