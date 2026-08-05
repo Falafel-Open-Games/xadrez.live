@@ -19,7 +19,7 @@
 
 {% block content %}
 {% set stats = load_data(path="data/site_stats.toml", required=false) %}
-{% set lichess_ratings = load_data(path="data/lichess_rating_history.toml", required=false) %}
+{% set lichess_ratings = load_data(path="data/fcz/lichess_rating_history.toml", required=false) %}
 <article class="stats-page">
   <div class="session-kicker">acumulado</div>
   <h1>{{ page.title }}</h1>
@@ -43,6 +43,30 @@
         <span>Partidas jogadas</span>
         <strong>{{ stats.summary.game_count_label }}</strong>
       </div>
+      {% if stats.summary.analysed_game_count is defined %}
+        <div class="stat-card">
+          <span>Partidas analisadas</span>
+          <strong>{{ stats.summary.analysed_game_count_label }}</strong>
+        </div>
+      {% endif %}
+      {% if stats.summary.total_blunders is defined %}
+        <div class="stat-card">
+          <span>Capivaradas</span>
+          <strong>{{ stats.summary.total_blunders_label }}</strong>
+        </div>
+      {% endif %}
+      {% if stats.summary.average_accuracy is defined %}
+        <div class="stat-card">
+          <span>Precisão média</span>
+          <strong>{{ stats.summary.average_accuracy_label }}%</strong>
+        </div>
+      {% endif %}
+      {% if stats.summary.average_acpl is defined %}
+        <div class="stat-card">
+          <span>Perda média por lance</span>
+          <strong>{{ stats.summary.average_acpl_label }}</strong>
+        </div>
+      {% endif %}
       <div class="stat-card">
         <span>Puzzles resolvidos</span>
         <strong>{{ stats.summary.puzzles_solved_label }}</strong>
@@ -98,6 +122,18 @@
           </ul>
         </section>
       {% endif %}
+
+      {% if stats.summary.missing_game_analysis_count is defined %}
+        <section class="stats-panel">
+          <h2>Análises</h2>
+          <ul class="stats-list">
+            <li><span>Com análise</span><strong>{{ stats.summary.analysed_game_count_label }}</strong></li>
+            <li><span>Faltando</span><strong>{{ stats.summary.missing_game_analysis_count_label }}</strong></li>
+            <li><span>Erros</span><strong>{{ stats.summary.total_mistakes_label }}</strong></li>
+            <li><span>Imprecisões</span><strong>{{ stats.summary.total_inaccuracies_label }}</strong></li>
+          </ul>
+        </section>
+      {% endif %}
     </div>
 
     <section class="stats-panel stats-wide-panel">
@@ -144,9 +180,25 @@
             <div class="stats-uplot" data-stats-chart="chat"></div>
           </section>
         {% endif %}
+
+        {% if stats.blunder_chart is defined and stats.blunder_chart.points is defined and stats.blunder_chart.points %}
+          <section class="stats-chart-card stats-chart-card-wide">
+            <div class="stats-chart-header">
+              <div>
+                <h3>Capivaradas por sessão</h3>
+                <p>{{ stats.blunder_chart.first_label }} a {{ stats.blunder_chart.latest_label }}</p>
+              </div>
+              <div class="stats-chart-current">
+                <strong>{{ stats.summary.average_blunders_label }}</strong>
+                <span>média por partida analisada</span>
+              </div>
+            </div>
+            <div class="stats-uplot" data-stats-chart="blunders"></div>
+          </section>
+        {% endif %}
       </div>
       <p class="stats-note">
-        Chat usa mensagens de espectadores por sessão. Ratings usam o historico publico do Lichess, atualizado durante o build do site. A pagina oficial continua disponivel no
+        Chat usa mensagens de espectadores por sessão. Capivaradas, erros, imprecisões, precisão e perda média vêm da análise de computador do Lichess quando ela está disponível. Ratings usam o historico publico do Lichess, atualizado durante o build do site. A pagina oficial continua disponivel no
         <a href="https://lichess.org/@/fcz/perf/rapid" rel="noopener noreferrer">grafico rapid do Lichess</a>
         e no <a href="https://lichess.org/@/fcz/perf/puzzle" rel="noopener noreferrer">grafico de puzzles do Lichess</a>.
       </p>
@@ -155,6 +207,7 @@
     <script type="application/json" id="stats-chart-data">
       {
         "chat": {% if stats.chat_chart is defined and stats.chat_chart.points is defined %}{{ stats.chat_chart.points | json_encode | safe }}{% else %}[]{% endif %},
+        "blunders": {% if stats.blunder_chart is defined and stats.blunder_chart.points is defined %}{{ stats.blunder_chart.points | json_encode | safe }}{% else %}[]{% endif %},
         "ratings": {% if lichess_ratings and lichess_ratings.series is defined %}{{ lichess_ratings.series | json_encode | safe }}{% else %}[]{% endif %}
       }
     </script>
@@ -207,6 +260,7 @@
         const rapid = byKey.rapid;
         const puzzles = byKey.puzzles;
         const chat = Array.isArray(payload.chat) ? payload.chat : [];
+        const blunders = Array.isArray(payload.blunders) ? payload.blunders : [];
         const rangeButtons = Array.from(document.querySelectorAll("[data-stats-range]"));
         const charts = [];
         let latestTimestamp = 0;
@@ -521,6 +575,104 @@
             chatTimestamps[0],
             chatTimestamps[chatTimestamps.length - 1],
             nativeChatRange,
+          );
+        }
+
+        const blunderElement = document.querySelector('[data-stats-chart="blunders"]');
+        if (blunderElement && blunders.length) {
+          const sessions = blunders.map((_point, index) => index);
+          const counts = blunders.map((point) => point.count);
+          const blunderTimestamps = blunders.map((point) => dayToTimestamp(point.date));
+          const sessionIsVisible = (chart, index) => (
+            Number.isInteger(index)
+              && sessions[index] >= chart.scales.x.min
+              && sessions[index] <= chart.scales.x.max
+          );
+          const findLastTimestampIndex = (timestamp) => {
+            for (let index = blunderTimestamps.length - 1; index >= 0; index -= 1) {
+              if (blunderTimestamps[index] <= timestamp) return index;
+            }
+            return -1;
+          };
+          const sessionLabel = (index) => {
+            const point = blunders[Math.round(index)];
+            return point ? `#${point.session_number}` : "";
+          };
+          const nativeBlunderRange = (minTimestamp, maxTimestamp) => {
+            const minIndex = blunderTimestamps.findIndex((timestamp) => timestamp >= minTimestamp);
+            const maxIndexFromEnd = findLastTimestampIndex(maxTimestamp);
+            return [
+              minIndex === -1 ? 0 : Math.max(0, minIndex - 0.5),
+              maxIndexFromEnd === -1 ? sessions[sessions.length - 1] : Math.min(sessions[sessions.length - 1], maxIndexFromEnd + 0.5),
+            ];
+          };
+
+          const blunderChart = makeChart(
+            blunderElement,
+            {
+              cursor: { drag: { setScale: false } },
+              legend: { show: true, live: true },
+              scales: {
+                y: { range: (_u, min, max) => [0, Math.max(3, max)] },
+              },
+              axes: [
+                {
+                  stroke: colors.muted,
+                  grid: { stroke: colors.line, width: 1 },
+                  ticks: { stroke: colors.line },
+                  values: sparseLabels(sessionLabel, 10),
+                },
+                {
+                  label: "Capivaradas",
+                  stroke: colors.muted,
+                  grid: { stroke: colors.line, width: 1 },
+                  ticks: { stroke: colors.line },
+                },
+              ],
+              series: [
+                {
+                  label: "Sessão",
+                  value: (chart, raw) => {
+                    const index = Math.round(raw);
+                    if (!sessionIsVisible(chart, index)) return "-";
+                    const point = blunders[index];
+                    return point ? `#${point.session_number} - ${point.date}` : "";
+                  },
+                },
+                {
+                  label: "Capivaradas",
+                  stroke: "#f07178",
+                  fill: "rgba(240, 113, 120, 0.14)",
+                  width: 2,
+                  points: { show: true, size: 5 },
+                  value: (chart, raw, seriesIdx, dataIdx) => {
+                    if (raw == null || !sessionIsVisible(chart, dataIdx)) return "-";
+                    const point = blunders[dataIdx];
+                    return point ? `${point.count_label} - ${point.summary_title || point.title}` : String(raw);
+                  },
+                },
+              ],
+              hooks: {
+                ready: [
+                  (chart) => {
+                    chart.root.addEventListener("click", () => {
+                      const idx = chart.cursor.idx;
+                      if (!sessionIsVisible(chart, idx)) return;
+                      const point = blunders[idx];
+                      if (point && point.url) window.location.href = point.url;
+                    });
+                  },
+                ],
+              },
+            },
+            [sessions, counts],
+          );
+          registerChart(
+            blunderChart,
+            "blunders",
+            blunderTimestamps[0],
+            blunderTimestamps[blunderTimestamps.length - 1],
+            nativeBlunderRange,
           );
         }
 

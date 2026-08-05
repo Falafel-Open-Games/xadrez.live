@@ -12,7 +12,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT_DIR = ROOT / "content" / "fcz"
 DEFAULT_CACHE_DIR = Path("/tmp/xadrez-transcripts")
-DEFAULT_OUTPUT_DIR = ROOT / "data" / "transcripts"
+DEFAULT_OUTPUT_DIR = ROOT / "data" / "fcz" / "transcripts"
 
 
 def fail(message: str) -> None:

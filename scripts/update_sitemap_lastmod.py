@@ -13,6 +13,8 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTENT_DIR = ROOT / "content"
 SITEMAP = ROOT / "public" / "sitemap.xml"
 NS = "http://www.sitemaps.org/schemas/sitemap/0.9"
+LICHESS_GAME_ANALYSIS = ROOT / "data" / "fcz" / "lichess_game_analysis.toml"
+LICHESS_BLUNDERS_DIR = ROOT / "data" / "fcz" / "lichess_blunders"
 
 
 def read_config() -> dict[str, Any]:
@@ -49,14 +51,15 @@ def content_paths_for_url(url: str, base_url: str) -> list[Path]:
         content_path = CONTENT_DIR / f"{parts[0]}.md"
         if parts[0] in {"arquivo", "busca"}:
             return [content_path, *session_paths()]
-        if parts[0] == "estatisticas":
-            return [content_path, ROOT / "data" / "site_stats.toml"]
         if parts[0] == "apoiadores":
             return [content_path, ROOT / "data" / "supporters.toml"]
         return [content_path]
 
     if len(parts) == 2 and parts[0] == "fcz":
-        return [CONTENT_DIR / "fcz" / f"{parts[1]}.md"]
+        if parts[1] == "estatisticas":
+            return [CONTENT_DIR / "fcz" / "estatisticas" / "index.md", ROOT / "data" / "site_stats.toml", LICHESS_GAME_ANALYSIS]
+        if len(parts[1]) == 4 and parts[1].isdigit():
+            return [CONTENT_DIR / "fcz" / f"{parts[1]}.md", LICHESS_GAME_ANALYSIS, LICHESS_BLUNDERS_DIR / f"{parts[1]}.json"]
 
     return []
 

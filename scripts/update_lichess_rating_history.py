@@ -14,7 +14,7 @@ from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT_DIR = ROOT / "content" / "fcz"
-OUTPUT = ROOT / "data" / "lichess_rating_history.toml"
+OUTPUT = ROOT / "data" / "fcz" / "lichess_rating_history.toml"
 DEFAULT_USERNAME = "fcz"
 SERIES = {
     "Rapid": {

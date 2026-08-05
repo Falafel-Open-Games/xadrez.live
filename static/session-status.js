@@ -102,6 +102,13 @@
     });
   });
 
+  document.querySelectorAll("[data-blunder-best]").forEach(function (button) {
+    button.addEventListener("click", function () {
+      button.classList.add("is-revealed");
+      button.setAttribute("aria-label", "Melhor lance revelado");
+    });
+  });
+
   document.querySelectorAll("[data-replay-tabs]").forEach(function (section) {
     var playerFrame = document.querySelector("[data-youtube-player]");
     var debugPlayer = new URLSearchParams(window.location.search).has("debugPlayer");
@@ -225,7 +232,7 @@
         panel.classList.toggle("is-active", panel.dataset.replayPanel === target);
       });
       section.querySelectorAll(".transcript-source-tabs").forEach(function (tabs) {
-        tabs.hidden = target === "chat";
+        tabs.hidden = target !== "merged" && target !== "transcript";
       });
     }
 

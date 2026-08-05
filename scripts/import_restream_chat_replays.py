@@ -18,9 +18,9 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT_DIR = ROOT / "content" / "fcz"
 DEFAULT_CACHE_DIR = Path("/tmp/xadrez-restream-chat")
-DEFAULT_OUTPUT_DIR = ROOT / "data" / "restream_chat_replays"
+DEFAULT_OUTPUT_DIR = ROOT / "data" / "fcz" / "restream_chat_replays"
 DEFAULT_YOUTUBE_CACHE_DIR = Path("/tmp/xadrez-chat")
-DEFAULT_TWITCH_DATA_DIR = ROOT / "data" / "twitch_chat_replays"
+DEFAULT_TWITCH_DATA_DIR = ROOT / "data" / "fcz" / "twitch_chat_replays"
 ENV_PATH = ROOT / ".env"
 API_BASE = "https://api.restream.io/v2"
 TOKEN_URL = "https://api.restream.io/oauth/token"

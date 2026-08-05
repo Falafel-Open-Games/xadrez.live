@@ -19,7 +19,7 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTENT_DIR = ROOT / "content" / "fcz"
 DEFAULT_AUDIO_CACHE_DIR = Path("/tmp/xadrez-whisper-audio")
 DEFAULT_WHISPER_CACHE_DIR = Path("/tmp/xadrez-whisper-transcripts")
-DEFAULT_OUTPUT_DIR = ROOT / "data" / "transcripts"
+DEFAULT_OUTPUT_DIR = ROOT / "data" / "fcz" / "transcripts"
 DEFAULT_INITIAL_PROMPT = (
     "Transcrição em português brasileiro de uma live de xadrez. "
     "Vocabulário esperado: Lichess, lichess.org, Chess.com, Stockfish, YouTube, Twitch, Restream, GoatCounter, "
@@ -28,6 +28,10 @@ DEFAULT_INITIAL_PROMPT = (
     "Frases comuns: puzzle do dia, resposta com a dama, a resposta é, qual é a resposta. "
     "Peão é a peça de xadrez; em frases como esse peão, um peão, peão passado, peão pendurado, "
     "peão de e4 ou tomar o peão, não transcreva como espião. "
+    "Em xadrez, peça pendurada significa hanging piece: se a fala soar como hanging, hang, reng, heng, "
+    "renguem, hanging bishop ou hang em bishop perto de peça, bispo, cavalo, torre, dama ou peão, "
+    "prefira peça pendurada ou a peça específica pendurada, como bispo pendurado. "
+    "Em frases como bispo hanging, bispo hang ou hanging bishop, transcreva como bispo pendurado. "
     "Quando for o lance ou ameaça ao rei em uma frase em português, prefira xeque; mantenha check em nomes "
     "ou frases em inglês, como Force Online Check e checkmate patterns. "
     "Quando for o fim da partida, mate no rei, ou ideia de mate em frase em português, prefira xeque-mate; "

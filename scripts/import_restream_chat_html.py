@@ -12,7 +12,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT_DIR = ROOT / "content" / "fcz"
-DEFAULT_OUTPUT_DIR = ROOT / "data" / "restream_chat_replays"
+DEFAULT_OUTPUT_DIR = ROOT / "data" / "fcz" / "restream_chat_replays"
 
 
 def fail(message: str) -> None:

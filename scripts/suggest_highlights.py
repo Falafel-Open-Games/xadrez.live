@@ -11,9 +11,9 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-TRANSCRIPT_DIR = ROOT / "data" / "transcripts"
-CHAT_DIR = ROOT / "data" / "chat_replays"
-OUTPUT_DIR = ROOT / "data" / "highlights"
+TRANSCRIPT_DIR = ROOT / "data" / "fcz" / "transcripts"
+CHAT_DIR = ROOT / "data" / "fcz" / "chat_replays"
+OUTPUT_DIR = ROOT / "data" / "fcz" / "highlights"
 WORD_RE = re.compile(r"[a-z0-9]+")
 DISPLAY_WORD_RE = re.compile(r"[\wÀ-ÿ]+(?:[-'][\wÀ-ÿ]+)?")
 REFERENCE_ANCHOR_MAX_FORWARD_SECONDS = 8

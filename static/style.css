@@ -504,6 +504,66 @@ h1 {
   margin-top: 6px;
 }
 
+.replay-item-blunder {
+  border-left: 3px solid #f07178;
+  padding-left: 11px;
+  background: rgba(240, 113, 120, 0.06);
+}
+
+.replay-panel[data-replay-panel="merged"] .replay-item-blunder {
+  margin: 4px 10px;
+  border: 1px solid rgba(240, 113, 120, 0.42);
+  border-left: 4px solid #f07178;
+  border-radius: 6px;
+}
+
+.replay-item-blunder .replay-body strong {
+  color: #f07178;
+}
+
+.replay-body .blunder-best {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.86rem;
+}
+
+.blunder-best-reveal {
+  display: inline-flex;
+  align-items: center;
+  min-width: 54px;
+  min-height: 26px;
+  border: 1px solid rgba(230, 189, 110, 0.42);
+  border-radius: 6px;
+  padding: 2px 8px;
+  background: rgba(230, 189, 110, 0.08);
+  color: var(--accent);
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.blunder-best-reveal:hover,
+.blunder-best-reveal:focus-visible {
+  border-color: var(--accent);
+  background: rgba(230, 189, 110, 0.14);
+}
+
+.blunder-best-value {
+  display: none;
+}
+
+.blunder-best-reveal.is-revealed .blunder-best-mask {
+  display: none;
+}
+
+.blunder-best-reveal.is-revealed .blunder-best-value {
+  display: inline;
+}
+
 .replay-time {
   color: var(--accent);
   font-variant-numeric: tabular-nums;

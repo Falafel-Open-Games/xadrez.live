@@ -7,7 +7,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT_DIR = ROOT / "content" / "fcz"
-TRANSCRIPT_DIR = ROOT / "data" / "transcripts"
+TRANSCRIPT_DIR = ROOT / "data" / "fcz" / "transcripts"
 
 
 def front_matter(path: Path) -> dict:

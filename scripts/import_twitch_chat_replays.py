@@ -14,7 +14,7 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_CACHE_DIR = Path("/tmp/xadrez-twitch-chat")
-DEFAULT_OUTPUT_DIR = ROOT / "data" / "twitch_chat_replays"
+DEFAULT_OUTPUT_DIR = ROOT / "data" / "fcz" / "twitch_chat_replays"
 DEFAULT_CHANNEL_URL = "https://www.twitch.tv/sedentarismo/videos"
 TWITCH_CLIENT_ID = "kimne78kx3ncx6brgo4mv6wki5h1ko"
 GQL_URL = "https://gql.twitch.tv/gql"

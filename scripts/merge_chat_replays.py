@@ -11,10 +11,10 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT_DIR = ROOT / "content" / "fcz"
-DEFAULT_OUTPUT_DIR = ROOT / "data" / "chat_replays"
-DEFAULT_RESTREAM_DIR = ROOT / "data" / "restream_chat_replays"
-DEFAULT_YOUTUBE_DIR = ROOT / "data" / "youtube_chat_replays"
-DEFAULT_TWITCH_DIR = ROOT / "data" / "twitch_chat_replays"
+DEFAULT_OUTPUT_DIR = ROOT / "data" / "fcz" / "chat_replays"
+DEFAULT_RESTREAM_DIR = ROOT / "data" / "fcz" / "restream_chat_replays"
+DEFAULT_YOUTUBE_DIR = ROOT / "data" / "fcz" / "youtube_chat_replays"
+DEFAULT_TWITCH_DIR = ROOT / "data" / "fcz" / "twitch_chat_replays"
 ANON_AUTHOR_RE = re.compile(r"^Person \d+$")
 SOURCE_PRIORITY = {"restream": 0, "restream-html": 0, "youtube": 1, "twitch": 2}
 

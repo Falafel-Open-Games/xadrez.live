@@ -12,7 +12,7 @@
 
   <ol class="archive-list">
     {% for session in sessions.pages | reverse %}
-      {% if not session.draft %}
+      {% if not session.draft and session.extra.session_number is defined %}
         {% set summary_title = session.extra.summary_title | default(value="") %}
         <li>
           <a href="{{ session.path }}">{% if summary_title %}{{ session.title }}: {{ summary_title }}{% else %}{{ session.title }}{% endif %}</a>

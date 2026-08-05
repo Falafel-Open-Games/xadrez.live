@@ -15,7 +15,7 @@ from urllib.parse import quote
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT_DIR = ROOT / "content" / "fcz"
-CHAT_REPLAYS_DIR = ROOT / "data" / "chat_replays"
+CHAT_REPLAYS_DIR = ROOT / "data" / "fcz" / "chat_replays"
 SELF_SUPPORTERS = {
     ("youtube", "fczuardi"),
     ("twitch", "sedentarismo"),

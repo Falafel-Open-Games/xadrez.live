@@ -169,7 +169,7 @@
     <a href="/busca/">Busca</a>
     <a href="/arquivo/">Arquivo</a>
     <a href="/apoiadores/">Apoiadores</a>
-    <a href="/estatisticas/">Estatísticas</a>
+    <a href="/fcz/estatisticas/">Estatísticas</a>
     <a href="/sobre/">Sobre</a>
   </nav>
 
@@ -182,7 +182,7 @@
           <ul>
             {% set upcoming_count = 0 %}
             {% for session in sessions.pages | reverse %}
-              {% if not session.draft %}
+              {% if not session.draft and session.extra.session_number is defined %}
                 {% set tone = session.extra.status_tone | default(value="") %}
                 {% if tone == "scheduled" or tone == "live" %}
                   {% set_global upcoming_count = upcoming_count + 1 %}
@@ -205,7 +205,7 @@
             {% set past_count = 0 %}
             {% set current_month = "" %}
             {% for session in sessions.pages | reverse %}
-              {% if not session.draft %}
+              {% if not session.draft and session.extra.session_number is defined %}
                 {% set tone = session.extra.status_tone | default(value="") %}
                 {% if tone != "scheduled" and tone != "live" %}
                   {% set_global past_count = past_count + 1 %}

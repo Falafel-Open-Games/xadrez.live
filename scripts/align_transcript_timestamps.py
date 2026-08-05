@@ -11,7 +11,7 @@ from typing import Any
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_TRANSCRIPT_DIR = ROOT / "data" / "transcripts"
+DEFAULT_TRANSCRIPT_DIR = ROOT / "data" / "fcz" / "transcripts"
 WORD_RE = re.compile(r"[a-z0-9]+")
 
 

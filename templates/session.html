@@ -1,5 +1,23 @@
 {% extends "base.html" %}
 
+{% macro blunder_event_body(event) %}
+  <strong>
+    {{ event.label }}
+    <span class="chat-replay-platform">{{ event.platform }}</span>
+    {% if event.is_self %}<span class="chat-replay-platform">fcz</span>{% else %}<span class="chat-replay-platform">oponente</span>{% endif %}
+  </strong>
+  <p>{{ event.text }}</p>
+  {% if event.best is defined and event.best %}
+    <p class="blunder-best" data-pagefind-ignore>
+      Melhor teria sido
+      <button class="blunder-best-reveal" type="button" data-blunder-best aria-label="Revelar melhor lance">
+        <span class="blunder-best-mask" aria-hidden="true">####</span>
+        <span class="blunder-best-value">{{ event.best }}</span>
+      </button>
+    </p>
+  {% endif %}
+{% endmacro %}
+
 {% block title -%}
   {%- set session_page_title = page.title -%}
   {%- if page.extra.summary_title is defined and page.extra.summary_title -%}
@@ -113,25 +131,29 @@
 {% block content %}
 {% set video_id = page.extra.youtube_video_id %}
 {% set youtube_url = "https://www.youtube.com/watch?v=" ~ video_id %}
-{% set chat_replay_path = "data/chat_replays/" ~ page.extra.session_number ~ ".json" %}
+{% set streamer = page.components | first %}
+{% set streamer_data_path = "data/" ~ streamer %}
+{% set chat_replay_path = streamer_data_path ~ "/chat_replays/" ~ page.extra.session_number ~ ".json" %}
 {% set chat_replay = load_data(path=chat_replay_path, required=false) %}
-{% set twitch_chat_replay_path = "data/twitch_chat_replays/" ~ page.extra.session_number ~ ".json" %}
+{% set twitch_chat_replay_path = streamer_data_path ~ "/twitch_chat_replays/" ~ page.extra.session_number ~ ".json" %}
 {% set twitch_chat_replay = load_data(path=twitch_chat_replay_path, required=false) %}
 {% if not chat_replay and twitch_chat_replay %}
   {% set chat_replay = twitch_chat_replay %}
 {% endif %}
-{% set highlights_path = "data/highlights/" ~ page.extra.session_number ~ ".json" %}
+{% set highlights_path = streamer_data_path ~ "/highlights/" ~ page.extra.session_number ~ ".json" %}
 {% set highlights = load_data(path=highlights_path, required=false) %}
 {% set show_highlights = highlights and highlights.highlights %}
-{% set youtube_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".youtube.json" %}
-{% set faster_whisper_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".faster-whisper.json" %}
-{% set whisper_cli_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".whisper-cli.json" %}
-{% set openai_mini_aligned_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".openai-gpt-4o-mini-transcribe.aligned.json" %}
-{% set openai_mini_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".openai-gpt-4o-mini-transcribe.json" %}
-{% set openai_aligned_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".openai-gpt-4o-transcribe.aligned.json" %}
-{% set openai_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".openai-gpt-4o-transcribe.json" %}
-{% set openai_whisper_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".openai-whisper-1.json" %}
-{% set legacy_transcript_path = "data/transcripts/" ~ page.extra.session_number ~ ".json" %}
+{% set blunder_replay_path = streamer_data_path ~ "/lichess_blunders/" ~ page.extra.session_number ~ ".json" %}
+{% set blunder_replay = load_data(path=blunder_replay_path, required=false) %}
+{% set youtube_transcript_path = streamer_data_path ~ "/transcripts/" ~ page.extra.session_number ~ ".youtube.json" %}
+{% set faster_whisper_transcript_path = streamer_data_path ~ "/transcripts/" ~ page.extra.session_number ~ ".faster-whisper.json" %}
+{% set whisper_cli_transcript_path = streamer_data_path ~ "/transcripts/" ~ page.extra.session_number ~ ".whisper-cli.json" %}
+{% set openai_mini_aligned_transcript_path = streamer_data_path ~ "/transcripts/" ~ page.extra.session_number ~ ".openai-gpt-4o-mini-transcribe.aligned.json" %}
+{% set openai_mini_transcript_path = streamer_data_path ~ "/transcripts/" ~ page.extra.session_number ~ ".openai-gpt-4o-mini-transcribe.json" %}
+{% set openai_aligned_transcript_path = streamer_data_path ~ "/transcripts/" ~ page.extra.session_number ~ ".openai-gpt-4o-transcribe.aligned.json" %}
+{% set openai_transcript_path = streamer_data_path ~ "/transcripts/" ~ page.extra.session_number ~ ".openai-gpt-4o-transcribe.json" %}
+{% set openai_whisper_transcript_path = streamer_data_path ~ "/transcripts/" ~ page.extra.session_number ~ ".openai-whisper-1.json" %}
+{% set legacy_transcript_path = streamer_data_path ~ "/transcripts/" ~ page.extra.session_number ~ ".json" %}
 {% set youtube_transcript = load_data(path=youtube_transcript_path, required=false) %}
 {% set faster_whisper_transcript = load_data(path=faster_whisper_transcript_path, required=false) %}
 {% set whisper_cli_transcript = load_data(path=whisper_cli_transcript_path, required=false) %}
@@ -198,6 +220,11 @@
 {% set show_live_chat = page.extra.status_tone != "ended" %}
 {% set show_chat_replay = page.extra.status_tone == "ended" and chat_replay and chat_replay.messages %}
 {% set show_transcript = page.extra.status_tone == "ended" and transcript_source_count > 0 %}
+{% set show_blunder_replay = page.extra.status_tone == "ended" and blunder_replay and blunder_replay.events %}
+{% set replay_source_count = 0 %}
+{% if show_chat_replay %}{% set replay_source_count = replay_source_count + 1 %}{% endif %}
+{% if show_transcript %}{% set replay_source_count = replay_source_count + 1 %}{% endif %}
+{% if show_blunder_replay %}{% set replay_source_count = replay_source_count + 1 %}{% endif %}
 {% set notes_heading = '<h2 id="notas">Notas</h2>' %}
 {% set has_session_notes = page.content and page.content is containing(notes_heading) %}
 {% set session_notes_html = "" %}
@@ -213,13 +240,17 @@
 {% set session_section = get_section(path="fcz/_index.md") %}
 {% set previous_session = false %}
 {% set next_session = false %}
+{% set previous_session_candidate = false %}
+{% set found_current_session = false %}
 {% for session_page in session_section.pages %}
-  {% if session_page.path == page.path %}
-    {% if loop.index0 > 0 %}
-      {% set_global previous_session = session_section.pages | nth(n=loop.index0 - 1) %}
-    {% endif %}
-    {% if loop.index0 + 1 < session_section.pages | length %}
-      {% set_global next_session = session_section.pages | nth(n=loop.index0 + 1) %}
+  {% if session_page.extra.session_number is defined %}
+    {% if found_current_session and not next_session %}
+      {% set_global next_session = session_page %}
+    {% elif session_page.path == page.path %}
+      {% set_global previous_session = previous_session_candidate %}
+      {% set_global found_current_session = true %}
+    {% else %}
+      {% set_global previous_session_candidate = session_page %}
     {% endif %}
   {% endif %}
 {% endfor %}
@@ -303,7 +334,7 @@
     </div>
   {% endif %}
 
-  {% if show_highlights or show_chat_replay or show_transcript %}
+  {% if show_highlights or show_chat_replay or show_transcript or show_blunder_replay %}
     <div class="session-replay-layout">
   {% endif %}
 
@@ -336,15 +367,22 @@
     </section>
   {% endif %}
 
-  {% if show_chat_replay or show_transcript %}
+  {% if show_chat_replay or show_transcript or show_blunder_replay %}
     <section class="replay-section" data-replay-tabs data-youtube-url="{{ youtube_url }}">
       <div class="replay-header">
         <h2>Replay da sessão</h2>
-        {% if show_chat_replay and show_transcript %}
+        {% if replay_source_count > 1 %}
           <div class="replay-tabs" role="tablist" aria-label="Modo do replay">
             <button class="replay-tab is-active" type="button" data-replay-tab="merged" role="tab" aria-selected="true">Mesclado</button>
-            <button class="replay-tab" type="button" data-replay-tab="chat" role="tab" aria-selected="false">Chat</button>
-            <button class="replay-tab" type="button" data-replay-tab="transcript" role="tab" aria-selected="false">Transcrição</button>
+            {% if show_chat_replay %}
+              <button class="replay-tab" type="button" data-replay-tab="chat" role="tab" aria-selected="false">Chat</button>
+            {% endif %}
+            {% if show_transcript %}
+              <button class="replay-tab" type="button" data-replay-tab="transcript" role="tab" aria-selected="false">Transcrição</button>
+            {% endif %}
+            {% if show_blunder_replay %}
+              <button class="replay-tab" type="button" data-replay-tab="blunders" role="tab" aria-selected="false">Capivaradas</button>
+            {% endif %}
           </div>
         {% endif %}
       </div>
@@ -385,35 +423,49 @@
         <p class="transcript-source-note" data-pagefind-ignore>Transcrição {{ transcript_source_label }}</p>
       {% endif %}
 
-      {% if show_chat_replay and show_transcript %}
+      {% if replay_source_count > 1 %}
         <ol class="replay-list replay-panel is-active" data-replay-panel="merged" data-transcript-list="merged" data-transcript-source-active="{{ transcript_source_id }}" data-pagefind-body>
-          {% for message in chat_replay.messages %}
-            <li class="replay-item replay-item-chat" data-seconds="{{ message.seconds }}" data-order="0">
-              <a class="replay-time" href="{{ youtube_url }}&t={{ message.seconds }}s" rel="noopener noreferrer" aria-label="Abrir video em {{ message.time }}" data-pagefind-ignore>{{ message.time }}</a>
-              <div class="replay-body">
-                <strong>
-                  {{ message.author }}
-                  {% if message.platform is defined and message.platform %}
-                    <span class="chat-replay-platform">{{ message.platform }}</span>
-                  {% endif %}
-                </strong>
-                <p>{{ message.text }}</p>
-              </div>
-            </li>
-          {% endfor %}
-          {% for block in transcript.blocks %}
-            <li class="replay-item replay-item-transcript" data-transcript-generated data-seconds="{{ block.seconds }}" data-order="1">
-              <a class="replay-time" href="{{ youtube_url }}&t={{ block.seconds }}s" rel="noopener noreferrer" aria-label="Abrir video em {{ block.time }}" data-pagefind-ignore>{{ block.time }}</a>
-              <div class="replay-body">
-                <p>{{ block.text }}</p>
-              </div>
-            </li>
-          {% endfor %}
+          {% if show_chat_replay %}
+            {% for message in chat_replay.messages %}
+              <li class="replay-item replay-item-chat" data-seconds="{{ message.seconds }}" data-order="0">
+                <a class="replay-time" href="{{ youtube_url }}&t={{ message.seconds }}s" rel="noopener noreferrer" aria-label="Abrir video em {{ message.time }}" data-pagefind-ignore>{{ message.time }}</a>
+                <div class="replay-body">
+                  <strong>
+                    {{ message.author }}
+                    {% if message.platform is defined and message.platform %}
+                      <span class="chat-replay-platform">{{ message.platform }}</span>
+                    {% endif %}
+                  </strong>
+                  <p>{{ message.text }}</p>
+                </div>
+              </li>
+            {% endfor %}
+          {% endif %}
+          {% if show_blunder_replay %}
+            {% for event in blunder_replay.events %}
+              <li class="replay-item replay-item-blunder" data-seconds="{{ event.seconds }}" data-order="0.5">
+                <a class="replay-time" href="{{ youtube_url }}&t={{ event.seconds }}s" rel="noopener noreferrer" aria-label="Abrir video em {{ event.time }}" data-pagefind-ignore>{{ event.time }}</a>
+                <div class="replay-body">
+                  {{ self::blunder_event_body(event=event) }}
+                </div>
+              </li>
+            {% endfor %}
+          {% endif %}
+          {% if show_transcript %}
+            {% for block in transcript.blocks %}
+              <li class="replay-item replay-item-transcript" data-transcript-generated data-seconds="{{ block.seconds }}" data-order="1">
+                <a class="replay-time" href="{{ youtube_url }}&t={{ block.seconds }}s" rel="noopener noreferrer" aria-label="Abrir video em {{ block.time }}" data-pagefind-ignore>{{ block.time }}</a>
+                <div class="replay-body">
+                  <p>{{ block.text }}</p>
+                </div>
+              </li>
+            {% endfor %}
+          {% endif %}
         </ol>
       {% endif %}
 
       {% if show_chat_replay %}
-        <ol class="replay-list replay-panel{% if not show_transcript %} is-active{% endif %}" data-replay-panel="chat"{% if show_transcript %} data-pagefind-ignore{% else %} data-pagefind-body{% endif %}>
+        <ol class="replay-list replay-panel{% if replay_source_count == 1 %} is-active{% endif %}" data-replay-panel="chat"{% if replay_source_count > 1 %} data-pagefind-ignore{% else %} data-pagefind-body{% endif %}>
           {% for message in chat_replay.messages %}
             <li class="replay-item replay-item-chat" data-seconds="{{ message.seconds }}">
               <a class="replay-time" href="{{ youtube_url }}&t={{ message.seconds }}s" rel="noopener noreferrer" aria-label="Abrir video em {{ message.time }}" data-pagefind-ignore>{{ message.time }}</a>
@@ -432,12 +484,25 @@
       {% endif %}
 
       {% if show_transcript %}
-        <ol class="replay-list replay-panel{% if not show_chat_replay %} is-active{% endif %}" data-replay-panel="transcript" data-transcript-list="transcript" data-transcript-source-active="{{ transcript_source_id }}"{% if show_chat_replay %} data-pagefind-ignore{% else %} data-pagefind-body{% endif %}>
+        <ol class="replay-list replay-panel{% if replay_source_count == 1 %} is-active{% endif %}" data-replay-panel="transcript" data-transcript-list="transcript" data-transcript-source-active="{{ transcript_source_id }}"{% if replay_source_count > 1 %} data-pagefind-ignore{% else %} data-pagefind-body{% endif %}>
           {% for block in transcript.blocks %}
             <li class="replay-item replay-item-transcript" data-transcript-generated data-seconds="{{ block.seconds }}" data-order="1">
               <a class="replay-time" href="{{ youtube_url }}&t={{ block.seconds }}s" rel="noopener noreferrer" aria-label="Abrir video em {{ block.time }}" data-pagefind-ignore>{{ block.time }}</a>
               <div class="replay-body">
                 <p>{{ block.text }}</p>
+              </div>
+            </li>
+          {% endfor %}
+        </ol>
+      {% endif %}
+
+      {% if show_blunder_replay %}
+        <ol class="replay-list replay-panel{% if replay_source_count == 1 %} is-active{% endif %}" data-replay-panel="blunders"{% if replay_source_count > 1 %} data-pagefind-ignore{% else %} data-pagefind-body{% endif %}>
+          {% for event in blunder_replay.events %}
+            <li class="replay-item replay-item-blunder" data-seconds="{{ event.seconds }}">
+              <a class="replay-time" href="{{ youtube_url }}&t={{ event.seconds }}s" rel="noopener noreferrer" aria-label="Abrir video em {{ event.time }}" data-pagefind-ignore>{{ event.time }}</a>
+              <div class="replay-body">
+                {{ self::blunder_event_body(event=event) }}
               </div>
             </li>
           {% endfor %}
@@ -470,11 +535,12 @@
     </section>
   {% endif %}
 
-  {% if show_highlights or show_chat_replay or show_transcript %}
+  {% if show_highlights or show_chat_replay or show_transcript or show_blunder_replay %}
     </div>
   {% endif %}
 
   <section class="session-summary" data-pagefind-body>
+    {% set lichess_game_analysis = load_data(path="data/fcz/lichess_game_analysis.toml", required=false) %}
     <h2>Resumo da sessão</h2>
     <div class="summary-groups">
       <section class="summary-group">
@@ -503,6 +569,7 @@
               {% if game.color is defined and (game.color == "black" or game.color == "white") %}
                 {% set lichess_game_color = game.color %}
               {% endif %}
+              {% set game_index = loop.index %}
               <section class="game-summary">
                 {% if page.extra.games | length > 1 %}
                   <h4>Partida {{ loop.index }}</h4>
@@ -553,6 +620,42 @@
                         <dt>Cor</dt>
                         <dd>{{ game.color }}</dd>
                       </div>
+                    {% endif %}
+                    {% if lichess_game_analysis and lichess_game_analysis.games is defined and lichess_game_id %}
+                      {% for analysis in lichess_game_analysis.games %}
+                        {% if analysis.session_number == page.extra.session_number and analysis.game_index == game_index and analysis.has_analysis %}
+                          <div>
+                            <dt>Capivaradas</dt>
+                            <dd>{{ analysis.blunder }}</dd>
+                          </div>
+                          <div>
+                            <dt>Erros</dt>
+                            <dd>{{ analysis.mistake }}</dd>
+                          </div>
+                          <div>
+                            <dt>Imprecisões</dt>
+                            <dd>{{ analysis.inaccuracy }}</dd>
+                          </div>
+                          <div>
+                            <dt>Precisão</dt>
+                            <dd>{{ analysis.accuracy }}%</dd>
+                          </div>
+                          <div>
+                            <dt>Perda média</dt>
+                            <dd>{{ analysis.acpl }}</dd>
+                          </div>
+                          {% if analysis.opening_accuracy or analysis.middlegame_accuracy or analysis.endgame_accuracy %}
+                            <div>
+                              <dt>Precisão por fase</dt>
+                              <dd>
+                                {% if analysis.opening_accuracy %}abertura {{ analysis.opening_accuracy }}%{% endif %}
+                                {% if analysis.middlegame_accuracy %}{% if analysis.opening_accuracy %}, {% endif %}meio-jogo {{ analysis.middlegame_accuracy }}%{% endif %}
+                                {% if analysis.endgame_accuracy %}{% if analysis.opening_accuracy or analysis.middlegame_accuracy %}, {% endif %}final {{ analysis.endgame_accuracy }}%{% endif %}
+                              </dd>
+                            </div>
+                          {% endif %}
+                        {% endif %}
+                      {% endfor %}
                     {% endif %}
                     {% if game.note is defined and game.note %}
                       <div>
@@ -628,6 +731,42 @@
                   <dt>Cor</dt>
                   <dd>{{ page.extra.color }}</dd>
                 </div>
+              {% endif %}
+              {% if lichess_game_analysis and lichess_game_analysis.games is defined and lichess_game_id %}
+                {% for analysis in lichess_game_analysis.games %}
+                  {% if analysis.session_number == page.extra.session_number and analysis.game_index == 1 and analysis.has_analysis %}
+                    <div>
+                      <dt>Capivaradas</dt>
+                      <dd>{{ analysis.blunder }}</dd>
+                    </div>
+                    <div>
+                      <dt>Erros</dt>
+                      <dd>{{ analysis.mistake }}</dd>
+                    </div>
+                    <div>
+                      <dt>Imprecisões</dt>
+                      <dd>{{ analysis.inaccuracy }}</dd>
+                    </div>
+                    <div>
+                      <dt>Precisão</dt>
+                      <dd>{{ analysis.accuracy }}%</dd>
+                    </div>
+                    <div>
+                      <dt>Perda média</dt>
+                      <dd>{{ analysis.acpl }}</dd>
+                    </div>
+                    {% if analysis.opening_accuracy or analysis.middlegame_accuracy or analysis.endgame_accuracy %}
+                      <div>
+                        <dt>Precisão por fase</dt>
+                        <dd>
+                          {% if analysis.opening_accuracy %}abertura {{ analysis.opening_accuracy }}%{% endif %}
+                          {% if analysis.middlegame_accuracy %}{% if analysis.opening_accuracy %}, {% endif %}meio-jogo {{ analysis.middlegame_accuracy }}%{% endif %}
+                          {% if analysis.endgame_accuracy %}{% if analysis.opening_accuracy or analysis.middlegame_accuracy %}, {% endif %}final {{ analysis.endgame_accuracy }}%{% endif %}
+                        </dd>
+                      </div>
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
               {% endif %}
             </dl>
             {% if lichess_game_id %}

@@ -13,8 +13,9 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT_DIR = ROOT / "content" / "fcz"
-TRANSCRIPTS_DIR = ROOT / "data" / "transcripts"
-CHAT_REPLAYS_DIR = ROOT / "data" / "chat_replays"
+TRANSCRIPTS_DIR = ROOT / "data" / "fcz" / "transcripts"
+CHAT_REPLAYS_DIR = ROOT / "data" / "fcz" / "chat_replays"
+LICHESS_GAME_ANALYSIS = ROOT / "data" / "fcz" / "lichess_game_analysis.toml"
 OUTPUT = ROOT / "data" / "site_stats.toml"
 CHART_WIDTH = 720
 CHART_HEIGHT = 260
@@ -169,6 +170,7 @@ def session_games(extra: dict[str, Any]) -> list[dict[str, Any]]:
         return [
             {
                 "platform": extra.get("platform") or "lichess",
+                "game_url": extra.get("lichess_game_url") or "",
                 "result": extra.get("result") or "",
                 "color": extra.get("color") or "",
                 "opening": extra.get("opening") or "",
@@ -294,6 +296,27 @@ def format_decimal(value: float) -> str:
     return f"{value:.1f}".replace(".", ",")
 
 
+def load_lichess_game_analysis() -> dict[tuple[str, int], dict[str, Any]]:
+    if not LICHESS_GAME_ANALYSIS.exists():
+        return {}
+    try:
+        data = tomllib.loads(LICHESS_GAME_ANALYSIS.read_text(encoding="utf-8"))
+    except tomllib.TOMLDecodeError:
+        return {}
+    rows = data.get("games")
+    if not isinstance(rows, list):
+        return {}
+    analysis = {}
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        session_number = str(row.get("session_number") or "")
+        game_index = int_value(row.get("game_index")) or 0
+        if session_number and game_index:
+            analysis[(session_number, game_index)] = row
+    return analysis
+
+
 def scale_chart_points(values: list[dict[str, Any]], value_key: str = "count") -> dict[str, Any]:
     numeric = [int(item[value_key]) for item in values]
     max_value = max(numeric, default=0)
@@ -360,10 +383,44 @@ def build_stats() -> str:
     ]
 
     total_minutes = sum(parse_duration_minutes(session.extra.get("duration")) for session in ended_sessions)
-    games = [game for session in ended_sessions for game in session_games(session.extra)]
+    games = []
+    for session in ended_sessions:
+        for index, game in enumerate(session_games(session.extra), start=1):
+            games.append({**game, "_session_number": session.number, "_game_index": index})
     result_counts = Counter(normalize_result(game.get("result")) for game in games)
     color_counts = Counter(normalize_color(game.get("color")) for game in games)
     platform_counts = Counter(str(game.get("platform") or "lichess").strip() or "lichess" for game in games)
+    game_analysis = load_lichess_game_analysis()
+    analysed_game_rows = [
+        game_analysis[(game["_session_number"], game["_game_index"])]
+        for game in games
+        if (game["_session_number"], game["_game_index"]) in game_analysis
+        and game_analysis[(game["_session_number"], game["_game_index"])].get("has_analysis") is True
+    ]
+    missing_analysis_games = [
+        game
+        for game in games
+        if str(game.get("platform") or "lichess").strip() == "lichess"
+        and game.get("game_url")
+        and (
+            (game["_session_number"], game["_game_index"]) not in game_analysis
+            or game_analysis[(game["_session_number"], game["_game_index"])].get("has_analysis") is not True
+        )
+    ]
+    total_blunders = sum(int_value(row.get("blunder")) or 0 for row in analysed_game_rows)
+    total_mistakes = sum(int_value(row.get("mistake")) or 0 for row in analysed_game_rows)
+    total_inaccuracies = sum(int_value(row.get("inaccuracy")) or 0 for row in analysed_game_rows)
+    total_accuracy = sum(int_value(row.get("accuracy")) or 0 for row in analysed_game_rows)
+    total_acpl = sum(int_value(row.get("acpl")) or 0 for row in analysed_game_rows)
+    analysed_count = len(analysed_game_rows)
+    average_blunders = total_blunders / analysed_count if analysed_count else 0
+    average_accuracy = total_accuracy / analysed_count if analysed_count else 0
+    average_acpl = total_acpl / analysed_count if analysed_count else 0
+    blunders_by_session = Counter(
+        str(row.get("session_number") or "")
+        for row in analysed_game_rows
+        for _ in range(int_value(row.get("blunder")) or 0)
+    )
     total_puzzles = sum(puzzle_count(session.extra) for session in ended_sessions)
     best_streak = max((int_value(session.extra.get("streak")) or 0 for session in ended_sessions), default=0)
     transcript_sessions, total_words, transcripts = transcript_stats(ended_sessions)
@@ -383,6 +440,18 @@ def build_stats() -> str:
         for session in ended_sessions
     ]
     chat_chart = scale_chart_points(chat_chart_items)
+    blunder_chart_items = [
+        {
+            "session_number": session.number,
+            "title": session.title,
+            "summary_title": str(session.extra.get("summary_title") or "").strip(),
+            "date": str(session.date),
+            "count": blunders_by_session.get(session.number, 0),
+            "url": f"/fcz/{session.number}/",
+        }
+        for session in ended_sessions
+    ]
+    blunder_chart = scale_chart_points(blunder_chart_items)
 
     first_session = ended_sessions[0] if ended_sessions else None
     latest_session = ended_sessions[-1] if ended_sessions else None
@@ -398,6 +467,22 @@ def build_stats() -> str:
         f"total_duration_label = {toml_string(format_duration(total_minutes))}",
         f"game_count = {len(games)}",
         f"game_count_label = {toml_string(format_int(len(games)))}",
+        f"analysed_game_count = {analysed_count}",
+        f"analysed_game_count_label = {toml_string(format_int(analysed_count))}",
+        f"missing_game_analysis_count = {len(missing_analysis_games)}",
+        f"missing_game_analysis_count_label = {toml_string(format_int(len(missing_analysis_games)))}",
+        f"total_blunders = {total_blunders}",
+        f"total_blunders_label = {toml_string(format_int(total_blunders))}",
+        f"average_blunders = {average_blunders:.2f}",
+        f"average_blunders_label = {toml_string(format_decimal(average_blunders))}",
+        f"total_mistakes = {total_mistakes}",
+        f"total_mistakes_label = {toml_string(format_int(total_mistakes))}",
+        f"total_inaccuracies = {total_inaccuracies}",
+        f"total_inaccuracies_label = {toml_string(format_int(total_inaccuracies))}",
+        f"average_accuracy = {average_accuracy:.2f}",
+        f"average_accuracy_label = {toml_string(format_decimal(average_accuracy))}",
+        f"average_acpl = {average_acpl:.2f}",
+        f"average_acpl_label = {toml_string(format_decimal(average_acpl))}",
         f"puzzles_solved = {total_puzzles}",
         f"puzzles_solved_label = {toml_string(format_int(total_puzzles))}",
         f"best_streak = {best_streak}",
@@ -465,6 +550,43 @@ def build_stats() -> str:
         )
 
     lines.extend(
+        [
+            "[blunder_chart]",
+            f"label = {toml_string('Capivaradas por sessão')}",
+            f"color = {toml_string('#f07178')}",
+            f"point_count = {len(blunder_chart_items)}",
+            f"first_session = {toml_string(first_session.number if first_session else '')}",
+            f"latest_session = {toml_string(latest_session.number if latest_session else '')}",
+            f"first_label = {toml_string('#' + first_session.number if first_session else '')}",
+            f"latest_label = {toml_string('#' + latest_session.number if latest_session else '')}",
+            f"max_value = {blunder_chart['max_value']}",
+            f"max_value_label = {toml_string(format_int(blunder_chart['max_value']))}",
+            "",
+        ]
+    )
+
+    for point in blunder_chart["scaled"]:
+        blunder_word = "capivarada" if point["count"] == 1 else "capivaradas"
+        session_label = f"Sessão #{point['session_number']}"
+        if point["summary_title"]:
+            session_label = f"{session_label}: {point['summary_title']}"
+        tooltip = f"{point['count']} {blunder_word} - {session_label} ({point['date']})"
+        lines.extend(
+            [
+                "[[blunder_chart.points]]",
+                f"session_number = {toml_string(point['session_number'])}",
+                f"title = {toml_string(point['title'])}",
+                f"summary_title = {toml_string(point['summary_title'])}",
+                f"date = {toml_string(point['date'])}",
+                f"count = {point['count']}",
+                f"count_label = {toml_string(format_int(point['count']))}",
+                f"url = {toml_string(point['url'])}",
+                f"tooltip = {toml_string(tooltip)}",
+                "",
+            ]
+        )
+
+    lines.extend(
         render_counter_table(
             "results",
             result_counts,
@@ -489,6 +611,17 @@ def build_stats() -> str:
         )
     )
     lines.extend(render_counter_table("platforms", platform_counts))
+
+    for game in missing_analysis_games:
+        lines.extend(
+            [
+                "[[missing_game_analysis]]",
+                f"session_number = {toml_string(game['_session_number'])}",
+                f"game_index = {game['_game_index']}",
+                f"url = {toml_string(str(game.get('game_url') or ''))}",
+                "",
+            ]
+        )
 
     for transcript in transcripts:
         lines.extend(

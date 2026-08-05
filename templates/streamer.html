@@ -1,12 +1,30 @@
 {% extends "base.html" %}
 
-{% block title %}{{ section.title }} | {{ config.title }}{% endblock title %}
+{% macro month_label(date) %}
+  {% set month = date | date(format="%m") %}
+  {% set year = date | date(format="%Y") %}
+  {% if month == "01" %}Janeiro{% elif month == "02" %}Fevereiro{% elif month == "03" %}Março{% elif month == "04" %}Abril{% elif month == "05" %}Maio{% elif month == "06" %}Junho{% elif month == "07" %}Julho{% elif month == "08" %}Agosto{% elif month == "09" %}Setembro{% elif month == "10" %}Outubro{% elif month == "11" %}Novembro{% else %}Dezembro{% endif %} {{ year }}
+{% endmacro month_label %}
+
+{% macro month_heading(session) %}
+  <li class="session-month-heading">
+    <h3>{{ self::month_label(date=session.date) }}</h3>
+  </li>
+{% endmacro month_heading %}
+
+{% macro streamer_title(section) -%}
+  {%- set streamer_name = section.extra.display_name | default(value=section.title) -%}
+  {%- set streamer_handle = section.extra.handle | default(value=section.title) -%}
+  {{- streamer_name }} ({{ streamer_handle -}})
+{%- endmacro streamer_title %}
+
+{% block title %}{{ self::streamer_title(section=section) }} | {{ config.title }}{% endblock title %}
 {% block description %}{{ section.extra.description | default(value=config.description) }}{% endblock description %}
 
 {% block social_meta %}
   <meta property="og:site_name" content="{{ config.title }}">
   <meta property="og:type" content="profile">
-  <meta property="og:title" content="{{ section.title }} | {{ config.title }}">
+  <meta property="og:title" content="{{ self::streamer_title(section=section) }} | {{ config.title }}">
   <meta property="og:description" content="{{ section.extra.description | default(value=config.description) }}">
   <meta name="twitter:card" content="summary">
 {% endblock social_meta %}
@@ -14,15 +32,18 @@
 {% block content %}
 <article class="streamer-page">
   <div class="session-kicker">streamer</div>
-  <h1>{{ section.title }}</h1>
+  <h1>{{ self::streamer_title(section=section) }}</h1>
   <p class="tagline">{{ section.extra.tagline }}</p>
 
-  <nav class="home-links" aria-label="Links de {{ section.title }}">
+  <nav class="home-links" aria-label="Links de {{ self::streamer_title(section=section) }}">
     {% if section.extra.lichess_url is defined and section.extra.lichess_url %}
       <a href="{{ section.extra.lichess_url }}" rel="noopener noreferrer">Lichess</a>
     {% endif %}
     {% if section.extra.youtube_url is defined and section.extra.youtube_url %}
       <a href="{{ section.extra.youtube_url }}" rel="noopener noreferrer">YouTube</a>
+    {% endif %}
+    {% if section.extra.twitch_url is defined and section.extra.twitch_url %}
+      <a href="{{ section.extra.twitch_url }}" rel="noopener noreferrer">Twitch</a>
     {% endif %}
     {% if section.extra.github_url is defined and section.extra.github_url %}
       <a href="{{ section.extra.github_url }}" rel="noopener noreferrer">GitHub</a>
@@ -33,26 +54,41 @@
     {{ section.content | safe }}
   </section>
 
-  {% set published_sessions = section.pages | filter(attribute="draft", value=false) %}
-  <section class="streamer-stats" aria-label="Resumo de {{ section.title }}">
+  {% set published_session_count = 0 %}
+  {% set latest_session = false %}
+  {% for session in section.pages | reverse %}
+    {% if not session.draft and session.extra.session_number is defined %}
+      {% set_global published_session_count = published_session_count + 1 %}
+      {% if not latest_session %}
+        {% set_global latest_session = session %}
+      {% endif %}
+    {% endif %}
+  {% endfor %}
+  <section class="streamer-stats" aria-label="Resumo de {{ self::streamer_title(section=section) }}">
     <div>
-      <strong>{{ published_sessions | length }}</strong>
+      <strong>{{ published_session_count }}</strong>
       <span>sessões publicadas</span>
     </div>
-    {% if published_sessions | length > 0 %}
-      {% set latest = published_sessions | last %}
+    {% if latest_session %}
       <div>
-        <strong>{{ latest.date | date(format="%d/%m/%Y") }}</strong>
+        <strong>{{ latest_session.date | date(format="%d/%m/%Y") }}</strong>
         <span>sessão mais recente</span>
       </div>
     {% endif %}
   </section>
 
   <section class="session-list-section">
-    <h2>Sessões de {{ section.title }}</h2>
+    {% set streamer_handle = section.extra.handle | default(value=section.title) %}
+    <h2>Sessões de {{ streamer_handle }}</h2>
     <ol class="archive-list">
+      {% set current_month = "" %}
       {% for session in section.pages | reverse %}
-        {% if not session.draft %}
+        {% if not session.draft and session.extra.session_number is defined %}
+          {% set month_key = session.date | date(format="%Y-%m") %}
+          {% if month_key != current_month %}
+            {{ self::month_heading(session=session) }}
+            {% set_global current_month = month_key %}
+          {% endif %}
           {% set summary_title = session.extra.summary_title | default(value="") %}
           <li>
             <a href="{{ session.path }}">{% if summary_title %}{{ session.title }}: {{ summary_title }}{% else %}{{ session.title }}{% endif %}</a>

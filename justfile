@@ -43,6 +43,21 @@ update-youtube-chat-acks:
 update-chat-supporters EXTRA="":
   @python3 scripts/update_chat_supporters.py {{EXTRA}}
 
+find-lichess-game-candidates SESSIONS="0001-0010" EXTRA="":
+  @python3 scripts/find_lichess_game_candidates.py {{SESSIONS}} {{EXTRA}}
+
+update-lichess-game-analysis EXTRA="":
+  @python3 scripts/update_lichess_game_analysis.py {{EXTRA}}
+
+missing-lichess-game-analysis:
+  @python3 scripts/update_lichess_game_analysis.py --missing-only
+
+update-lichess-blunder-events EXTRA="":
+  @python3 scripts/update_lichess_blunder_events.py {{EXTRA}}
+
+update-youtube-video-metadata EXTRA="":
+  @python3 scripts/update_youtube_video_metadata.py {{EXTRA}}
+
 import-youtube-chat-replays CACHE_DIR="/tmp/xadrez-chat" EXTRA="":
   @python3 scripts/import_youtube_chat_replays.py --cache-dir {{CACHE_DIR}} {{EXTRA}}
 
