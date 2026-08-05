@@ -142,8 +142,8 @@
   {% endif %}
 {% endmacro external_stream_group %}
 
-{% block title %}xadrez.live (beta){% endblock title %}
-{% block description %}esta página está em construção{% endblock description %}
+{% block title %}xadrez.live{% endblock title %}
+{% block description %}Diário pessoal de lives de xadrez, sessões de treino, puzzles e partidas rapid.{% endblock description %}
 {% block head_extra %}
   <script type="application/ld+json">
     {
@@ -161,9 +161,9 @@
 {% set sessions = get_section(path="fcz/_index.md") %}
 {% set external_streams = load_data(path="data/external_streams.toml", required=false) %}
 <article class="home">
-  <div class="session-kicker">beta</div>
-  <h1>xadrez.live (beta)</h1>
-  <p class="tagline">esta página está em construção</p>
+  <div class="session-kicker">diário de xadrez</div>
+  <h1>xadrez.live</h1>
+  <p class="tagline">Lives de treino, puzzles e partidas rapid comentadas sessão por sessão.</p>
   <nav class="home-links" aria-label="Links principais">
     <a href="/busca/">Busca</a>
     <a href="/arquivo/">Arquivo</a>
@@ -245,9 +245,9 @@
     {% endif %}
   </div>
 
-  <section class="beta-invite">
-    <h2>Quer participar do beta?</h2>
-    <p>se você faz lives de xadrez e quer aparecer nas listagens do xadrez.live, me chama no Lichess.</p>
+  <section class="community-invite">
+    <h2>Também faz lives de xadrez?</h2>
+    <p>Se você faz lives de xadrez e quer aparecer nas listagens do xadrez.live, me chama no Lichess.</p>
     <a class="button button-secondary" href="https://lichess.org/inbox/fcz" rel="noopener noreferrer">Falar com fcz</a>
   </section>
 </article>

@@ -1,6 +1,6 @@
 # xadrez.live
 
-Site estático mínimo em Zola para o diário pessoal de lives de xadrez em `xadrez.live`.
+Site estático mínimo em Zola para o diário pessoal de lives de xadrez em [xadrez.live](https://xadrez.live/).
 
 ## Instalar Zola
 

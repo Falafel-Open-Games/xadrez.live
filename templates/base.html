@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{% block title %}{{ config.title }}{% endblock title %}</title>
     <meta name="description" content="{% block description %}{{ config.description }}{% endblock description %}">
+    <link rel="canonical" href="{{ current_url | default(value=config.base_url) | safe }}">
     {% block social_meta %}
       <meta property="og:site_name" content="{{ config.title }}">
       <meta property="og:type" content="website">
