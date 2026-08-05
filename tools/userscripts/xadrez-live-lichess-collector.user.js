@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.14.0
+// @version      0.14.1
 // @description  Collect chess puzzle, game, notes, and Restream chat usernames during a xadrez.live session.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -123,10 +123,24 @@
     return match ? match[1].replace(/\\"/g, '"').trim() : "";
   }
 
-  async function lichessColorFromExport(gameUrl) {
+  function resultForColor(pgnResult, color) {
+    const result = String(pgnResult || "").trim();
+    if (result === "1/2-1/2") {
+      return "draw";
+    }
+    if (color === "white") {
+      return result === "1-0" ? "win" : result === "0-1" ? "loss" : "";
+    }
+    if (color === "black") {
+      return result === "0-1" ? "win" : result === "1-0" ? "loss" : "";
+    }
+    return "";
+  }
+
+  async function lichessGameFactsFromExport(gameUrl) {
     const id = lichessGameIdFromUrl(gameUrl);
     if (!id) {
-      return "";
+      return {};
     }
 
     try {
@@ -135,23 +149,27 @@
         headers: { Accept: "application/x-chess-pgn,text/plain;q=0.9,*/*;q=0.1" },
       });
       if (!response.ok) {
-        return "";
+        return {};
       }
 
       const pgn = await response.text();
       const white = normalizeLichessUsername(pgnTag(pgn, "White"));
       const black = normalizeLichessUsername(pgnTag(pgn, "Black"));
+      const pgnResult = pgnTag(pgn, "Result");
+      let color = "";
       if (LICHESS_SELF_USERNAMES.has(white)) {
-        return "white";
+        color = "white";
+      } else if (LICHESS_SELF_USERNAMES.has(black)) {
+        color = "black";
       }
-      if (LICHESS_SELF_USERNAMES.has(black)) {
-        return "black";
-      }
-    } catch (_) {
-      return "";
-    }
 
-    return "";
+      return {
+        color,
+        result: resultForColor(pgnResult, color),
+      };
+    } catch (_) {
+      return {};
+    }
   }
 
   function normalizeChessComGameUrl(url) {
@@ -640,8 +658,9 @@
       return;
     }
 
-    if (context.platform === "lichess" && !context.colorFromUrl) {
-      context.colorFromUrl = await lichessColorFromExport(context.gameUrl);
+    const detected = context.platform === "lichess" ? await lichessGameFactsFromExport(context.gameUrl) : {};
+    if (context.platform === "lichess") {
+      context.colorFromUrl = context.colorFromUrl || detected.color || "";
       context.gameUrl = normalizeLichessGameUrl(context.gameUrl, context.colorFromUrl);
     }
 
@@ -654,19 +673,22 @@
     });
     const existingGame = existingGameIndex === -1 ? {} : state.games[existingGameIndex];
     const existingColor = normalizeColor(existingGame.color);
-    const color = await selectValue(
-      "Color",
-      [
-        { value: "", label: "Not set" },
-        { value: "white", label: "white" },
-        { value: "black", label: "black" },
-      ],
-      existingColor || context.colorFromUrl,
-    );
-    const game = {
-      platform: context.platform,
-      game_url: context.platform === "lichess" ? normalizeLichessGameUrl(context.gameUrl, color) : context.gameUrl,
-      result: await selectValue(
+    const color =
+      existingColor ||
+      context.colorFromUrl ||
+      (await selectValue(
+        "Color",
+        [
+          { value: "", label: "Not set" },
+          { value: "white", label: "white" },
+          { value: "black", label: "black" },
+        ],
+        "",
+      ));
+    const result =
+      existingGame.result ||
+      detected.result ||
+      (await selectValue(
         "Result",
         [
           { value: "", label: "Not set" },
@@ -674,8 +696,12 @@
           { value: "loss", label: "loss" },
           { value: "draw", label: "draw" },
         ],
-        existingGame.result || "",
-      ),
+        "",
+      ));
+    const game = {
+      platform: context.platform,
+      game_url: context.platform === "lichess" ? normalizeLichessGameUrl(context.gameUrl, color) : context.gameUrl,
+      result,
       color,
       note: promptValue("Optional game note:", preferredGameNote(existingGame.note)),
     };
