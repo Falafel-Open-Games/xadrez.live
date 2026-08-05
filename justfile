@@ -63,6 +63,13 @@ import-whisper-transcript SESSION EXTRA="":
 import-faster-whisper-transcript SESSION EXTRA="":
   @python3 scripts/import_whisper_transcripts.py --source-id faster-whisper --output-suffix faster-whisper --whisper-cache-dir /tmp/xadrez-faster-whisper-cache --whisper-cmd "whisper-ctranslate2 --model turbo --compute_type int8 --batched True --batch_size 8" {{EXTRA}} {{SESSION}}
 
+import-timed-transcript SESSION EXTRA="":
+  @python3 scripts/import_whisper_transcripts.py --source-id faster-whisper --output-suffix faster-whisper --whisper-cache-dir /tmp/xadrez-faster-whisper-cache --whisper-cmd "whisper-ctranslate2 --model turbo --compute_type int8 --batched True --batch_size 8" {{EXTRA}} {{SESSION}}
+  @python3 scripts/align_transcript_timestamps.py --source-suffix openai-gpt-4o-mini-transcribe --output-suffix openai-gpt-4o-mini-transcribe.aligned {{SESSION}}
+  @python3 scripts/align_transcript_timestamps.py --source-suffix openai-gpt-4o-transcribe --output-suffix openai-gpt-4o-transcribe.aligned {{SESSION}} || echo "GPT-4o transcript unavailable; skipping GPT-4o alignment"
+  @python3 scripts/suggest_highlights.py {{SESSION}}
+  @just build
+
 import-missing-faster-whisper-transcripts EXTRA="":
   @sessions="$(python3 scripts/missing_faster_whisper_sessions.py)"; \
     if [ -z "$sessions" ]; then \
@@ -87,6 +94,8 @@ import-slow-whisper-transcript SESSION EXTRA="":
 
 import-openai-transcript SESSION EXTRA="":
   @python3 scripts/import_openai_transcripts.py {{EXTRA}} {{SESSION}}
+  @python3 scripts/suggest_highlights.py {{SESSION}}
+  @just build
 
 draft-highlights SESSION:
   @python3 scripts/import_openai_transcripts.py {{SESSION}}
