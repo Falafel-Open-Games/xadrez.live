@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.14.1
+// @version      0.15.0
 // @description  Collect chess puzzle, game, notes, and Restream chat usernames during a xadrez.live session.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -35,6 +35,7 @@
     descriptionNotes: "",
     attempts: [],
     currentPuzzles: [],
+    practiceSets: [],
     games: [],
     supporters: [],
   };
@@ -73,6 +74,31 @@
   function normalizePuzzleUrl(url) {
     const match = /^https:\/\/lichess\.org\/training\/(?:mix\/)?([^/?#]+)/.exec(url);
     return match ? `https://lichess.org/training/${match[1]}` : "";
+  }
+
+  function normalizePracticeUrl(url) {
+    const match = /^https:\/\/lichess\.org\/practice\/([^/?#]+)\/([^/?#]+)\/([^/?#]+)(?:\/([^/?#]+))?/.exec(url);
+    if (!match) {
+      return null;
+    }
+
+    const base = `https://lichess.org/practice/${match[1]}/${match[2]}/${match[3]}`;
+    return {
+      category: match[1],
+      slug: match[2],
+      setId: match[3],
+      exerciseId: match[4] || "",
+      setUrl: base,
+      exerciseUrl: match[4] ? `${base}/${match[4]}` : "",
+    };
+  }
+
+  function titleFromSlug(slug) {
+    return String(slug || "")
+      .split("-")
+      .filter(Boolean)
+      .map((part) => (/^[ivxlcdm]+$/i.test(part) ? part.toUpperCase() : part.charAt(0).toUpperCase() + part.slice(1)))
+      .join(" ");
   }
 
   function currentPuzzleSessionUrls() {
@@ -651,6 +677,154 @@
     saveState(state);
   }
 
+  function practiceSetTitle(meta) {
+    const heading = [
+      ".practice__side h1",
+      ".practice__side h2",
+      ".practice__side__info h1",
+      ".practice__side__info h2",
+      "main h1",
+    ]
+      .map((selector) => document.querySelector(selector))
+      .map((element) => String(element?.textContent || "").replace(/\s+/g, " ").trim())
+      .find(Boolean);
+
+    return heading || titleFromSlug(meta.slug);
+  }
+
+  function practiceChapterStatus(chapter) {
+    const status = chapter.querySelector(".status");
+    if (status?.classList.contains("done")) {
+      return "done";
+    }
+    if (status?.classList.contains("ongoing")) {
+      return "ongoing";
+    }
+    return "";
+  }
+
+  function practiceExerciseFromChapter(chapter) {
+    const href = chapter.getAttribute("href") || "";
+    const url = normalizePracticeUrl(new URL(href, location.origin).href);
+    if (!url?.exerciseUrl) {
+      return null;
+    }
+
+    const title = String(chapter.querySelector("h3")?.textContent || "").replace(/\s+/g, " ").trim();
+    if (!title) {
+      return null;
+    }
+
+    return {
+      title,
+      url: url.exerciseUrl,
+      status: practiceChapterStatus(chapter),
+    };
+  }
+
+  function currentPracticeContext() {
+    if (location.hostname !== "lichess.org") {
+      return null;
+    }
+
+    const meta = normalizePracticeUrl(location.href);
+    if (!meta) {
+      return null;
+    }
+
+    const activeChapter = document.querySelector(".practice__side__chapters .ps__chapter.active");
+    const activeExercise = activeChapter ? practiceExerciseFromChapter(activeChapter) : null;
+    return {
+      platform: "lichess",
+      title: practiceSetTitle(meta),
+      url: meta.setUrl,
+      category: meta.category,
+      currentExercise: activeExercise,
+      doneExercises: [...document.querySelectorAll(".practice__side__chapters .ps__chapter")]
+        .filter((chapter) => chapter.querySelector(".status.done"))
+        .map(practiceExerciseFromChapter)
+        .filter(Boolean),
+    };
+  }
+
+  function mergePracticeExercises(state, context, exercises) {
+    if (!context || !exercises.length) {
+      return 0;
+    }
+
+    const sets = [...(state.practiceSets || [])];
+    let setIndex = sets.findIndex((set) => set.url === context.url);
+    if (setIndex === -1) {
+      sets.push({
+        platform: context.platform,
+        title: context.title,
+        url: context.url,
+        category: context.category,
+        exercises: [],
+      });
+      setIndex = sets.length - 1;
+    }
+
+    const set = {
+      ...sets[setIndex],
+      platform: sets[setIndex].platform || context.platform,
+      title: sets[setIndex].title || context.title,
+      url: sets[setIndex].url || context.url,
+      category: sets[setIndex].category || context.category,
+      exercises: [...(sets[setIndex].exercises || [])],
+    };
+    const byUrl = new Map(set.exercises.map((exercise) => [exercise.url, exercise]));
+    let added = 0;
+
+    exercises.forEach((exercise) => {
+      if (!exercise?.url || !exercise?.title) {
+        return;
+      }
+      if (!byUrl.has(exercise.url)) {
+        added += 1;
+      }
+      byUrl.set(exercise.url, {
+        ...byUrl.get(exercise.url),
+        title: exercise.title,
+        url: exercise.url,
+        status: exercise.status || byUrl.get(exercise.url)?.status || "",
+      });
+    });
+
+    set.exercises = [...byUrl.values()];
+    sets[setIndex] = set;
+    state.practiceSets = sets;
+    saveState(state);
+
+    return added;
+  }
+
+  function addCurrentPracticeExercise(state) {
+    const context = currentPracticeContext();
+    if (!context?.currentExercise) {
+      window.alert("Could not find the active Lichess practice exercise.");
+      return;
+    }
+
+    const count = mergePracticeExercises(state, context, [context.currentExercise]);
+    window.alert(count ? "Added current practice exercise." : "Practice exercise was already saved.");
+  }
+
+  function syncDonePracticeExercises(state) {
+    const context = currentPracticeContext();
+    if (!context?.doneExercises.length) {
+      window.alert("Could not find completed Lichess practice exercises.");
+      return;
+    }
+
+    const count = mergePracticeExercises(state, context, context.doneExercises);
+    window.alert(
+      count
+        ? `Added ${count} completed practice exercise(s).`
+        : "Completed practice exercises were already saved.",
+    );
+  }
+
   async function addCurrentGame(state) {
     const context = currentGameContext();
     if (!context) {
@@ -753,6 +927,26 @@ puzzles = "${quote(state.puzzles)}"`);
 solved = "${quote(attempt.solved)}"
 puzzles = ${tomlArray(attempt.puzzles)}
 note = "${quote(attempt.note)}"`);
+    });
+
+    (state.practiceSets || []).forEach((set) => {
+      const lines = ["[[extra.practice_sets]]"];
+      lines.push(`platform = "${quote(set.platform)}"`);
+      lines.push(`title = "${quote(set.title)}"`);
+      lines.push(`url = "${quote(set.url)}"`);
+      if (set.category) {
+        lines.push(`category = "${quote(set.category)}"`);
+      }
+      (set.exercises || []).forEach((exercise) => {
+        lines.push("");
+        lines.push("[[extra.practice_sets.exercises]]");
+        lines.push(`title = "${quote(exercise.title)}"`);
+        lines.push(`url = "${quote(exercise.url)}"`);
+        if (exercise.status) {
+          lines.push(`status = "${quote(exercise.status)}"`);
+        }
+      });
+      blocks.push(lines.join("\n"));
     });
 
     state.games.forEach((game) => {
@@ -1301,13 +1495,20 @@ note = "${quote(attempt.note)}"`);
     const isLichessPage = location.hostname === "lichess.org";
     const isRestreamChatPage = isRestreamPage();
     const gameContext = currentGameContext();
+    const practiceContext = currentPracticeContext();
     const canAddGame = Boolean(gameContext);
+    const canAddPractice = Boolean(practiceContext);
     const disabledUnlessLichess = isLichessPage ? "" : ' disabled title="Available on Lichess only"';
     const disabledUnlessGame = canAddGame ? "" : ' disabled title="Open a Lichess or Chess.com game first"';
+    const disabledUnlessPractice = canAddPractice ? "" : ' disabled title="Open a Lichess practice exercise first"';
     const scannedRestreamSupporters = isRestreamChatPage ? restreamSupporters() : [];
     const restreamCount = isRestreamChatPage ? scannedRestreamSupporters.length : 0;
     const restreamReplayCount = isRestreamChatPage ? restreamReplayMessages().length : 0;
     const savedSupporterCount = (state.supporters || []).length;
+    const savedPracticeCount = (state.practiceSets || []).reduce(
+      (total, set) => total + ((set.exercises || []).length),
+      0,
+    );
     const previewText = buildToml(state);
     const panel = document.createElement("section");
     panel.id = PANEL_ID;
@@ -1403,6 +1604,7 @@ note = "${quote(attempt.note)}"`);
           Attempts: ${state.attempts.length}
           · current: ${state.currentPuzzles.length} puzzle(s)
           · games: ${state.games.length}
+          · practice: ${savedPracticeCount}
         </p>
         <p class="xlc-meta">
           Puzzle of the day: ${state.puzzleOfTheDayUrl ? "ok" : "pending"}
@@ -1423,6 +1625,10 @@ note = "${quote(attempt.note)}"`);
         <div class="xlc-row">
           <button type="button" data-action="finish-attempt"${disabledUnlessLichess}>Finish attempt</button>
           <button type="button" data-action="add-game"${disabledUnlessGame}>Add game</button>
+        </div>
+        <div class="xlc-row">
+          <button type="button" data-action="add-practice"${disabledUnlessPractice}>Add practice</button>
+          <button type="button" data-action="sync-practice"${disabledUnlessPractice}>Sync practice</button>
         </div>
         <div class="xlc-row">
           <button type="button" data-action="set-post-stats"${disabledUnlessLichess}>Post stats</button>
@@ -1474,6 +1680,12 @@ note = "${quote(attempt.note)}"`);
           break;
         case "add-game":
           await addCurrentGame(nextState);
+          break;
+        case "add-practice":
+          addCurrentPracticeExercise(nextState);
+          break;
+        case "sync-practice":
+          syncDonePracticeExercises(nextState);
           break;
         case "set-post-stats":
           await setPostStats(nextState);

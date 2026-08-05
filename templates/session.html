@@ -608,6 +608,45 @@
           </div>
         {% endif %}
       </section>
+      {% if page.extra.practice_sets is defined and page.extra.practice_sets %}
+        <section class="summary-group">
+          <h3>Prática</h3>
+          <div class="practice-list">
+            {% for practice_set in page.extra.practice_sets %}
+              {% set practice_title = practice_set.title | default(value="Prática no Lichess") %}
+              <section class="practice-summary">
+                <h4>
+                  {% if practice_set.url is defined and practice_set.url %}
+                    <a href="{{ practice_set.url }}" rel="noopener noreferrer">{{ practice_title }}</a>
+                  {% else %}
+                    {{ practice_title }}
+                  {% endif %}
+                </h4>
+                {% if practice_set.exercises is defined and practice_set.exercises %}
+                  <ul class="practice-exercises">
+                    {% for exercise in practice_set.exercises %}
+                      {% set exercise_title = exercise.title | default(value="Exercício de prática") %}
+                      <li>
+                        {% if exercise.url is defined and exercise.url %}
+                          <a href="{{ exercise.url }}" rel="noopener noreferrer">{{ exercise_title }}</a>
+                        {% else %}
+                          {{ exercise_title }}
+                        {% endif %}
+                        {% if exercise.status is defined and exercise.status %}
+                          <span>{{ exercise.status }}</span>
+                        {% endif %}
+                      </li>
+                    {% endfor %}
+                  </ul>
+                {% endif %}
+                {% if practice_set.note is defined and practice_set.note %}
+                  <p class="practice-note">{{ practice_set.note }}</p>
+                {% endif %}
+              </section>
+            {% endfor %}
+          </div>
+        </section>
+      {% endif %}
     </div>
   </section>
 

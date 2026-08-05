@@ -652,6 +652,50 @@ iframe {
   font-weight: 500;
 }
 
+.practice-list {
+  display: grid;
+  gap: 14px;
+}
+
+.practice-summary + .practice-summary {
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+.practice-summary h4,
+.practice-note {
+  margin: 0;
+}
+
+.practice-summary h4 {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.practice-exercises {
+  display: grid;
+  gap: 6px;
+  margin: 8px 0 0;
+  padding-left: 1.2rem;
+  color: var(--muted);
+}
+
+.practice-exercises span {
+  color: color-mix(in srgb, var(--muted) 70%, transparent);
+  font-size: 0.85rem;
+}
+
+.practice-exercises span::before {
+  content: " · ";
+}
+
+.practice-note {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
 .description p {
   margin: 0;
   color: var(--muted);
