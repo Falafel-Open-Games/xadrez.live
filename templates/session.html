@@ -463,6 +463,10 @@
                   | replace(from="/white", to="")
                 %}
               {% endif %}
+              {% set lichess_game_color = "" %}
+              {% if game.color is defined and (game.color == "black" or game.color == "white") %}
+                {% set lichess_game_color = game.color %}
+              {% endif %}
               <section class="game-summary">
                 {% if page.extra.games | length > 1 %}
                   <h4>Partida {{ loop.index }}</h4>
@@ -525,7 +529,7 @@
                     <div class="game-embed">
                       <iframe
                         title="Replay da partida no Lichess"
-                        src="https://lichess.org/embed/game/{{ lichess_game_id }}?theme=auto&bg=auto"
+                        src="https://lichess.org/embed/game/{{ lichess_game_id }}?theme=auto&bg=auto{% if lichess_game_color %}&color={{ lichess_game_color }}{% endif %}"
                         loading="lazy"
                         allowtransparency="true"
                         allowfullscreen>
@@ -551,6 +555,10 @@
               | replace(from="/black", to="")
               | replace(from="/white", to="")
             %}
+          {% endif %}
+          {% set lichess_game_color = "" %}
+          {% if page.extra.color is defined and (page.extra.color == "black" or page.extra.color == "white") %}
+            {% set lichess_game_color = page.extra.color %}
           {% endif %}
           <h3>Partida</h3>
           <div class="game-summary-layout{% if not lichess_game_id %} game-summary-layout-details-only{% endif %}">
@@ -590,7 +598,7 @@
               <div class="game-embed">
                 <iframe
                   title="Replay da partida no Lichess"
-                  src="https://lichess.org/embed/game/{{ lichess_game_id }}?theme=auto&bg=auto"
+                  src="https://lichess.org/embed/game/{{ lichess_game_id }}?theme=auto&bg=auto{% if lichess_game_color %}&color={{ lichess_game_color }}{% endif %}"
                   loading="lazy"
                   allowtransparency="true"
                   allowfullscreen>

@@ -6,7 +6,7 @@ default:
 serve:
   zola serve
 
-build: update-supporters update-site-stats update-lichess-rating-history
+build: validate-session-games update-supporters update-site-stats update-lichess-rating-history
   zola build
 
 pagefind:
@@ -154,6 +154,12 @@ update-site-stats:
 
 update-lichess-rating-history:
   @python3 scripts/update_lichess_rating_history.py
+
+validate-session-games:
+  @python3 scripts/normalize_lichess_game_urls.py
+
+normalize-session-games:
+  @python3 scripts/normalize_lichess_game_urls.py --write
 
 discover-lichess-youtube-streamers LANGUAGE="all" PAGES="80":
   @python3 scripts/discover_lichess_streamers.py --service youtube --language {{LANGUAGE}} --limit-pages {{PAGES}} --latest-video

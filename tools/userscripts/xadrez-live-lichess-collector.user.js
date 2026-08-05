@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.13.9
+// @version      0.14.0
 // @description  Collect chess puzzle, game, notes, and Restream chat usernames during a xadrez.live session.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -18,6 +18,7 @@
 
   const STORAGE_KEY = "xadrez-live-lichess-collector:v1";
   const PANEL_ID = "xadrez-live-collector";
+  const LICHESS_SELF_USERNAMES = new Set(["fcz"]);
   const SELF_SUPPORTERS = {
     YouTube: new Set(["fczuardi"]),
     Twitch: new Set(["sedentarismo"]),
@@ -92,13 +93,65 @@
     return normalizePuzzleUrl(location.href);
   }
 
-  function normalizeLichessGameUrl(url) {
+  function normalizeColor(value) {
+    const color = String(value || "").trim().toLowerCase();
+    return color === "black" || color === "white" ? color : "";
+  }
+
+  function normalizeLichessGameUrl(url, color = "") {
     const match = /^https:\/\/lichess\.org\/([A-Za-z0-9]{8})(?:\/(white|black))?/.exec(url);
     if (!match) {
       return "";
     }
 
-    return `https://lichess.org/${match[1]}${match[2] ? `/${match[2]}` : ""}`;
+    const side = normalizeColor(color) || match[2] || "";
+    return `https://lichess.org/${match[1]}${side ? `/${side}` : ""}`;
+  }
+
+  function lichessGameIdFromUrl(url) {
+    const match = /^https:\/\/lichess\.org\/([A-Za-z0-9]{8})/.exec(url);
+    return match ? match[1] : "";
+  }
+
+  function normalizeLichessUsername(value) {
+    return String(value || "").trim().replace(/^@/, "").toLowerCase();
+  }
+
+  function pgnTag(pgn, tag) {
+    const pattern = new RegExp(`^\\[${tag}\\s+"((?:\\\\.|[^"\\\\])*)"\\]`, "m");
+    const match = pattern.exec(pgn);
+    return match ? match[1].replace(/\\"/g, '"').trim() : "";
+  }
+
+  async function lichessColorFromExport(gameUrl) {
+    const id = lichessGameIdFromUrl(gameUrl);
+    if (!id) {
+      return "";
+    }
+
+    try {
+      const response = await fetch(`https://lichess.org/game/export/${id}?tags=true&clocks=false&evals=false`, {
+        credentials: "same-origin",
+        headers: { Accept: "application/x-chess-pgn,text/plain;q=0.9,*/*;q=0.1" },
+      });
+      if (!response.ok) {
+        return "";
+      }
+
+      const pgn = await response.text();
+      const white = normalizeLichessUsername(pgnTag(pgn, "White"));
+      const black = normalizeLichessUsername(pgnTag(pgn, "Black"));
+      if (LICHESS_SELF_USERNAMES.has(white)) {
+        return "white";
+      }
+      if (LICHESS_SELF_USERNAMES.has(black)) {
+        return "black";
+      }
+    } catch (_) {
+      return "";
+    }
+
+    return "";
   }
 
   function normalizeChessComGameUrl(url) {
@@ -109,14 +162,15 @@
   function currentGameContext() {
     const lichessUrl = normalizeLichessGameUrl(location.href);
     if (lichessUrl) {
+      const colorFromUrl = /\/black(?:[?#]|$)/.test(location.href)
+        ? "black"
+        : /\/white(?:[?#]|$)/.test(location.href)
+          ? "white"
+          : "";
       return {
         platform: "lichess",
         gameUrl: lichessUrl,
-        colorFromUrl: /\/black(?:[?#]|$)/.test(location.href)
-          ? "black"
-          : /\/white(?:[?#]|$)/.test(location.href)
-            ? "white"
-            : "",
+        colorFromUrl,
       };
     }
 
@@ -586,14 +640,32 @@
       return;
     }
 
+    if (context.platform === "lichess" && !context.colorFromUrl) {
+      context.colorFromUrl = await lichessColorFromExport(context.gameUrl);
+      context.gameUrl = normalizeLichessGameUrl(context.gameUrl, context.colorFromUrl);
+    }
+
     const existingGameIndex = state.games.findIndex((game) => {
       const gameUrl = game.game_url || game.lichess_game_url || "";
+      if (context.platform === "lichess") {
+        return lichessGameIdFromUrl(gameUrl) === lichessGameIdFromUrl(context.gameUrl);
+      }
       return gameUrl === context.gameUrl;
     });
     const existingGame = existingGameIndex === -1 ? {} : state.games[existingGameIndex];
+    const existingColor = normalizeColor(existingGame.color);
+    const color = await selectValue(
+      "Color",
+      [
+        { value: "", label: "Not set" },
+        { value: "white", label: "white" },
+        { value: "black", label: "black" },
+      ],
+      existingColor || context.colorFromUrl,
+    );
     const game = {
       platform: context.platform,
-      game_url: context.gameUrl,
+      game_url: context.platform === "lichess" ? normalizeLichessGameUrl(context.gameUrl, color) : context.gameUrl,
       result: await selectValue(
         "Result",
         [
@@ -604,15 +676,7 @@
         ],
         existingGame.result || "",
       ),
-      color: await selectValue(
-        "Color",
-        [
-          { value: "", label: "Not set" },
-          { value: "white", label: "white" },
-          { value: "black", label: "black" },
-        ],
-        existingGame.color || context.colorFromUrl,
-      ),
+      color,
       note: promptValue("Optional game note:", preferredGameNote(existingGame.note)),
     };
 
