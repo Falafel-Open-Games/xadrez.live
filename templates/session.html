@@ -529,7 +529,7 @@
                     <div class="game-embed">
                       <iframe
                         title="Replay da partida no Lichess"
-                        src="https://lichess.org/embed/game/{{ lichess_game_id }}?theme=auto&bg=auto{% if lichess_game_color %}&color={{ lichess_game_color }}{% endif %}"
+                        src="https://lichess.org/embed/game/{{ lichess_game_id }}{% if lichess_game_color %}/{{ lichess_game_color }}{% endif %}?theme=auto&bg=auto"
                         loading="lazy"
                         allowtransparency="true"
                         allowfullscreen>
@@ -598,7 +598,7 @@
               <div class="game-embed">
                 <iframe
                   title="Replay da partida no Lichess"
-                  src="https://lichess.org/embed/game/{{ lichess_game_id }}?theme=auto&bg=auto{% if lichess_game_color %}&color={{ lichess_game_color }}{% endif %}"
+                  src="https://lichess.org/embed/game/{{ lichess_game_id }}{% if lichess_game_color %}/{{ lichess_game_color }}{% endif %}?theme=auto&bg=auto"
                   loading="lazy"
                   allowtransparency="true"
                   allowfullscreen>
