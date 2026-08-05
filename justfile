@@ -8,6 +8,7 @@ serve:
 
 build: validate-session-games update-supporters update-site-stats update-lichess-rating-history
   zola build
+  python3 scripts/update_sitemap_lastmod.py
 
 pagefind:
   npx -y pagefind@1.5.2 --site public

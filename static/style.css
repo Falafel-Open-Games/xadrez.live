@@ -117,6 +117,16 @@ h1 {
   font-size: clamp(1.05rem, 2vw, 1.35rem);
 }
 
+.session-date {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin: 12px 0 0;
+  color: var(--muted);
+  font-size: 0.98rem;
+  font-weight: 700;
+}
+
 .home-links {
   display: flex;
   flex-wrap: wrap;

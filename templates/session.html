@@ -213,6 +213,12 @@
 <article class="session">
   <div class="session-kicker">{{ config.title }}</div>
   <h1>Sessão #{{ page.extra.session_number }}</h1>
+  <p class="session-date">
+    <time datetime="{{ page.date }}">{{ page.date | date(format="%d/%m/%Y") }}</time>
+    {% if page.extra.time is defined and page.extra.time %}
+      <span>às {{ page.extra.time }}</span>
+    {% endif %}
+  </p>
   <p class="tagline">{{ page.extra.tagline }}</p>
 
   <div class="session-actions" aria-label="links da sessão">
