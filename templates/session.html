@@ -319,7 +319,7 @@
         <div class="chat-panel">
           <iframe
             title="Chat ao vivo no YouTube"
-            src="https://www.youtube.com/live_chat?v={{ video_id }}&embed_domain=xadrez.live&dark_theme=1">
+            src="https://www.youtube.com/live_chat?v={{ video_id }}&embed_domain=xadrez.live">
           </iframe>
         </div>
       {% endif %}
@@ -571,9 +571,9 @@
                   <h4>Partida {{ loop.index }}</h4>
                 {% endif %}
                 <div class="game-summary-layout{% if not lichess_game_id %} game-summary-layout-details-only{% endif %}">
-                  <dl class="game-details">
+                  <dl class="game-details game-details-compact">
                     {% if game.game_url is defined and game.game_url %}
-                      <div>
+                      <div class="game-detail game-detail-link">
                         <dt>Partida</dt>
                         <dd>
                           <a href="{{ game.game_url }}" rel="noopener noreferrer">
@@ -588,19 +588,19 @@
                         </dd>
                       </div>
                     {% elif game.lichess_game_url is defined and game.lichess_game_url %}
-                      <div>
+                      <div class="game-detail game-detail-link">
                         <dt>Partida</dt>
                         <dd><a href="{{ game.lichess_game_url }}" rel="noopener noreferrer">Abrir partida no Lichess</a></dd>
                       </div>
                     {% endif %}
                     {% if game.result is defined and game.result %}
-                      <div>
+                      <div class="game-detail">
                         <dt>Resultado</dt>
                         <dd>{{ game.result }}</dd>
                       </div>
                     {% endif %}
                     {% if game.opening is defined and game.opening %}
-                      <div>
+                      <div class="game-detail game-detail-wide">
                         <dt>Abertura</dt>
                         <dd>
                           {% if game.opening_url is defined and game.opening_url %}
@@ -612,7 +612,7 @@
                       </div>
                     {% endif %}
                     {% if game.color is defined and game.color %}
-                      <div>
+                      <div class="game-detail">
                         <dt>Cor</dt>
                         <dd>{{ game.color }}</dd>
                       </div>
@@ -620,28 +620,28 @@
                     {% if lichess_game_analysis and lichess_game_analysis.games is defined and lichess_game_id %}
                       {% for analysis in lichess_game_analysis.games %}
                         {% if analysis.session_number == page.extra.session_number and analysis.game_index == game_index and analysis.has_analysis %}
-                          <div>
+                          <div class="game-detail game-detail-danger">
                             <dt>Capivaradas</dt>
                             <dd>{{ analysis.blunder }}</dd>
                           </div>
-                          <div>
+                          <div class="game-detail">
                             <dt>Erros</dt>
                             <dd>{{ analysis.mistake }}</dd>
                           </div>
-                          <div>
+                          <div class="game-detail">
                             <dt>Imprecisões</dt>
                             <dd>{{ analysis.inaccuracy }}</dd>
                           </div>
-                          <div>
+                          <div class="game-detail game-detail-good">
                             <dt>Precisão</dt>
                             <dd>{{ analysis.accuracy }}%</dd>
                           </div>
-                          <div>
+                          <div class="game-detail">
                             <dt>Perda média</dt>
                             <dd>{{ analysis.acpl }}</dd>
                           </div>
                           {% if analysis.opening_accuracy or analysis.middlegame_accuracy or analysis.endgame_accuracy %}
-                            <div>
+                            <div class="game-detail game-detail-wide">
                               <dt>Precisão por fase</dt>
                               <dd>
                                 {% if analysis.opening_accuracy %}abertura {{ analysis.opening_accuracy }}%{% endif %}
@@ -653,18 +653,12 @@
                         {% endif %}
                       {% endfor %}
                     {% endif %}
-                    {% if game.note is defined and game.note %}
-                      <div>
-                        <dt>Nota</dt>
-                        <dd>{{ game.note }}</dd>
-                      </div>
-                    {% endif %}
                   </dl>
                   {% if lichess_game_id %}
                     <div class="game-embed">
                       <iframe
                         title="Replay da partida no Lichess"
-                        src="https://lichess.org/embed/game/{{ lichess_game_id }}{% if lichess_game_color %}/{{ lichess_game_color }}{% endif %}?theme=auto&bg=auto"
+                        src="https://lichess.org/embed/game/{{ lichess_game_id }}{% if lichess_game_color %}/{{ lichess_game_color }}{% endif %}?theme=green&bg=light"
                         loading="lazy"
                         allowtransparency="true"
                         allowfullscreen>
@@ -672,6 +666,12 @@
                     </div>
                   {% endif %}
                 </div>
+                {% if game.note is defined and game.note %}
+                  <aside class="game-note-panel">
+                    <h5>Nota</h5>
+                    <div class="game-note-text">{{ game.note }}</div>
+                  </aside>
+                {% endif %}
               </section>
             {% endfor %}
           </div>
@@ -697,21 +697,21 @@
           {% endif %}
           <h3>Partida</h3>
           <div class="game-summary-layout{% if not lichess_game_id %} game-summary-layout-details-only{% endif %}">
-            <dl class="game-details">
+            <dl class="game-details game-details-compact">
               {% if page.extra.lichess_game_url is defined and page.extra.lichess_game_url %}
-                <div>
+                <div class="game-detail game-detail-link">
                   <dt>Partida</dt>
                   <dd><a href="{{ page.extra.lichess_game_url }}" rel="noopener noreferrer">Abrir partida no Lichess</a></dd>
                 </div>
               {% endif %}
               {% if page.extra.result is defined and page.extra.result %}
-                <div>
+                <div class="game-detail">
                   <dt>Resultado</dt>
                   <dd>{{ page.extra.result }}</dd>
                 </div>
               {% endif %}
               {% if page.extra.opening is defined and page.extra.opening %}
-                <div>
+                <div class="game-detail game-detail-wide">
                   <dt>Abertura</dt>
                   <dd>
                     {% if page.extra.opening_url is defined and page.extra.opening_url %}
@@ -723,7 +723,7 @@
                 </div>
               {% endif %}
               {% if page.extra.color is defined and page.extra.color %}
-                <div>
+                <div class="game-detail">
                   <dt>Cor</dt>
                   <dd>{{ page.extra.color }}</dd>
                 </div>
@@ -731,28 +731,28 @@
               {% if lichess_game_analysis and lichess_game_analysis.games is defined and lichess_game_id %}
                 {% for analysis in lichess_game_analysis.games %}
                   {% if analysis.session_number == page.extra.session_number and analysis.game_index == 1 and analysis.has_analysis %}
-                    <div>
+                    <div class="game-detail game-detail-danger">
                       <dt>Capivaradas</dt>
                       <dd>{{ analysis.blunder }}</dd>
                     </div>
-                    <div>
+                    <div class="game-detail">
                       <dt>Erros</dt>
                       <dd>{{ analysis.mistake }}</dd>
                     </div>
-                    <div>
+                    <div class="game-detail">
                       <dt>Imprecisões</dt>
                       <dd>{{ analysis.inaccuracy }}</dd>
                     </div>
-                    <div>
+                    <div class="game-detail game-detail-good">
                       <dt>Precisão</dt>
                       <dd>{{ analysis.accuracy }}%</dd>
                     </div>
-                    <div>
+                    <div class="game-detail">
                       <dt>Perda média</dt>
                       <dd>{{ analysis.acpl }}</dd>
                     </div>
                     {% if analysis.opening_accuracy or analysis.middlegame_accuracy or analysis.endgame_accuracy %}
-                      <div>
+                      <div class="game-detail game-detail-wide">
                         <dt>Precisão por fase</dt>
                         <dd>
                           {% if analysis.opening_accuracy %}abertura {{ analysis.opening_accuracy }}%{% endif %}
@@ -769,7 +769,7 @@
               <div class="game-embed">
                 <iframe
                   title="Replay da partida no Lichess"
-                  src="https://lichess.org/embed/game/{{ lichess_game_id }}{% if lichess_game_color %}/{{ lichess_game_color }}{% endif %}?theme=auto&bg=auto"
+                  src="https://lichess.org/embed/game/{{ lichess_game_id }}{% if lichess_game_color %}/{{ lichess_game_color }}{% endif %}?theme=green&bg=light"
                   loading="lazy"
                   allowtransparency="true"
                   allowfullscreen>
