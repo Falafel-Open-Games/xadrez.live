@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+
+{% block title %}Página não encontrada | {{ config.title }}{% endblock title %}
+{% block description %}Página não encontrada no xadrez.live.{% endblock description %}
+
+{% block social_meta %}
+  <meta property="og:site_name" content="{{ config.title }}">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Página não encontrada | {{ config.title }}">
+  <meta property="og:description" content="Página não encontrada no xadrez.live.">
+  <meta name="twitter:card" content="summary">
+{% endblock social_meta %}
+
+{% block content %}
+<article class="page-content" data-pagefind-ignore>
+  <h1>Página não encontrada</h1>
+  <p>Esta página não existe ou mudou de endereço.</p>
+  <p><a href="/">Voltar para a página inicial</a></p>
+</article>
+{% endblock content %}

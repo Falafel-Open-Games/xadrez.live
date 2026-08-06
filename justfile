@@ -11,7 +11,7 @@ build: validate-session-games update-supporters update-site-stats update-lichess
   python3 scripts/update_sitemap_lastmod.py
 
 pagefind:
-  npx -y pagefind@1.5.2 --site public
+  npx -y pagefind@1.5.2
 
 build-search: build pagefind
 

@@ -77,7 +77,11 @@ def refresh_access_token(client_id: str, client_secret: str, refresh_token: str)
             data = json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as error:
         body_text = error.read().decode("utf-8", errors="replace")
+        if error.code == 401:
+            raise RuntimeError("Restream token refresh failed: refresh token is unauthorized or expired") from error
         raise RuntimeError(f"Restream token refresh failed with HTTP {error.code}: {body_text}") from error
+    except urllib.error.URLError as error:
+        raise RuntimeError(f"Restream token refresh failed: {error.reason}") from error
 
     token = str(data.get("access_token") or data.get("accessToken") or "")
     if not token:
@@ -89,15 +93,15 @@ def restream_token(cli_token: str) -> str:
     if cli_token:
         return cli_token
 
-    token = env_value("RESTREAM_ACCESS_TOKEN")
-    if token:
-        return token
-
     refresh_token = env_value("RESTREAM_REFRESH_TOKEN")
     client_id = env_value("RESTREAM_CLIENT_ID", "RESTREAM_API_CLIENT_ID")
     client_secret = env_value("RESTREAM_CLIENT_SECRET", "RESTREAM_API_CLIENT_SECRET")
     if refresh_token and client_id and client_secret:
         return refresh_access_token(client_id, client_secret, refresh_token)
+
+    token = env_value("RESTREAM_ACCESS_TOKEN")
+    if token:
+        return token
 
     return ""
 
@@ -180,7 +184,11 @@ def request_json(url: str, token: str, method: str = "GET") -> Any:
             return json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as error:
         body = error.read().decode("utf-8", errors="replace")
+        if error.code == 401:
+            raise RuntimeError("Restream access token is unauthorized or expired; run `just restream-refresh-token`") from error
         raise RuntimeError(f"{method} {url} failed with HTTP {error.code}: {body}") from error
+    except urllib.error.URLError as error:
+        raise RuntimeError(f"{method} {url} failed: {error.reason}") from error
 
 
 def cache_path(cache_dir: Path, name: str) -> Path:
@@ -568,7 +576,7 @@ def parse_args() -> argparse.Namespace:
         description="Import Restream aggregated chat history into static session chat replay data."
     )
     parser.add_argument("sessions", nargs="*", help="Optional session numbers, e.g. 0015")
-    parser.add_argument("--token", default=os.environ.get("RESTREAM_ACCESS_TOKEN", ""))
+    parser.add_argument("--token", default="")
     parser.add_argument("--cache-dir", type=Path, default=DEFAULT_CACHE_DIR)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--latest", type=int, help="Only process the latest N ended sessions.")
@@ -584,24 +592,32 @@ def parse_args() -> argparse.Namespace:
 def main() -> int:
     load_env_file(ENV_PATH)
     args = parse_args()
-    token = restream_token(args.token)
+    try:
+        token = restream_token(args.token)
+    except RuntimeError as error:
+        print(f"Restream chat unavailable ({error})")
+        return 1
     if not token:
         fail("set RESTREAM_ACCESS_TOKEN or RESTREAM_REFRESH_TOKEN in .env, or pass --token")
 
     selected_numbers = set(args.sessions) if args.sessions else None
-    imported = import_replays(
-        token=token,
-        cache_dir=args.cache_dir,
-        output_dir=args.output_dir,
-        selected_numbers=selected_numbers,
-        latest=args.latest,
-        min_session=args.min_session,
-        force=args.force,
-        history_limit=args.history_limit,
-        youtube_cache_dir=args.youtube_cache_dir,
-        twitch_data_dir=args.twitch_data_dir,
-        youtube_match_window=args.youtube_match_window,
-    )
+    try:
+        imported = import_replays(
+            token=token,
+            cache_dir=args.cache_dir,
+            output_dir=args.output_dir,
+            selected_numbers=selected_numbers,
+            latest=args.latest,
+            min_session=args.min_session,
+            force=args.force,
+            history_limit=args.history_limit,
+            youtube_cache_dir=args.youtube_cache_dir,
+            twitch_data_dir=args.twitch_data_dir,
+            youtube_match_window=args.youtube_match_window,
+        )
+    except RuntimeError as error:
+        print(f"Restream chat unavailable ({error})")
+        return 1
     print(f"imported: {imported}")
     return 0
 

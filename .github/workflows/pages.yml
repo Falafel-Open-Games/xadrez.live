@@ -62,7 +62,7 @@ jobs:
         run: python3 scripts/update_sitemap_lastmod.py
 
       - name: Generate search index
-        run: npx -y pagefind@1.5.2 --site public
+        run: npx -y pagefind@1.5.2
 
       - name: Copy custom domain
         run: cp CNAME public/CNAME
