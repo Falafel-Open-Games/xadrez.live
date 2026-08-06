@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.15.0
+// @version      0.15.2
 // @description  Collect chess puzzle, game, notes, and Restream chat usernames during a xadrez.live session.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -24,6 +24,7 @@
     Twitch: new Set(["sedentarismo"]),
   };
   const SELF_SUPPORTER_HANDLES = new Set(Object.values(SELF_SUPPORTERS).flatMap((handles) => [...handles]));
+  const AGGREGATOR_SUPPORTER_PLATFORMS = new Set(["Restream", "Restream.io"]);
 
   const DEFAULT_STATE = {
     active: false,
@@ -255,6 +256,11 @@
       .replace(/"""/g, '\\"\\"\\"');
   }
 
+  function tomlString(value) {
+    const text = String(value || "");
+    return text.includes("\n") ? `"""${multilineQuote(text)}"""` : `"${quote(text)}"`;
+  }
+
   function escapeHtml(value) {
     return String(value || "")
       .replace(/&/g, "&amp;")
@@ -272,6 +278,101 @@
   function promptValue(label, fallback = "") {
     const value = window.prompt(label, fallback);
     return value === null ? fallback : value.trim();
+  }
+
+  function promptTextareaValue(label, fallback = "") {
+    return new Promise((resolve) => {
+      const overlay = document.createElement("div");
+      overlay.innerHTML = `
+        <style>
+          .xlc-textarea-overlay {
+            position: fixed;
+            inset: 0;
+            z-index: 100000;
+            display: grid;
+            place-items: center;
+            background: rgba(0, 0, 0, 0.45);
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+          }
+          .xlc-textarea-dialog {
+            width: min(560px, calc(100vw - 32px));
+            border: 1px solid #5f6b75;
+            border-radius: 8px;
+            padding: 16px;
+            background: #fffaf0;
+            color: #132744;
+            box-shadow: 0 18px 60px rgba(0, 0, 0, 0.28);
+          }
+          .xlc-textarea-dialog label {
+            display: grid;
+            gap: 8px;
+            font-weight: 700;
+          }
+          .xlc-textarea-dialog textarea {
+            min-height: 180px;
+            resize: vertical;
+            border: 1px solid #d9cdb8;
+            border-radius: 6px;
+            padding: 10px;
+            color: inherit;
+            background: #fff;
+            font: inherit;
+            line-height: 1.45;
+          }
+          .xlc-textarea-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 8px;
+            margin-top: 12px;
+          }
+          .xlc-textarea-actions button {
+            min-height: 34px;
+            border: 1px solid #d9cdb8;
+            border-radius: 6px;
+            padding: 0 12px;
+            background: #fff;
+            color: inherit;
+            font: inherit;
+            font-weight: 700;
+            cursor: pointer;
+          }
+          .xlc-textarea-actions button[type="submit"] {
+            border-color: #42562c;
+            background: #42562c;
+            color: #fffaf0;
+          }
+        </style>
+        <div class="xlc-textarea-overlay">
+          <form class="xlc-textarea-dialog">
+            <label>
+              ${escapeHtml(label)}
+              <textarea name="value" spellcheck="true">${escapeHtml(fallback)}</textarea>
+            </label>
+            <div class="xlc-textarea-actions">
+              <button type="button" data-action="cancel">Cancel</button>
+              <button type="submit">Save</button>
+            </div>
+          </form>
+        </div>
+      `;
+      document.body.appendChild(overlay);
+      const form = overlay.querySelector("form");
+      const textarea = overlay.querySelector("textarea");
+
+      function close(value) {
+        overlay.remove();
+        resolve(value);
+      }
+
+      textarea.focus();
+      textarea.selectionStart = textarea.value.length;
+      textarea.selectionEnd = textarea.value.length;
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        close(textarea.value.trim());
+      });
+      form.querySelector('[data-action="cancel"]').addEventListener("click", () => close(fallback));
+    });
   }
 
   function selectValue(label, options, fallback = "") {
@@ -877,7 +978,7 @@
       game_url: context.platform === "lichess" ? normalizeLichessGameUrl(context.gameUrl, color) : context.gameUrl,
       result,
       color,
-      note: promptValue("Optional game note:", preferredGameNote(existingGame.note)),
+      note: await promptTextareaValue("Optional game note:", preferredGameNote(existingGame.note)),
     };
 
     if (context.platform === "lichess") {
@@ -967,7 +1068,7 @@ note = "${quote(attempt.note)}"`);
       if (game.opening_url) {
         lines.push(`opening_url = "${quote(game.opening_url)}"`);
       }
-      lines.push(`note = "${quote(game.note)}"`);
+      lines.push(`note = ${tomlString(game.note)}`);
       blocks.push(lines.join("\n"));
     });
 
@@ -1106,6 +1207,17 @@ note = "${quote(attempt.note)}"`);
     return "";
   }
 
+  function platformFromProfileHref(href) {
+    const value = String(href || "");
+    if (/youtube\.com\/@/i.test(value)) {
+      return "YouTube";
+    }
+    if (/twitch\.tv\//i.test(value)) {
+      return "Twitch";
+    }
+    return "";
+  }
+
   function restreamCardAuthorLabel(card) {
     return queryAll(
       card,
@@ -1132,13 +1244,16 @@ note = "${quote(attempt.note)}"`);
   }
 
   function restreamCardPlatform(card) {
-    if (/^Restream(?:\.io)?$/i.test(restreamCardAuthorLabel(card))) {
-      return "Restream";
+    const profilePlatform = queryAll(card, 'a[href*="youtube.com/@"], a[href*="twitch.tv/"]')
+      .map((link) => platformFromProfileHref(link.getAttribute("href")))
+      .find(Boolean);
+    if (profilePlatform) {
+      return profilePlatform;
     }
 
     const platformIcon = restreamCardPlatformIcon(card);
     const platformFromIcon = restreamPlatformFromSrc(platformIcon);
-    if (platformFromIcon) {
+    if (platformFromIcon && platformFromIcon !== "Restream") {
       return platformFromIcon;
     }
 
@@ -1158,7 +1273,15 @@ note = "${quote(attempt.note)}"`);
       )
       .filter(Boolean);
 
-    return [...new Set(platforms)][0] || "Chat";
+    const uniquePlatforms = [...new Set(platforms)];
+    const realPlatform = uniquePlatforms.find((platform) => platform !== "Restream");
+    if (realPlatform) {
+      return realPlatform;
+    }
+    if (platformFromIcon || uniquePlatforms.includes("Restream") || /^Restream(?:\.io)?$/i.test(restreamCardAuthorLabel(card))) {
+      return "Restream";
+    }
+    return "Chat";
   }
 
   function restreamAuthorFromCard(card) {
@@ -1320,6 +1443,10 @@ note = "${quote(attempt.note)}"`);
     return SELF_SUPPORTERS[platform]?.has(handle) || SELF_SUPPORTER_HANDLES.has(handle) || false;
   }
 
+  function isAggregatorSupporterPlatform(platform) {
+    return AGGREGATOR_SUPPORTER_PLATFORMS.has(String(platform || "").trim());
+  }
+
   function restreamSupporters() {
     const byKey = new Map();
     const cards = queryAll(
@@ -1340,7 +1467,7 @@ note = "${quote(attempt.note)}"`);
       }
 
       const platform = restreamCardPlatform(card);
-      if (isSelfSupporter(platform, name)) {
+      if (isAggregatorSupporterPlatform(platform) || isSelfSupporter(platform, name)) {
         return;
       }
 
@@ -1358,7 +1485,7 @@ note = "${quote(attempt.note)}"`);
       }
 
       const platform = restreamCardPlatform(message);
-      if (isSelfSupporter(platform, name)) {
+      if (isAggregatorSupporterPlatform(platform) || isSelfSupporter(platform, name)) {
         return;
       }
 
@@ -1440,22 +1567,28 @@ note = "${quote(attempt.note)}"`);
 
   function mergeSupporters(state, supporters) {
     const byKey = new Map();
+    let mergedCount = 0;
 
     (state.supporters || []).forEach((supporter) => {
       const key = `${supporter.platform || ""}\0${supporter.name || ""}`;
-      if (supporter.name && !isSelfSupporter(supporter.platform, supporter.name)) {
+      if (
+        supporter.name &&
+        !isAggregatorSupporterPlatform(supporter.platform) &&
+        !isSelfSupporter(supporter.platform, supporter.name)
+      ) {
         byKey.set(key, supporter);
       }
     });
 
     supporters.forEach((supporter) => {
-      if (isSelfSupporter(supporter.platform, supporter.name)) {
+      if (isAggregatorSupporterPlatform(supporter.platform) || isSelfSupporter(supporter.platform, supporter.name)) {
         return;
       }
 
       const url = restreamSupporterUrl(supporter.platform, supporter.name);
       const key = `${supporter.platform || ""}\0${supporter.name || ""}`;
       byKey.set(key, { ...supporter, url });
+      mergedCount += 1;
     });
 
     state.supporters = [...byKey.values()].sort((a, b) => {
@@ -1467,7 +1600,7 @@ note = "${quote(attempt.note)}"`);
     });
     saveState(state);
 
-    return supporters.length;
+    return mergedCount;
   }
 
   function resetSession(state) {
@@ -1614,7 +1747,7 @@ note = "${quote(attempt.note)}"`);
         </p>
         ${
           isRestreamChatPage
-            ? `<p class="xlc-meta">Restream chat: ${restreamCount} supporter(s), ${restreamReplayCount} replay message(s) loaded</p>`
+            ? `<p class="xlc-meta">Restream chat: ${restreamCount} chat participant(s), ${restreamReplayCount} replay message(s) loaded</p>`
             : ""
         }
         <div class="xlc-row">
@@ -1708,8 +1841,8 @@ note = "${quote(attempt.note)}"`);
             const count = mergeSupporters(nextState, restreamSupporters());
             window.alert(
               count
-                ? `Added ${count} Restream supporter(s) to the TOML scratchpad.`
-                : "No Restream usernames found in the currently loaded page.",
+                ? `Added ${count} chat participant(s) to the TOML scratchpad.`
+                : "No chat participant usernames found in the currently loaded page.",
             );
           }
           break;

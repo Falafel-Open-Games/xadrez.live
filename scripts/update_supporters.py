@@ -19,6 +19,7 @@ SELF_SUPPORTER_HANDLES = {handle for _platform, handle in SELF_SUPPORTERS}
 BLOCKED_SUPPORTER_HANDLES = {
     "gsgsgehwge",
 }
+AGGREGATOR_PLATFORMS = {"restream", "restream.io"}
 
 
 @dataclass
@@ -124,6 +125,10 @@ def normalized_platform(platform: str, url: str) -> str:
     return ""
 
 
+def is_aggregator_platform(platform: str) -> bool:
+    return platform.strip().lower() in AGGREGATOR_PLATFORMS
+
+
 def is_self_supporter(platform: str, name: str, url: str) -> bool:
     handle = normalized_handle(name)
     return (normalized_platform(platform, url), handle) in SELF_SUPPORTERS or handle in SELF_SUPPORTER_HANDLES
@@ -154,6 +159,8 @@ def collect_supporters() -> dict[str, Supporter]:
             name = str(raw_supporter.get("name") or "").strip()
             url = str(raw_supporter.get("url") or "").strip()
             if not name:
+                continue
+            if is_aggregator_platform(platform):
                 continue
 
             if not url:
@@ -188,6 +195,8 @@ def collect_supporters() -> dict[str, Supporter]:
             for raw_person in split_people(people_text):
                 name, url = parse_person(raw_person, platform)
                 if not name:
+                    continue
+                if is_aggregator_platform(platform):
                     continue
                 if is_self_supporter(platform, name, url) or is_blocked_supporter(name):
                     continue

@@ -26,6 +26,7 @@ BLOCKED_SUPPORTER_HANDLES = {
 }
 ANON_AUTHOR_RE = re.compile(r"^Person \d+$")
 UNKNOWN_AUTHORS = {"unknown", "@unknown", "anonymous", "@anonymous"}
+AGGREGATOR_PLATFORMS = {"restream", "restream.io"}
 
 
 @dataclass(frozen=True)
@@ -113,6 +114,10 @@ def normalized_platform(platform: str) -> str:
     return ""
 
 
+def is_aggregator_platform(platform: str) -> bool:
+    return platform.strip().lower() in AGGREGATOR_PLATFORMS
+
+
 def is_self(platform: str, name: str) -> bool:
     handle = normalized_handle(name)
     return (normalized_platform(platform), handle) in SELF_SUPPORTERS or handle in SELF_HANDLES
@@ -170,6 +175,31 @@ def participant_key(platform: str, name: str) -> tuple[str, str]:
     return normalized_platform(platform), normalized_handle(name)
 
 
+def merge_key(supporter: Supporter) -> str:
+    return normalized_handle(supporter.name)
+
+
+def supporter_priority(supporter: Supporter) -> tuple[int, int]:
+    platform = normalized_platform(supporter.platform)
+    platform_score = {
+        "youtube": 0,
+        "twitch": 0,
+        "lichess": 1,
+        "chess.com": 1,
+        "discord": 1,
+        "": 2,
+    }.get(platform, 2)
+    return platform_score, 0 if supporter.url else 1
+
+
+def better_supporter(current: Supporter, candidate: Supporter) -> Supporter:
+    if supporter_priority(candidate) < supporter_priority(current):
+        return candidate
+    if not current.url and candidate.url:
+        return Supporter(current.platform, current.name, candidate.url)
+    return current
+
+
 def chat_supporters(session_number: str) -> list[Supporter]:
     path = CHAT_REPLAYS_DIR / f"{session_number}.json"
     if not path.exists():
@@ -216,7 +246,7 @@ def existing_supporters(extra: dict[str, Any]) -> list[Supporter]:
         platform = str(item.get("platform") or "").strip()
         name = str(item.get("name") or "").strip()
         url = str(item.get("url") or "").strip()
-        if name and not is_self(platform, name):
+        if name and not is_aggregator_platform(platform) and not is_self(platform, name):
             rows.append(Supporter(platform, name, url or inferred_url(platform, name)))
     return rows
 
@@ -240,7 +270,13 @@ def parse_person(raw: str, platform: str) -> Supporter | None:
             name = raw.strip()
             url = inferred_url(platform, name)
 
-    if not name or is_self(platform, name) or is_blocked_supporter(name) or name.lower() in UNKNOWN_AUTHORS:
+    if (
+        not name
+        or is_aggregator_platform(platform)
+        or is_self(platform, name)
+        or is_blocked_supporter(name)
+        or name.lower() in UNKNOWN_AUTHORS
+    ):
         return None
 
     return Supporter(platform, name, url)
@@ -298,15 +334,21 @@ def historical_markdown_acknowledgements(path: Path, revision: str) -> list[Supp
 
 def merged_supporters(*groups: list[Supporter]) -> list[Supporter]:
     merged: list[Supporter] = []
-    seen: set[tuple[str, str]] = set()
+    indexes: dict[str, int] = {}
     for group in groups:
         for supporter in group:
-            key = participant_key(supporter.platform, supporter.name)
-            if not key[1] or key in seen:
+            if is_aggregator_platform(supporter.platform):
                 continue
-            seen.add(key)
+            key = merge_key(supporter)
+            if not key:
+                continue
             url = supporter.url or inferred_url(supporter.platform, supporter.name)
-            merged.append(Supporter(supporter.platform, supporter.name, url))
+            normalized = Supporter(supporter.platform, supporter.name, url)
+            if key in indexes:
+                merged[indexes[key]] = better_supporter(merged[indexes[key]], normalized)
+                continue
+            indexes[key] = len(merged)
+            merged.append(normalized)
     return merged
 
 

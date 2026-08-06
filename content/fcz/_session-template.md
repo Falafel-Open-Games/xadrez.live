@@ -35,16 +35,3 @@ opening = ""
 opening_url = ""
 note = ""
 +++
-
-## Agenda
-
-- Puzzle of the Day:
-- Puzzle streak:
-- Rapid 10min vs human:
-- Review:
-
-## Perfil ao final da sessão
-
-- Rapid rating:
-- Puzzles:
-- Puzzle streak:
