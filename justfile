@@ -3,6 +3,9 @@ set shell := ["bash", "-eu", "-o", "pipefail", "-c"]
 default:
   @just --list
 
+menu:
+  @python3 scripts/daily_menu.py
+
 serve:
   zola serve
 
@@ -83,6 +86,9 @@ import-timed-transcript SESSION EXTRA="":
   @python3 scripts/align_transcript_timestamps.py --source-suffix openai-gpt-4o-transcribe --output-suffix openai-gpt-4o-transcribe.aligned {{SESSION}} || echo "GPT-4o transcript unavailable; skipping GPT-4o alignment"
   @python3 scripts/suggest_highlights.py {{SESSION}}
   @just build
+
+realign-highlights SESSION:
+  @just import-timed-transcript {{SESSION}}
 
 import-missing-faster-whisper-transcripts EXTRA="":
   @sessions="$(python3 scripts/missing_faster_whisper_sessions.py)"; \
