@@ -1,16 +1,35 @@
 {
   "session_number": "0052",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "limit": 6,
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 346,
+      "start_seconds": 249,
+      "end_seconds": 330,
+      "time": "4:09",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 3.0,
+      "summary": "Então dá pra saber o que é que as pessoas disseram no chat em qual momento do vídeo, sempre com o timestamp que você aperta aqui e ele vai para aquele minuto…",
+      "reason": "erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance",
+      "signals": [
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "interação com o chat",
+        "review ou melhor lance"
+      ],
+      "chat_count": 0,
+      "transcript_count": 5,
+      "lead_in": "do vídeo com o chat"
+    },
+    {
+      "start_seconds": 353,
       "end_seconds": 420,
-      "time": "5:46",
+      "time": "5:53",
       "duration": "1:30",
       "kind": "review",
       "score": 3.4,
@@ -24,16 +43,17 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 3,
+      "lead_in": "teria sido melhor pra ele"
     },
     {
-      "start_seconds": 540,
-      "end_seconds": 630,
-      "time": "9:00",
+      "start_seconds": 525,
+      "end_seconds": 600,
+      "time": "8:45",
       "duration": "1:30",
       "kind": "mistake",
       "score": 2.6,
-      "summary": "Se a razão de que alguém assiste as lives ou as gravações é ver um iniciano cometendo burradas, capivaradas, você pode vir aqui e ver que, por exemplo, nesse mês..…",
+      "summary": "E só pra terminar os updates do site, aqui na parte de estatísticas tem um gráfico novo, que é justamente o gráfico das capivaradas por sessão…",
       "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat",
       "signals": [
         "reação forte na fala",
@@ -42,12 +62,13 @@
         "interação com o chat"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 4,
+      "lead_in": "foram dois jogos nessa sessão"
     },
     {
-      "start_seconds": 892,
+      "start_seconds": 898,
       "end_seconds": 960,
-      "time": "14:52",
+      "time": "14:58",
       "duration": "1:30",
       "kind": "research",
       "score": 2.9,
@@ -60,12 +81,13 @@
         "pesquisa ou contexto externo"
       ],
       "chat_count": 0,
-      "transcript_count": 4
+      "transcript_count": 4,
+      "lead_in": "as brancas jogam Rui Lopez"
     },
     {
-      "start_seconds": 1663,
-      "end_seconds": 1740,
-      "time": "27:43",
+      "start_seconds": 1695,
+      "end_seconds": 1770,
+      "time": "28:15",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 3.4,
@@ -80,31 +102,13 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 5,
+      "lead_in": "Vocês querem ver eu apanhando"
     },
     {
-      "start_seconds": 1771,
-      "end_seconds": 1860,
-      "time": "29:31",
-      "duration": "1:30",
-      "kind": "time-pressure",
-      "score": 2.6,
-      "summary": "Trazer essa torre pra cá, vai. Catar aqui, não sei, 2 minutos não dá pra fazer nada. Vamos ver qualquer coisa então…",
-      "reason": "tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
-      "signals": [
-        "tema claro de xadrez",
-        "plano ou estratégia",
-        "pressão no relógio",
-        "plano sob pressão de tempo",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 4
-    },
-    {
-      "start_seconds": 1942,
+      "start_seconds": 1971,
       "end_seconds": 2040,
-      "time": "32:22",
+      "time": "32:51",
       "duration": "1:30",
       "kind": "research",
       "score": 4.9,
@@ -119,7 +123,8 @@
         "pesquisa ou contexto externo"
       ],
       "chat_count": 0,
-      "transcript_count": 4
+      "transcript_count": 4,
+      "lead_in": "feijoada Certo Ganhou dois pionis"
     }
   ]
 }

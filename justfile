@@ -83,12 +83,15 @@ import-faster-whisper-transcript SESSION EXTRA="":
 
 import-timed-transcript SESSION EXTRA="":
   @python3 scripts/align_transcript_timestamps.py --source-suffix openai-gpt-4o-mini-transcribe --output-suffix openai-gpt-4o-mini-transcribe.aligned {{SESSION}}
-  @python3 scripts/align_transcript_timestamps.py --source-suffix openai-gpt-4o-transcribe --output-suffix openai-gpt-4o-transcribe.aligned {{SESSION}} || echo "GPT-4o transcript unavailable; skipping GPT-4o alignment"
+  @test ! -f data/fcz/transcripts/{{SESSION}}.openai-gpt-4o-transcribe.json || python3 scripts/align_transcript_timestamps.py --source-suffix openai-gpt-4o-transcribe --output-suffix openai-gpt-4o-transcribe.aligned {{SESSION}}
   @python3 scripts/suggest_highlights.py {{SESSION}}
   @just build
 
 realign-highlights SESSION:
   @just import-timed-transcript {{SESSION}}
+
+align-gpt4o-transcript SESSION:
+  @python3 scripts/align_transcript_timestamps.py --source-suffix openai-gpt-4o-transcribe --output-suffix openai-gpt-4o-transcribe.aligned {{SESSION}}
 
 import-missing-faster-whisper-transcripts EXTRA="":
   @sessions="$(python3 scripts/missing_faster_whisper_sessions.py)"; \
