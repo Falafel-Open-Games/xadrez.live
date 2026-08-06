@@ -1,77 +1,8 @@
 {
   "session_number": "0048",
   "source": "lichess",
-  "event_count": 5,
+  "event_count": 2,
   "events": [
-    {
-      "time": "0:00",
-      "seconds": 0,
-      "source": "lichess",
-      "platform": "Lichess",
-      "kind": "blunder",
-      "label": "Capivarada",
-      "session_number": "0048",
-      "game_index": 2,
-      "game_id": "A2Sdjn0Y",
-      "game_url": "https://lichess.org/A2Sdjn0Y/white",
-      "video_offset_seconds": 0,
-      "ply": 25,
-      "move_number": 13,
-      "color": "white",
-      "player": "fcz",
-      "opponent": "Buayovikil",
-      "is_self": true,
-      "move": "Bd2",
-      "eval_change": "1.98 → -0.78",
-      "best": "Nc3",
-      "text": "fcz jogou Bd2 no lance 13."
-    },
-    {
-      "time": "0:00",
-      "seconds": 0,
-      "source": "lichess",
-      "platform": "Lichess",
-      "kind": "blunder",
-      "label": "Capivarada",
-      "session_number": "0048",
-      "game_index": 2,
-      "game_id": "A2Sdjn0Y",
-      "game_url": "https://lichess.org/A2Sdjn0Y/white",
-      "video_offset_seconds": 0,
-      "ply": 26,
-      "move_number": 13,
-      "color": "black",
-      "player": "Buayovikil",
-      "opponent": "fcz",
-      "is_self": false,
-      "move": "Bd6",
-      "eval_change": "-0.78 → 5.01",
-      "best": "Bxd2+",
-      "text": "Buayovikil jogou Bd6 no lance 13."
-    },
-    {
-      "time": "0:00",
-      "seconds": 0,
-      "source": "lichess",
-      "platform": "Lichess",
-      "kind": "blunder",
-      "label": "Capivarada",
-      "session_number": "0048",
-      "game_index": 2,
-      "game_id": "A2Sdjn0Y",
-      "game_url": "https://lichess.org/A2Sdjn0Y/white",
-      "video_offset_seconds": 0,
-      "ply": 65,
-      "move_number": 33,
-      "color": "white",
-      "player": "fcz",
-      "opponent": "Buayovikil",
-      "is_self": true,
-      "move": "Qc5+",
-      "eval_change": "Mate in 3 → 6.93",
-      "best": "Rc7+",
-      "text": "fcz jogou Qc5+ no lance 33."
-    },
     {
       "time": "43:57",
       "seconds": 2637,
@@ -91,9 +22,10 @@
       "opponent": "guillaume247",
       "is_self": true,
       "move": "Nd5",
+      "clock": "6:45",
       "eval_change": "0.08 → -5.20",
       "best": "Bd6",
-      "text": "fcz jogou Nd5 no lance 11."
+      "text": "fcz jogou Nd5 no lance 11, com 6:45 no relógio."
     },
     {
       "time": "45:21",
@@ -114,9 +46,10 @@
       "opponent": "fcz",
       "is_self": false,
       "move": "Qh5",
+      "clock": "7:00",
       "eval_change": "-2.70 → 7.07",
       "best": "Qf6",
-      "text": "guillaume247 jogou Qh5 no lance 14."
+      "text": "guillaume247 jogou Qh5 no lance 14, com 7:00 no relógio."
     }
   ]
 }

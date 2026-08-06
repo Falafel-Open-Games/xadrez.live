@@ -20,6 +20,22 @@ Outras opções estão na documentação oficial do Zola: <https://www.getzola.o
 
 ## Rodar localmente
 
+Para procurar erros de ortografia nos textos editoriais, instale o dicionário brasileiro do Hunspell e rode:
+
+```bash
+sudo pacman -S hunspell-en_us
+yay -S hunspell-pt-br
+just check-editorial-spelling
+```
+
+O comando não altera arquivos. Por padrão, agrupa ocorrências por palavra e lista alguns locais de exemplo; use `python3 scripts/check_editorial_spelling.py --all` para ver cada ocorrência. Nomes e termos específicos ficam em `data/editorial_spelling_ignore.txt`.
+
+Palavras aceitas exatamente pelo dicionário `en_US`, como `accepted` e `analytics`, são excluídas das suspeitas em português. Use `--no-english-filter` para desativar esse filtro.
+
+Para revisar as suspeitas interativamente, use `just review-editorial-spelling`. A ferramenta percorre primeiro as correções de acento e depois as demais; `s` ignora, `a` aprova a primeira sugestão, `aN` aprova a sugestão numerada `N`, `c` permite informar uma substituição customizada, `d` adiciona a palavra ao dicionário personalizado e `q` encerra. Aprovações ficam em `data/editorial_spelling_approvals.json`; o conteúdo original não é alterado.
+
+Para testar as aprovações sem alterar arquivos, rode `just apply-editorial-spelling`. O comando faz dry-run por padrão; depois de revisar a lista, use `just apply-editorial-spelling --write` para gravar as substituições.
+
 ```sh
 zola serve
 ```

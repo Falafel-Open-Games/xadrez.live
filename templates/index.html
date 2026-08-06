@@ -45,35 +45,35 @@
       {% if (game.platform is defined and game.platform) or (game.opening is defined and game.opening) or (game.result is defined and game.result) or (game.color is defined and game.color) or (session.extra.streak is defined and session.extra.streak) %}
         <div class="session-list-meta">
         {% if game.platform is defined and game.platform %}
-          <span>Plataforma: {{ game.platform }}</span>
+          <span class="session-chip">{{ game.platform }}</span>
         {% endif %}
         {% if game.opening is defined and game.opening %}
-          <span>Abertura: {% if game.opening_url is defined and game.opening_url %}<a href="{{ game.opening_url }}" rel="noopener noreferrer">{{ game.opening }}</a>{% else %}{{ game.opening }}{% endif %}</span>
+          <span class="session-chip session-chip-wide">Abertura: {% if game.opening_url is defined and game.opening_url %}<a href="{{ game.opening_url }}" rel="noopener noreferrer">{{ game.opening }}</a>{% else %}{{ game.opening }}{% endif %}</span>
         {% endif %}
         {% if game.result is defined and game.result %}
-          <span>Resultado: {{ game.result }}</span>
+          <span class="session-chip session-chip-result">Resultado: {{ game.result }}</span>
         {% endif %}
         {% if game.color is defined and game.color %}
-          <span>Cor: {{ game.color }}</span>
+          <span class="session-chip">Cor: {{ game.color }}</span>
         {% endif %}
         {% if session.extra.streak is defined and session.extra.streak %}
-          <span>Streak: {{ session.extra.streak }}</span>
+          <span class="session-chip">Streak: {{ session.extra.streak }}</span>
         {% endif %}
         </div>
       {% endif %}
     {% elif (session.extra.opening is defined and session.extra.opening) or (session.extra.result is defined and session.extra.result) or (session.extra.color is defined and session.extra.color) or (session.extra.streak is defined and session.extra.streak) %}
       <div class="session-list-meta">
         {% if session.extra.opening is defined and session.extra.opening %}
-          <span>Abertura: {% if session.extra.opening_url is defined and session.extra.opening_url %}<a href="{{ session.extra.opening_url }}" rel="noopener noreferrer">{{ session.extra.opening }}</a>{% else %}{{ session.extra.opening }}{% endif %}</span>
+          <span class="session-chip session-chip-wide">Abertura: {% if session.extra.opening_url is defined and session.extra.opening_url %}<a href="{{ session.extra.opening_url }}" rel="noopener noreferrer">{{ session.extra.opening }}</a>{% else %}{{ session.extra.opening }}{% endif %}</span>
         {% endif %}
         {% if session.extra.result is defined and session.extra.result %}
-          <span>Resultado: {{ session.extra.result }}</span>
+          <span class="session-chip session-chip-result">Resultado: {{ session.extra.result }}</span>
         {% endif %}
         {% if session.extra.color is defined and session.extra.color %}
-          <span>Cor: {{ session.extra.color }}</span>
+          <span class="session-chip">Cor: {{ session.extra.color }}</span>
         {% endif %}
         {% if session.extra.streak is defined and session.extra.streak %}
-          <span>Streak: {{ session.extra.streak }}</span>
+          <span class="session-chip">Streak: {{ session.extra.streak }}</span>
         {% endif %}
       </div>
     {% endif %}
@@ -160,22 +160,52 @@
 {% block content %}
 {% set sessions = get_section(path="fcz/_index.md") %}
 {% set external_streams = load_data(path="data/external_streams.toml", required=false) %}
+{% set site_stats = load_data(path="data/site_stats.toml", required=false) %}
 <article class="home">
-  <div class="session-kicker">arquivo de lives de xadrez</div>
-  <h1>xadrez.live</h1>
-  <p class="tagline">Sessões de treino, puzzles e partidas rapid comentadas. O projeto começa com as lives do fcz e foi pensado para crescer com outros streamers.</p>
-  <nav class="home-links" aria-label="Links principais">
-    <a href="/fcz/">fcz</a>
-    <a href="/busca/">Busca</a>
-    <a href="/arquivo/">Arquivo</a>
-    <a href="/apoiadores/">Apoiadores</a>
-    <a href="/fcz/estatisticas/">Estatísticas</a>
-    <a href="/sobre/">Sobre</a>
-  </nav>
+  <header class="home-hero">
+    <div class="home-hero-copy">
+      <div class="session-kicker">arquivo público de treino</div>
+      <h1>xadrez.live</h1>
+      <p class="tagline">Sessões reais de xadrez, com partidas, puzzles, chat, transcrições e capivaradas preservadas como caderno de estudo.</p>
+      <nav class="home-links" aria-label="Links principais">
+        <a href="/fcz/">fcz</a>
+        <a href="/busca/">Busca</a>
+        <a href="/arquivo/">Arquivo</a>
+        <a href="/apoiadores/">Apoiadores</a>
+        <a href="/fcz/estatisticas/">Estatísticas</a>
+        <a href="/sobre/">Sobre</a>
+      </nav>
+    </div>
+
+    <aside class="home-ledger-card" aria-label="Resumo do arquivo">
+      <img class="home-ledger-sketch" src="/assets/doodles/pawn.png" alt="" aria-hidden="true">
+      <p class="home-ledger-note">todo treino vira estudo.</p>
+      {% if site_stats and site_stats.summary is defined %}
+        <dl>
+          <div>
+            <dt>Sessões</dt>
+            <dd>{{ site_stats.summary.session_count_label }}</dd>
+          </div>
+          <div>
+            <dt>Partidas</dt>
+            <dd>{{ site_stats.summary.game_count_label }}</dd>
+          </div>
+          <div>
+            <dt>Capivaradas</dt>
+            <dd>{{ site_stats.summary.total_blunders_label }}</dd>
+          </div>
+          <div>
+            <dt>Transcrição</dt>
+            <dd>{{ site_stats.summary.transcript_word_count_label }} palavras</dd>
+          </div>
+        </dl>
+      {% endif %}
+    </aside>
+  </header>
 
   <div class="home-columns">
     <main class="home-primary">
-      <section class="session-list-section">
+      <section class="session-list-section session-list-section-featured">
         <h2>Próximas sessões</h2>
         <div class="session-group">
           <h3><a href="/fcz/">fcz</a></h3>

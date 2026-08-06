@@ -255,33 +255,71 @@
   {% endif %}
 {% endfor %}
 <article class="session">
-  <div class="session-kicker">{{ config.title }}</div>
-  <h1>Sessão #{{ page.extra.session_number }}</h1>
-  <p class="session-date">
-    <time datetime="{{ page.date }}">{{ page.date | date(format="%d/%m/%Y") }}</time>
-    {% if page.extra.time is defined and page.extra.time %}
-      <span>às {{ page.extra.time }}</span>
-    {% endif %}
-  </p>
-  <p class="tagline">{{ page.extra.tagline }}</p>
-
-  <div class="session-actions" aria-label="links da sessão">
-    <span
-      class="status-badge status-{{ page.extra.status_tone | default(value='live') }}"
-      data-session-status
-      data-status-tone="{{ page.extra.status_tone | default(value='') }}"
-      data-session-date="{{ page.date }}"
-      data-session-time="{{ page.extra.time | default(value='') }}"
-    >
-      {% if page.extra.status_tone | default(value='') == "scheduled" and page.extra.time is defined and page.extra.time %}
-        marcada para {{ page.date | date(format="%d/%m") }} às {{ page.extra.time }}
-      {% else %}
-        {{ page.extra.status }}
+  <header class="session-hero">
+    <div class="session-hero-copy">
+      <div class="session-kicker">caderno de treino</div>
+      <h1>Sessão #{{ page.extra.session_number }}</h1>
+      {% if page.extra.summary_title is defined and page.extra.summary_title %}
+        <p class="session-hero-title">{{ page.extra.summary_title }}</p>
       {% endif %}
-    </span>
-    <a class="button" href="{{ youtube_url }}" rel="noopener noreferrer">Abrir no YouTube</a>
-    <a class="button button-secondary" href="{{ page.extra.lichess_url }}" rel="noopener noreferrer">Abrir Lichess</a>
-  </div>
+      <p class="session-date">
+        <time datetime="{{ page.date }}">{{ page.date | date(format="%d/%m/%Y") }}</time>
+        {% if page.extra.time is defined and page.extra.time %}
+          <span>às {{ page.extra.time }}</span>
+        {% endif %}
+      </p>
+      <p class="tagline">{{ page.extra.tagline }}</p>
+
+      <div class="session-actions" aria-label="links da sessão">
+        <span
+          class="status-badge status-{{ page.extra.status_tone | default(value='live') }}"
+          data-session-status
+          data-status-tone="{{ page.extra.status_tone | default(value='') }}"
+          data-session-date="{{ page.date }}"
+          data-session-time="{{ page.extra.time | default(value='') }}"
+        >
+          {% if page.extra.status_tone | default(value='') == "scheduled" and page.extra.time is defined and page.extra.time %}
+            marcada para {{ page.date | date(format="%d/%m") }} às {{ page.extra.time }}
+          {% else %}
+            {{ page.extra.status }}
+          {% endif %}
+        </span>
+        <a class="button" href="{{ youtube_url }}" rel="noopener noreferrer">Abrir no YouTube</a>
+        <a class="button button-secondary" href="{{ page.extra.lichess_url }}" rel="noopener noreferrer">Abrir Lichess</a>
+      </div>
+    </div>
+
+    <aside class="session-brief-card" aria-label="Dados da sessão">
+      <p>foco do dia</p>
+      <strong>{{ page.extra.description | truncate(length=118) }}</strong>
+      <dl>
+        {% if page.extra.duration is defined and page.extra.duration %}
+          <div>
+            <dt>Duração</dt>
+            <dd>{{ page.extra.duration }}</dd>
+          </div>
+        {% endif %}
+        {% if page.extra.rapid is defined and page.extra.rapid %}
+          <div>
+            <dt>Rapid</dt>
+            <dd>{{ page.extra.rapid }}</dd>
+          </div>
+        {% endif %}
+        {% if page.extra.puzzles is defined and page.extra.puzzles %}
+          <div>
+            <dt>Puzzles</dt>
+            <dd>{{ page.extra.puzzles }}</dd>
+          </div>
+        {% endif %}
+        {% if page.extra.games is defined and page.extra.games %}
+          <div>
+            <dt>Partidas</dt>
+            <dd>{{ page.extra.games | length }}</dd>
+          </div>
+        {% endif %}
+      </dl>
+    </aside>
+  </header>
 
   {% if previous_session or next_session %}
     <nav class="session-neighbors" aria-label="Navegação entre sessões">

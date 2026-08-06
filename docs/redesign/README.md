@@ -42,6 +42,23 @@ Use for capivarada/blunder treatments, timeline badges, search/filter controls, 
 - Preserve the chess content as the main subject: video, Lichess embeds, chat, transcripts, games, and training notes.
 - Favor the notebook/editorial palette over the previous dark orange/brown look.
 
+## Doodle assets
+
+The generated PNG doodle set lives in `static/assets/doodles/`.
+
+- `pawn.png`
+- `knight.png`
+- `rook.png`
+- `king.png`
+- `arrows-underline.png`
+- `star.png`
+- `chat-bubble.png`
+- `capybara-alert.png`
+- `mini-board.png`
+- `tape.png`
+
+These are optimized transparent PNGs. Use them as sparse annotations; if an asset becomes a core repeated UI symbol, consider replacing it with an SVG later.
+
 ## Implementation order
 
 1. Polish the home page around the north-star tone.

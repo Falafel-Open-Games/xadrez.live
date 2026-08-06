@@ -6,7 +6,7 @@ default:
 menu:
   @python3 scripts/daily_menu.py
 
-serve:
+serve: build-search
   zola serve
 
 build: validate-session-games update-supporters update-site-stats update-lichess-rating-history
@@ -33,6 +33,15 @@ pre-wrap RECENT="2":
 
 lint-actions:
   actionlint
+
+check-editorial-spelling DICTIONARY="pt_BR":
+  python3 scripts/check_editorial_spelling.py --dictionary {{DICTIONARY}}
+
+review-editorial-spelling DICTIONARY="pt_BR":
+  python3 scripts/review_editorial_spelling.py --dictionary {{DICTIONARY}}
+
+apply-editorial-spelling *ARGS:
+  python3 scripts/apply_editorial_spelling.py {{ARGS}}
 
 update-external-streams:
   python3 scripts/update_external_streams.py

@@ -40,6 +40,7 @@ class GameRef:
     session_time: str
     youtube_start_timestamp: int
     video_offset_seconds: int
+    has_video_offset: bool
     game_index: int
     game_id: str
     url: str
@@ -115,7 +116,9 @@ def session_game_refs(path: Path) -> list[GameRef]:
     session_date = str(data.get("date") or "")
     session_time = str(extra.get("time") or "00:00").strip() or "00:00"
     youtube_timestamp = int_value(extra.get("youtube_release_timestamp")) or youtube_start_timestamp(session_number)
-    video_offset_seconds = int_value(extra.get("lichess_video_offset_seconds"))
+    global_video_offset = extra.get("lichess_video_offset_seconds")
+    video_offset_seconds = int_value(global_video_offset)
+    has_global_video_offset = global_video_offset is not None
     refs: list[GameRef] = []
     games = extra.get("games")
     if isinstance(games, list) and games:
@@ -124,14 +127,28 @@ def session_game_refs(path: Path) -> list[GameRef]:
                 continue
             url = str(game.get("game_url") or game.get("lichess_game_url") or "").strip()
             game_id = lichess_id(url)
+            game_video_offset = game.get("lichess_video_offset_seconds", game.get("video_offset_seconds"))
+            has_game_video_offset = game_video_offset is not None
             if game_id:
-                refs.append(GameRef(session_number, session_date, session_time, youtube_timestamp, video_offset_seconds, index, game_id, url))
+                refs.append(
+                    GameRef(
+                        session_number,
+                        session_date,
+                        session_time,
+                        youtube_timestamp,
+                        int_value(game_video_offset, video_offset_seconds),
+                        has_game_video_offset or has_global_video_offset,
+                        index,
+                        game_id,
+                        url,
+                    )
+                )
         return refs
 
     url = str(extra.get("lichess_game_url") or "").strip()
     game_id = lichess_id(url)
     if game_id:
-        refs.append(GameRef(session_number, session_date, session_time, youtube_timestamp, video_offset_seconds, 1, game_id, url))
+        refs.append(GameRef(session_number, session_date, session_time, youtube_timestamp, video_offset_seconds, has_global_video_offset, 1, game_id, url))
     return refs
 
 
@@ -285,8 +302,10 @@ def mate_label(eval_change: str) -> str:
     return ""
 
 
-def event_text(player: str, move: str, move_number: int, eval_change: str, best: str) -> str:
+def event_text(player: str, move: str, move_number: int, clock: str, eval_change: str, best: str) -> str:
     details = [f"{player} jogou {move} no lance {move_number}"]
+    if clock:
+        details[0] += f", com {clock} no relógio"
     mate = mate_label(eval_change)
     if mate:
         details.append(mate)
@@ -300,6 +319,12 @@ def blunder_events(ref: GameRef, payload: dict[str, Any]) -> list[dict[str, Any]
     session_start = session_start_utc(ref)
     game_start = game_start_utc(headers)
     game_offset = round((game_start - session_start).total_seconds()) if session_start and game_start else 0
+    if game_offset < -300 and not ref.has_video_offset:
+        print(
+            f"{ref.session_number}: skipping timestamped blunders for {ref.game_id}; "
+            "game started before the live and no video offset was configured"
+        )
+        return []
     consumed = {"white": 0, "black": 0}
     events = []
     tokens = body_tokens(pgn)
@@ -367,9 +392,17 @@ def blunder_events(ref: GameRef, payload: dict[str, Any]) -> list[dict[str, Any]
                 "opponent": opponent,
                 "is_self": player.casefold() == "fcz",
                 "move": move,
+                "clock": format_time(clock_seconds) if clock_seconds is not None else "",
                 "eval_change": eval_change,
                 "best": best,
-                "text": event_text(player, move, move_number, eval_change, best),
+                "text": event_text(
+                    player,
+                    move,
+                    move_number,
+                    format_time(clock_seconds) if clock_seconds is not None else "",
+                    eval_change,
+                    best,
+                ),
             }
         )
 

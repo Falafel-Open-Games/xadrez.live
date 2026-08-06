@@ -644,14 +644,14 @@ tooltip = "77 mensagens - Sessão #0048: Duas vitorias e mates perdidos (2026-08
 [[chat_chart.points]]
 session_number = "0049"
 title = "Sessão #0049"
-summary_title = "Posicao ganha perdida no relogio"
+summary_title = "Posição ganha perdida no relógio"
 date = "2026-08-03"
 count = 18
 count_label = "18"
 url = "/fcz/0049/"
 x = 655.9
 y = 183.2
-tooltip = "18 mensagens - Sessão #0049: Posicao ganha perdida no relogio (2026-08-03)"
+tooltip = "18 mensagens - Sessão #0049: Posição ganha perdida no relógio (2026-08-03)"
 
 [[chat_chart.points]]
 session_number = "0050"
@@ -680,14 +680,14 @@ tooltip = "20 mensagens - Sessão #0051: Recorde de streak 18 (2026-08-05)"
 [[chat_chart.points]]
 session_number = "0052"
 title = "Sessão #0052"
-summary_title = "Mates, chat e Lichess instavel"
+summary_title = "Mates, chat e Lichess instável"
 date = "2026-08-06"
 count = 36
 count_label = "36"
 url = "/fcz/0052/"
 x = 694.0
 y = 154.4
-tooltip = "36 mensagens - Sessão #0052: Mates, chat e Lichess instavel (2026-08-06)"
+tooltip = "36 mensagens - Sessão #0052: Mates, chat e Lichess instável (2026-08-06)"
 
 [blunder_chart]
 label = "Capivaradas por sessão"
@@ -849,10 +849,10 @@ count = 3
 count_label = "3"
 self_count = 3
 self_count_label = "3"
-opponent_count = 4
-opponent_count_label = "4"
+opponent_count = 0
+opponent_count_label = "0"
 url = "/fcz/0011/"
-tooltip = "3 capivaradas minhas; 4 dos oponentes - Sessão #0011: Pirc, cravada perdida e live sem gravação (2026-06-16)"
+tooltip = "3 capivaradas minhas; 0 dos oponentes - Sessão #0011: Pirc, cravada perdida e live sem gravação (2026-06-16)"
 
 [[blunder_chart.points]]
 session_number = "0012"
@@ -1367,15 +1367,15 @@ count = 3
 count_label = "3"
 self_count = 3
 self_count_label = "3"
-opponent_count = 2
-opponent_count_label = "2"
+opponent_count = 1
+opponent_count_label = "1"
 url = "/fcz/0048/"
-tooltip = "3 capivaradas minhas; 2 dos oponentes - Sessão #0048: Duas vitorias e mates perdidos (2026-08-02)"
+tooltip = "3 capivaradas minhas; 1 do oponente - Sessão #0048: Duas vitorias e mates perdidos (2026-08-02)"
 
 [[blunder_chart.points]]
 session_number = "0049"
 title = "Sessão #0049"
-summary_title = "Posicao ganha perdida no relogio"
+summary_title = "Posição ganha perdida no relógio"
 date = "2026-08-03"
 count = 8
 count_label = "8"
@@ -1384,7 +1384,7 @@ self_count_label = "8"
 opponent_count = 7
 opponent_count_label = "7"
 url = "/fcz/0049/"
-tooltip = "8 capivaradas minhas; 7 dos oponentes - Sessão #0049: Posicao ganha perdida no relogio (2026-08-03)"
+tooltip = "8 capivaradas minhas; 7 dos oponentes - Sessão #0049: Posição ganha perdida no relógio (2026-08-03)"
 
 [[blunder_chart.points]]
 session_number = "0050"
@@ -1417,7 +1417,7 @@ tooltip = "0 capivaradas minhas; 2 dos oponentes - Sessão #0051: Recorde de str
 [[blunder_chart.points]]
 session_number = "0052"
 title = "Sessão #0052"
-summary_title = "Mates, chat e Lichess instavel"
+summary_title = "Mates, chat e Lichess instável"
 date = "2026-08-06"
 count = 2
 count_label = "2"
@@ -1426,7 +1426,7 @@ self_count_label = "2"
 opponent_count = 0
 opponent_count_label = "0"
 url = "/fcz/0052/"
-tooltip = "2 capivaradas minhas; 0 dos oponentes - Sessão #0052: Mates, chat e Lichess instavel (2026-08-06)"
+tooltip = "2 capivaradas minhas; 0 dos oponentes - Sessão #0052: Mates, chat e Lichess instável (2026-08-06)"
 
 [[results]]
 key = "loss"
