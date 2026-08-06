@@ -2,13 +2,13 @@
 
 {% block title %}{{ page.title }} | {{ config.title }}{% endblock title %}
 
-{% block description %}{{ page.description | default(value=config.description) }}{% endblock description %}
+{% block description %}{{ page.description | default(value=config.description) | truncate(length=159) }}{% endblock description %}
 
 {% block social_meta %}
   <meta property="og:site_name" content="{{ config.title }}">
   <meta property="og:type" content="website">
   <meta property="og:title" content="{{ page.title }}">
-  <meta property="og:description" content="{{ page.description | default(value=config.description) }}">
+  <meta property="og:description" content="{{ page.description | default(value=config.description) | truncate(length=159) }}">
   <meta name="twitter:card" content="summary">
 {% endblock social_meta %}
 

@@ -19,13 +19,13 @@
 {%- endmacro streamer_title %}
 
 {% block title %}{{ self::streamer_title(section=section) }} | {{ config.title }}{% endblock title %}
-{% block description %}{{ section.extra.description | default(value=config.description) }}{% endblock description %}
+{% block description %}{{ section.extra.description | default(value=config.description) | truncate(length=159) }}{% endblock description %}
 
 {% block social_meta %}
   <meta property="og:site_name" content="{{ config.title }}">
   <meta property="og:type" content="profile">
   <meta property="og:title" content="{{ self::streamer_title(section=section) }} | {{ config.title }}">
-  <meta property="og:description" content="{{ section.extra.description | default(value=config.description) }}">
+  <meta property="og:description" content="{{ section.extra.description | default(value=config.description) | truncate(length=159) }}">
   <meta name="twitter:card" content="summary">
 {% endblock social_meta %}
 

@@ -25,7 +25,7 @@
   {%- endif -%}
   {{ session_page_title }} | {{ config.title }}
 {%- endblock title %}
-{% block description %}{{ page.extra.description }}{% endblock description %}
+{% block description %}{{ page.extra.description | truncate(length=159) }}{% endblock description %}
 {% block social_meta %}
   {% set session_page_title = page.title %}
   {% if page.extra.summary_title is defined and page.extra.summary_title %}
@@ -35,9 +35,9 @@
   <meta property="og:type" content="article">
   <meta property="og:url" content="{{ page.permalink | safe }}">
   <meta property="og:title" content="{{ session_page_title }} | {{ config.title }}">
-  <meta property="og:description" content="{{ page.extra.description }}">
+  <meta property="og:description" content="{{ page.extra.description | truncate(length=159) }}">
   <meta name="twitter:title" content="{{ session_page_title }} | {{ config.title }}">
-  <meta name="twitter:description" content="{{ page.extra.description }}">
+  <meta name="twitter:description" content="{{ page.extra.description | truncate(length=159) }}">
   {% if page.extra.og_image is defined and page.extra.og_image %}
     {% set og_image_url = get_url(path=page.extra.og_image) %}
     <meta property="og:image" content="{{ og_image_url | safe }}">

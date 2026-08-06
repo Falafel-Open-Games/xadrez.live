@@ -1,0 +1,475 @@
+{
+  "session_number": "0052",
+  "youtube_video_id": "ipj0uls8jKc",
+  "language": "pt",
+  "source": "openai-api",
+  "source_id": "openai-gpt-4o-mini-transcribe",
+  "model": "gpt-4o-mini-transcribe",
+  "response_format": "json",
+  "timestamp_source": "estimated_by_chunk_character_position",
+  "timestamp_chunk_seconds": 300,
+  "initial_prompt": "Transcrição em português brasileiro de uma live de xadrez. Vocabulário esperado: Lichess, lichess.org, Chess.com, Stockfish, YouTube, Twitch, Restream, GoatCounter, roque, fianchetto, Sicilian Defense, Scandinavian Defense, Puzzle do dia, Puzzle Streak, Puzzle Storm, Puzzle Racer, blunder, rating, mate, xeque, xeque-mate, blitz, rapid, en passant. Frases comuns: puzzle do dia, resposta com a dama, a resposta é, qual é a resposta. Peão é a peça de xadrez; em frases como esse peão, um peão, peão passado, peão pendurado, peão de e4 ou tomar o peão, não transcreva como espião. Em xadrez, peça pendurada significa hanging piece: se a fala soar como hanging, hang, reng, heng, renguem, hanging bishop ou hang em bishop perto de peça, bispo, cavalo, torre, dama ou peão, prefira peça pendurada ou a peça específica pendurada, como bispo pendurado. Em frases como bispo hanging, bispo hang ou hanging bishop, transcreva como bispo pendurado. Quando for o lance ou ameaça ao rei em uma frase em português, prefira xeque; mantenha check em nomes ou frases em inglês, como Force Online Check e checkmate patterns. Quando for o fim da partida, mate no rei, ou ideia de mate em frase em português, prefira xeque-mate; mantenha checkmate apenas em títulos, nomes de exercícios ou frases em inglês, como Checkmate Patterns. En passant é o nome do lance especial de peão; não transcreva como empassant, impassant ou em passando. Quando a fala se referir ao site ou plataforma de xadrez, transcreva como Lichess, não como lixar, lixares, lixés ou outras aproximações fonéticas. Restream é o nome da plataforma de transmissão, não transcreva como restring.",
+  "block_count": 75,
+  "audio_seconds": 2102.808,
+  "elapsed_seconds": 114.867,
+  "estimated_cost_usd": 0.050356,
+  "raw_usage": [
+    {
+      "type": "tokens",
+      "total_tokens": 3691,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 264
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4273,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 846
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4032,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 605
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4005,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 578
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 3913,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 486
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4032,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 605
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 3999,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 572
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 460,
+      "input_tokens": 456,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 28
+      },
+      "output_tokens": 4
+    }
+  ],
+  "blocks": [
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "text": "tava vendo? Tava sem áudio, hahaha. É muito bom testar o áudio, sempre tem algum probleminha. Daqui a pouco aparece minha voz aqui nessa gravação, vamos ver. Teste, camon. Ah lá, tava vendo? Tava sem áudio, hahaha."
+    },
+    {
+      "time": "1:03",
+      "seconds": 63,
+      "text": "É isso aí, ficou uns três minutos sem áudio. Desculpas aí, que que eu tava falando? Vocês não perderam nada. Então eu tava falando das novidades do site, que agora tem essa navegação de sessão anterior, próxima sessão."
+    },
+    {
+      "time": "2:07",
+      "seconds": 127,
+      "text": "Na, por exemplo, vamos pegar a sessão de ontem aqui, ó, sessão de número 51. Tem o vídeo, tem as notas, tem o mesclado do da transcrição do vídeo com o chat."
+    },
+    {
+      "time": "2:53",
+      "seconds": 173,
+      "text": "Então dá pra saber o que é que as pessoas disseram no chat em qual momento do vídeo, sempre com o timestamp que você aperta aqui e ele vai para aquele minuto. Ó, foi para o minuto 4,26."
+    },
+    {
+      "time": "3:47",
+      "seconds": 227,
+      "text": "E agora, se você não quiser a transcrição, você pode ver só o chat ou se não quiser o chat, pode ver só a transcrição. E agora, uma novidade que entrou no site, capivaradas."
+    },
+    {
+      "time": "4:38",
+      "seconds": 278,
+      "text": "Sempre vai ter agora e já tem para todas as sessões que eu fiz retroativo."
+    },
+    {
+      "time": "5:00",
+      "seconds": 300,
+      "text": "Uma aba capivaradas. Ontem, por sorte, e é que lista tanto as minhas quanto as dos meus oponentes. Então, por sorte, ontem eu tive uma precisão razoável no jogo, não cometi capivarada, meu oponente cometeu duas. Então, se você clicar aqui, você vai ver, ó, ele veio com esse cavalo em NF5."
+    },
+    {
+      "time": "5:28",
+      "seconds": 328,
+      "text": "Tinha coisa melhor pra ele. Aí, se você pausar o vídeo, alguma coisa, você fala assim pô, o que que teria sido melhor que esse aqui? La, la, la. Ou se tiver com preguiça, só ver a resposta do Stockfish aqui, ó. Ele é a 7, teria sido melhor pra ele. Ah, cavalo 7."
+    },
+    {
+      "time": "5:54",
+      "seconds": 354,
+      "text": "Ah, desculpa, aqui eu tô achando que eu tô no Lichess, né? Mas esse cavalo aqui nesse canto aqui é o que o Stockfish recomenda. E aí aqui a outra capivarada do meu oponente ontem foi essa torre em A4. Já vou dar o spoiler aqui. Stockfish prefere torre em D2."
+    },
+    {
+      "time": "6:19",
+      "seconds": 379,
+      "text": "E aí, isso está pra todas as sessões anteriores, todas as 51 sessões que já vieram até aqui. As capivaradas estão mescladas no chat também, elas aparecem em vermelho, aqui ó. Então aqui tem o histórico do que aconteceu lá, a transcrição do minuto 31, por exemplo."
+    },
+    {
+      "time": "6:44",
+      "seconds": 404,
+      "text": "Aquele bispo vai cair, blá, blá, blá, não sei, essa dama pode ser bom. Pá, capivarada do FCZ. Jogou bispo E5 num lance 11 aqui. Vamos ver essa capivarada. Cadê? Vou mexer esse bispo aqui, eu acho, deixa eu ver. Modo Zen podia mostrar o número do lance, né? Fica aí a dica pro Lichess, talvez eu ponha."
+    },
+    {
+      "time": "7:14",
+      "seconds": 434,
+      "text": "Foi esse bispo aqui minha capivara... Ah lá, vou cometer a capivarada nesse momento, ó. Bispo E5 seria um erro, é aquela setinha que eu desenhei lá. Vou pensar, vou pensar, vou pensar e vou fazer a capivarada. Então tá aí uma novidade no chat."
+    },
+    {
+      "time": "7:37",
+      "seconds": 457,
+      "text": "Agora mesclado, o replay mesclado aqui dos textos, ele mescla a transcrição que você preferir, seja do GPT-mini ou do Faster. Algumas tem a transcrição do próprio YouTube também. Acho que eu não... Se bobear, essa sessão no 49 já deve ter saído. Aqui ó, por exemplo, ó."
+    },
+    {
+      "time": "8:04",
+      "seconds": 484,
+      "text": "Da sessão 48 tem transcrição do YouTube. Uau! As capivaradas da sessão 48 estão sem o timestamp certo. Vou conversar com o meu estagiário lá, ver por que que ele... Cadê os relógios?"
+    },
+    {
+      "time": "8:21",
+      "seconds": 501,
+      "text": "Ó, a capivarada era pra ter acontecido 7 minutos 41 depois do começo da partida e ele cadastrou errado essas capivaradas aqui. Enfim, tá entrando aí uma funcionalidade nova do site que dá um resumo só das capivaradas. Ah, foram dois jogos nessa sessão."
+    },
+    {
+      "time": "8:46",
+      "seconds": 526,
+      "text": "E só pra terminar os updates do site, aqui na parte de estatísticas tem um gráfico novo, que é justamente o gráfico das capivaradas por sessão. Então quando eu tô gravando, quando eu tô passando vergonha ao vivo, você pode..."
+    },
+    {
+      "time": "9:08",
+      "seconds": 548,
+      "text": "Se a razão de que alguém assiste as lives ou as gravações é ver um iniciano cometendo burradas, capivaradas, você pode vir aqui e ver que, por exemplo, nesse mês... Nesse mês a gente já fez... Foi da 31, não atualizou aqui, outro bugzinho. Foi da sessão 31 a 51, a gente fez 20 sessões já esse mês."
+    },
+    {
+      "time": "9:37",
+      "seconds": 577,
+      "text": "A sessão de número 32 foi o marco, né? Eu lembro que uma vez uma pessoa do chat, o 3Wave, viu comentando 7 capivaradas e falou assim nossa, 7 capivaradas, isso é um marco. Nossa, aqui nos 7 minutos já teve capivarada? Tá certo isso? Tá."
+    },
+    {
+      "time": "10:00",
+      "seconds": 600,
+      "text": "Esse foi um jogo de bullet, deixa eu ver. Amistosa, 10. Olha aqui, 7 minutos e 45. Goshiannik jogou bispo D6 no lance 8. Vamos ver um bispo D6 aqui. Então agora tem um novo esporte aí, pra quem gosta de ver capivarada dos outros."
+    },
+    {
+      "time": "10:30",
+      "seconds": 630,
+      "text": "É um bispo das pretas que vai vir no D6 aí, capivarada. Ele vai jogar um bispo aqui. É, exatamente ali onde o meu mouse estava."
+    },
+    {
+      "time": "10:46",
+      "seconds": 646,
+      "text": "Então, pode demorar alguns segundos pra esse o momento que ele achou que era capivarada aqui, mas é pra tá mais ou menos preciso. Então, às vezes tem que esperar uns 3 segundinhos pra capivarada acontecer."
+    },
+    {
+      "time": "11:13",
+      "seconds": 673,
+      "text": "Mas se você não tá com paciência de ver vídeos de 2 horas, você pode resumir só pulando direto pras capivaradas que você quer assistir, seres humanos cometendo deslizes. E aqui fala se é do oponente ou minha."
+    },
+    {
+      "time": "11:40",
+      "seconds": 700,
+      "text": "Naquela nessa estatística aqui, em azul fica as capivaradas do meu oponente e em vermelho as minhas. E é isso, gente."
+    },
+    {
+      "time": "11:55",
+      "seconds": 715,
+      "text": "A outra novidade que tem diz respeito a esse User Script que põe coisa na frente do Lichess, esse overlayzinho aqui."
+    },
+    {
+      "time": "12:10",
+      "seconds": 730,
+      "text": "Que agora se a gente tiver fazendo nessa página de prática aqui, que não são bem puzzles, são puzzles mais temáticos. Ele tá tentando te ensinar alguma coisa. Por exemplo, aqui tem um xeque-mate em dois movimentos para as brancas."
+    },
+    {
+      "time": "12:40",
+      "seconds": 760,
+      "text": "Chamado de Kossio, mate de Kossio. Eu vou fazer ele hoje, por exemplo. Aí eu posso cadastrar essa prática."
+    },
+    {
+      "time": "12:54",
+      "seconds": 774,
+      "text": "Sim, checkmate patterns, número 3, categoria xeque-mate, URL da categoria, URL do exercício, título do exercício, que é Kossio mate number 1. Quem deu o nome a esse padrão de mate foi Carlo Kossio num estudo publicado em 1766."
+    },
+    {
+      "time": "13:23",
+      "seconds": 803,
+      "text": "É isso aí, o jogo centenário de xadrez foi sendo documentado ao longo das décadas aí, ao longo dos séculos. Esse, por exemplo, é Carlo Kossio. Carlo Kossio. Condado de Montílio. Carlo Kossio Wikipédia aqui, tá? Condado de Montílio."
+    },
+    {
+      "time": "13:53",
+      "seconds": 833,
+      "text": "Jogador de xadrez italiano e teorista. Ele é lembrado pelo seu livro Il Gioco degli Scaci. Vamos ver como que a transcrição pega meu italiano nessa. Il Gioco degli Scaci. E também conhecido pela defesa Kossio."
+    },
+    {
+      "time": "14:20",
+      "seconds": 860,
+      "text": "É uma defesa contra o jogo espanhol de Rui Lopez. Interessante, hein? Aqui, uma das variantes nas defesas do Rui Lopez. Rui Lopez é a defesa Kossio, onde no lance 3 a resposta vem com cavalo NG7. Esse cavalo aqui, E7 black knight."
+    },
+    {
+      "time": "14:50",
+      "seconds": 890,
+      "text": "Isso é a defesa Kossio pra quando as brancas jogam Rui Lopez. Old fashioned."
+    },
+    {
+      "time": "15:00",
+      "seconds": 900,
+      "text": "uncommon uncommon choice. Esse enxadrista usava ela ocasionalmente com sucesso. Permanece como uma das variantes menos exploradas da Rui Lopes. Defesa Cosio tem a ideia busca evitar double pawns na C."
+    },
+    {
+      "time": "15:28",
+      "seconds": 928,
+      "text": "Então tá, o que é muito comum aqui na Rui Lopes, a branca leva essa ameaça contra o cavalo adiante e não é tão comum levar essa ameaça adiante, mas tudo bem, ou se toma depois com o cavalo né, que vem pra cá e vai pra lá."
+    },
+    {
+      "time": "15:59",
+      "seconds": 959,
+      "text": "As pretas fazem uma coisa não muito desejada, que é o peão duplo na coluna C. Então se você tá usando a defesa Cosio, isso é o que você talvez busca evitar. Ah tá bom."
+    },
+    {
+      "time": "16:23",
+      "seconds": 983,
+      "text": "Carlo Cosio italiano, famoso pelo seu livro Il Gioco degli Scacchi, jogo do quê? O que que significa Scacchi? Il Gioco degli Scacchi. Translation, tradução. Significa o jogo de xadrez."
+    },
+    {
+      "time": "16:49",
+      "seconds": 1009,
+      "text": "É sério isso aqui é xadrez em italiano? Scacchi. A palavra é jogo, é Gioco, isso eu já sabia. E Scacchi significa xadrez. Então esse livro super famoso aqui é o jogo de xadrez, do italiano Carlo Cosio."
+    },
+    {
+      "time": "17:17",
+      "seconds": 1037,
+      "text": "Estamos vendo tudo isso porque trouxe para a prática do dia aí, reconhecimento desse padrão do Cosio, Mate de Cosio. É uma versão de ponta cabeça do Dovetail. Dovetail eu fiz ontem em offline."
+    },
+    {
+      "time": "17:44",
+      "seconds": 1064,
+      "text": "É quando tem um rei, isso aqui no rei, quando tem um rei aqui que Isso aqui é uma diagonal do rei aqui e na cola dele tem peças, alguma coisa assim. Deixa eu te mostrar um exemplo do Dovetail."
+    },
+    {
+      "time": "18:11",
+      "seconds": 1091,
+      "text": "Dovetail é esse aqui, você tá com um rei com uma rabeta de pomba aqui. Aí basta botar uma dama nessa diagonal aqui que acaba o jogo, né? Então Dovetail Calda de Pomba é Dovetail pomba? É esse aqui."
+    },
+    {
+      "time": "18:39",
+      "seconds": 1119,
+      "text": "E o Cosio é uma versão do Dovetail invertida, de ponta cabeça, alguma coisa assim, né? Então aqui quem joga são as brancas. Se você aqui é Mate em 2, né? Se você fizer o rei botar uma calda de pomba aqui."
+    },
+    {
+      "time": "19:08",
+      "seconds": 1148,
+      "text": "Ah, depois você tem a diagonal ali? Não, né? No caso, você vai ter a diagonal aqui. Esquece essa outra seta. Acho que é essa a ideia desse Mate em 2, né? Vamos ver se é isso mesmo. Certo. Protegido pelo rei aqui."
+    },
+    {
+      "time": "19:38",
+      "seconds": 1178,
+      "text": "Muito bem. Mate de Cosio. Alguém chamaria isso de Dovetail Mate também, viu? Qual do Cosio é qual que é? O que que tá invertido? Tá igualzinho aqui, ó. Rei."
+    },
+    {
+      "time": "20:00",
+      "seconds": 1200,
+      "text": "Não entendi quando chamar um de rabo de pombo e quando chamar um de cózio. Para mim, eles são exatamente a mesma coisa. Tudo bem. Resolvido esse padrão, vamos para o próximo exercício."
+    },
+    {
+      "time": "20:30",
+      "seconds": 1230,
+      "text": "Agora eu tenho condições de cadastrar essas práticas. Add Practice. Certo. Então agora eu tenho um exercício do cósio, tenho um exercício do Swallow's Tail Mate. Swallow's Tail's Mate."
+    },
+    {
+      "time": "20:59",
+      "seconds": 1259,
+      "text": "Galera do português aí, precisa traduzir esses textinhos dos padrões do xeque-mate, né? Também conhecido como Mate de Gerido. Mate da cauda da andorinha. Ah, Dove andorinha, eu estava falando pomba."
+    },
+    {
+      "time": "21:31",
+      "seconds": 1291,
+      "text": "Mate da cauda da andorinha. Tá, o Swallow's Tail é a mesma ideia do andorinha. Mate da cauda da andorinha. Vamos ver. Swallow's Tail Mate."
+    },
+    {
+      "time": "21:53",
+      "seconds": 1313,
+      "text": "Works by attacking the enemy king with a queen that is protected by a rook or other piece. Queen protected by a rook. The enemy king owns pieces, blocks. It means to escape. Ah não, desculpa."
+    },
+    {
+      "time": "22:24",
+      "seconds": 1344,
+      "text": "Deixa eu ler de novo essa frase aqui. As próprias peças do rei bloqueiam suas rotas de fuga. Ah, também é conhecido como o Mate de Geridon. Garidon, outra grande figura do xadrez, provavelmente. Garidon."
+    },
+    {
+      "time": "22:57",
+      "seconds": 1377,
+      "text": "Quem foi Garidon? Garidon Mate. Swallow Tail's Mate. Tá bom. Não sei se Garidon é uma pessoa. Wikipédia não dá tanta atenção para esse Garidon. Tá. A gente tem um cauda engolida aqui, alguma coisa assim."
+    },
+    {
+      "time": "23:30",
+      "seconds": 1410,
+      "text": "Eu tenho a proteção da torre, eu posso vim para cá. É disso que são as coisas, certo? Muito bem. Temos um jogo do Bob Fischer da década de... final da década de 50 aqui. Início de 60, por aí. 1959. As pretas jogavam..."
+    },
+    {
+      "time": "24:05",
+      "seconds": 1445,
+      "text": "para cá, né? Foi Bob Fischer que fez isso? Tá. Vamos ver se o Bob Fischer jogava com as pretas aqui. Exatamente ele. Robert James Fischer. Foi assim que o jogo acabou, certo? xeque-mate. Lance 53, pretas no E5."
+    },
+    {
+      "time": "24:39",
+      "seconds": 1479,
+      "text": "Dali Bob Fischer. Adiciono essa prática aqui. Muito bom. Continuar mais um pouquinho, 24 minutos de live. Aqui a gente tem um mate..."
+    },
+    {
+      "time": "25:00",
+      "seconds": 1500,
+      "text": "epaulette mate. Tá bom, checkmate patterns number 3. Ah, tem um em português aqui, hein? Undercover Chess, setembro de 2024. Epaulette mate, Chessmind AI. Mate de epaulette, Chess Beginners. Mate de epaulette Reddit."
+    },
+    {
+      "time": "25:29",
+      "seconds": 1529,
+      "text": "Só queria compartilhar isso. Aconteceu em uma das minhas partidas Blitz. É bem raro. O nome vem da posição das torres pretas. Certo, vamos conhecer então. Mate epaulette."
+    },
+    {
+      "time": "25:53",
+      "seconds": 1553,
+      "text": "Mate onde duas casas de refúgio paralelas estão ocupadas por peças do mesmo rei. Então, se eu fizer isso aqui, esse rei já era, né? Essa é a ideia do... Reconhecer o mate de epaulette. Já entrou? Epaulette. Não lembro."
+    },
+    {
+      "time": "26:22",
+      "seconds": 1582,
+      "text": "Swallows epaulette 1. Epaulette 2. Eu vou deixar cadastrado também. O que eu vou fazer? Aconteceu numa partida de 2001. É a vez das pretas e tem um mate em 2 aqui. Mate em 2. O rei já está numa situação de epaulette ali."
+    },
+    {
+      "time": "26:52",
+      "seconds": 1612,
+      "text": "Seria interessante eu conseguir manter ele lá até o momento da minha torre chegar aqui. Como fazer isso? Ou da minha dama, né? Sei lá, vamos ver. Vamos ver esse mate em 2 aqui. Mate em 2. Sacrifica uma torre."
+    },
+    {
+      "time": "27:21",
+      "seconds": 1641,
+      "text": "Sacrifica uma dama. Não, aí é sacanagem, né? Vamos ver se tem coisa melhor. Opa, chegou alguém, um desafio da Azerbaijão. Vamos aceitar ou não? Amistosa, 3+2. Putz, é muito rápido pra mim. Vocês querem ver eu apanhando?"
+    },
+    {
+      "time": "27:51",
+      "seconds": 1671,
+      "text": "Não, Bullet vamos, vai. 3 minutos, o que que é isso? 3 minutos não dá tempo de fazer nada. 3 minutos, pelo menos tem incrementos de 2, né? 3 minutos dá tempo de fazer um gambito do rei aqui? Ah, talvez. Vamos ver."
+    },
+    {
+      "time": "28:20",
+      "seconds": 1700,
+      "text": "3 minutos, eu não consigo jogar com essa pressão magnífica do tempo aí. Aqui eu já tinha que ter vindo com esse bispo, com esse peão aqui. 3 minutos, Bullet não é pra mim, cara. Que que vai acontecer aqui?"
+    },
+    {
+      "time": "28:48",
+      "seconds": 1728,
+      "text": "Não sei, trocar cavalo, vamos embora. Ah, estou com uma certa vantagem. E agora, o que que tem pra mim aqui? Continuação de development, boa. Aqui parece bom. Estou na vantagem."
+    },
+    {
+      "time": "29:12",
+      "seconds": 1752,
+      "text": "3 minutos, dá pra fazer alguma coisa, gente? Tá, ele já foi pro rock, eu vou pro rock também. Eu estou com uma peça bem estranha aqui. Que que ele tem? Não parece ter muita coisa não. Vamos trazer..."
+    },
+    {
+      "time": "29:39",
+      "seconds": 1779,
+      "text": "Trazer essa torre pra cá, vai. Catar aqui, não sei, 2 minutos não dá pra fazer nada. Vamos ver qualquer coisa então. Esse cara aqui, que que tem pra mim?"
+    },
+    {
+      "time": "30:00",
+      "seconds": 1800,
+      "text": "E aqui, refugar, tá ceder nunca. Ah, tá ceder, vai. Ai, que que tem aqui? Eu não sei. Que que tá chegando aqui? Tira esse aqui, tem um bispo dele ali. Ah, meu bispo vir pra cá, parece ser uma boa ideia."
+    },
+    {
+      "time": "30:29",
+      "seconds": 1829,
+      "text": "Ele traz um pra cá. E agora, hein? Tem uma ameaça pra dama aqui, cavalo, vamos que vamos. Vamos trocar peça. Três minutos, vai fazer o quê, né? Tá sendo trocado um monte de peça aí. E agora? Agora volta?"
+    },
+    {
+      "time": "30:58",
+      "seconds": 1858,
+      "text": "Volta que deu ruim? Vamos tentar dobrar um aqui, quem sabe, né? Não tem ninguém como catar essa dama aqui. Três minutos, que é isso? Colega do Azerbaijão lá com rating altíssimo. Será que dá tempo de um xeque-mate aqui?"
+    },
+    {
+      "time": "31:29",
+      "seconds": 1889,
+      "text": "Será que tem xeque-mate aqui? Vamos trocar peça. Ai, tá na hora de trocar peça? Não. Tá na hora de se ferrar, né? Vamos se lascar, então. Isso, foi pro lado certo, pelo menos. E agora? Terminar de trocar as peças, né?"
+    },
+    {
+      "time": "32:00",
+      "seconds": 1920,
+      "text": "Tá trocando tudo já. Ah, veio, vai. E agora? Certo, tem mate aqui. Que que esse cara tá ameaçando? Ah, não sei. Se ele vier com torre aqui, nada acontece, feijoada. Certo. Ganhou dois pontos, muito bem, xeque-mate."
+    },
+    {
+      "time": "32:30",
+      "seconds": 1950,
+      "text": "Parabéns, Azerbaijão, depois a gente analisa essa partida. Congratulations, GG. Onde estávamos? Estávamos aqui. Checkmate Pattern 3. Não sei dizer não, parece um random qualquer mandando combate."
+    },
+    {
+      "time": "32:58",
+      "seconds": 1978,
+      "text": "Eu tenho que ir, amistosa, não tem nada a perder. Deixando a agulha aqui pra análise, o que que foi jogado aqui. Defesa do rato. Que é isso, isso aqui é ofender meu oponente, xingando ele de rato."
+    },
+    {
+      "time": "33:26",
+      "seconds": 2006,
+      "text": "Não é ele que fez essa defesa, fui eu que fiz essa defesa. Ele fez essa defesa. Não tem nem descrição aqui, defesa do rato. Defesa do rato, obviamente. Contra... Contra... Ingraçado, né?"
+    },
+    {
+      "time": "33:52",
+      "seconds": 2032,
+      "text": "Aqui não chama Gambito do Rei, né? Aqui chama Defesa Harmonista do rato. Eu que fiz essa coisa, então. Tá. Grandes jogos foram jogados com uma vantagem para as brancas. Vantagem estava pro meu lado."
+    },
+    {
+      "time": "34:20",
+      "seconds": 2060,
+      "text": "Se eu tivesse jogado tão bem quanto o Gashimov e Vugar lá em 2010, eu teria ganho essa partida. Gráfico dele foi assim, dominando bastante. Meu gráfico foi invertido do dele, só ladeira abaixo."
+    },
+    {
+      "time": "34:48",
+      "seconds": 2088,
+      "text": "Beleza, vamos fazer a nossa prática. Adicionar esse jogo, né? Por mais que dê vergonha."
+    },
+    {
+      "time": "35:00",
+      "seconds": 2100,
+      "text": "Ah..."
+    }
+  ]
+}

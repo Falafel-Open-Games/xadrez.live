@@ -22,7 +22,6 @@ pre-wrap RECENT="2":
   @python3 scripts/merge_chat_replays.py --latest {{RECENT}}
   @python3 scripts/import_youtube_transcripts.py --cache-dir /tmp/xadrez-transcripts --latest {{RECENT}}
   @python3 scripts/import_openai_transcripts.py --latest {{RECENT}} || echo "OpenAI transcript unavailable; keeping existing transcript fallback"
-  @python3 scripts/import_whisper_transcripts.py --latest {{RECENT}} --source-id faster-whisper --output-suffix faster-whisper --whisper-cache-dir /tmp/xadrez-faster-whisper-cache --whisper-cmd "whisper-ctranslate2 --model turbo --compute_type int8 --batched True --batch_size 8" || echo "Faster Whisper CLI transcript unavailable; keeping existing transcript fallback"
   @python3 scripts/align_transcript_timestamps.py --latest {{RECENT}} --source-suffix openai-gpt-4o-mini-transcribe --output-suffix openai-gpt-4o-mini-transcribe.aligned
   @python3 scripts/align_transcript_timestamps.py --latest {{RECENT}} --source-suffix openai-gpt-4o-transcribe --output-suffix openai-gpt-4o-transcribe.aligned
   @python3 scripts/suggest_highlights.py --latest {{RECENT}}
@@ -80,7 +79,6 @@ import-faster-whisper-transcript SESSION EXTRA="":
   @python3 scripts/import_whisper_transcripts.py --source-id faster-whisper --output-suffix faster-whisper --whisper-cache-dir /tmp/xadrez-faster-whisper-cache --whisper-cmd "whisper-ctranslate2 --model turbo --compute_type int8 --batched True --batch_size 8" {{EXTRA}} {{SESSION}}
 
 import-timed-transcript SESSION EXTRA="":
-  @python3 scripts/import_whisper_transcripts.py --source-id faster-whisper --output-suffix faster-whisper --whisper-cache-dir /tmp/xadrez-faster-whisper-cache --whisper-cmd "whisper-ctranslate2 --model turbo --compute_type int8 --batched True --batch_size 8" {{EXTRA}} {{SESSION}}
   @python3 scripts/align_transcript_timestamps.py --source-suffix openai-gpt-4o-mini-transcribe --output-suffix openai-gpt-4o-mini-transcribe.aligned {{SESSION}}
   @python3 scripts/align_transcript_timestamps.py --source-suffix openai-gpt-4o-transcribe --output-suffix openai-gpt-4o-transcribe.aligned {{SESSION}} || echo "GPT-4o transcript unavailable; skipping GPT-4o alignment"
   @python3 scripts/suggest_highlights.py {{SESSION}}
@@ -160,7 +158,6 @@ refresh-replay-data RECENT="5":
   @python3 scripts/merge_chat_replays.py --latest {{RECENT}}
   @python3 scripts/import_youtube_transcripts.py --cache-dir /tmp/xadrez-transcripts --latest {{RECENT}}
   @python3 scripts/import_openai_transcripts.py --latest 1 || echo "OpenAI transcript unavailable; keeping existing transcript fallback"
-  @python3 scripts/import_whisper_transcripts.py --latest 1 --source-id faster-whisper --output-suffix faster-whisper --whisper-cache-dir /tmp/xadrez-faster-whisper-cache --whisper-cmd "whisper-ctranslate2 --model turbo --compute_type int8 --batched True --batch_size 8" || echo "Faster Whisper CLI transcript unavailable; keeping existing transcript fallback"
 
 update-supporters:
   @python3 scripts/update_supporters.py
