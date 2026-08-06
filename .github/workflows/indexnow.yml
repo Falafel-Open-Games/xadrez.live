@@ -1,0 +1,25 @@
+name: Submit all URLs to IndexNow
+
+on:
+  schedule:
+    - cron: "37 11 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: indexnow
+  cancel-in-progress: true
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          ref: main
+
+      - name: Submit all URLs to IndexNow
+        run: python3 scripts/submit_indexnow.py --all-pages

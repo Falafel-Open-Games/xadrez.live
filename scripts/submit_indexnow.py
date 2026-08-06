@@ -16,6 +16,7 @@ SESSION_DIR = CONTENT_DIR / "fcz"
 STATIC_DIR = ROOT / "static"
 INDEXNOW_ENDPOINT = "https://api.indexnow.org/indexnow"
 KEY_FILE = STATIC_DIR / "f404fb61ed9739fe47f43ce69afbe879.txt"
+MAX_INDEXNOW_URLS = 10_000
 
 
 def fail(message: str) -> None:
@@ -39,6 +40,34 @@ def extract_front_matter(path: Path) -> dict[str, Any]:
 
 def page_url(base_url: str, path: str) -> str:
     return f"{base_url.rstrip('/')}/{path.strip('/')}/" if path else base_url.rstrip("/") + "/"
+
+
+def content_url_path(path: Path) -> str | None:
+    rel = path.relative_to(CONTENT_DIR)
+    if "_thumbnail-templates" in rel.parts:
+        return None
+    if rel.name == "_session-template.md":
+        return None
+    if rel.name == "_index.md":
+        return "/".join(rel.parent.parts)
+    if rel.name == "index.md":
+        return "/".join(rel.parent.parts)
+    if rel.name.startswith("_"):
+        return None
+    return "/".join((*rel.parent.parts, rel.stem))
+
+
+def all_content_pages(base_url: str) -> list[str]:
+    urls = []
+    for path in sorted(CONTENT_DIR.rglob("*.md")):
+        data = extract_front_matter(path)
+        if bool(data.get("draft")):
+            continue
+        url_path = content_url_path(path)
+        if url_path is None:
+            continue
+        urls.append(page_url(base_url, url_path))
+    return unique(urls)
 
 
 def static_pages(base_url: str) -> list[str]:
@@ -107,7 +136,12 @@ def submit(payload: dict[str, Any], endpoint: str) -> int:
 
 
 def parse_args() -> argparse.Namespace:
-    parser = argparse.ArgumentParser(description="Submit recently changed xadrez.live URLs to IndexNow.")
+    parser = argparse.ArgumentParser(description="Submit xadrez.live URLs to IndexNow.")
+    parser.add_argument(
+        "--all-pages",
+        action="store_true",
+        help="Submit every canonical non-draft content page instead of only static pages and recent sessions.",
+    )
     parser.add_argument("--recent-sessions", type=int, default=10, help="Number of latest session pages to include.")
     parser.add_argument("--endpoint", default=INDEXNOW_ENDPOINT)
     parser.add_argument("--dry-run", action="store_true", help="Print the payload without submitting.")
@@ -124,10 +158,16 @@ def main() -> int:
         fail(f"missing IndexNow key file: {KEY_FILE}")
 
     key = KEY_FILE.read_text(encoding="utf-8").strip()
-    urls = unique(static_pages(base_url) + recent_session_pages(base_url, max(0, args.recent_sessions)))
+    if args.all_pages:
+        urls = all_content_pages(base_url)
+    else:
+        urls = unique(static_pages(base_url) + recent_session_pages(base_url, max(0, args.recent_sessions)))
+    if len(urls) > MAX_INDEXNOW_URLS:
+        fail(f"IndexNow accepts up to {MAX_INDEXNOW_URLS} URLs per request; got {len(urls)}")
     payload = build_payload(base_url, key, urls)
 
     if args.dry_run:
+        print(f"Submitting {len(urls)} URL(s) to IndexNow.")
         print(json.dumps(payload, ensure_ascii=False, indent=2))
         return 0
     return submit(payload, args.endpoint)

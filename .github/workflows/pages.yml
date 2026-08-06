@@ -88,5 +88,5 @@ jobs:
         with:
           ref: main
 
-      - name: Submit recent URLs to IndexNow
-        run: python3 scripts/submit_indexnow.py
+      - name: Submit all URLs to IndexNow
+        run: python3 scripts/submit_indexnow.py --all-pages
