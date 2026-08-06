@@ -21,6 +21,11 @@ ACTIONS = [
         "pre-wrap",
     ),
     Action(
+        "Atualizar capivaradas",
+        "buscar analise do Lichess e gerar capivaradas de uma sessao",
+        "capivaradas",
+    ),
+    Action(
         "Transcrever com OpenAI mini",
         "gerar transcript openai-gpt-4o-mini-transcribe para uma sessao",
         "openai-mini",
@@ -114,6 +119,12 @@ def command_for(action: Action) -> list[str] | None:
     if action.key == "pre-wrap":
         recent = prompt("RECENT", "5")
         return ["just", "pre-wrap", recent]
+
+    if action.key == "capivaradas":
+        session = prompt("Sessao, ex. 0052")
+        if not session:
+            return None
+        return ["just", "update-session-capivaradas", session]
 
     if action.key == "openai-mini":
         session = prompt("Sessao, ex. 0052")

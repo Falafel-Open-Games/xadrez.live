@@ -57,6 +57,11 @@ missing-lichess-game-analysis:
 update-lichess-blunder-events EXTRA="":
   @python3 scripts/update_lichess_blunder_events.py {{EXTRA}}
 
+update-session-capivaradas SESSION:
+  @python3 scripts/update_lichess_game_analysis.py {{SESSION}} --missing-only
+  @python3 scripts/update_lichess_blunder_events.py {{SESSION}}
+  @just build
+
 update-youtube-video-metadata EXTRA="":
   @python3 scripts/update_youtube_video_metadata.py {{EXTRA}}
 

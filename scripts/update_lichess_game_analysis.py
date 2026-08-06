@@ -119,6 +119,12 @@ def load_all_session_games() -> list[SessionGame]:
     return games
 
 
+def selected_games(games: list[SessionGame], sessions: set[str]) -> list[SessionGame]:
+    if not sessions:
+        return games
+    return [game for game in games if game.session_number in sessions]
+
+
 def fetch_game(game_id: str, token: str, timeout: int) -> dict[str, Any]:
     query = urllib.parse.urlencode(
         {
@@ -249,9 +255,31 @@ def build_row(game: SessionGame, payload: dict[str, Any] | None) -> dict[str, An
     }
 
 
+def existing_rows_by_key(path: Path) -> dict[tuple[str, int], dict[str, Any]]:
+    if not path.exists():
+        return {}
+    try:
+        data = tomllib.loads(path.read_text(encoding="utf-8"))
+    except tomllib.TOMLDecodeError:
+        return {}
+    rows = data.get("games")
+    if not isinstance(rows, list):
+        return {}
+    existing: dict[tuple[str, int], dict[str, Any]] = {}
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        session_number = str(row.get("session_number") or "")
+        game_index = int_or_none(row.get("game_index"))
+        if session_number and game_index is not None:
+            existing[(session_number, game_index)] = row
+    return existing
+
+
 def main() -> int:
     load_env_file(ENV_PATH)
     parser = argparse.ArgumentParser(description="Fetch cached Lichess computer analysis for registered session games.")
+    parser.add_argument("sessions", nargs="*", help="Optional session numbers, e.g. 0052.")
     parser.add_argument("--token", default=os.environ.get("LICHESS_TOKEN", ""))
     parser.add_argument("--timeout", type=int, default=20)
     parser.add_argument("--sleep", type=float, default=0.15)
@@ -260,16 +288,32 @@ def main() -> int:
     args = parser.parse_args()
 
     games = load_all_session_games()
+    selected_numbers = set(args.sessions)
+    games_to_fetch = selected_games(games, selected_numbers)
+    existing_rows = existing_rows_by_key(OUTPUT) if selected_numbers else {}
     rows = []
     failures = []
-    for index, game in enumerate(games):
+    fetch_keys = {(game.session_number, game.game_index) for game in games_to_fetch}
+    if selected_numbers:
+        print(f"Fetching Lichess analysis for {len(games_to_fetch)} game(s): {', '.join(sorted(selected_numbers))}")
+
+    fetched = 0
+    for game in games:
+        key = (game.session_number, game.game_index)
+        if key not in fetch_keys:
+            existing = existing_rows.get(key)
+            rows.append(dict(existing) if existing else build_row(game, None))
+            continue
+
+        fetched += 1
+        print(f"{game.session_number} partida {game.game_index}: fetching {game.url}")
         try:
             payload = fetch_game(game.game_id, args.token, args.timeout)
         except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as error:
             payload = None
             failures.append(f"{game.session_number} #{game.game_index} {game.url}: {error}")
         rows.append(build_row(game, payload))
-        if index < len(games) - 1 and args.sleep > 0:
+        if fetched < len(games_to_fetch) and args.sleep > 0:
             time.sleep(args.sleep)
 
     missing = [row for row in rows if not row["has_analysis"]]
