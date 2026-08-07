@@ -69,6 +69,12 @@ update-lichess-blunder-events EXTRA="":
 calibrate-lichess-video-offset SESSION:
   @python3 scripts/calibrate_lichess_video_offset.py {{SESSION}}
 
+calibrate-session-capivaradas SESSION:
+  @python3 scripts/calibrate_lichess_video_offset.py {{SESSION}}
+  @python3 scripts/update_lichess_game_analysis.py {{SESSION}} --missing-only
+  @python3 scripts/update_lichess_blunder_events.py {{SESSION}}
+  @just build
+
 update-session-capivaradas SESSION:
   @python3 scripts/update_lichess_game_analysis.py {{SESSION}} --missing-only
   @python3 scripts/update_lichess_blunder_events.py {{SESSION}}

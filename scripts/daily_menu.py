@@ -27,7 +27,7 @@ ACTIONS = [
     ),
     Action(
         "Calibrar offset Lichess",
-        "ajustar o tempo entre o VOD e os eventos da partida",
+        "ajustar offset e regenerar capivaradas da sessao",
         "calibrate-offset",
     ),
     Action(
@@ -130,7 +130,7 @@ def command_for(action: Action) -> list[str] | None:
         session = prompt("Sessao, ex. 0052")
         if not session:
             return None
-        return ["just", "calibrate-lichess-video-offset", session]
+        return ["just", "calibrate-session-capivaradas", session]
 
     if action.key == "faster-whisper":
         session = prompt("Sessao, ex. 0052")
