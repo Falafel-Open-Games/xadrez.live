@@ -86,6 +86,12 @@ youtube-chapters-write SESSION="":
 youtube-chapters-authorize:
   @python3 scripts/update_youtube_chapters.py --authorize --write-env
 
+youtube-thumbnail SESSION:
+  @python3 scripts/update_youtube_thumbnail.py {{SESSION}} --write
+
+youtube-thumbnail-check SESSION:
+  @python3 scripts/update_youtube_thumbnail.py {{SESSION}}
+
 import-youtube-chat-replays CACHE_DIR="/tmp/xadrez-chat" EXTRA="":
   @python3 scripts/import_youtube_chat_replays.py --cache-dir {{CACHE_DIR}} {{EXTRA}}
 

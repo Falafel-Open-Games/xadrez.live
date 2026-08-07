@@ -1119,7 +1119,6 @@ note = "${quote(attempt.note)}"`);
 
     const panelTextarea = document.querySelector(`#${PANEL_ID} textarea`);
     if (panelTextarea) {
-      panelTextarea.value = text;
       panelTextarea.focus();
       panelTextarea.select();
     }
@@ -1143,6 +1142,15 @@ note = "${quote(attempt.note)}"`);
     }
 
     window.prompt("Copy this text:", text);
+  }
+
+  function currentPanelToml(fallback) {
+    const panelTextarea = document.querySelector(`#${PANEL_ID} textarea`);
+    if (!panelTextarea) {
+      return fallback;
+    }
+    const editedText = panelTextarea.value.trim();
+    return editedText || fallback;
   }
 
   function isRestreamPage() {
@@ -1747,6 +1755,12 @@ note = "${quote(attempt.note)}"`);
           color: #b8b5a8;
           font-size: 12px;
         }
+        #${PANEL_ID} .xlc-preview-label {
+          display: block;
+          margin-top: 6px;
+          color: #b8b5a8;
+          font-size: 12px;
+        }
         #${PANEL_ID}.is-collapsed .xlc-full {
           display: none;
         }
@@ -1813,7 +1827,8 @@ note = "${quote(attempt.note)}"`);
           <button type="button" data-action="reset">New session</button>
           <button type="button" data-action="toggle-collapse">Collapse</button>
         </div>
-        <textarea readonly spellcheck="false">${escapeHtml(previewText)}</textarea>
+        <label class="xlc-preview-label" for="${PANEL_ID}-toml">TOML preview/edit</label>
+        <textarea id="${PANEL_ID}-toml" spellcheck="false">${escapeHtml(previewText)}</textarea>
       </div>
     `;
 
@@ -1860,14 +1875,25 @@ note = "${quote(attempt.note)}"`);
           await setPracticeNotes(nextState);
           break;
         case "copy":
-          if (isRestreamPage()) {
-            const supporters = restreamSupporters();
-            if (!supporters.length) {
-              window.alert("No Restream usernames found in the currently loaded page.");
+          {
+            const generatedBeforeCopy = buildToml(nextState);
+            let copyValue = currentPanelToml(generatedBeforeCopy);
+
+            if (isRestreamPage()) {
+              const supporters = restreamSupporters();
+              if (!supporters.length) {
+                window.alert("No Restream usernames found in the currently loaded page.");
+              }
+              mergeSupporters(nextState, supporters);
+
+              const generatedAfterMerge = buildToml(nextState);
+              if (copyValue === generatedBeforeCopy) {
+                copyValue = generatedAfterMerge;
+              }
             }
-            mergeSupporters(nextState, supporters);
+
+            copyText(copyValue);
           }
-          copyText(buildToml(nextState));
           break;
         case "scan-restream-thanks":
           {

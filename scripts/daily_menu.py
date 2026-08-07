@@ -26,9 +26,9 @@ ACTIONS = [
         "capivaradas",
     ),
     Action(
-        "Transcrever com OpenAI mini",
-        "gerar transcript openai-gpt-4o-mini-transcribe para uma sessao",
-        "openai-mini",
+        "Calibrar offset Lichess",
+        "ajustar o tempo entre o VOD e os eventos da partida",
+        "calibrate-offset",
     ),
     Action(
         "Transcrever com Faster Whisper",
@@ -126,11 +126,11 @@ def command_for(action: Action) -> list[str] | None:
             return None
         return ["just", "update-session-capivaradas", session]
 
-    if action.key == "openai-mini":
+    if action.key == "calibrate-offset":
         session = prompt("Sessao, ex. 0052")
         if not session:
             return None
-        return ["just", "import-openai-transcript", session]
+        return ["just", "calibrate-lichess-video-offset", session]
 
     if action.key == "faster-whisper":
         session = prompt("Sessao, ex. 0052")

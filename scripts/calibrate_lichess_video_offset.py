@@ -40,6 +40,43 @@ def read_front_matter(path: Path) -> dict[str, Any]:
     return tomllib.loads(text[4:end])
 
 
+def write_front_matter_offset(path: Path, offset: int) -> int | None:
+    text = path.read_text(encoding="utf-8")
+    if not text.startswith("+++\n"):
+        raise RuntimeError(f"front matter TOML não encontrado em {path}")
+    end = text.find("\n+++", 4)
+    if end == -1:
+        raise RuntimeError(f"front matter TOML sem fechamento em {path}")
+
+    front_matter = text[4:end]
+    old_match = re.search(r"(?m)^lichess_video_offset_seconds\s*=\s*([+-]?\d+)\s*$", front_matter)
+    old_offset = int(old_match.group(1)) if old_match else None
+    replacement = f"lichess_video_offset_seconds = {offset}"
+
+    if old_match:
+        if old_offset == offset:
+            return old_offset
+        front_matter = (
+            front_matter[: old_match.start()]
+            + replacement
+            + front_matter[old_match.end() :]
+        )
+    else:
+        extra_match = re.search(r"(?m)^\[extra\]\s*$", front_matter)
+        if not extra_match:
+            raise RuntimeError(f"seção [extra] não encontrada em {path}")
+        status_match = re.search(r"(?m)^status_tone\s*=.*$", front_matter[extra_match.end() :])
+        if status_match:
+            insert_at = extra_match.end() + status_match.end()
+            front_matter = front_matter[:insert_at] + f"\n{replacement}" + front_matter[insert_at:]
+        else:
+            insert_at = extra_match.end()
+            front_matter = front_matter[:insert_at] + f"\n{replacement}" + front_matter[insert_at:]
+
+    path.write_text(text[:4] + front_matter + text[end:], encoding="utf-8")
+    return old_offset
+
+
 def parse_timestamp(value: str) -> int | None:
     match = TIME_RE.fullmatch(value.strip())
     if not match:
@@ -148,11 +185,16 @@ def main() -> int:
         description="Sugere um offset comparando o início bruto da primeira partida com o relógio observado no vídeo."
     )
     parser.add_argument("session", help="Número da sessão, por exemplo 0052")
+    parser.add_argument(
+        "--no-write",
+        action="store_true",
+        help="Só imprimir o offset sugerido, sem atualizar o Markdown da sessão.",
+    )
     args = parser.parse_args()
     session = str(args.session).zfill(4)
 
     try:
-        _, raw_anchor, configured_offset, elapsed, white_clock = first_game_anchor(session)
+        content_path, raw_anchor, configured_offset, elapsed, white_clock = first_game_anchor(session)
     except (OSError, ValueError, json.JSONDecodeError, RuntimeError) as error:
         parser.error(str(error))
 
@@ -180,7 +222,20 @@ def main() -> int:
     print()
     print(f"Offset sugerido: {suggested:+d}s")
     print(f"Com esse offset, a âncora ficaria em {format_timestamp(raw_anchor + suggested)}.")
-    print("Nenhum arquivo foi alterado.")
+    if args.no_write:
+        print("Nenhum arquivo foi alterado.")
+        return 0
+    try:
+        previous = write_front_matter_offset(content_path, suggested)
+    except RuntimeError as error:
+        parser.error(str(error))
+    if previous == suggested:
+        print(f"Offset já estava configurado em {suggested:+d}s.")
+    elif previous is None:
+        print(f"Offset gravado em {content_path.relative_to(ROOT)}: {suggested:+d}s.")
+    else:
+        print(f"Offset atualizado em {content_path.relative_to(ROOT)}: {previous:+d}s -> {suggested:+d}s.")
+    print(f"Para regenerar a timeline: just update-session-capivaradas {session}")
     return 0
 
 
