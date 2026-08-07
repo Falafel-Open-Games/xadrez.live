@@ -14,7 +14,6 @@ from datetime import datetime, timezone
 from functools import lru_cache
 from pathlib import Path
 from typing import Any
-from zoneinfo import ZoneInfo
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -22,7 +21,6 @@ CONTENT_DIR = ROOT / "content" / "fcz"
 OUTPUT_DIR = ROOT / "data" / "fcz" / "lichess_blunders"
 YOUTUBE_METADATA_PATH = ROOT / "data" / "fcz" / "youtube_video_metadata.toml"
 ENV_PATH = ROOT / ".env"
-LOCAL_ZONE = ZoneInfo("America/Sao_Paulo")
 LICHESS_URL_RE = re.compile(r"^https://lichess\.org/(?P<id>[A-Za-z0-9]{8,12})(?:/(?P<color>white|black))?$")
 HEADER_RE = re.compile(r'^\[(?P<key>[A-Za-z0-9_]+)\s+"(?P<value>.*)"\]$')
 COMMENT_RE = re.compile(r"\{[^}]*\}|[^\s{}]+")
@@ -271,13 +269,9 @@ def time_control(headers: dict[str, str]) -> tuple[int, int]:
 
 
 def session_start_utc(ref: GameRef) -> datetime | None:
-    if ref.youtube_start_timestamp:
-        return datetime.fromtimestamp(ref.youtube_start_timestamp, tz=timezone.utc)
-    try:
-        local_start = datetime.fromisoformat(f"{ref.session_date}T{ref.session_time}:00").replace(tzinfo=LOCAL_ZONE)
-    except ValueError:
+    if not ref.youtube_start_timestamp:
         return None
-    return local_start.astimezone(timezone.utc)
+    return datetime.fromtimestamp(ref.youtube_start_timestamp, tz=timezone.utc)
 
 
 def game_start_utc(headers: dict[str, str]) -> datetime | None:
@@ -317,6 +311,12 @@ def blunder_events(ref: GameRef, payload: dict[str, Any]) -> list[dict[str, Any]
     headers = pgn_headers(pgn)
     initial, increment = time_control(headers)
     session_start = session_start_utc(ref)
+    if session_start is None:
+        print(
+            f"{ref.session_number}: skipping timestamped blunders for {ref.game_id}; "
+            "actual YouTube release timestamp is unavailable"
+        )
+        return []
     game_start = game_start_utc(headers)
     game_offset = round((game_start - session_start).total_seconds()) if session_start and game_start else 0
     if game_offset < -300 and not ref.has_video_offset:
@@ -418,11 +418,25 @@ def write_json_if_changed(path: Path, data: dict[str, Any]) -> bool:
 
 
 def update_sessions(paths: list[Path], token: str, timeout: int) -> int:
+    refs_by_path: list[tuple[Path, list[GameRef]]] = []
+    missing_timestamps: list[str] = []
+    for path in paths:
+        refs = session_game_refs(path)
+        refs_by_path.append((path, refs))
+        for ref in refs:
+            if not ref.youtube_start_timestamp:
+                missing_timestamps.append(f"{path.stem} ({ref.game_id})")
+    if missing_timestamps:
+        details = ", ".join(missing_timestamps)
+        raise RuntimeError(
+            "Cannot generate timestamped blunders: missing actual YouTube release timestamp for "
+            f"{details}. Refusing to use the scheduled session time."
+        )
+
     OUTPUT_DIR.mkdir(parents=True, exist_ok=True)
     updated = 0
-    for path in paths:
+    for path, refs in refs_by_path:
         session_events = []
-        refs = session_game_refs(path)
         failures = []
         for ref in refs:
             try:
