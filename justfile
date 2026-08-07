@@ -66,6 +66,9 @@ missing-lichess-game-analysis:
 update-lichess-blunder-events EXTRA="":
   @python3 scripts/update_lichess_blunder_events.py {{EXTRA}}
 
+calibrate-lichess-video-offset SESSION:
+  @python3 scripts/calibrate_lichess_video_offset.py {{SESSION}}
+
 update-session-capivaradas SESSION:
   @python3 scripts/update_lichess_game_analysis.py {{SESSION}} --missing-only
   @python3 scripts/update_lichess_blunder_events.py {{SESSION}}
@@ -73,6 +76,15 @@ update-session-capivaradas SESSION:
 
 update-youtube-video-metadata EXTRA="":
   @python3 scripts/update_youtube_video_metadata.py {{EXTRA}}
+
+youtube-chapters SESSION="":
+  @python3 scripts/update_youtube_chapters.py {{SESSION}}
+
+youtube-chapters-write SESSION="":
+  @python3 scripts/update_youtube_chapters.py {{SESSION}} --write
+
+youtube-chapters-authorize:
+  @python3 scripts/update_youtube_chapters.py --authorize --write-env
 
 import-youtube-chat-replays CACHE_DIR="/tmp/xadrez-chat" EXTRA="":
   @python3 scripts/import_youtube_chat_replays.py --cache-dir {{CACHE_DIR}} {{EXTRA}}

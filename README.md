@@ -102,6 +102,34 @@ color = "brancas"
 
 Campos vazios não aparecem na página.
 
+### Calibrar timestamps do replay
+
+Para obter uma sugestão de offset a partir do momento em que as brancas finalizam o segundo movimento na primeira partida:
+
+```sh
+just calibrate-lichess-video-offset 0052
+```
+
+O comando busca o PGN, informa qual relógio branco deve aparecer no quadro, pede o timestamp observado no vídeo, mostra a diferença em relação à âncora bruta calculada pelo Lichess e não altera nenhum arquivo. Revise a sugestão antes de registrá-la como `lichess_video_offset_seconds` no front matter.
+
+### Capítulos do YouTube
+
+A timeline pode gerar uma prévia dos capítulos sem alterar o YouTube:
+
+```sh
+just youtube-chapters
+just youtube-chapters 0052
+```
+
+Para publicar capítulos, configure `YOUTUBE_CLIENT_ID` e `YOUTUBE_CLIENT_SECRET` de um cliente OAuth do Google Cloud, autorize uma vez e salve o refresh token:
+
+```sh
+just youtube-chapters-authorize
+just youtube-chapters-write
+```
+
+O comando de escrita preserva a descrição existente e substitui somente o bloco entre `[xadrez.live chapters:start]` e `[xadrez.live chapters:end]`. Sem `--write`, ele sempre faz apenas dry-run.
+
 Use o corpo Markdown do arquivo para a agenda e notas livres da sessão:
 
 ```md

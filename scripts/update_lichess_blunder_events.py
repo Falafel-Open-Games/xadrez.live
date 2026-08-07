@@ -348,7 +348,7 @@ def game_timeline_events(ref: GameRef, payload: dict[str, Any]) -> list[dict[str
     if session_start is None or game_start is None:
         return []
     game_offset = round((game_start - session_start).total_seconds())
-    if game_offset < -300 and not ref.has_video_offset:
+    if game_offset < -300 and game_offset + ref.video_offset_seconds < 0:
         return []
     start_seconds = max(0, game_offset + ref.video_offset_seconds)
     end_seconds = max(start_seconds, start_seconds + pgn_elapsed_seconds(pgn))
@@ -446,10 +446,10 @@ def blunder_events(ref: GameRef, payload: dict[str, Any]) -> list[dict[str, Any]
         return []
     game_start = game_start_utc(headers)
     game_offset = round((game_start - session_start).total_seconds()) if session_start and game_start else 0
-    if game_offset < -300 and not ref.has_video_offset:
+    if game_offset < -300 and game_offset + ref.video_offset_seconds < 0:
         print(
             f"{ref.session_number}: skipping timestamped blunders for {ref.game_id}; "
-            "game started before the live and no video offset was configured"
+            "game started before the live and the configured offset does not place it in the video"
         )
         return []
     consumed = {"white": 0, "black": 0}
