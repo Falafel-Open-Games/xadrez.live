@@ -1702,6 +1702,86 @@ iframe {
   max-width: 980px;
 }
 
+.streamer-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(230px, 300px);
+  gap: 32px;
+  align-items: end;
+}
+
+.streamer-hero-copy {
+  max-width: 760px;
+}
+
+.streamer-avatar-card {
+  position: relative;
+  margin: 0;
+  border: 1px solid var(--line-strong);
+  border-radius: 5px;
+  padding: 12px 12px 32px;
+  background:
+    linear-gradient(90deg, rgb(16 35 61 / 0.045) 1px, transparent 1px) 0 0 / 18px 18px,
+    linear-gradient(0deg, rgb(16 35 61 / 0.032) 1px, transparent 1px) 0 0 / 18px 18px,
+    var(--paper);
+  box-shadow: 0 18px 38px rgb(41 31 16 / 0.12);
+  transform: rotate(1.5deg);
+}
+
+.streamer-avatar-card::before {
+  content: "";
+  position: absolute;
+  top: -13px;
+  left: 50%;
+  width: 72px;
+  height: 23px;
+  border: 1px solid rgb(185 170 144 / 0.48);
+  background: rgb(245 236 207 / 0.76);
+  box-shadow: 0 2px 8px rgb(41 31 16 / 0.08);
+  transform: translateX(-50%) rotate(-4deg);
+}
+
+.streamer-avatar-card::after {
+  content: "";
+  position: absolute;
+  right: 18px;
+  bottom: 50px;
+  width: 58px;
+  height: 2px;
+  background: var(--accent);
+  box-shadow: 10px 7px 0 rgb(97 115 63 / 0.34);
+  transform: rotate(-5deg);
+}
+
+.streamer-avatar-photo {
+  display: block;
+  width: 100%;
+  overflow: hidden;
+  aspect-ratio: 1;
+  border: 1px solid rgb(16 35 61 / 0.16);
+  border-radius: 2px;
+}
+
+.streamer-avatar-card img {
+  display: block;
+  width: 151%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  object-position: left;
+  filter: contrast(1.04) saturate(0.9);
+  transform: translate(-23%, -7.5%);
+}
+
+.streamer-avatar-card figcaption {
+  min-height: 34px;
+  margin-top: 13px;
+  color: var(--accent-strong);
+  font-family: "Comic Sans MS", "Bradley Hand", cursive;
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-align: center;
+}
+
 .streamer-intro {
   max-width: 760px;
   margin-top: 32px;
@@ -2123,6 +2203,16 @@ pagefind-results {
 
   .streamer-stats {
     grid-template-columns: 1fr;
+  }
+
+  .streamer-hero {
+    grid-template-columns: 1fr;
+    gap: 26px;
+    align-items: start;
+  }
+
+  .streamer-avatar-card {
+    width: min(260px, 100%);
   }
 
   .session-neighbors {

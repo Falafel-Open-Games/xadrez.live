@@ -26,29 +26,45 @@
   <meta property="og:type" content="profile">
   <meta property="og:title" content="{{ self::streamer_title(section=section) }} | {{ config.title }}">
   <meta property="og:description" content="{{ section.extra.description | default(value=config.description) | truncate(length=159) }}">
+  {% if section.extra.avatar is defined and section.extra.avatar %}
+    <meta property="og:image" content="{{ get_url(path=section.extra.avatar) }}">
+  {% endif %}
   <meta name="twitter:card" content="summary">
 {% endblock social_meta %}
 
 {% block content %}
 <article class="streamer-page">
-  <div class="session-kicker">streamer</div>
-  <h1>{{ self::streamer_title(section=section) }}</h1>
-  <p class="tagline">{{ section.extra.tagline }}</p>
+  <header class="streamer-hero">
+    <div class="streamer-hero-copy">
+      <div class="session-kicker">streamer</div>
+      <h1>{{ self::streamer_title(section=section) }}</h1>
+      <p class="tagline">{{ section.extra.tagline }}</p>
 
-  <nav class="home-links" aria-label="Links de {{ self::streamer_title(section=section) }}">
-    {% if section.extra.lichess_url is defined and section.extra.lichess_url %}
-      <a href="{{ section.extra.lichess_url }}" rel="noopener noreferrer">Lichess</a>
+      <nav class="home-links" aria-label="Links de {{ self::streamer_title(section=section) }}">
+        {% if section.extra.lichess_url is defined and section.extra.lichess_url %}
+          <a href="{{ section.extra.lichess_url }}" rel="noopener noreferrer">Lichess</a>
+        {% endif %}
+        {% if section.extra.youtube_url is defined and section.extra.youtube_url %}
+          <a href="{{ section.extra.youtube_url }}" rel="noopener noreferrer">YouTube</a>
+        {% endif %}
+        {% if section.extra.twitch_url is defined and section.extra.twitch_url %}
+          <a href="{{ section.extra.twitch_url }}" rel="noopener noreferrer">Twitch</a>
+        {% endif %}
+        {% if section.extra.github_url is defined and section.extra.github_url %}
+          <a href="{{ section.extra.github_url }}" rel="noopener noreferrer">GitHub</a>
+        {% endif %}
+      </nav>
+    </div>
+
+    {% if section.extra.avatar is defined and section.extra.avatar %}
+      <figure class="streamer-avatar-card">
+        <span class="streamer-avatar-photo">
+          <img src="{{ section.extra.avatar }}" alt="{{ section.extra.avatar_alt | default(value=self::streamer_title(section=section)) }}">
+        </span>
+        <figcaption>{{ section.extra.handle | default(value=section.title) }}</figcaption>
+      </figure>
     {% endif %}
-    {% if section.extra.youtube_url is defined and section.extra.youtube_url %}
-      <a href="{{ section.extra.youtube_url }}" rel="noopener noreferrer">YouTube</a>
-    {% endif %}
-    {% if section.extra.twitch_url is defined and section.extra.twitch_url %}
-      <a href="{{ section.extra.twitch_url }}" rel="noopener noreferrer">Twitch</a>
-    {% endif %}
-    {% if section.extra.github_url is defined and section.extra.github_url %}
-      <a href="{{ section.extra.github_url }}" rel="noopener noreferrer">GitHub</a>
-    {% endif %}
-  </nav>
+  </header>
 
   <section class="streamer-intro" data-pagefind-body>
     {{ section.content | safe }}
