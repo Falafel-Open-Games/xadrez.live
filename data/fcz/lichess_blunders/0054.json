@@ -1,0 +1,92 @@
+{
+  "session_number": "0054",
+  "source": "lichess",
+  "event_count": 1,
+  "events": [
+    {
+      "time": "1:03:57",
+      "seconds": 3837,
+      "source": "lichess",
+      "platform": "Lichess",
+      "kind": "blunder",
+      "label": "Capivarada",
+      "session_number": "0054",
+      "game_index": 1,
+      "game_id": "acsMWHM2",
+      "game_url": "https://lichess.org/acsMWHM2/black",
+      "video_offset_seconds": 26,
+      "ply": 15,
+      "move_number": 8,
+      "color": "white",
+      "player": "art_blinch",
+      "opponent": "fcz",
+      "is_self": false,
+      "move": "Nd4",
+      "clock": "6:25",
+      "eval_change": "0.21 → -6.00",
+      "best": "d4",
+      "text": "art_blinch jogou Nd4 no lance 8, com 6:25 no relógio."
+    }
+  ],
+  "timeline": [
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "kind": "session_start",
+      "label": "Início",
+      "source": "youtube_release"
+    },
+    {
+      "time": "5:47",
+      "seconds": 347,
+      "kind": "puzzle_of_the_day",
+      "label": "Puzzle do dia",
+      "source": "userscript",
+      "url": "https://lichess.org/training/rW8K5"
+    },
+    {
+      "time": "58:40",
+      "seconds": 3520,
+      "kind": "game_start",
+      "label": "Partida 1",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "acsMWHM2",
+      "game_url": "https://lichess.org/acsMWHM2/black"
+    },
+    {
+      "time": "1:03:57",
+      "seconds": 3837,
+      "source": "lichess",
+      "platform": "Lichess",
+      "kind": "blunder",
+      "label": "Capivarada",
+      "session_number": "0054",
+      "game_index": 1,
+      "game_id": "acsMWHM2",
+      "game_url": "https://lichess.org/acsMWHM2/black",
+      "video_offset_seconds": 26,
+      "ply": 15,
+      "move_number": 8,
+      "color": "white",
+      "player": "art_blinch",
+      "opponent": "fcz",
+      "is_self": false,
+      "move": "Nd4",
+      "clock": "6:25",
+      "eval_change": "0.21 → -6.00",
+      "best": "d4",
+      "text": "art_blinch jogou Nd4 no lance 8, com 6:25 no relógio."
+    },
+    {
+      "time": "1:03:59",
+      "seconds": 3839,
+      "kind": "game_end",
+      "label": "Fim de Partida",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "acsMWHM2",
+      "game_url": "https://lichess.org/acsMWHM2/black"
+    }
+  ]
+}

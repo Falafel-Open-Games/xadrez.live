@@ -21,6 +21,7 @@ LIVE_WINDOW_SECONDS = 6 * 60 * 60
 RICHNESS_KEYS = ("published_at", "scheduled_at", "live_status", "was_live")
 ACTIVE_LIVE_STATUSES = {"is_live", "is_upcoming"}
 FINISHED_LIVE_STATUSES = {"post_live", "was_live"}
+YTDLP_TIMEOUT_SECONDS = 45
 EMOJI_RE = re.compile(
     "["
     "\\U0000200d\\U0000fe0e\\U0000fe0f"
@@ -202,14 +203,21 @@ def load_existing_streams() -> dict[str, dict[str, str]]:
 
 
 def run_json_lines(cmd: list[str]) -> list[dict]:
-    proc = subprocess.run(
-        cmd,
-        check=False,
-        cwd=ROOT,
-        text=True,
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-    )
+    try:
+        proc = subprocess.run(
+            cmd,
+            check=False,
+            cwd=ROOT,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=YTDLP_TIMEOUT_SECONDS,
+        )
+    except subprocess.TimeoutExpired as exc:
+        stderr = exc.stderr.decode() if isinstance(exc.stderr, bytes) else exc.stderr
+        if stderr:
+            print(stderr, file=sys.stderr)
+        raise SystemExit(f"command timed out after {YTDLP_TIMEOUT_SECONDS}s: {' '.join(cmd)}") from exc
     if proc.returncode != 0:
         print(proc.stderr, file=sys.stderr)
         raise SystemExit(f"command failed: {' '.join(cmd)}")

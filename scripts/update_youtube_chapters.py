@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Generate and optionally publish YouTube chapters from session timelines."""
+"""Generate and optionally publish YouTube descriptions from session data."""
 from __future__ import annotations
 
 import argparse
@@ -7,6 +7,7 @@ import base64
 import html
 import json
 import os
+import re
 import secrets
 import urllib.error
 import urllib.parse
@@ -20,6 +21,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT_DIR = ROOT / "content" / "fcz"
 TIMELINE_DIR = ROOT / "data" / "fcz" / "lichess_blunders"
+EDITORIAL_CHOICES_PATH = ROOT / "data" / "fcz" / "youtube_editorial_choices.json"
 ENV_PATH = ROOT / ".env"
 YOUTUBE_API = "https://www.googleapis.com/youtube/v3"
 GOOGLE_AUTHORIZE_URL = "https://accounts.google.com/o/oauth2/v2/auth"
@@ -28,6 +30,13 @@ DEFAULT_REDIRECT_URI = "http://127.0.0.1:8765/youtube/oauth/callback"
 DEFAULT_SCOPE = "https://www.googleapis.com/auth/youtube.force-ssl"
 CHAPTERS_START = "[xadrez.live chapters:start]"
 CHAPTERS_END = "[xadrez.live chapters:end]"
+SESSION_START = "[xadrez.live session:start]"
+SESSION_END = "[xadrez.live session:end]"
+CHANNEL_INTRO = (
+    "Eu sou o Fabricio, jogador amador praticando xadrez depois dos 40. "
+    "No xadrez.live eu registro puzzles, partidas rapid, capivaradas, conversas do chat "
+    "e o progresso real de cada sessão."
+)
 MAX_DESCRIPTION_BYTES = 5000
 
 
@@ -87,6 +96,18 @@ def read_front_matter(path: Path) -> dict[str, Any]:
         return {}
 
 
+def selected_description_hook(session_number: str) -> str:
+    if not EDITORIAL_CHOICES_PATH.exists():
+        return ""
+    try:
+        data = json.loads(EDITORIAL_CHOICES_PATH.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return ""
+    session = data.get("sessions", {}).get(session_number, {})
+    hooks = session.get("description_hooks", {}) if isinstance(session, dict) else {}
+    return str(hooks.get("selected") or "") if isinstance(hooks, dict) else ""
+
+
 def session_paths(numbers: set[str] | None) -> list[Path]:
     paths = []
     for path in sorted(CONTENT_DIR.glob("[0-9][0-9][0-9][0-9].md")):
@@ -100,6 +121,26 @@ def session_paths(numbers: set[str] | None) -> list[Path]:
         if numbers is None or path.stem in numbers:
             paths.append(path)
     return paths
+
+
+def expand_session_args(values: list[str]) -> set[str] | None:
+    if not values:
+        return None
+    expanded: set[str] = set()
+    for value in values:
+        value = value.strip()
+        if not value:
+            continue
+        if "-" in value:
+            start_raw, end_raw = value.split("-", 1)
+            start = int(start_raw)
+            end = int(end_raw)
+            step = 1 if start <= end else -1
+            for number in range(start, end + step, step):
+                expanded.add(f"{number:04d}")
+        else:
+            expanded.add(value.zfill(4))
+    return expanded
 
 
 def format_timestamp(seconds: int) -> str:
@@ -129,7 +170,23 @@ def chapter_label(event: dict[str, Any]) -> str:
     return label
 
 
-def timeline_for_session(path: Path) -> tuple[str, str, list[dict[str, Any]]]:
+def site_url_for_session(session_number: str) -> str:
+    return f"https://xadrez.live/fcz/{session_number}/"
+
+
+def session_neighbor_urls(session_number: str) -> tuple[str, str]:
+    try:
+        current = int(session_number)
+    except ValueError:
+        return "", ""
+    previous_path = CONTENT_DIR / f"{current - 1:04d}.md"
+    next_path = CONTENT_DIR / f"{current + 1:04d}.md"
+    previous_url = site_url_for_session(f"{current - 1:04d}") if previous_path.exists() else ""
+    next_url = site_url_for_session(f"{current + 1:04d}") if next_path.exists() else ""
+    return previous_url, next_url
+
+
+def timeline_for_session(path: Path) -> tuple[Path, str, str, list[dict[str, Any]]]:
     data = read_front_matter(path)
     extra = data.get("extra")
     assert isinstance(extra, dict)
@@ -137,14 +194,14 @@ def timeline_for_session(path: Path) -> tuple[str, str, list[dict[str, Any]]]:
     video_id = str(extra.get("youtube_video_id") or "").strip()
     timeline_path = TIMELINE_DIR / f"{session_number}.json"
     if not timeline_path.exists():
-        return session_number, video_id, []
+        return path, session_number, video_id, []
     try:
         timeline_data = json.loads(timeline_path.read_text(encoding="utf-8"))
     except json.JSONDecodeError:
-        return session_number, video_id, []
+        return path, session_number, video_id, []
     events = timeline_data.get("timeline")
     if not isinstance(events, list):
-        return session_number, video_id, []
+        return path, session_number, video_id, []
     chapters: list[dict[str, Any]] = []
     for event in events:
         if not isinstance(event, dict):
@@ -162,7 +219,7 @@ def timeline_for_session(path: Path) -> tuple[str, str, list[dict[str, Any]]]:
         chapters.append({"seconds": seconds, "label": label})
     if not chapters or chapters[0]["seconds"] != 0:
         chapters.insert(0, {"seconds": 0, "label": "Início"})
-    return session_number, video_id, chapters
+    return path, session_number, video_id, chapters
 
 
 def chapter_block(chapters: list[dict[str, Any]]) -> str:
@@ -172,14 +229,85 @@ def chapter_block(chapters: list[dict[str, Any]]) -> str:
     return "\n".join(lines)
 
 
-def update_description(description: str, chapters: list[dict[str, Any]]) -> str:
-    block = chapter_block(chapters)
-    start = description.find(CHAPTERS_START)
-    end = description.find(CHAPTERS_END)
+def replace_block(description: str, start_marker: str, end_marker: str, block: str) -> str:
+    start = description.find(start_marker)
+    end = description.find(end_marker)
     if start != -1 and end >= start:
-        end += len(CHAPTERS_END)
+        end += len(end_marker)
         return description[:start].rstrip() + "\n\n" + block + description[end:].lstrip()
     return description.rstrip() + "\n\n" + block + "\n"
+
+
+def session_block(path: Path) -> str:
+    data = read_front_matter(path)
+    extra = data.get("extra") if isinstance(data, dict) else {}
+    if not isinstance(extra, dict):
+        extra = {}
+    session_number = str(extra.get("session_number") or path.stem)
+    lines = [SESSION_START]
+    description = selected_description_hook(session_number) or youtube_description_summary(str(extra.get("description") or ""))
+    if description:
+        lines.extend([description, ""])
+    lines.extend([CHANNEL_INTRO, ""])
+    lines.append(f"Página da sessão: {site_url_for_session(session_number)}")
+
+    puzzle_url = str(extra.get("puzzle_of_the_day_url") or "").strip()
+    if puzzle_url:
+        lines.append(f"Puzzle do dia: {puzzle_url}")
+
+    games = extra.get("games")
+    if isinstance(games, list):
+        for index, game in enumerate(games, start=1):
+            if not isinstance(game, dict):
+                continue
+            game_url = str(game.get("game_url") or game.get("lichess_game_url") or "").strip()
+            opening = str(game.get("opening") or "").strip()
+            if game_url:
+                label = f"Partida {index}"
+                if opening:
+                    label += f" ({opening})"
+                lines.append(f"{label}: {game_url}")
+
+    practice_sets = extra.get("practice_sets")
+    if isinstance(practice_sets, list):
+        for practice_set in practice_sets:
+            if not isinstance(practice_set, dict):
+                continue
+            title = str(practice_set.get("title") or "Treino").strip()
+            url = str(practice_set.get("url") or "").strip()
+            if url:
+                lines.append(f"Treino: {title} - {url}")
+
+    previous_url, next_url = session_neighbor_urls(session_number)
+    if previous_url:
+        lines.append(f"Sessão anterior: {previous_url}")
+    if next_url:
+        lines.append(f"Próxima sessão: {next_url}")
+
+    lines.append(SESSION_END)
+    return "\n".join(lines)
+
+
+def youtube_description_summary(description: str) -> str:
+    summary = " ".join(description.split()).strip()
+    replacements = [
+        (r"^Sessão de \d+h\d{1,2}\s+com\s+", ""),
+        (r"^Sessão de \d+h\s+com\s+", ""),
+        (r"^Sessão de \d+min\s+com\s+", ""),
+        (r"^Sessão com\s+", ""),
+    ]
+    for pattern, replacement in replacements:
+        summary = re.sub(pattern, replacement, summary, flags=re.I)
+    if summary:
+        summary = summary[0].upper() + summary[1:]
+    return summary
+
+
+def update_description(description: str, path: Path, chapters: list[dict[str, Any]], include_session_block: bool) -> str:
+    if include_session_block:
+        managed_description = replace_block("", SESSION_START, SESSION_END, session_block(path))
+        return replace_block(managed_description, CHAPTERS_START, CHAPTERS_END, chapter_block(chapters))
+    return replace_block(description, CHAPTERS_START, CHAPTERS_END, chapter_block(chapters))
 
 
 def has_chapter_block(description: str) -> bool:
@@ -340,11 +468,22 @@ def updated_snippet(snippet: dict[str, Any], description: str) -> dict[str, Any]
     return output
 
 
+def confirm_description(session_number: str, video_id: str, description: str) -> bool:
+    print()
+    print(f"{session_number} ({video_id}) description preview")
+    print("-" * 72)
+    print(description.strip())
+    print("-" * 72)
+    return input("Publish this YouTube description? Type YES to continue: ").strip() == "YES"
+
+
 def main() -> int:
     load_env_file(ENV_PATH)
-    parser = argparse.ArgumentParser(description="Generate and publish YouTube chapters from xadrez.live timelines.")
+    parser = argparse.ArgumentParser(description="Generate and publish YouTube descriptions from xadrez.live session data.")
     parser.add_argument("sessions", nargs="*", help="Session numbers, e.g. 0052. Omit for all sessions.")
     parser.add_argument("--write", action="store_true", help="Update YouTube descriptions. Without this flag, only print a dry run.")
+    parser.add_argument("--confirm", action="store_true", help="Preview each generated description and require confirmation before publishing.")
+    parser.add_argument("--chapters-only", action="store_true", help="Only manage the chapter block, preserving the rest of the description.")
     parser.add_argument("--missing-only", action="store_true", help="Only include videos without the xadrez.live chapter block on YouTube.")
     parser.add_argument("--authorize", action="store_true", help="Run the local Google OAuth authorization flow.")
     parser.add_argument("--write-env", action="store_true", help="Store the OAuth refresh token in .env during --authorize.")
@@ -359,9 +498,9 @@ def main() -> int:
         authorize(client_id, client_secret, args.redirect_uri, args.write_env)
         return 0
 
-    paths = session_paths(set(args.sessions) if args.sessions else None)
+    paths = session_paths(expand_session_args(args.sessions))
     generated = [timeline_for_session(path) for path in paths]
-    generated = [item for item in generated if item[2] and len(item[2]) >= 3]
+    generated = [item for item in generated if item[2] and item[3] and len(item[3]) >= 3]
     if not generated:
         print("No sessions have at least three valid timeline chapters.")
         return 0
@@ -374,44 +513,47 @@ def main() -> int:
         if not refresh_token:
             raise SystemExit("error: set YOUTUBE_REFRESH_TOKEN in .env or run --authorize --write-env first")
         token = access_token(client_id, client_secret, refresh_token)
-        snippets = fetch_video_snippets(token, [video_id for _, video_id, _ in generated])
+        snippets = fetch_video_snippets(token, [video_id for _, _, video_id, _ in generated])
     else:
         token = ""
 
     if args.missing_only:
         missing = []
-        for session_number, video_id, chapters in generated:
+        for path, session_number, video_id, chapters in generated:
             snippet = snippets.get(video_id)
             if not snippet:
                 print(f"{session_number}: video {video_id} was not returned by YouTube")
                 continue
             description = str(snippet.get("description") or "")
             if not has_chapter_block(description):
-                missing.append((session_number, video_id, chapters))
+                missing.append((path, session_number, video_id, chapters))
         generated = missing
         if not generated:
             print("No sessions are missing the xadrez.live chapter block on YouTube.")
             return 0
 
     if not args.write:
-        for session_number, video_id, chapters in generated:
+        for path, session_number, video_id, chapters in generated:
             print(f"\n{session_number} ({video_id})")
-            print(chapter_block(chapters))
+            print(update_description("", path, chapters, not args.chapters_only).strip())
         qualifier = " missing" if args.missing_only else ""
         print(f"\ndry run: {len(generated)}{qualifier} session(s); use --write to update YouTube descriptions")
         return 0
 
     updated = 0
-    for session_number, video_id, chapters in generated:
+    for path, session_number, video_id, chapters in generated:
         snippet = snippets.get(video_id)
         if not snippet:
             print(f"{session_number}: video {video_id} was not returned by YouTube")
             continue
         description = str(snippet.get("description") or "")
-        next_description = update_description(description, chapters)
+        next_description = update_description(description, path, chapters, not args.chapters_only)
         validate_description(next_description)
         if next_description == description:
             print(f"{session_number}: unchanged")
+            continue
+        if args.confirm and not confirm_description(session_number, video_id, next_description):
+            print(f"{session_number}: skipped")
             continue
         api_request("videos", token, method="PUT", query={"part": "snippet"}, body={"id": video_id, "snippet": updated_snippet(snippet, next_description)})
         updated += 1

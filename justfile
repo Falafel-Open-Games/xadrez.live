@@ -48,6 +48,15 @@ update-external-streams:
 
 refresh-external-streams: update-external-streams build
 
+wayback-submit *ARGS:
+  @python3 scripts/submit_wayback.py {{ARGS}}
+
+wayback-submit-all:
+  @python3 scripts/submit_wayback.py --write
+
+wayback-submit-test LIMIT="3" *ARGS:
+  @python3 scripts/submit_wayback.py --limit {{LIMIT}} --write {{ARGS}}
+
 update-youtube-chat-acks:
   @python3 scripts/update_youtube_chat_acks.py
 
@@ -70,11 +79,16 @@ calibrate-lichess-video-offset SESSION:
   @python3 scripts/calibrate_lichess_video_offset.py {{SESSION}}
 
 calibrate-session-capivaradas SESSION:
-  @python3 scripts/calibrate_lichess_video_offset.py {{SESSION}}
-  @python3 scripts/update_lichess_game_analysis.py {{SESSION}} --missing-only
-  @python3 scripts/update_lichess_blunder_events.py {{SESSION}}
-  @just build
-  @just youtube-chapters-write {{SESSION}}
+  @if python3 scripts/calibrate_lichess_video_offset.py {{SESSION}} --exit-code-on-skip 75; then \
+    python3 scripts/update_lichess_game_analysis.py {{SESSION}} --missing-only; \
+    python3 scripts/update_lichess_blunder_events.py {{SESSION}}; \
+    just build; \
+    just youtube-chapters-write {{SESSION}}; \
+  else \
+    status=$?; \
+    if [ "$status" -eq 75 ]; then exit 0; fi; \
+    exit "$status"; \
+  fi
 
 update-session-capivaradas SESSION:
   @python3 scripts/update_lichess_game_analysis.py {{SESSION}} --missing-only
@@ -93,8 +107,14 @@ youtube-chapters-missing:
 youtube-chapters-backfill:
   @python3 scripts/update_youtube_chapters.py --missing-only --write
 
+youtube-descriptions-backfill RANGE:
+  @python3 scripts/update_youtube_chapters.py {{RANGE}} --write
+
 youtube-chapters-write SESSION="":
   @python3 scripts/update_youtube_chapters.py {{SESSION}} --write
+
+youtube-chapters-write-confirm SESSION="":
+  @python3 scripts/update_youtube_chapters.py {{SESSION}} --write --confirm
 
 youtube-chapters-authorize:
   @python3 scripts/update_youtube_chapters.py --authorize --write-env
@@ -104,6 +124,32 @@ youtube-thumbnail SESSION:
 
 youtube-thumbnail-check SESSION:
   @python3 scripts/update_youtube_thumbnail.py {{SESSION}}
+
+youtube-title-options SESSION:
+  @python3 scripts/youtube_title_options.py {{SESSION}}
+
+youtube-title-choose SESSION:
+  @python3 scripts/youtube_title_options.py {{SESSION}} --choose --write
+
+youtube-title-write SESSION TITLE:
+  @python3 scripts/youtube_title_options.py {{SESSION}} --title "{{TITLE}}" --write
+
+youtube-hook-options SESSION:
+  @python3 scripts/youtube_title_options.py {{SESSION}} --kind hook
+
+youtube-hook-choose SESSION:
+  @python3 scripts/youtube_title_options.py {{SESSION}} --kind hook --choose --write
+
+youtube-finish-session SESSION:
+  @just youtube-title-choose {{SESSION}}
+  @just youtube-hook-choose {{SESSION}}
+  @just youtube-chapters-write-confirm {{SESSION}}
+  @just youtube-thumbnail {{SESSION}}
+
+youtube-finish-session-skip-title SESSION:
+  @just youtube-hook-choose {{SESSION}}
+  @just youtube-chapters-write-confirm {{SESSION}}
+  @just youtube-thumbnail {{SESSION}}
 
 import-youtube-chat-replays CACHE_DIR="/tmp/xadrez-chat" EXTRA="":
   @python3 scripts/import_youtube_chat_replays.py --cache-dir {{CACHE_DIR}} {{EXTRA}}

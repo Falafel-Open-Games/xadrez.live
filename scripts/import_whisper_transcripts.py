@@ -12,7 +12,9 @@ import subprocess
 import sys
 import tomllib
 import time
+from datetime import datetime
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -20,6 +22,9 @@ CONTENT_DIR = ROOT / "content" / "fcz"
 DEFAULT_AUDIO_CACHE_DIR = Path("/tmp/xadrez-whisper-audio")
 DEFAULT_WHISPER_CACHE_DIR = Path("/tmp/xadrez-whisper-transcripts")
 DEFAULT_OUTPUT_DIR = ROOT / "data" / "fcz" / "transcripts"
+DEFAULT_LOCAL_RECORDING_DIR = Path(os.environ.get("XADREZ_LOCAL_RECORDING_DIR", "/home/fcz/Videos/xadrez-live"))
+DEFAULT_LOCAL_RECORDING_MAX_AGE_HOURS = int(os.environ.get("XADREZ_LOCAL_RECORDING_MAX_AGE_HOURS", "12"))
+LOCAL_TZ = ZoneInfo(os.environ.get("XADREZ_LOCAL_TIMEZONE", "America/Sao_Paulo"))
 DEFAULT_INITIAL_PROMPT = (
     "Transcrição em português brasileiro de uma live de xadrez. "
     "Vocabulário esperado: Lichess, lichess.org, Chess.com, Stockfish, YouTube, Twitch, Restream, GoatCounter, "
@@ -42,6 +47,7 @@ DEFAULT_INITIAL_PROMPT = (
     "Restream é o nome da plataforma de transmissão, não transcreva como restring."
 )
 AUDIO_EXTENSIONS = {".m4a", ".mp3", ".opus", ".ogg", ".webm", ".wav"}
+MEDIA_EXTENSIONS = AUDIO_EXTENSIONS | {".mp4", ".mkv", ".mov", ".m4v"}
 WHISPER_PROGRESS_RE = re.compile(r"^\[(?P<start>[0-9:.]+)\s+-->\s+(?P<end>[0-9:.]+)\]")
 
 
@@ -231,18 +237,75 @@ class WhisperProgressReporter:
 
 def cached_audio_path(youtube_id: str, audio_cache_dir: Path) -> Path | None:
     for path in sorted(audio_cache_dir.glob(f"{youtube_id}.*")):
-        if path.suffix.lower() in AUDIO_EXTENSIONS:
+        if path.suffix.lower() in MEDIA_EXTENSIONS:
             return path
     return None
 
 
+def session_date(path: Path) -> str:
+    try:
+        data = tomllib.loads(extract_front_matter(path.read_text(encoding="utf-8"), path))
+    except tomllib.TOMLDecodeError:
+        return ""
+    value = data.get("date")
+    return value.isoformat() if hasattr(value, "isoformat") else str(value or "").strip()
+
+
+def local_recording_path(
+    session_number: str,
+    content_path: Path,
+    local_recording_dir: Path,
+    max_age_hours: int,
+) -> Path | None:
+    if max_age_hours <= 0 or not local_recording_dir.exists():
+        return None
+
+    expected_date = session_date(content_path)
+    now = time.time()
+    max_age_seconds = max_age_hours * 60 * 60
+    candidates = []
+    for path in local_recording_dir.iterdir():
+        if not path.is_file() or path.suffix.lower() not in MEDIA_EXTENSIONS:
+            continue
+
+        stat = path.stat()
+        age_seconds = now - stat.st_mtime
+        if age_seconds < 0 or age_seconds > max_age_seconds:
+            continue
+
+        modified_date = datetime.fromtimestamp(stat.st_mtime, LOCAL_TZ).date().isoformat()
+        name = path.name.lower()
+        if expected_date and modified_date != expected_date and session_number not in name:
+            continue
+
+        candidates.append((stat.st_mtime, path))
+
+    if not candidates:
+        return None
+    return sorted(candidates)[-1][1]
+
+
 def download_audio(
     youtube_id: str,
+    session_number: str,
+    content_path: Path,
     audio_cache_dir: Path,
     yt_dlp: str,
     audio_format: str,
     force: bool,
+    local_recording_dir: Path,
+    local_recording_max_age_hours: int,
 ) -> Path | None:
+    local_recording = local_recording_path(
+        session_number,
+        content_path,
+        local_recording_dir,
+        local_recording_max_age_hours,
+    )
+    if local_recording:
+        log(f"{session_number}: using local recording {local_recording}")
+        return local_recording
+
     existing = cached_audio_path(youtube_id, audio_cache_dir)
     if existing and not force:
         log(f"{youtube_id}: using cached audio {existing}")
@@ -251,7 +314,7 @@ def download_audio(
     audio_cache_dir.mkdir(parents=True, exist_ok=True)
     if force:
         for path in audio_cache_dir.glob(f"{youtube_id}.*"):
-            if path.suffix.lower() in AUDIO_EXTENSIONS:
+            if path.suffix.lower() in MEDIA_EXTENSIONS:
                 path.unlink()
 
     command = [
@@ -422,6 +485,8 @@ def import_whisper_transcripts(
     heartbeat_interval_seconds: int,
     source_id: str,
     output_suffix: str,
+    local_recording_dir: Path,
+    local_recording_max_age_hours: int,
 ) -> int:
     sessions = selected_sessions(session_youtube_ids(), selected_numbers, latest)
     ensure_whisper_command(whisper_cmd)
@@ -430,9 +495,19 @@ def import_whisper_transcripts(
     unchanged = 0
     unavailable = 0
 
-    for youtube_id, session_number, _ in sessions:
+    for youtube_id, session_number, content_path in sessions:
         log(f"{session_number}: starting Whisper transcript fallback")
-        audio_path = download_audio(youtube_id, audio_cache_dir, yt_dlp, audio_format, force)
+        audio_path = download_audio(
+            youtube_id,
+            session_number,
+            content_path,
+            audio_cache_dir,
+            yt_dlp,
+            audio_format,
+            force,
+            local_recording_dir,
+            local_recording_max_age_hours,
+        )
         if not audio_path:
             unavailable += 1
             continue
@@ -489,6 +564,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("sessions", nargs="*", help="Optional session numbers, e.g. 0046")
     parser.add_argument("--latest", type=int, help="Only process the latest N ended sessions.")
     parser.add_argument("--audio-cache-dir", type=Path, default=DEFAULT_AUDIO_CACHE_DIR)
+    parser.add_argument("--local-recording-dir", type=Path, default=DEFAULT_LOCAL_RECORDING_DIR)
+    parser.add_argument("--local-recording-max-age-hours", type=int, default=DEFAULT_LOCAL_RECORDING_MAX_AGE_HOURS)
+    parser.add_argument(
+        "--no-local-recording",
+        action="store_true",
+        help="Skip local OBS recordings and use cached/downloaded YouTube audio only.",
+    )
     parser.add_argument("--whisper-cache-dir", type=Path, default=DEFAULT_WHISPER_CACHE_DIR)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
     parser.add_argument("--yt-dlp", default="yt-dlp")
@@ -529,6 +611,8 @@ def main() -> int:
         heartbeat_interval_seconds=args.heartbeat_interval_seconds,
         source_id=args.source_id,
         output_suffix=args.output_suffix,
+        local_recording_dir=args.local_recording_dir,
+        local_recording_max_age_hours=0 if args.no_local_recording else args.local_recording_max_age_hours,
     )
     print(f"updated: {updated}")
     return 0

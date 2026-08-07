@@ -28,6 +28,10 @@ TIMELINE_DIR = ROOT / "data" / "fcz" / "lichess_blunders"
 TIME_RE = re.compile(r"^(?:(\d+):)?(\d{1,2}):(\d{2})$")
 
 
+class NoCalibrationData(RuntimeError):
+    pass
+
+
 def read_front_matter(path: Path) -> dict[str, Any]:
     import tomllib
 
@@ -145,6 +149,12 @@ def first_game_anchor(session: str) -> tuple[Path, int, int, int, str]:
     timeline_path = TIMELINE_DIR / f"{session}.json"
     if not content_path.exists():
         raise RuntimeError(f"sessão não encontrada: {session}")
+
+    refs = session_game_refs(content_path)
+    if not refs:
+        raise NoCalibrationData(
+            f"a sessão {session} não tem partida Lichess registrada; nada para calibrar"
+        )
     if not timeline_path.exists():
         raise RuntimeError(f"timeline não encontrada: {timeline_path}")
 
@@ -169,9 +179,6 @@ def first_game_anchor(session: str) -> tuple[Path, int, int, int, str]:
         raise RuntimeError(f"a timeline de {session} não tem início da primeira partida")
     generated_seconds = int(starts[0]["seconds"])
     raw_seconds = generated_seconds - configured_offset
-    refs = session_game_refs(content_path)
-    if not refs:
-        raise RuntimeError(f"a sessão {session} não tem uma partida Lichess válida")
     try:
         payload = fetch_game(refs[0].game_id, "", 20)
     except OSError as error:
@@ -190,11 +197,20 @@ def main() -> int:
         action="store_true",
         help="Só imprimir o offset sugerido, sem atualizar o Markdown da sessão.",
     )
+    parser.add_argument(
+        "--exit-code-on-skip",
+        type=int,
+        default=0,
+        help=argparse.SUPPRESS,
+    )
     args = parser.parse_args()
     session = str(args.session).zfill(4)
 
     try:
         content_path, raw_anchor, configured_offset, elapsed, white_clock = first_game_anchor(session)
+    except NoCalibrationData as notice:
+        print(str(notice))
+        return args.exit_code_on_skip
     except (OSError, ValueError, json.JSONDecodeError, RuntimeError) as error:
         parser.error(str(error))
 

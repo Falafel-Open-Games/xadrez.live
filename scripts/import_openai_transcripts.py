@@ -20,6 +20,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 from import_whisper_transcripts import (
     DEFAULT_AUDIO_CACHE_DIR,
     DEFAULT_INITIAL_PROMPT,
+    DEFAULT_LOCAL_RECORDING_DIR,
+    DEFAULT_LOCAL_RECORDING_MAX_AGE_HOURS,
     DEFAULT_OUTPUT_DIR,
     clean_text,
     download_audio,
@@ -392,6 +394,8 @@ def import_openai_transcripts(
     force: bool,
     api_key: str,
     timeout_seconds: int,
+    local_recording_dir: Path,
+    local_recording_max_age_hours: int,
 ) -> int:
     sessions = selected_sessions(session_youtube_ids(), selected_numbers, latest)
     output_dir.mkdir(parents=True, exist_ok=True)
@@ -399,7 +403,7 @@ def import_openai_transcripts(
     unchanged = 0
     unavailable = 0
 
-    for youtube_id, session_number, _ in sessions:
+    for youtube_id, session_number, content_path in sessions:
         session_started_at = time.monotonic()
         total_cost = 0.0
         unknown_cost = False
@@ -419,7 +423,17 @@ def import_openai_transcripts(
             f"{session_number}: starting OpenAI API transcript model={model} "
             f"response_format={response_format} timestamp_source={timestamp_source}"
         )
-        audio_path = download_audio(youtube_id, audio_cache_dir, yt_dlp, audio_format, force)
+        audio_path = download_audio(
+            youtube_id,
+            session_number,
+            content_path,
+            audio_cache_dir,
+            yt_dlp,
+            audio_format,
+            force,
+            local_recording_dir,
+            local_recording_max_age_hours,
+        )
         if not audio_path:
             unavailable += 1
             continue
@@ -522,6 +536,13 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("sessions", nargs="*", help="Optional session numbers, e.g. 0046")
     parser.add_argument("--latest", type=int, help="Only process the latest N ended sessions.")
     parser.add_argument("--audio-cache-dir", type=Path, default=DEFAULT_AUDIO_CACHE_DIR)
+    parser.add_argument("--local-recording-dir", type=Path, default=DEFAULT_LOCAL_RECORDING_DIR)
+    parser.add_argument("--local-recording-max-age-hours", type=int, default=DEFAULT_LOCAL_RECORDING_MAX_AGE_HOURS)
+    parser.add_argument(
+        "--no-local-recording",
+        action="store_true",
+        help="Skip local OBS recordings and use cached/downloaded YouTube audio only.",
+    )
     parser.add_argument("--chunk-dir", type=Path, default=DEFAULT_CHUNK_DIR)
     parser.add_argument("--response-cache-dir", type=Path, default=DEFAULT_RESPONSE_CACHE_DIR)
     parser.add_argument("--output-dir", type=Path, default=DEFAULT_OUTPUT_DIR)
@@ -577,6 +598,8 @@ def main() -> int:
         force=args.force,
         api_key=args.api_key,
         timeout_seconds=args.timeout_seconds,
+        local_recording_dir=args.local_recording_dir,
+        local_recording_max_age_hours=0 if args.no_local_recording else args.local_recording_max_age_hours,
     )
     print(f"updated: {updated}")
     return 0

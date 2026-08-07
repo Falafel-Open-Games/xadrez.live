@@ -41,6 +41,11 @@ ACTIONS = [
         "realign-highlights",
     ),
     Action(
+        "Finalizar YouTube",
+        "escolher titulo/hook, publicar descricao/capitulos e thumbnail",
+        "youtube-finish",
+    ),
+    Action(
         "Listar comandos avancados",
         "mostrar todos os recipes do justfile",
         "list",
@@ -146,6 +151,15 @@ def command_for(action: Action) -> list[str] | None:
         if not session:
             return None
         return ["just", "realign-highlights", session]
+
+    if action.key == "youtube-finish":
+        session = prompt("Sessao, ex. 0052")
+        if not session:
+            return None
+        if confirm("Escolher/publicar titulo agora?"):
+            return ["just", "youtube-finish-session", session]
+        print("Pulando titulo.")
+        return ["just", "youtube-finish-session-skip-title", session]
 
     if action.key == "list":
         return ["just", "--list"]

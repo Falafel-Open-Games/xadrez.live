@@ -33,6 +33,12 @@ These sources are configured in `data/external_stream_sources.toml`.
 - `aerus15`
   - Source: `https://www.youtube.com/@aerus15/streams`
   - Reason: community stream source added from the xadrez.live chat.
+- `Xadrez Osasco`
+  - Source: `https://www.youtube.com/@XadrezOsasco/streams`
+  - Reason: Portuguese chess stream source added manually.
+- `Vinicius Damir`
+  - Source: `https://www.youtube.com/@ViniciusDamir/streams`
+  - Reason: Portuguese chess stream source added manually.
 
 ## Deferred Candidates
 

@@ -17,6 +17,18 @@ COLOR_LABELS = {
     "black": "pretas",
 }
 
+OPENING_LABEL_MAX_LENGTH = 28
+OPENING_PREFIX_REPLACEMENTS = (
+    ("Sicilian Defense", "Sicilian"),
+    ("French Defense", "French"),
+    ("Caro-Kann Defense", "Caro-Kann"),
+    ("Scandinavian Defense", "Scandinavian"),
+    ("Queen's Pawn Game", "Queen's Pawn"),
+    ("King's Pawn Game", "King's Pawn"),
+    ("King's Knight Opening", "King's Knight"),
+    ("English Opening", "English"),
+)
+
 
 def fail(message):
     print(f"error: {message}", file=sys.stderr)
@@ -78,9 +90,27 @@ def color_label(color):
 
 
 def short_opening(opening):
-    if ":" in opening:
-        return opening.split(":", 1)[1].strip()
-    return opening.strip()
+    opening = opening.strip()
+    if not opening:
+        return ""
+
+    compact = opening
+    for old, new in OPENING_PREFIX_REPLACEMENTS:
+        if compact.startswith(old):
+            compact = new + compact[len(old):]
+            break
+    compact = compact.replace(": ", ": ").strip()
+    if len(compact) <= OPENING_LABEL_MAX_LENGTH:
+        return compact
+
+    if ":" in compact:
+        family, variation = [part.strip() for part in compact.split(":", 1)]
+        first_variation = variation.split(",", 1)[0].strip()
+        candidate = f"{family}: {first_variation}"
+        if len(candidate) <= OPENING_LABEL_MAX_LENGTH:
+            return candidate
+        return first_variation
+    return compact
 
 
 def game_platform(game):
