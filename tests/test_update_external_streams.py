@@ -6,11 +6,18 @@ from scripts.update_external_streams import (
     filter_latest_stream_per_creator,
     filter_upcoming_streams,
     preserve_existing_if_richer,
+    strip_emojis,
     timestamp_from_title,
 )
 
 
 class PreserveExistingStreamMetadataTest(unittest.TestCase):
+    def test_strips_emojis_and_collapses_leftover_spaces(self):
+        self.assertEqual(
+            strip_emojis("Xadrezin de Leves + Jogando com Subscribers ♟️🔥"),
+            "Xadrezin de Leves + Jogando com Subscribers",
+        )
+
     def test_extracts_timestamp_from_youtube_title_date(self):
         timestamp = timestamp_from_title("Xadrezin de Leves 2026-07-31 11:47")
 

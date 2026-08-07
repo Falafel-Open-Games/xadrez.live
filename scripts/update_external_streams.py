@@ -21,6 +21,13 @@ LIVE_WINDOW_SECONDS = 6 * 60 * 60
 RICHNESS_KEYS = ("published_at", "scheduled_at", "live_status", "was_live")
 ACTIVE_LIVE_STATUSES = {"is_live", "is_upcoming"}
 FINISHED_LIVE_STATUSES = {"post_live", "was_live"}
+EMOJI_RE = re.compile(
+    "["
+    "\\U0000200d\\U0000fe0e\\U0000fe0f"
+    "\\U00002300-\\U000023ff\\U00002600-\\U000027bf\\U00002b00-\\U00002bff"
+    "\\U0001f000-\\U0001faff"
+    "]+"
+)
 
 
 def log(message: str) -> None:
@@ -46,6 +53,11 @@ def normalize_hype_punctuation(value: str) -> str:
     value = re.sub(r"!{2,}", "!", value)
     value = re.sub(r"\?{2,}", "?", value)
     return value
+
+
+def strip_emojis(value: str) -> str:
+    value = EMOJI_RE.sub("", value)
+    return re.sub(r"[ \t]{2,}", " ", value).strip()
 
 
 def sentence_case(value: str) -> str:
@@ -109,6 +121,7 @@ def capitalize_first_alpha(value: str) -> str:
 
 
 def display_title(value: str) -> str:
+    value = strip_emojis(value)
     value = normalize_hype_punctuation(value)
     if looks_shouty(value):
         value = sentence_case(value)
@@ -347,9 +360,10 @@ def stream_base(
     title: str,
     duration: str,
 ) -> dict[str, str | int]:
+    title = strip_emojis(str(item.get("title") or title).strip())
     return {
-        "title": str(item.get("title") or title).strip(),
-        "display_title": display_title(str(item.get("title") or title).strip()),
+        "title": title,
+        "display_title": display_title(title),
         "creator": str(source.get("name") or item.get("channel") or "").strip(),
         "video_platform": str(source.get("video_platform") or "YouTube").strip(),
         "language": str(source.get("language") or "pt-BR").strip(),
