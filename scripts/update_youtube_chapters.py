@@ -182,6 +182,12 @@ def update_description(description: str, chapters: list[dict[str, Any]]) -> str:
     return description.rstrip() + "\n\n" + block + "\n"
 
 
+def has_chapter_block(description: str) -> bool:
+    start = description.find(CHAPTERS_START)
+    end = description.find(CHAPTERS_END)
+    return start != -1 and end > start
+
+
 def validate_description(description: str) -> None:
     size = len(description.encode("utf-8"))
     if size > MAX_DESCRIPTION_BYTES:
@@ -339,6 +345,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description="Generate and publish YouTube chapters from xadrez.live timelines.")
     parser.add_argument("sessions", nargs="*", help="Session numbers, e.g. 0052. Omit for all sessions.")
     parser.add_argument("--write", action="store_true", help="Update YouTube descriptions. Without this flag, only print a dry run.")
+    parser.add_argument("--missing-only", action="store_true", help="Only include videos without the xadrez.live chapter block on YouTube.")
     parser.add_argument("--authorize", action="store_true", help="Run the local Google OAuth authorization flow.")
     parser.add_argument("--write-env", action="store_true", help="Store the OAuth refresh token in .env during --authorize.")
     parser.add_argument("--redirect-uri", default=os.environ.get("YOUTUBE_REDIRECT_URI", DEFAULT_REDIRECT_URI))
@@ -359,20 +366,41 @@ def main() -> int:
         print("No sessions have at least three valid timeline chapters.")
         return 0
 
+    snippets: dict[str, dict[str, Any]] = {}
+    if args.write or args.missing_only:
+        if not client_id or not client_secret:
+            raise SystemExit("error: set YOUTUBE_CLIENT_ID and YOUTUBE_CLIENT_SECRET in .env")
+        refresh_token = env_value("YOUTUBE_REFRESH_TOKEN")
+        if not refresh_token:
+            raise SystemExit("error: set YOUTUBE_REFRESH_TOKEN in .env or run --authorize --write-env first")
+        token = access_token(client_id, client_secret, refresh_token)
+        snippets = fetch_video_snippets(token, [video_id for _, video_id, _ in generated])
+    else:
+        token = ""
+
+    if args.missing_only:
+        missing = []
+        for session_number, video_id, chapters in generated:
+            snippet = snippets.get(video_id)
+            if not snippet:
+                print(f"{session_number}: video {video_id} was not returned by YouTube")
+                continue
+            description = str(snippet.get("description") or "")
+            if not has_chapter_block(description):
+                missing.append((session_number, video_id, chapters))
+        generated = missing
+        if not generated:
+            print("No sessions are missing the xadrez.live chapter block on YouTube.")
+            return 0
+
     if not args.write:
         for session_number, video_id, chapters in generated:
             print(f"\n{session_number} ({video_id})")
             print(chapter_block(chapters))
-        print(f"\ndry run: {len(generated)} session(s); use --write to update YouTube descriptions")
+        qualifier = " missing" if args.missing_only else ""
+        print(f"\ndry run: {len(generated)}{qualifier} session(s); use --write to update YouTube descriptions")
         return 0
 
-    if not client_id or not client_secret:
-        raise SystemExit("error: set YOUTUBE_CLIENT_ID and YOUTUBE_CLIENT_SECRET in .env")
-    refresh_token = env_value("YOUTUBE_REFRESH_TOKEN")
-    if not refresh_token:
-        raise SystemExit("error: set YOUTUBE_REFRESH_TOKEN in .env or run --authorize --write-env first")
-    token = access_token(client_id, client_secret, refresh_token)
-    snippets = fetch_video_snippets(token, [video_id for _, video_id, _ in generated])
     updated = 0
     for session_number, video_id, chapters in generated:
         snippet = snippets.get(video_id)
