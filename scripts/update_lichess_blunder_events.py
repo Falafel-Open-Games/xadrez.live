@@ -306,6 +306,133 @@ def event_text(player: str, move: str, move_number: int, clock: str, eval_change
     return ". ".join(details) + "."
 
 
+def pgn_elapsed_seconds(pgn: str) -> int:
+    """Return the elapsed game time represented by the last PGN clock."""
+    headers = pgn_headers(pgn)
+    initial, increment = time_control(headers)
+    if not initial:
+        return 0
+    consumed = {"white": 0, "black": 0}
+    ply = 0
+    last_elapsed = 0
+    tokens = body_tokens(pgn)
+    index = 0
+    while index < len(tokens):
+        token = tokens[index]
+        if token.startswith("{") or token_is_move_number(token) or token in RESULT_TOKENS:
+            index += 1
+            continue
+
+        ply += 1
+        color = "white" if ply % 2 == 1 else "black"
+        comments = []
+        lookahead = index + 1
+        while lookahead < len(tokens) and tokens[lookahead].startswith("{"):
+            comments.append(tokens[lookahead].strip("{} "))
+            lookahead += 1
+        index = lookahead
+        for comment in comments:
+            clock_match = CLK_RE.search(comment)
+            if clock_match:
+                moves_made = (ply + 1) // 2 if color == "white" else ply // 2
+                consumed[color] = max(0, initial + moves_made * increment - parse_clock(clock_match.group(1)))
+        last_elapsed = consumed["white"] + consumed["black"]
+    return last_elapsed
+
+
+def game_timeline_events(ref: GameRef, payload: dict[str, Any]) -> list[dict[str, Any]]:
+    pgn = str(payload.get("pgn") or "")
+    headers = pgn_headers(pgn)
+    session_start = session_start_utc(ref)
+    game_start = game_start_utc(headers)
+    if session_start is None or game_start is None:
+        return []
+    game_offset = round((game_start - session_start).total_seconds())
+    if game_offset < -300 and not ref.has_video_offset:
+        return []
+    start_seconds = max(0, game_offset + ref.video_offset_seconds)
+    end_seconds = max(start_seconds, start_seconds + pgn_elapsed_seconds(pgn))
+    return [
+        {
+            "time": format_time(start_seconds),
+            "seconds": start_seconds,
+            "kind": "game_start",
+            "label": f"Partida {ref.game_index}",
+            "source": "lichess_pgn",
+            "game_index": ref.game_index,
+            "game_id": ref.game_id,
+            "game_url": ref.url,
+        },
+        {
+            "time": format_time(end_seconds),
+            "seconds": end_seconds,
+            "kind": "game_end",
+            "label": "Fim de Partida",
+            "source": "lichess_pgn",
+            "game_index": ref.game_index,
+            "game_id": ref.game_id,
+            "game_url": ref.url,
+        },
+    ]
+
+
+def practice_timeline_event(path: Path, session_start: datetime | None) -> dict[str, Any] | None:
+    if session_start is None:
+        return None
+    data = read_front_matter(path)
+    extra = data.get("extra")
+    if not isinstance(extra, dict) or not extra.get("practice_notes"):
+        return None
+    raw_timestamp = str(extra.get("practice_notes_recorded_at") or "").strip()
+    if not raw_timestamp:
+        return None
+    try:
+        recorded_at = datetime.fromisoformat(raw_timestamp.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if recorded_at.tzinfo is None:
+        recorded_at = recorded_at.replace(tzinfo=timezone.utc)
+    seconds = round((recorded_at.astimezone(timezone.utc) - session_start).total_seconds())
+    if seconds < 0:
+        return None
+    return {
+        "time": format_time(seconds),
+        "seconds": seconds,
+        "kind": "practice_end",
+        "label": "Fim da prática",
+        "source": "practice_notes",
+    }
+
+
+def puzzle_of_the_day_timeline_event(path: Path, session_start: datetime | None) -> dict[str, Any] | None:
+    if session_start is None:
+        return None
+    data = read_front_matter(path)
+    extra = data.get("extra")
+    if not isinstance(extra, dict) or not extra.get("puzzle_of_the_day_url"):
+        return None
+    raw_timestamp = str(extra.get("puzzle_of_the_day_recorded_at") or "").strip()
+    if not raw_timestamp:
+        return None
+    try:
+        recorded_at = datetime.fromisoformat(raw_timestamp.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if recorded_at.tzinfo is None:
+        recorded_at = recorded_at.replace(tzinfo=timezone.utc)
+    seconds = round((recorded_at.astimezone(timezone.utc) - session_start).total_seconds())
+    if seconds < 0:
+        return None
+    return {
+        "time": format_time(seconds),
+        "seconds": seconds,
+        "kind": "puzzle_of_the_day",
+        "label": "Puzzle do dia",
+        "source": "userscript",
+        "url": str(extra.get("puzzle_of_the_day_url")),
+    }
+
+
 def blunder_events(ref: GameRef, payload: dict[str, Any]) -> list[dict[str, Any]]:
     pgn = str(payload.get("pgn") or "")
     headers = pgn_headers(pgn)
@@ -437,7 +564,25 @@ def update_sessions(paths: list[Path], token: str, timeout: int) -> int:
     updated = 0
     for path, refs in refs_by_path:
         session_events = []
+        timeline_events: list[dict[str, Any]] = []
         failures = []
+        session_start = session_start_utc(refs[0]) if refs else None
+        if session_start is not None:
+            timeline_events.append(
+                {
+                    "time": "0:00",
+                    "seconds": 0,
+                    "kind": "session_start",
+                    "label": "Início",
+                    "source": "youtube_release",
+                }
+            )
+            practice_event = practice_timeline_event(path, session_start)
+            if practice_event:
+                timeline_events.append(practice_event)
+            puzzle_event = puzzle_of_the_day_timeline_event(path, session_start)
+            if puzzle_event:
+                timeline_events.append(puzzle_event)
         for ref in refs:
             try:
                 payload = fetch_game(ref.game_id, token, timeout)
@@ -445,17 +590,21 @@ def update_sessions(paths: list[Path], token: str, timeout: int) -> int:
                 failures.append(f"{ref.url}: {error}")
                 continue
             session_events.extend(blunder_events(ref, payload))
+            timeline_events.extend(game_timeline_events(ref, payload))
         if failures:
             print(f"{path.stem}: skipped; keeping existing blunder events because Lichess fetch failed")
             for failure in failures:
                 print(f"  warning: {failure}")
             continue
         session_events.sort(key=lambda item: (int(item.get("seconds") or 0), int(item.get("game_index") or 0), int(item.get("ply") or 0)))
+        timeline_events.extend(session_events)
+        timeline_events.sort(key=lambda item: (int(item.get("seconds") or 0), {"session_start": 0, "practice_end": 1, "game_start": 2, "blunder": 3, "game_end": 4}.get(item.get("kind"), 9)))
         output = {
             "session_number": path.stem,
             "source": "lichess",
             "event_count": len(session_events),
             "events": session_events,
+            "timeline": timeline_events,
         }
         if write_json_if_changed(OUTPUT_DIR / f"{path.stem}.json", output):
             updated += 1

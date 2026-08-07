@@ -27,5 +27,58 @@
       "best": "Nxc6",
       "text": "water_phoenix0312 jogou Nxf7 no lance 7, com 9:14 no relógio."
     }
+  ],
+  "timeline": [
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "kind": "session_start",
+      "label": "Início",
+      "source": "youtube_release"
+    },
+    {
+      "time": "42:35",
+      "seconds": 2555,
+      "kind": "game_start",
+      "label": "Partida 1",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "tUsqTOwW",
+      "game_url": "https://lichess.org/tUsqTOwW/black"
+    },
+    {
+      "time": "44:30",
+      "seconds": 2670,
+      "source": "lichess",
+      "platform": "Lichess",
+      "kind": "blunder",
+      "label": "Capivarada",
+      "session_number": "0017",
+      "game_index": 1,
+      "game_id": "tUsqTOwW",
+      "game_url": "https://lichess.org/tUsqTOwW/black",
+      "video_offset_seconds": 0,
+      "ply": 13,
+      "move_number": 7,
+      "color": "white",
+      "player": "water_phoenix0312",
+      "opponent": "fcz",
+      "is_self": false,
+      "move": "Nxf7",
+      "clock": "9:14",
+      "eval_change": "1.54 → -2.58",
+      "best": "Nxc6",
+      "text": "water_phoenix0312 jogou Nxf7 no lance 7, com 9:14 no relógio."
+    },
+    {
+      "time": "44:35",
+      "seconds": 2675,
+      "kind": "game_end",
+      "label": "Fim de Partida",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "tUsqTOwW",
+      "game_url": "https://lichess.org/tUsqTOwW/black"
+    }
   ]
 }

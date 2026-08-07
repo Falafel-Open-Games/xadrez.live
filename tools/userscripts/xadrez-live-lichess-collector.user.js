@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.15.2
+// @version      0.18.0
 // @description  Collect chess puzzle, game, notes, and Restream chat usernames during a xadrez.live session.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -30,10 +30,13 @@
     active: false,
     collapsed: false,
     puzzleOfTheDayUrl: "",
+    puzzleOfTheDayRecordedAt: "",
     duration: "",
     rapid: "",
     puzzles: "",
     descriptionNotes: "",
+    practiceNotes: "",
+    practiceNotesRecordedAt: "",
     attempts: [],
     currentPuzzles: [],
     practiceSets: [],
@@ -688,6 +691,16 @@
     saveState(state);
   }
 
+  async function setPracticeNotes(state) {
+    const notes = await promptTextareaValue(
+      "Practice notes (puzzles and study before the rapid game):",
+      state.practiceNotes,
+    );
+    state.practiceNotes = notes;
+    state.practiceNotesRecordedAt = new Date().toISOString();
+    saveState(state);
+  }
+
   function firstOpeningLink(selectors) {
     return selectors.map((selector) => document.querySelector(selector)).find(Boolean);
   }
@@ -775,6 +788,7 @@
     }
 
     state.puzzleOfTheDayUrl = url;
+    state.puzzleOfTheDayRecordedAt = new Date().toISOString();
     saveState(state);
   }
 
@@ -1002,6 +1016,10 @@
     const blocks = [];
     if (state.puzzleOfTheDayUrl) {
       blocks.push(`puzzle_of_the_day_url = "${quote(state.puzzleOfTheDayUrl)}"`);
+      if (state.puzzleOfTheDayRecordedAt) {
+        blocks.push(`puzzle_of_the_day_recorded_at = "${quote(state.puzzleOfTheDayRecordedAt)}"`);
+        blocks.push('puzzle_of_the_day_event = "puzzle_of_the_day"');
+      }
     }
 
     if (state.duration || state.rapid || state.puzzles) {
@@ -1012,6 +1030,14 @@ puzzles = "${quote(state.puzzles)}"`);
 
     if (state.descriptionNotes) {
       blocks.push(`description_notes = """${multilineQuote(state.descriptionNotes)}"""`);
+    }
+
+    if (state.practiceNotes) {
+      blocks.push(`practice_notes = """${multilineQuote(state.practiceNotes)}"""`);
+      if (state.practiceNotesRecordedAt) {
+        blocks.push(`practice_notes_recorded_at = "${quote(state.practiceNotesRecordedAt)}"`);
+        blocks.push('practice_notes_event = "practice_end"');
+      }
     }
 
     const attempts = [...state.attempts];
@@ -1742,7 +1768,8 @@ note = "${quote(attempt.note)}"`);
         <p class="xlc-meta">
           Puzzle of the day: ${state.puzzleOfTheDayUrl ? "ok" : "pending"}
           · stats: ${state.duration && state.rapid && state.puzzles ? "ok" : "pending"}
-          · notes: ${state.descriptionNotes ? "ok" : "empty"}
+          · general notes: ${state.descriptionNotes ? "ok" : "empty"}
+          · practice notes: ${state.practiceNotes ? "ok" : "empty"}
           · supporters: ${savedSupporterCount}
         </p>
         ${
@@ -1765,7 +1792,10 @@ note = "${quote(attempt.note)}"`);
         </div>
         <div class="xlc-row">
           <button type="button" data-action="set-post-stats"${disabledUnlessLichess}>Post stats</button>
-          <button type="button" data-action="set-description-notes">Notes</button>
+          <button type="button" data-action="set-description-notes">General notes</button>
+        </div>
+        <div class="xlc-row">
+          <button type="button" data-action="set-practice-notes">Practice notes</button>
         </div>
         <div class="xlc-row">
           <button type="button" data-action="copy">Copy TOML</button>
@@ -1825,6 +1855,9 @@ note = "${quote(attempt.note)}"`);
           break;
         case "set-description-notes":
           await setDescriptionNotes(nextState);
+          break;
+        case "set-practice-notes":
+          await setPracticeNotes(nextState);
           break;
         case "copy":
           if (isRestreamPage()) {

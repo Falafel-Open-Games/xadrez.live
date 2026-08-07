@@ -51,5 +51,82 @@
       "best": "Qf6",
       "text": "guillaume247 jogou Qh5 no lance 14, com 7:00 no relógio."
     }
+  ],
+  "timeline": [
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "kind": "session_start",
+      "label": "Início",
+      "source": "youtube_release"
+    },
+    {
+      "time": "38:23",
+      "seconds": 2303,
+      "kind": "game_start",
+      "label": "Partida 1",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "YhEkVRpz",
+      "game_url": "https://lichess.org/YhEkVRpz/white"
+    },
+    {
+      "time": "43:57",
+      "seconds": 2637,
+      "source": "lichess",
+      "platform": "Lichess",
+      "kind": "blunder",
+      "label": "Capivarada",
+      "session_number": "0048",
+      "game_index": 1,
+      "game_id": "YhEkVRpz",
+      "game_url": "https://lichess.org/YhEkVRpz/white",
+      "video_offset_seconds": 0,
+      "ply": 21,
+      "move_number": 11,
+      "color": "white",
+      "player": "fcz",
+      "opponent": "guillaume247",
+      "is_self": true,
+      "move": "Nd5",
+      "clock": "6:45",
+      "eval_change": "0.08 → -5.20",
+      "best": "Bd6",
+      "text": "fcz jogou Nd5 no lance 11, com 6:45 no relógio."
+    },
+    {
+      "time": "45:21",
+      "seconds": 2721,
+      "source": "lichess",
+      "platform": "Lichess",
+      "kind": "blunder",
+      "label": "Capivarada",
+      "session_number": "0048",
+      "game_index": 1,
+      "game_id": "YhEkVRpz",
+      "game_url": "https://lichess.org/YhEkVRpz/white",
+      "video_offset_seconds": 0,
+      "ply": 28,
+      "move_number": 14,
+      "color": "black",
+      "player": "guillaume247",
+      "opponent": "fcz",
+      "is_self": false,
+      "move": "Qh5",
+      "clock": "7:00",
+      "eval_change": "-2.70 → 7.07",
+      "best": "Qf6",
+      "text": "guillaume247 jogou Qh5 no lance 14, com 7:00 no relógio."
+    },
+    {
+      "time": "45:21",
+      "seconds": 2721,
+      "kind": "game_end",
+      "label": "Fim de Partida",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "YhEkVRpz",
+      "game_url": "https://lichess.org/YhEkVRpz/white"
+    }
   ]
 }

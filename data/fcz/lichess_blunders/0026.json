@@ -51,5 +51,82 @@
       "best": "Qd2",
       "text": "fcz jogou gxf4 no lance 19, com 0:55 no relógio. Mate em 4."
     }
+  ],
+  "timeline": [
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "kind": "session_start",
+      "label": "Início",
+      "source": "youtube_release"
+    },
+    {
+      "time": "43:49",
+      "seconds": 2629,
+      "kind": "game_start",
+      "label": "Partida 1",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "pTy0eGl9",
+      "game_url": "https://lichess.org/pTy0eGl9/black"
+    },
+    {
+      "time": "51:33",
+      "seconds": 3093,
+      "source": "lichess",
+      "platform": "Lichess",
+      "kind": "blunder",
+      "label": "Capivarada",
+      "session_number": "0026",
+      "game_index": 1,
+      "game_id": "pTy0eGl9",
+      "game_url": "https://lichess.org/pTy0eGl9/black",
+      "video_offset_seconds": 0,
+      "ply": 20,
+      "move_number": 10,
+      "color": "black",
+      "player": "fcz",
+      "opponent": "Mael360",
+      "is_self": true,
+      "move": "a6",
+      "clock": "5:20",
+      "eval_change": "1.64 → 4.41",
+      "best": "Nf6",
+      "text": "fcz jogou a6 no lance 10, com 5:20 no relógio."
+    },
+    {
+      "time": "59:25",
+      "seconds": 3565,
+      "source": "lichess",
+      "platform": "Lichess",
+      "kind": "blunder",
+      "label": "Capivarada",
+      "session_number": "0026",
+      "game_index": 1,
+      "game_id": "pTy0eGl9",
+      "game_url": "https://lichess.org/pTy0eGl9/black",
+      "video_offset_seconds": 0,
+      "ply": 38,
+      "move_number": 19,
+      "color": "black",
+      "player": "fcz",
+      "opponent": "Mael360",
+      "is_self": true,
+      "move": "gxf4",
+      "clock": "0:55",
+      "eval_change": "5.02 → Mate in 4",
+      "best": "Qd2",
+      "text": "fcz jogou gxf4 no lance 19, com 0:55 no relógio. Mate em 4."
+    },
+    {
+      "time": "1:01:13",
+      "seconds": 3673,
+      "kind": "game_end",
+      "label": "Fim de Partida",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "pTy0eGl9",
+      "game_url": "https://lichess.org/pTy0eGl9/black"
+    }
   ]
 }

@@ -145,6 +145,8 @@
 {% set show_highlights = highlights and highlights.highlights %}
 {% set blunder_replay_path = streamer_data_path ~ "/lichess_blunders/" ~ page.extra.session_number ~ ".json" %}
 {% set blunder_replay = load_data(path=blunder_replay_path, required=false) %}
+{% set timeline = blunder_replay.timeline | default(value=[]) %}
+{% set show_timeline = timeline | length > 0 %}
 {% set youtube_transcript_path = streamer_data_path ~ "/transcripts/" ~ page.extra.session_number ~ ".youtube.json" %}
 {% set faster_whisper_transcript_path = streamer_data_path ~ "/transcripts/" ~ page.extra.session_number ~ ".faster-whisper.json" %}
 {% set whisper_cli_transcript_path = streamer_data_path ~ "/transcripts/" ~ page.extra.session_number ~ ".whisper-cli.json" %}
@@ -225,13 +227,14 @@
 {% if show_chat_replay %}{% set replay_source_count = replay_source_count + 1 %}{% endif %}
 {% if show_transcript %}{% set replay_source_count = replay_source_count + 1 %}{% endif %}
 {% if show_blunder_replay %}{% set replay_source_count = replay_source_count + 1 %}{% endif %}
-{% set notes_heading = '<h2 id="notas">Notas</h2>' %}
-{% set has_session_notes = page.content and page.content is containing(notes_heading) %}
+{% set notes_source_heading = '<h2 id="notas">Notas</h2>' %}
+{% set notes_heading = '<h2 id="notas">Notas automáticas</h2>' %}
 {% set session_notes_html = "" %}
 {% set remaining_content_html = page.content %}
+{% set has_session_notes = page.content and page.content is containing(notes_source_heading) %}
 {% if has_session_notes %}
-  {% set content_before_notes = page.content | split(pat=notes_heading) | first %}
-  {% set content_after_notes = page.content | split(pat=notes_heading) | last %}
+  {% set content_before_notes = page.content | split(pat=notes_source_heading) | first %}
+  {% set content_after_notes = page.content | split(pat=notes_source_heading) | last %}
   {% set content_after_notes_parts = content_after_notes | split(pat="<h2") %}
   {% set session_notes_body_html = content_after_notes_parts | first %}
   {% set session_notes_html = notes_heading ~ session_notes_body_html %}
@@ -270,23 +273,6 @@
       </p>
       <p class="tagline">{{ page.extra.tagline }}</p>
 
-      <div class="session-actions" aria-label="links da sessão">
-        <span
-          class="status-badge status-{{ page.extra.status_tone | default(value='live') }}"
-          data-session-status
-          data-status-tone="{{ page.extra.status_tone | default(value='') }}"
-          data-session-date="{{ page.date }}"
-          data-session-time="{{ page.extra.time | default(value='') }}"
-        >
-          {% if page.extra.status_tone | default(value='') == "scheduled" and page.extra.time is defined and page.extra.time %}
-            marcada para {{ page.date | date(format="%d/%m") }} às {{ page.extra.time }}
-          {% else %}
-            {{ page.extra.status }}
-          {% endif %}
-        </span>
-        <a class="button" href="{{ youtube_url }}" rel="noopener noreferrer">Abrir no YouTube</a>
-        <a class="button button-secondary" href="{{ page.extra.lichess_url }}" rel="noopener noreferrer">Abrir Lichess</a>
-      </div>
     </div>
 
     <aside class="session-brief-card" aria-label="Dados da sessão">
@@ -338,11 +324,26 @@
     </nav>
   {% endif %}
 
+  <nav class="session-study-map" aria-label="Índice da sessão">
+    <span class="session-study-map-label">índice da sessão</span>
+    <a href="#sessao-video">vídeo</a>
+    {% if session_notes_html %}
+      <a href="#notas">notas</a>
+    {% endif %}
+    {% if show_highlights or show_chat_replay or show_transcript or show_blunder_replay %}
+      <a href="#replay">replay</a>
+    {% endif %}
+    {% if show_timeline %}
+      <a href="#linha-do-tempo">linha do tempo</a>
+    {% endif %}
+    <a href="#resumo">partidas e prática</a>
+  </nav>
+
   {% if session_notes_html %}
     <div class="session-video-notes-layout">
   {% endif %}
 
-    <section class="live-room{% if not show_live_chat %} live-room-video-only{% endif %}" aria-label="sala da live">
+    <section id="sessao-video" class="live-room{% if not show_live_chat %} live-room-video-only{% endif %}" aria-label="sala da live">
       <div class="video-panel">
         <iframe
           title="Live no YouTube"
@@ -363,7 +364,7 @@
       {% endif %}
     </section>
 
-    {% if session_notes_html %}
+  {% if session_notes_html %}
       <section class="session-notes session-notes-inline" data-pagefind-body>
         <div class="notes-body">
           {{ session_notes_html | safe }}
@@ -372,8 +373,38 @@
     </div>
   {% endif %}
 
+  {% if show_timeline %}
+    <section id="linha-do-tempo" class="session-timeline" data-replay-tabs data-youtube-url="{{ youtube_url }}" aria-labelledby="linha-do-tempo-titulo">
+      <div class="session-section-heading">
+        <div>
+          <span class="section-kicker">navegação da sessão</span>
+          <h2 id="linha-do-tempo-titulo">Linha do tempo</h2>
+        </div>
+        <p>Eventos marcados automaticamente a partir da live e das partidas.</p>
+      </div>
+      <ol class="timeline-list">
+        {% for event in timeline %}
+          <li class="timeline-item timeline-item-{{ event.kind }}" data-seconds="{{ event.seconds }}">
+            <a class="timeline-time replay-time" href="{{ youtube_url }}&t={{ event.seconds }}s" rel="noopener noreferrer" aria-label="Abrir vídeo em {{ event.time }}" data-pagefind-ignore>{{ event.time }}</a>
+            <span class="timeline-marker" aria-hidden="true"></span>
+            <div class="timeline-content">
+              <strong>{{ event.label }}</strong>
+              {% if event.kind == "blunder" and event.color is defined and event.clock is defined and event.clock %}
+                <span>{% if event.color == "white" %}brancas{% else %}pretas{% endif %} · {{ event.clock }}</span>
+              {% elif event.kind == "blunder" and event.game_index is defined %}
+                <span>Partida {{ event.game_index }}</span>
+              {% elif event.kind == "game_start" or event.kind == "game_end" %}
+                <span>Lichess</span>
+              {% endif %}
+            </div>
+          </li>
+        {% endfor %}
+      </ol>
+    </section>
+  {% endif %}
+
   {% if show_highlights or show_chat_replay or show_transcript or show_blunder_replay %}
-    <div class="session-replay-layout">
+    <div id="replay" class="session-replay-layout">
   {% endif %}
 
   {% if show_highlights %}
@@ -578,7 +609,7 @@
     </div>
   {% endif %}
 
-  <section class="session-summary" data-pagefind-body>
+  <section id="resumo" class="session-summary" data-pagefind-body>
     {% set lichess_game_analysis = load_data(path="data/fcz/lichess_game_analysis.toml", required=false) %}
     <h2>Resumo da sessão</h2>
     <div class="summary-groups">
@@ -865,7 +896,7 @@
   </section>
 
   <section class="description" data-pagefind-body>
-    <h2>Descrição</h2>
+    <h2>Descrição automática</h2>
     <p>{{ page.extra.description }}</p>
   </section>
 

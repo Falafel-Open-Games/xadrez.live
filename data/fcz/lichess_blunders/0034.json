@@ -2,5 +2,34 @@
   "session_number": "0034",
   "source": "lichess",
   "event_count": 0,
-  "events": []
+  "events": [],
+  "timeline": [
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "kind": "session_start",
+      "label": "Início",
+      "source": "youtube_release"
+    },
+    {
+      "time": "48:29",
+      "seconds": 2909,
+      "kind": "game_start",
+      "label": "Partida 1",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "AfFJoawq",
+      "game_url": "https://lichess.org/AfFJoawq/white"
+    },
+    {
+      "time": "59:12",
+      "seconds": 3552,
+      "kind": "game_end",
+      "label": "Fim de Partida",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "AfFJoawq",
+      "game_url": "https://lichess.org/AfFJoawq/white"
+    }
+  ]
 }

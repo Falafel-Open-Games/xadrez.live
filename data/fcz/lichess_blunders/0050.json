@@ -51,5 +51,82 @@
       "best": "Qd4",
       "text": "professio jogou Re1 no lance 10, com 10:11 no relógio."
     }
+  ],
+  "timeline": [
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "kind": "session_start",
+      "label": "Início",
+      "source": "youtube_release"
+    },
+    {
+      "time": "50:20",
+      "seconds": 3020,
+      "kind": "game_start",
+      "label": "Partida 1",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "NluhXQib",
+      "game_url": "https://lichess.org/NluhXQib/black"
+    },
+    {
+      "time": "52:16",
+      "seconds": 3136,
+      "source": "lichess",
+      "platform": "Lichess",
+      "kind": "blunder",
+      "label": "Capivarada",
+      "session_number": "0050",
+      "game_index": 1,
+      "game_id": "NluhXQib",
+      "game_url": "https://lichess.org/NluhXQib/black",
+      "video_offset_seconds": 0,
+      "ply": 18,
+      "move_number": 9,
+      "color": "black",
+      "player": "fcz",
+      "opponent": "professio",
+      "is_self": true,
+      "move": "g6",
+      "clock": "9:25",
+      "eval_change": "0.28 → 2.00",
+      "best": "Be6",
+      "text": "fcz jogou g6 no lance 9, com 9:25 no relógio."
+    },
+    {
+      "time": "52:19",
+      "seconds": 3139,
+      "source": "lichess",
+      "platform": "Lichess",
+      "kind": "blunder",
+      "label": "Capivarada",
+      "session_number": "0050",
+      "game_index": 1,
+      "game_id": "NluhXQib",
+      "game_url": "https://lichess.org/NluhXQib/black",
+      "video_offset_seconds": 0,
+      "ply": 19,
+      "move_number": 10,
+      "color": "white",
+      "player": "professio",
+      "opponent": "fcz",
+      "is_self": false,
+      "move": "Re1",
+      "clock": "10:11",
+      "eval_change": "2.00 → 0.23",
+      "best": "Qd4",
+      "text": "professio jogou Re1 no lance 10, com 10:11 no relógio."
+    },
+    {
+      "time": "1:02:01",
+      "seconds": 3721,
+      "kind": "game_end",
+      "label": "Fim de Partida",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "NluhXQib",
+      "game_url": "https://lichess.org/NluhXQib/black"
+    }
   ]
 }

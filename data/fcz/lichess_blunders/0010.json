@@ -51,5 +51,82 @@
       "best": "e5",
       "text": "Ashutosh_Pallai jogou Ngf3 no lance 9, com 8:48 no relógio."
     }
+  ],
+  "timeline": [
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "kind": "session_start",
+      "label": "Início",
+      "source": "youtube_release"
+    },
+    {
+      "time": "33:11",
+      "seconds": 1991,
+      "kind": "game_start",
+      "label": "Partida 1",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "vjMTBtav",
+      "game_url": "https://lichess.org/vjMTBtav/black"
+    },
+    {
+      "time": "36:22",
+      "seconds": 2182,
+      "source": "lichess",
+      "platform": "Lichess",
+      "kind": "blunder",
+      "label": "Capivarada",
+      "session_number": "0010",
+      "game_index": 1,
+      "game_id": "vjMTBtav",
+      "game_url": "https://lichess.org/vjMTBtav/black",
+      "video_offset_seconds": 0,
+      "ply": 16,
+      "move_number": 8,
+      "color": "black",
+      "player": "fcz",
+      "opponent": "Ashutosh_Pallai",
+      "is_self": true,
+      "move": "b6",
+      "clock": "7:46",
+      "eval_change": "-1.14 → 2.10",
+      "best": "e5",
+      "text": "fcz jogou b6 no lance 8, com 7:46 no relógio."
+    },
+    {
+      "time": "36:37",
+      "seconds": 2197,
+      "source": "lichess",
+      "platform": "Lichess",
+      "kind": "blunder",
+      "label": "Capivarada",
+      "session_number": "0010",
+      "game_index": 1,
+      "game_id": "vjMTBtav",
+      "game_url": "https://lichess.org/vjMTBtav/black",
+      "video_offset_seconds": 0,
+      "ply": 17,
+      "move_number": 9,
+      "color": "white",
+      "player": "Ashutosh_Pallai",
+      "opponent": "fcz",
+      "is_self": false,
+      "move": "Ngf3",
+      "clock": "8:48",
+      "eval_change": "2.10 → 0.00",
+      "best": "e5",
+      "text": "Ashutosh_Pallai jogou Ngf3 no lance 9, com 8:48 no relógio."
+    },
+    {
+      "time": "37:25",
+      "seconds": 2245,
+      "kind": "game_end",
+      "label": "Fim de Partida",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "vjMTBtav",
+      "game_url": "https://lichess.org/vjMTBtav/black"
+    }
   ]
 }

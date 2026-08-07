@@ -51,5 +51,82 @@
       "best": "Bg7",
       "text": "fcz jogou Rf8 no lance 15, com 0:41 no relógio."
     }
+  ],
+  "timeline": [
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "kind": "session_start",
+      "label": "Início",
+      "source": "youtube_release"
+    },
+    {
+      "time": "57:25",
+      "seconds": 3445,
+      "kind": "game_start",
+      "label": "Partida 1",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "Rdm1AOkr",
+      "game_url": "https://lichess.org/Rdm1AOkr/black"
+    },
+    {
+      "time": "1:01:37",
+      "seconds": 3697,
+      "source": "lichess",
+      "platform": "Lichess",
+      "kind": "blunder",
+      "label": "Capivarada",
+      "session_number": "0023",
+      "game_index": 1,
+      "game_id": "Rdm1AOkr",
+      "game_url": "https://lichess.org/Rdm1AOkr/black",
+      "video_offset_seconds": 0,
+      "ply": 20,
+      "move_number": 10,
+      "color": "black",
+      "player": "fcz",
+      "opponent": "dagnuz53",
+      "is_self": true,
+      "move": "Be6",
+      "clock": "1:47",
+      "eval_change": "-0.67 → 1.04",
+      "best": "O-O",
+      "text": "fcz jogou Be6 no lance 10, com 1:47 no relógio."
+    },
+    {
+      "time": "1:02:57",
+      "seconds": 3777,
+      "source": "lichess",
+      "platform": "Lichess",
+      "kind": "blunder",
+      "label": "Capivarada",
+      "session_number": "0023",
+      "game_index": 1,
+      "game_id": "Rdm1AOkr",
+      "game_url": "https://lichess.org/Rdm1AOkr/black",
+      "video_offset_seconds": 0,
+      "ply": 30,
+      "move_number": 15,
+      "color": "black",
+      "player": "fcz",
+      "opponent": "dagnuz53",
+      "is_self": true,
+      "move": "Rf8",
+      "clock": "0:41",
+      "eval_change": "2.44 → 4.95",
+      "best": "Bg7",
+      "text": "fcz jogou Rf8 no lance 15, com 0:41 no relógio."
+    },
+    {
+      "time": "1:03:58",
+      "seconds": 3838,
+      "kind": "game_end",
+      "label": "Fim de Partida",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "Rdm1AOkr",
+      "game_url": "https://lichess.org/Rdm1AOkr/black"
+    }
   ]
 }
