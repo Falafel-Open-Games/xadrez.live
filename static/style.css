@@ -506,6 +506,20 @@ h1 {
   font-weight: 700;
 }
 
+.replay-heading {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  gap: 8px;
+}
+
+.replay-capybara {
+  width: 42px;
+  height: 34px;
+  object-fit: contain;
+  object-position: center;
+}
+
 .replay-tabs {
   display: inline-flex;
   flex-wrap: wrap;
@@ -781,7 +795,7 @@ iframe {
 .session-supporters,
 .session-notes {
   max-width: 760px;
-  margin-top: 40px;
+  margin-top: 32px;
   padding-top: 24px;
   border-top: 1px solid var(--line);
 }
@@ -810,7 +824,7 @@ iframe {
 .summary-group {
   border: 1px solid var(--line);
   border-radius: 10px;
-  padding: 16px;
+  padding: 14px;
   background:
     linear-gradient(180deg, rgb(255 250 240 / 0.78), rgb(248 242 228 / 0.9)),
     var(--paper);
@@ -818,7 +832,7 @@ iframe {
 }
 
 .summary-group h3 {
-  margin: 0 0 12px;
+  margin: 0 0 10px;
   color: var(--ink);
   font-size: 1rem;
 }
@@ -831,16 +845,16 @@ iframe {
 
 .game-list {
   display: grid;
-  gap: 16px;
+  gap: 14px;
 }
 
 .game-summary + .game-summary {
-  padding-top: 20px;
+  padding-top: 16px;
   border-top: 1px solid var(--line);
 }
 
 .game-summary h4 {
-  margin: 0 0 12px;
+  margin: 0 0 10px;
   color: var(--ink);
   font-size: 0.95rem;
 }
@@ -848,7 +862,7 @@ iframe {
 .game-summary-layout {
   display: grid;
   grid-template-columns: minmax(280px, 0.72fr) minmax(360px, 1fr);
-  gap: 16px;
+  gap: 12px;
   align-items: start;
 }
 
@@ -863,14 +877,14 @@ iframe {
 .game-details-compact {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 8px;
+  gap: 6px;
 }
 
 .game-detail {
   min-width: 0;
   border: 1px solid rgb(217 205 184 / 0.8);
   border-radius: 8px;
-  padding: 7px 9px;
+  padding: 6px 8px;
   background: rgb(255 250 240 / 0.62);
 }
 
@@ -1149,7 +1163,7 @@ iframe {
 
 .home-columns {
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(300px, 380px);
+  grid-template-columns: minmax(0, 1fr) minmax(260px, 320px);
   gap: 48px;
   align-items: start;
 }
@@ -1157,6 +1171,8 @@ iframe {
 .home-primary,
 .home-secondary {
   min-width: 0;
+  padding-left: 24px;
+  border-left: 1px solid var(--line);
 }
 
 .home-ledger-card {
@@ -1405,20 +1421,18 @@ iframe {
 
 .external-stream-language h3 {
   margin: 0 0 16px;
-  border: 1px solid var(--line);
-  border-radius: 6px;
-  padding: 5px 9px;
-  background: var(--accent-soft);
+  padding: 0 0 7px;
+  border-bottom: 1px solid var(--line);
   color: var(--accent-strong);
-  font-size: 0.82rem;
+  font-size: 0.74rem;
   font-weight: 800;
   letter-spacing: 0.08em;
 }
 
 .external-stream-list li {
   display: grid;
-  gap: 6px;
-  padding-bottom: 18px;
+  gap: 4px;
+  padding-bottom: 14px;
   border-bottom: 1px solid var(--line);
 }
 
@@ -1431,6 +1445,11 @@ iframe {
   margin-top: 48px;
 }
 
+.home-secondary .session-list-section h2 {
+  margin-bottom: 12px;
+  font-size: 1.15rem;
+}
+
 .home-secondary .session-list-header {
   display: grid;
   gap: 4px;
@@ -1438,6 +1457,13 @@ iframe {
 
 .home-secondary .session-list-header > a {
   line-height: 1.35;
+  font-size: 0.94rem;
+  font-weight: 600;
+}
+
+.home-secondary .session-list-meta,
+.home-secondary .session-list-header span {
+  font-size: 0.82rem;
 }
 
 .community-invite {
@@ -1989,6 +2015,11 @@ pagefind-results {
   .home-columns {
     grid-template-columns: 1fr;
     gap: 0;
+  }
+
+  .home-secondary {
+    padding-left: 0;
+    border-left: 0;
   }
 
   .home-hero {

@@ -408,7 +408,12 @@
   {% if show_chat_replay or show_transcript or show_blunder_replay %}
     <section class="replay-section" data-replay-tabs data-youtube-url="{{ youtube_url }}">
       <div class="replay-header">
-        <h2>Replay da sessão</h2>
+        <div class="replay-heading">
+          <h2>Replay da sessão</h2>
+          {% if show_blunder_replay %}
+            <img class="replay-capybara" src="/assets/doodles/capybara-alert.png" alt="" aria-hidden="true">
+          {% endif %}
+        </div>
         {% if replay_source_count > 1 %}
           <div class="replay-tabs" role="tablist" aria-label="Modo do replay">
             <button class="replay-tab is-active" type="button" data-replay-tab="merged" role="tab" aria-selected="true">Mesclado</button>
