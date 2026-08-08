@@ -96,10 +96,13 @@ def clean_hook(value: str) -> str:
 
 
 def complete_title(hook: str, session: str) -> str:
-    hook = clean_hook(hook)
     suffix = title_suffix(session)
+    hook = re.sub(r"\s+", " ", hook).strip(" -|:;.\"'")
     if hook.endswith(suffix):
-        return hook
+        hook = hook[: -len(suffix)].strip()
+    hook = re.sub(rf"(?:\s*\|\s*)?xadrez depois dos 40\s+#?{re.escape(session)}$", "", hook, flags=re.I).strip()
+    hook = clean_hook(hook)
+    hook = re.sub(r"(?:\s*\|\s*)+$", "", hook).strip()
     title = f"{hook}{suffix}"
     if len(title) <= MAX_TITLE_LENGTH:
         return title
@@ -352,9 +355,22 @@ def unique_options(values: list[str], count: int) -> list[str]:
     return output
 
 
-def choose_with_gum(options: list[str], kind: str) -> str:
+def choice_label(kind: str) -> str:
+    return "o hook da descrição" if kind == "hook" else "o título do YouTube"
+
+
+def options_with_default(options: list[str], default: str) -> list[str]:
+    if not default:
+        return options
+    return unique_options([default, *options], len(options) + 1)
+
+
+def choose_with_gum(options: list[str], kind: str, default: str) -> str:
+    command = ["gum", "choose", "--header", f"Escolha {choice_label(kind)}"]
+    if default:
+        command.extend(["--selected", default])
     result = subprocess.run(
-        ["gum", "choose", "--header", f"Escolha {'o hook da descrição' if kind == 'hook' else 'o título do YouTube'}", *options],
+        [*command, *options],
         text=True,
         stdout=subprocess.PIPE,
         check=False,
@@ -362,10 +378,17 @@ def choose_with_gum(options: list[str], kind: str) -> str:
     return result.stdout.strip() if result.returncode == 0 else ""
 
 
-def choose_with_prompt(options: list[str]) -> str:
+def choose_with_prompt(options: list[str], kind: str, default: str) -> str:
+    default_index = 0
     for index, option in enumerate(options, start=1):
-        print(f"{index}. {option}")
-    raw = input("\nEscolha o número do título: ").strip()
+        selected = " [atual]" if option == default else ""
+        if option == default:
+            default_index = index
+        print(f"{index}. {option}{selected}")
+    suffix = f" [{default_index}]" if default_index else ""
+    raw = input(f"\nEscolha o número para {choice_label(kind)}{suffix}: ").strip()
+    if not raw and default_index:
+        return options[default_index - 1]
     if not raw.isdigit():
         return ""
     index = int(raw)
@@ -374,10 +397,11 @@ def choose_with_prompt(options: list[str]) -> str:
     return options[index - 1]
 
 
-def choose_option(options: list[str], kind: str) -> str:
+def choose_option(options: list[str], kind: str, default: str = "") -> str:
+    options = options_with_default(options, default)
     if shutil.which("gum"):
-        return choose_with_gum(options, kind)
-    return choose_with_prompt(options)
+        return choose_with_gum(options, kind, default)
+    return choose_with_prompt(options, kind, default)
 
 
 def confirm(message: str) -> bool:
@@ -398,7 +422,7 @@ def snippet_with_title(snippet: dict[str, Any], title: str) -> dict[str, Any]:
     return output
 
 
-def write_title(context: dict[str, Any], title: str) -> None:
+def youtube_snippet(context: dict[str, Any]) -> tuple[str, dict[str, Any]]:
     video_id = context.get("youtube_video_id")
     if not video_id:
         fail("session has no youtube_video_id")
@@ -411,8 +435,41 @@ def write_title(context: dict[str, Any], title: str) -> None:
     snippet = fetch_video_snippets(token, [video_id]).get(video_id)
     if not snippet:
         fail(f"video {video_id} was not returned by YouTube")
+    return str(video_id), snippet
+
+
+def write_title(context: dict[str, Any], title: str, snippet: dict[str, Any] | None = None) -> None:
+    video_id = context.get("youtube_video_id")
+    if not video_id:
+        fail("session has no youtube_video_id")
+    if snippet is None:
+        video_id, snippet = youtube_snippet(context)
+    else:
+        video_id = str(video_id)
+    if str(snippet.get("title") or "") == title:
+        print(f"title already current for {video_id}: {title}")
+        return
+    client_id = env_value("YOUTUBE_CLIENT_ID")
+    client_secret = env_value("YOUTUBE_CLIENT_SECRET")
+    refresh_token = env_value("YOUTUBE_REFRESH_TOKEN")
+    if not client_id or not client_secret or not refresh_token:
+        fail("set YOUTUBE_CLIENT_ID, YOUTUBE_CLIENT_SECRET and YOUTUBE_REFRESH_TOKEN in .env")
+    token = access_token(client_id, client_secret, refresh_token)
     api_request("videos", token, method="PUT", query={"part": "snippet"}, body={"id": video_id, "snippet": snippet_with_title(snippet, title)})
     print(f"updated title for {video_id}: {title}")
+
+
+def publish_title_if_changed(context: dict[str, Any], title: str, assume_yes: bool) -> int:
+    video_id, snippet = youtube_snippet(context)
+    current_title = str(snippet.get("title") or "")
+    if current_title == title:
+        print(f"title already current for {video_id}: {title}")
+        return 0
+    if assume_yes or confirm("Publicar este título no YouTube?"):
+        write_title(context, title, snippet)
+        return 0
+    print("Canceled.")
+    return 1
 
 
 def parse_args() -> argparse.Namespace:
@@ -444,8 +501,7 @@ def main() -> int:
             if args.kind == "hook":
                 print(f"saved description hook for {session}: {title}")
                 return 0
-            if args.yes or confirm(f"Publicar este título no YouTube?\n{title}"):
-                write_title(context, title)
+            return publish_title_if_changed(context, title, args.yes)
         else:
             print(title)
         return 0
@@ -466,7 +522,8 @@ def main() -> int:
             print(option)
         return 0
 
-    title = choose_option(options, args.kind)
+    previous = selected_choice(session, args.kind)
+    title = choose_option(options, args.kind, previous)
     if not title:
         print("No option selected.")
         return 1
@@ -475,13 +532,15 @@ def main() -> int:
 
     if args.write:
         if args.kind == "hook":
+            if previous and title == previous:
+                print(f"description hook already selected for {session}: {title}")
+                return 0
             print(f"saved description hook for {session}: {title}")
             return 0
-        if args.yes or confirm("Publicar este título no YouTube?"):
-            write_title(context, title)
-        else:
-            print("Canceled.")
-            return 1
+        if previous and title == previous:
+            print(f"title selection unchanged for {session}; skipping YouTube title update.")
+            return 0
+        return publish_title_if_changed(context, title, args.yes)
     return 0
 
 

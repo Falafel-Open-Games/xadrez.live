@@ -1,20 +1,20 @@
 {
   "session_number": "0054",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "limit": 6,
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 2040,
+      "start_seconds": 2067,
       "end_seconds": 2130,
-      "time": "34:00",
+      "time": "34:27",
       "duration": "1:30",
       "kind": "opening",
       "score": 4.5,
-      "summary": "Será que ele tá falando disso? Boa, defendido pelo cavalo, hein? Então, vamos falar aqui, dois aqui. Não, um, resposta do um, dois…",
+      "summary": "Não, não tô conseguindo enxergar claramente. É, não era torre ali. Sacrifício da torre não parece ser, não faz sentido na minha cabeça isso aqui, que também é errado. Tá…",
       "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; abertura ou repertório; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
@@ -25,53 +25,79 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 4
+      "transcript_count": 3,
+      "lead_in": "Três aqui seria mate"
     },
     {
-      "start_seconds": 2820,
-      "end_seconds": 2910,
-      "time": "47:00",
+      "start_seconds": 2745,
+      "end_seconds": 2820,
+      "time": "45:45",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 5.1,
-      "summary": "Pegar, tomar esse cavalo parece muito fácil, né? Ah... Eu não fiz isso na pressão do tempo? Seria a primeira coisa que passa na minha cabeça. É o certo…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; pressão no relógio; treino ou puzzle streak; raciocínio em voz alta",
+      "score": 4.95,
+      "summary": "E continue jogando, ganhar o cavalo ou já dar um cheque antes de ganhar o cavalo. Pra que um cheque sem nada, né? Só ganha o cavalo. Tá, esse com o tempo eu teria resolvido…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; pressão no relógio; treino ou puzzle streak; raciocínio em voz alta",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "pressão no relógio",
+        "treino ou puzzle streak",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 1,
+      "transcript_count": 4,
+      "lead_in": "parece ser muito certo né"
+    },
+    {
+      "start_seconds": 2842,
+      "end_seconds": 2910,
+      "time": "47:22",
+      "duration": "1:30",
+      "kind": "training",
+      "score": 4.5,
+      "summary": "Promover o peão. Tô vendo. Tá perto ali do G8. Então... Trazer a torre aqui, só pra abrir espaço. Sem check, sem nada. Acho que sim, né? Errado…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
         "review ou melhor lance",
-        "pressão no relógio",
         "treino ou puzzle streak",
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 2,
+      "lead_in": "que eu não lembro para"
     },
     {
-      "start_seconds": 3892,
-      "end_seconds": 3990,
-      "time": "1:04:52",
+      "start_seconds": 3969,
+      "end_seconds": 4050,
+      "time": "1:06:09",
       "duration": "1:30",
-      "kind": "research",
-      "score": 4.5,
-      "summary": "Amigão, se ele propor de novo aqui, eu aceito. Pode voltar, amigão. Se estiver ouvindo na live... Eu nem sei o nome dele, o país, nada, porque eu estou no modo Zen…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; pressão no relógio; raciocínio em voz alta; pesquisa ou contexto externo",
+      "kind": "time-pressure",
+      "score": 4.3,
+      "summary": "Com cinco minutos a mais no relógio, eu acho que isso aqui minha obrigação é não perder, né? Eu acho que isso aqui o jogo tá para as pretas, né? Será que vai ter capivarada do meu…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
+        "plano ou estratégia",
         "pressão no relógio",
-        "raciocínio em voz alta",
-        "pesquisa ou contexto externo"
+        "plano sob pressão de tempo",
+        "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 4
+      "transcript_count": 3,
+      "lead_in": "já perdeu a concentração viu"
     },
     {
-      "start_seconds": 4141,
-      "end_seconds": 4230,
-      "time": "1:09:01",
+      "start_seconds": 4149,
+      "end_seconds": 4200,
+      "time": "1:09:09",
       "duration": "1:30",
       "kind": "review",
       "score": 4.4,
@@ -86,12 +112,13 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 4
+      "transcript_count": 3,
+      "lead_in": "ator pago"
     },
     {
-      "start_seconds": 4244,
+      "start_seconds": 4249,
       "end_seconds": 4260,
-      "time": "1:10:44",
+      "time": "1:10:49",
       "duration": "1:30",
       "kind": "research",
       "score": 5.8,
@@ -107,28 +134,8 @@
         "pesquisa ou contexto externo"
       ],
       "chat_count": 0,
-      "transcript_count": 4
-    },
-    {
-      "start_seconds": 4792,
-      "end_seconds": 4890,
-      "time": "1:19:52",
-      "duration": "1:30",
-      "kind": "opening",
-      "score": 4.45,
-      "summary": "E como uma lentidão muito grande aí no desenvolvimento. Pode ser? Porque ou um medo infundado de receber uma ameaça que isso que só faz parte do jogo, né? Tudo bem…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; interação com o chat; abertura ou repertório; raciocínio em voz alta",
-      "signals": [
-        "1 mensagem(ns) no chat",
-        "chat e fala no mesmo trecho",
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "interação com o chat",
-        "abertura ou repertório",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 1,
-      "transcript_count": 4
+      "transcript_count": 4,
+      "lead_in": "ou menos a barra tá"
     }
   ]
 }

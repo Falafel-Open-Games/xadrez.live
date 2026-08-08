@@ -280,8 +280,15 @@ discover-lichess-youtube-streamers LANGUAGE="all" PAGES="80":
 thumbnail-prompt SESSION KIND="post":
   @python3 scripts/thumbnail_prompt.py {{SESSION}} {{KIND}}
 
-pre-thumb SESSION TIME="":
+pre-thumb-local SESSION TIME="":
   @python3 scripts/prelive_thumbnail.py {{SESSION}} {{TIME}}
+
+pre-thumb SESSION TIME="":
+  @just pre-thumb-local {{SESSION}} {{TIME}}
+  @just youtube-thumbnail {{SESSION}}
+
+pre-thumb-youtube SESSION TIME="":
+  @just pre-thumb {{SESSION}} {{TIME}}
 
 post-thumb SESSION:
   @python3 scripts/postlive_thumbnail.py {{SESSION}}
