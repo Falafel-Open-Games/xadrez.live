@@ -31,6 +31,9 @@ pre-wrap RECENT="2":
   @python3 scripts/update_chat_supporters.py --latest {{RECENT}}
   @just build-search
 
+wrap-session SESSION *ARGS:
+  @python3 scripts/wrap_session.py {{SESSION}} {{ARGS}}
+
 lint-actions:
   actionlint
 
@@ -98,6 +101,9 @@ update-session-capivaradas SESSION:
 update-youtube-video-metadata EXTRA="":
   @python3 scripts/update_youtube_video_metadata.py {{EXTRA}}
 
+verify-session SESSION *ARGS:
+  @python3 scripts/verify_session.py {{SESSION}} {{ARGS}}
+
 youtube-chapters SESSION="" *ARGS:
   @python3 scripts/update_youtube_chapters.py {{SESSION}} {{ARGS}}
 
@@ -141,15 +147,19 @@ youtube-hook-choose SESSION:
   @python3 scripts/youtube_title_options.py {{SESSION}} --kind hook --choose --write
 
 youtube-finish-session SESSION:
+  @just verify-session {{SESSION}}
   @just youtube-title-choose {{SESSION}}
   @just youtube-hook-choose {{SESSION}}
   @just youtube-chapters-write-confirm {{SESSION}}
   @just youtube-thumbnail {{SESSION}}
+  @just verify-session {{SESSION}} --require-published-thumbnail
 
 youtube-finish-session-skip-title SESSION:
+  @just verify-session {{SESSION}}
   @just youtube-hook-choose {{SESSION}}
   @just youtube-chapters-write-confirm {{SESSION}}
   @just youtube-thumbnail {{SESSION}}
+  @just verify-session {{SESSION}} --require-published-thumbnail
 
 import-youtube-chat-replays CACHE_DIR="/tmp/xadrez-chat" EXTRA="":
   @python3 scripts/import_youtube_chat_replays.py --cache-dir {{CACHE_DIR}} {{EXTRA}}

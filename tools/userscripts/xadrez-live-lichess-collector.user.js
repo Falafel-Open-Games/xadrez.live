@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.18.0
+// @version      0.20.0
 // @description  Collect chess puzzle, game, notes, and Restream chat usernames during a xadrez.live session.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -1144,6 +1144,69 @@ note = "${quote(attempt.note)}"`);
     window.prompt("Copy this text:", text);
   }
 
+  function downloadTextFile(filename, text, type) {
+    const blob = new Blob([text], { type });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = filename;
+    document.body.append(link);
+    link.click();
+    link.remove();
+    window.setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  async function saveTextFile(filename, text, type = "text/plain") {
+    if (!text) {
+      window.alert("Nothing to save yet.");
+      return;
+    }
+
+    if (window.showSaveFilePicker) {
+      try {
+        const handle = await window.showSaveFilePicker({
+          suggestedName: filename,
+          types: [
+            {
+              description: type.includes("json") ? "JSON" : "TOML",
+              accept: { [type]: [filename.slice(filename.lastIndexOf("."))] },
+            },
+          ],
+        });
+        const writable = await handle.createWritable();
+        await writable.write(text);
+        await writable.close();
+        window.alert(`Saved ${filename}.`);
+        return;
+      } catch (error) {
+        if (error?.name === "AbortError") {
+          return;
+        }
+      }
+    }
+
+    downloadTextFile(filename, text, type);
+    window.alert(`Downloaded ${filename}.`);
+  }
+
+  function promptSessionNumber() {
+    const value = window.prompt("Session number, e.g. 0054:", "");
+    const trimmed = String(value || "").trim();
+    if (!trimmed) {
+      return "";
+    }
+    return trimmed.padStart(4, "0");
+  }
+
+  async function saveTomlFile(state) {
+    const sessionNumber = promptSessionNumber();
+    if (!sessionNumber) {
+      return;
+    }
+    const generated = buildToml(state);
+    await saveTextFile(`${sessionNumber}.toml`, currentPanelToml(generated), "application/toml");
+  }
+
   function currentPanelToml(fallback) {
     const panelTextarea = document.querySelector(`#${PANEL_ID} textarea`);
     if (!panelTextarea) {
@@ -1578,25 +1641,41 @@ note = "${quote(attempt.note)}"`);
       });
   }
 
-  function copyRestreamReplayJson() {
+  function restreamReplayJsonText() {
     const messages = restreamReplayMessages();
     if (!messages.length) {
       window.alert("No Restream chat messages found in the currently loaded page.");
-      return;
+      return "";
     }
 
-    copyText(
-      JSON.stringify(
-        {
-          source: "restream-userscript",
-          exportedAt: new Date().toISOString(),
-          pageUrl: location.href,
-          messages,
-        },
-        null,
-        2,
-      ),
+    return JSON.stringify(
+      {
+        source: "restream-userscript",
+        exportedAt: new Date().toISOString(),
+        pageUrl: location.href,
+        messages,
+      },
+      null,
+      2,
     );
+  }
+
+  function copyRestreamReplayJson() {
+    const text = restreamReplayJsonText();
+    if (text) {
+      copyText(text);
+    }
+  }
+
+  async function saveRestreamReplayJson() {
+    const sessionNumber = promptSessionNumber();
+    if (!sessionNumber) {
+      return;
+    }
+    const text = restreamReplayJsonText();
+    if (text) {
+      await saveTextFile(`${sessionNumber}-chat.json`, text, "application/json");
+    }
   }
 
   function mergeSupporters(state, supporters) {
@@ -1761,6 +1840,25 @@ note = "${quote(attempt.note)}"`);
           color: #b8b5a8;
           font-size: 12px;
         }
+        #${PANEL_ID} .xlc-section-label {
+          margin: 10px 0 5px;
+          color: #d8a657;
+          font-size: 11px;
+          font-weight: 700;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+        }
+        #${PANEL_ID} .xlc-fallback button {
+          border-color: #735f32;
+          background: #2c2618;
+          color: #f0d89b;
+        }
+        #${PANEL_ID} .xlc-fallback button:only-child {
+          grid-column: 1 / -1;
+        }
+        #${PANEL_ID} .xlc-fallback button:hover {
+          border-color: #e0ad4f;
+        }
         #${PANEL_ID}.is-collapsed .xlc-full {
           display: none;
         }
@@ -1782,7 +1880,6 @@ note = "${quote(attempt.note)}"`);
         <p class="xlc-meta">
           Puzzle of the day: ${state.puzzleOfTheDayUrl ? "ok" : "pending"}
           · stats: ${state.duration && state.rapid && state.puzzles ? "ok" : "pending"}
-          · general notes: ${state.descriptionNotes ? "ok" : "empty"}
           · practice notes: ${state.practiceNotes ? "ok" : "empty"}
           · supporters: ${savedSupporterCount}
         </p>
@@ -1806,26 +1903,33 @@ note = "${quote(attempt.note)}"`);
         </div>
         <div class="xlc-row">
           <button type="button" data-action="set-post-stats"${disabledUnlessLichess}>Post stats</button>
-          <button type="button" data-action="set-description-notes">General notes</button>
-        </div>
-        <div class="xlc-row">
           <button type="button" data-action="set-practice-notes">Practice notes</button>
         </div>
         <div class="xlc-row">
-          <button type="button" data-action="copy">Copy TOML</button>
+          <button type="button" data-action="save-toml">Save TOML</button>
+        </div>
+        <div class="xlc-row">
           <button type="button" data-action="refresh">Refresh</button>
         </div>
         ${
           isRestreamChatPage
             ? `<div class="xlc-row">
-                <button type="button" data-action="scan-restream-thanks">Add chat thanks</button>
-                <button type="button" data-action="copy-restream-replay">Copy chat JSON</button>
+                <button type="button" data-action="save-restream-replay">Save chat JSON</button>
               </div>`
             : ""
         }
         <div class="xlc-row">
           <button type="button" data-action="reset">New session</button>
           <button type="button" data-action="toggle-collapse">Collapse</button>
+        </div>
+        <p class="xlc-section-label">Fallback</p>
+        <div class="xlc-row xlc-fallback">
+          <button type="button" data-action="copy">Copy TOML</button>
+          ${
+            isRestreamChatPage
+              ? `<button type="button" data-action="copy-restream-replay">Copy chat JSON</button>`
+              : ""
+          }
         </div>
         <label class="xlc-preview-label" for="${PANEL_ID}-toml">TOML preview/edit</label>
         <textarea id="${PANEL_ID}-toml" spellcheck="false">${escapeHtml(previewText)}</textarea>
@@ -1868,9 +1972,6 @@ note = "${quote(attempt.note)}"`);
         case "set-post-stats":
           await setPostStats(nextState);
           break;
-        case "set-description-notes":
-          await setDescriptionNotes(nextState);
-          break;
         case "set-practice-notes":
           await setPracticeNotes(nextState);
           break;
@@ -1895,18 +1996,14 @@ note = "${quote(attempt.note)}"`);
             copyText(copyValue);
           }
           break;
-        case "scan-restream-thanks":
-          {
-            const count = mergeSupporters(nextState, restreamSupporters());
-            window.alert(
-              count
-                ? `Added ${count} chat participant(s) to the TOML scratchpad.`
-                : "No chat participant usernames found in the currently loaded page.",
-            );
-          }
+        case "save-toml":
+          await saveTomlFile(nextState);
           break;
         case "copy-restream-replay":
           copyRestreamReplayJson();
+          break;
+        case "save-restream-replay":
+          await saveRestreamReplayJson();
           break;
         case "reset":
           nextState = resetSession(nextState);
