@@ -134,12 +134,19 @@ def verify(session: str, require_published_thumbnail: bool) -> list[Check]:
     else:
         checks.append(Check("error", "YouTube video id ausente"))
 
+    ended = is_ended(extra)
+    if ended:
+        missing_stats = [field for field in ("duration", "rapid", "puzzles") if not str(extra.get(field) or "").strip()]
+        if missing_stats:
+            checks.append(Check("error", f"Stats pós-live ausentes: {', '.join(missing_stats)}"))
+        else:
+            checks.append(Check("ok", "Stats pós-live preenchidos"))
+
     if extra.get("puzzle_of_the_day_url") and not extra.get("puzzle_of_the_day_recorded_at"):
         checks.append(Check("error", "Puzzle do dia tem URL, mas não tem puzzle_of_the_day_recorded_at"))
     elif extra.get("puzzle_of_the_day_recorded_at"):
         checks.append(Check("ok", "Puzzle do dia tem timestamp"))
 
-    ended = is_ended(extra)
     practice_expected = ended and has_practice(extra)
     if practice_expected and not extra.get("practice_notes_recorded_at"):
         checks.append(Check("error", "Há prática/streak registrados, mas falta practice_notes_recorded_at"))

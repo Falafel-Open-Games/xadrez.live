@@ -282,6 +282,70 @@ def read_metadata() -> dict[str, Any]:
         return {}
 
 
+def refresh_automatic_stat_sources(session: str, dry_run: bool) -> None:
+    commands = [
+        ["python3", "scripts/update_youtube_video_metadata.py", session],
+        ["python3", "scripts/update_lichess_rating_history.py"],
+    ]
+    for command in commands:
+        print(f"$ {' '.join(command)}")
+        if dry_run:
+            continue
+        subprocess.run(command, check=False)
+
+
+def format_duration_field(duration_seconds: int) -> str:
+    minutes = max(0, duration_seconds) // 60
+    hours, remainder = divmod(minutes, 60)
+    if hours:
+        return f"{hours}:{remainder:02d}"
+    return str(remainder)
+
+
+def latest_lichess_ratings() -> dict[str, str]:
+    path = DATA_DIR / "lichess_rating_history.toml"
+    if not path.exists():
+        return {}
+    try:
+        data = tomllib.loads(path.read_text(encoding="utf-8"))
+    except tomllib.TOMLDecodeError:
+        return {}
+    ratings: dict[str, str] = {}
+    for series in data.get("series") or []:
+        if not isinstance(series, dict):
+            continue
+        key = str(series.get("key") or "")
+        latest = series.get("latest_rating")
+        if key in {"rapid", "puzzles"} and latest is not None:
+            ratings[key] = str(latest)
+    return ratings
+
+
+def auto_fill_post_stats(session: str, data: dict[str, Any]) -> list[str]:
+    extra = data.setdefault("extra", {})
+    if not isinstance(extra, dict):
+        fail("[extra] is not a table")
+
+    updated = []
+    metadata = read_metadata().get("sessions", {})
+    session_metadata = metadata.get(session, {}) if isinstance(metadata, dict) else {}
+    duration_seconds = session_metadata.get("duration_seconds") if isinstance(session_metadata, dict) else None
+    if isinstance(duration_seconds, int) and duration_seconds > 0:
+        value = format_duration_field(duration_seconds)
+        if extra.get("duration") != value:
+            extra["duration"] = value
+            updated.append(f"duration={value}")
+
+    ratings = latest_lichess_ratings()
+    for key in ("rapid", "puzzles"):
+        value = ratings.get(key)
+        if value and extra.get(key) != value:
+            extra[key] = value
+            updated.append(f"{key}={value}")
+
+    return updated
+
+
 def session_start(data: dict[str, Any], session: str) -> datetime:
     metadata = read_metadata().get("sessions", {})
     if isinstance(metadata, dict):
@@ -416,6 +480,11 @@ def main() -> int:
 
     if not args.dry_run:
         save_json(WRAP_DIR / f"{session}.json", state)
+        refresh_automatic_stat_sources(session, args.dry_run)
+        updated_stats = auto_fill_post_stats(session, data)
+        if updated_stats:
+            write_session(path, data, body)
+            print(f"{session}: auto-filled post stats ({', '.join(updated_stats)})")
         if chat_json_file:
             run(["python3", "scripts/merge_chat_replays.py", session], args.dry_run)
         if not args.skip_capivaradas:

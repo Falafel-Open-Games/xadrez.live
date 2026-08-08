@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.20.0
+// @version      0.23.0
 // @description  Collect chess puzzle, game, notes, and Restream chat usernames during a xadrez.live session.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -1768,7 +1768,7 @@ note = "${quote(attempt.note)}"`);
           right: 16px;
           bottom: 16px;
           z-index: 99999;
-          width: 310px;
+          width: min(360px, calc(100vw - 32px));
           border: 1px solid #4a513f;
           border-radius: 8px;
           padding: 10px;
@@ -1790,6 +1790,13 @@ note = "${quote(attempt.note)}"`);
           font-size: 13px;
           letter-spacing: 0.04em;
           text-transform: uppercase;
+        }
+        #${PANEL_ID} .xlc-full {
+          display: block;
+        }
+        #${PANEL_ID} .xlc-controls,
+        #${PANEL_ID} .xlc-preview {
+          min-width: 0;
         }
         #${PANEL_ID} .xlc-row {
           display: grid;
@@ -1821,11 +1828,12 @@ note = "${quote(attempt.note)}"`);
           border-color: #34372e;
         }
         #${PANEL_ID} textarea {
-          min-height: 140px;
+          min-height: 280px;
           margin-top: 6px;
           padding: 8px;
           background: #0f110d;
           color: #f2f0e7;
+          font: 11px/1.35 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;
           resize: vertical;
           white-space: pre;
         }
@@ -1865,74 +1873,93 @@ note = "${quote(attempt.note)}"`);
         #${PANEL_ID}:not(.is-collapsed) .xlc-collapsed {
           display: none;
         }
+        @media (min-width: 720px) {
+          #${PANEL_ID}:not(.is-collapsed) {
+            width: min(760px, calc(100vw - 32px));
+          }
+          #${PANEL_ID} .xlc-full {
+            display: grid;
+            grid-template-columns: minmax(240px, 310px) minmax(360px, 1fr);
+            gap: 10px;
+            align-items: start;
+          }
+          #${PANEL_ID} .xlc-controls h2,
+          #${PANEL_ID} .xlc-controls .xlc-meta:last-of-type {
+            margin-bottom: 8px;
+          }
+          #${PANEL_ID} textarea {
+            min-height: min(620px, calc(100vh - 130px));
+          }
+          #${PANEL_ID} .xlc-preview-label {
+            margin-top: 0;
+          }
+        }
       </style>
       <div class="xlc-collapsed">
         <button type="button" data-action="toggle-collapse">xadrez.live</button>
       </div>
       <div class="xlc-full">
-        <h2>xadrez.live</h2>
-        <p class="xlc-meta">
-          Attempts: ${state.attempts.length}
-          · current: ${state.currentPuzzles.length} puzzle(s)
-          · games: ${state.games.length}
-          · practice: ${savedPracticeCount}
-        </p>
-        <p class="xlc-meta">
-          Puzzle of the day: ${state.puzzleOfTheDayUrl ? "ok" : "pending"}
-          · stats: ${state.duration && state.rapid && state.puzzles ? "ok" : "pending"}
+        <div class="xlc-controls">
+          <h2>xadrez.live</h2>
+          <p class="xlc-meta">
+            Attempts: ${state.attempts.length}
+            · current: ${state.currentPuzzles.length} puzzle(s)
+            · games: ${state.games.length}
+            · practice: ${savedPracticeCount}
+          </p>
+          <p class="xlc-meta">
+            Puzzle of the day: ${state.puzzleOfTheDayUrl ? "ok" : "pending"}
           · practice notes: ${state.practiceNotes ? "ok" : "empty"}
           · supporters: ${savedSupporterCount}
-        </p>
-        ${
-          isRestreamChatPage
-            ? `<p class="xlc-meta">Restream chat: ${restreamCount} chat participant(s), ${restreamReplayCount} replay message(s) loaded</p>`
-            : ""
-        }
-        <div class="xlc-row">
-          <button type="button" data-action="set-puzzle-of-day"${disabledUnlessLichess}>Puzzle of day</button>
-          <button type="button" data-action="add-puzzle"${disabledUnlessLichess}>Add puzzle</button>
-          <button type="button" data-action="add-puzzles"${disabledUnlessLichess}>Add puzzles</button>
-        </div>
-        <div class="xlc-row">
-          <button type="button" data-action="finish-attempt"${disabledUnlessLichess}>Finish attempt</button>
-          <button type="button" data-action="add-game"${disabledUnlessGame}>Add game</button>
-        </div>
-        <div class="xlc-row">
-          <button type="button" data-action="add-practice"${disabledUnlessPractice}>Add practice</button>
-          <button type="button" data-action="sync-practice"${disabledUnlessPractice}>Sync practice</button>
-        </div>
-        <div class="xlc-row">
-          <button type="button" data-action="set-post-stats"${disabledUnlessLichess}>Post stats</button>
-          <button type="button" data-action="set-practice-notes">Practice notes</button>
-        </div>
-        <div class="xlc-row">
-          <button type="button" data-action="save-toml">Save TOML</button>
-        </div>
-        <div class="xlc-row">
-          <button type="button" data-action="refresh">Refresh</button>
-        </div>
-        ${
-          isRestreamChatPage
-            ? `<div class="xlc-row">
-                <button type="button" data-action="save-restream-replay">Save chat JSON</button>
-              </div>`
-            : ""
-        }
-        <div class="xlc-row">
-          <button type="button" data-action="reset">New session</button>
-          <button type="button" data-action="toggle-collapse">Collapse</button>
-        </div>
-        <p class="xlc-section-label">Fallback</p>
-        <div class="xlc-row xlc-fallback">
-          <button type="button" data-action="copy">Copy TOML</button>
+          </p>
           ${
             isRestreamChatPage
-              ? `<button type="button" data-action="copy-restream-replay">Copy chat JSON</button>`
+              ? `<p class="xlc-meta">Restream chat: ${restreamCount} chat participant(s), ${restreamReplayCount} replay message(s) loaded</p>`
               : ""
           }
+          <div class="xlc-row">
+            <button type="button" data-action="set-puzzle-of-day"${disabledUnlessLichess}>Puzzle of day</button>
+            <button type="button" data-action="add-puzzle"${disabledUnlessLichess}>Add puzzle</button>
+            <button type="button" data-action="add-puzzles"${disabledUnlessLichess}>Add puzzles</button>
+          </div>
+          <div class="xlc-row">
+            <button type="button" data-action="finish-attempt"${disabledUnlessLichess}>Finish attempt</button>
+            <button type="button" data-action="add-game"${disabledUnlessGame}>Add game</button>
+          </div>
+          <div class="xlc-row">
+            <button type="button" data-action="add-practice"${disabledUnlessPractice}>Add practice</button>
+          </div>
+          <div class="xlc-row">
+            <button type="button" data-action="set-practice-notes">Practice notes</button>
+          </div>
+          <div class="xlc-row">
+            <button type="button" data-action="save-toml">Save TOML</button>
+          </div>
+          ${
+            isRestreamChatPage
+              ? `<div class="xlc-row">
+                  <button type="button" data-action="save-restream-replay">Save chat JSON</button>
+                </div>`
+              : ""
+          }
+          <div class="xlc-row">
+            <button type="button" data-action="reset">New session</button>
+            <button type="button" data-action="toggle-collapse">Collapse</button>
+          </div>
+          <p class="xlc-section-label">Fallback</p>
+          <div class="xlc-row xlc-fallback">
+            <button type="button" data-action="copy">Copy TOML</button>
+            ${
+              isRestreamChatPage
+                ? `<button type="button" data-action="copy-restream-replay">Copy chat JSON</button>`
+                : ""
+            }
+          </div>
         </div>
-        <label class="xlc-preview-label" for="${PANEL_ID}-toml">TOML preview/edit</label>
-        <textarea id="${PANEL_ID}-toml" spellcheck="false">${escapeHtml(previewText)}</textarea>
+        <div class="xlc-preview">
+          <label class="xlc-preview-label" for="${PANEL_ID}-toml">TOML preview/edit</label>
+          <textarea id="${PANEL_ID}-toml" spellcheck="false">${escapeHtml(previewText)}</textarea>
+        </div>
       </div>
     `;
 
@@ -1965,12 +1992,6 @@ note = "${quote(attempt.note)}"`);
           break;
         case "add-practice":
           addCurrentPracticeExercise(nextState);
-          break;
-        case "sync-practice":
-          syncDonePracticeExercises(nextState);
-          break;
-        case "set-post-stats":
-          await setPostStats(nextState);
           break;
         case "set-practice-notes":
           await setPracticeNotes(nextState);
@@ -2007,8 +2028,6 @@ note = "${quote(attempt.note)}"`);
           break;
         case "reset":
           nextState = resetSession(nextState);
-          break;
-        case "refresh":
           break;
       }
 

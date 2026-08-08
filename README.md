@@ -252,7 +252,7 @@ O painel `xadrez.live` deve aparecer no canto inferior direito. Fluxo básico:
 7. Ao fim da live, abra o chat do Restream e role o histórico carregado se necessário. A tela de admin tende a ser melhor para isso; o embed usado no OBS também é suportado, mas pode ter só as mensagens recentes carregadas.
 8. Clique em `Save TOML` e salve como `data/fcz/wrap_inbox/NNNN.toml`.
 9. No chat do Restream, clique em `Save chat JSON` e salve como `data/fcz/wrap_inbox/NNNN-chat.json`.
-10. Rode `just wrap-session NNNN` para aplicar o TOML, importar o chat, derivar os agradecimentos do próprio chat, gerar timeline/capivaradas, validar a sessão e fazer build.
+10. Rode `just wrap-session NNNN` para aplicar o TOML, importar o chat, derivar os agradecimentos do próprio chat, preencher duração pelo YouTube e ratings pelo Lichess, gerar timeline/capivaradas, validar a sessão e fazer build.
 
 Os botões `Copy TOML` e `Copy chat JSON` continuam disponíveis como fallback, mas o caminho normal do wrapup deve usar arquivos em `data/fcz/wrap_inbox/` para evitar perda de dados no clipboard ou no histórico do chat.
 
