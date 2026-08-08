@@ -80,6 +80,17 @@ def lichess_game_from_url(url: Any, fallback_color: Any = "") -> tuple[str, str]
     return match.group("id")[:8], color
 
 
+def explicit_lichess_game(game: dict[str, Any]) -> tuple[str, str, str] | None:
+    game_id = str(game.get("game_id") or "").strip()
+    if not re.fullmatch(r"[A-Za-z0-9]{8}", game_id):
+        return None
+    color = normalize_color(game.get("color"))
+    url = str(game.get("game_url") or game.get("lichess_game_url") or "").strip()
+    if not url:
+        url = f"https://lichess.org/{game_id}{('/' + color) if color else ''}"
+    return game_id, color, url
+
+
 def session_games(path: Path) -> list[SessionGame]:
     data = front_matter(path)
     if data.get("draft") is True:
@@ -96,6 +107,11 @@ def session_games(path: Path) -> list[SessionGame]:
     if isinstance(games, list) and games:
         for index, game in enumerate(games, start=1):
             if not isinstance(game, dict):
+                continue
+            explicit = explicit_lichess_game(game)
+            if explicit:
+                game_id, color, url = explicit
+                rows.append(SessionGame(session_number, index, game_id, url, color))
                 continue
             url = str(game.get("game_url") or game.get("lichess_game_url") or "").strip()
             parsed = lichess_game_from_url(url, game.get("color"))
@@ -276,6 +292,29 @@ def existing_rows_by_key(path: Path) -> dict[tuple[str, int], dict[str, Any]]:
     return existing
 
 
+def semantic_cache(data: dict[str, Any]) -> dict[str, Any]:
+    summary = dict(data.get("summary") or {})
+    summary.pop("updated_at", None)
+    return {
+        **data,
+        "summary": summary,
+    }
+
+
+def write_cache_if_changed(path: Path, content: str) -> bool:
+    if path.exists():
+        try:
+            existing = tomllib.loads(path.read_text(encoding="utf-8"))
+            incoming = tomllib.loads(content)
+        except tomllib.TOMLDecodeError:
+            existing = {}
+            incoming = {}
+        if existing and incoming and semantic_cache(existing) == semantic_cache(incoming):
+            return False
+    path.write_text(content, encoding="utf-8")
+    return True
+
+
 def main() -> int:
     load_env_file(ENV_PATH)
     parser = argparse.ArgumentParser(description="Fetch cached Lichess computer analysis for registered session games.")
@@ -312,15 +351,20 @@ def main() -> int:
         except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as error:
             payload = None
             failures.append(f"{game.session_number} #{game.game_index} {game.url}: {error}")
-        rows.append(build_row(game, payload))
+        if payload is None and key in existing_rows:
+            rows.append(dict(existing_rows[key]))
+        else:
+            rows.append(build_row(game, payload))
         if fetched < len(games_to_fetch) and args.sleep > 0:
             time.sleep(args.sleep)
 
     missing = [row for row in rows if not row["has_analysis"]]
     if not args.no_write:
         OUTPUT.parent.mkdir(parents=True, exist_ok=True)
-        OUTPUT.write_text(export_rows(rows), encoding="utf-8")
-        print(f"Updated {OUTPUT.relative_to(ROOT)}")
+        if write_cache_if_changed(OUTPUT, export_rows(rows)):
+            print(f"Updated {OUTPUT.relative_to(ROOT)}")
+        else:
+            print(f"Unchanged {OUTPUT.relative_to(ROOT)}")
 
     if args.missing_only:
         if missing:

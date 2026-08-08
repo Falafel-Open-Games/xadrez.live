@@ -627,7 +627,9 @@
                 {% set lichess_game_url = game.game_url %}
               {% endif %}
               {% set lichess_game_id = "" %}
-              {% if lichess_game_url %}
+              {% if game.game_id is defined and game.game_id %}
+                {% set lichess_game_id = game.game_id %}
+              {% elif lichess_game_url %}
                 {% set lichess_game_id = lichess_game_url
                   | replace(from="https://lichess.org/", to="")
                   | replace(from="http://lichess.org/", to="")

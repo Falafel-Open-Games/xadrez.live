@@ -18,6 +18,7 @@ DATA_DIR = ROOT / "data" / "fcz"
 WRAP_DIR = DATA_DIR / "wrap_sessions"
 RESTREAM_DIR = DATA_DIR / "restream_chat_replays"
 INBOX_DIR = DATA_DIR / "wrap_inbox"
+DOWNLOADS_DIR = Path.home() / "Downloads"
 LOCAL_TZ = ZoneInfo("America/Sao_Paulo")
 ARRAY_REPLACE_KEYS = {"streak_attempts", "practice_sets", "games", "supporters"}
 SELF_SUPPORTERS = {
@@ -444,11 +445,28 @@ def parse_args() -> argparse.Namespace:
     return parser.parse_args()
 
 
+def existing_input(candidates: list[Path]) -> Path | None:
+    existing = [path for path in candidates if path.exists()]
+    if not existing:
+        return None
+    return max(existing, key=lambda path: path.stat().st_mtime)
+
+
 def main() -> int:
     args = parse_args()
     session = args.session.zfill(4)
-    toml_file = args.toml_file or (INBOX_DIR / f"{session}.toml" if (INBOX_DIR / f"{session}.toml").exists() else None)
-    chat_json_file = args.chat_json_file or (INBOX_DIR / f"{session}-chat.json" if (INBOX_DIR / f"{session}-chat.json").exists() else None)
+    toml_file = args.toml_file or existing_input(
+        [
+            INBOX_DIR / f"{session}.toml",
+            DOWNLOADS_DIR / f"{session}.toml",
+        ]
+    )
+    chat_json_file = args.chat_json_file or existing_input(
+        [
+            INBOX_DIR / f"{session}-chat.json",
+            DOWNLOADS_DIR / f"{session}-chat.json",
+        ]
+    )
     path, data, body = read_session(session)
     state: dict[str, Any] = {"session": session, "updated_at": datetime.now(timezone.utc).isoformat(), "inputs": {}}
 
@@ -472,7 +490,8 @@ def main() -> int:
         added_supporters = merge_session_supporters(data, chat_supporters(replay["messages"]))
         if not args.dry_run:
             save_json(RESTREAM_DIR / f"{session}.json", replay)
-            write_session(path, data, body)
+            if added_supporters:
+                write_session(path, data, body)
         print(f"{session}: imported {replay['message_count']} Restream chat message(s)")
         print(f"{session}: added {added_supporters} supporter(s) from chat")
     else:

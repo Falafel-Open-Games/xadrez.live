@@ -324,6 +324,26 @@ def render(username: str, payload: list[dict[str, Any]]) -> str:
     return "\n".join(lines).rstrip() + "\n"
 
 
+def semantic_cache(data: dict[str, Any]) -> dict[str, Any]:
+    cleaned = dict(data)
+    cleaned.pop("updated_at", None)
+    return cleaned
+
+
+def write_cache_if_changed(path: Path, content: str) -> bool:
+    if path.exists():
+        try:
+            existing = tomllib.loads(path.read_text(encoding="utf-8"))
+            incoming = tomllib.loads(content)
+        except tomllib.TOMLDecodeError:
+            existing = {}
+            incoming = {}
+        if existing and incoming and semantic_cache(existing) == semantic_cache(incoming):
+            return False
+    path.write_text(content, encoding="utf-8")
+    return True
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--username", default=DEFAULT_USERNAME)
@@ -339,8 +359,10 @@ def main() -> int:
         print(f"Lichess rating history unavailable and no cache exists: {error}", file=sys.stderr)
         return 1
 
-    OUTPUT.write_text(render(args.username, payload), encoding="utf-8")
-    print(f"Updated {OUTPUT.relative_to(ROOT)}")
+    if write_cache_if_changed(OUTPUT, render(args.username, payload)):
+        print(f"Updated {OUTPUT.relative_to(ROOT)}")
+    else:
+        print(f"Unchanged {OUTPUT.relative_to(ROOT)}")
     return 0
 
 

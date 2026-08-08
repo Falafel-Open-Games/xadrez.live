@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.23.0
+// @version      0.24.0
 // @description  Collect chess puzzle, game, notes, and Restream chat usernames during a xadrez.live session.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -996,6 +996,7 @@
     };
 
     if (context.platform === "lichess") {
+      game.game_id = lichessGameIdFromUrl(context.gameUrl);
       game.opening = promptValue("Opening:", existingGame.opening || currentOpeningName());
       game.opening_url = promptValue("Opening URL:", existingGame.opening_url || currentOpeningUrl());
     }
@@ -1085,6 +1086,9 @@ note = "${quote(attempt.note)}"`);
         lines.push(`game_url = "${quote(game.game_url)}"`);
       } else if (game.lichess_game_url) {
         lines.push(`lichess_game_url = "${quote(game.lichess_game_url)}"`);
+      }
+      if (game.game_id) {
+        lines.push(`game_id = "${quote(game.game_id)}"`);
       }
       lines.push(`result = "${quote(game.result)}"`);
       lines.push(`color = "${quote(game.color)}"`);

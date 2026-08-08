@@ -73,6 +73,11 @@ def lichess_id(url: Any) -> str:
     return match.group("id")[:8] if match else ""
 
 
+def explicit_lichess_id(game: dict[str, Any]) -> str:
+    game_id = str(game.get("game_id") or "").strip()
+    return game_id if re.fullmatch(r"[A-Za-z0-9]{8}", game_id) else ""
+
+
 def int_value(value: Any, default: int = 0) -> int:
     try:
         return int(value)
@@ -124,7 +129,10 @@ def session_game_refs(path: Path) -> list[GameRef]:
             if not isinstance(game, dict):
                 continue
             url = str(game.get("game_url") or game.get("lichess_game_url") or "").strip()
-            game_id = lichess_id(url)
+            game_id = explicit_lichess_id(game) or lichess_id(url)
+            if game_id and not url:
+                color = str(game.get("color") or "").strip().lower()
+                url = f"https://lichess.org/{game_id}{('/' + color) if color in {'white', 'black'} else ''}"
             game_video_offset = game.get("lichess_video_offset_seconds", game.get("video_offset_seconds"))
             has_game_video_offset = game_video_offset is not None
             if game_id:

@@ -4,6 +4,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import re
 import tomllib
 from dataclasses import dataclass
 from pathlib import Path
@@ -92,7 +93,22 @@ def has_games(extra: dict[str, Any]) -> bool:
     games = extra.get("games")
     if not isinstance(games, list):
         return False
-    return any(isinstance(game, dict) and game.get("game_url") for game in games)
+    return any(isinstance(game, dict) and (game.get("game_url") or game.get("lichess_game_url") or game.get("game_id")) for game in games)
+
+
+def invalid_lichess_game_ids(extra: dict[str, Any]) -> list[str]:
+    games = extra.get("games")
+    if not isinstance(games, list):
+        return []
+    invalid = []
+    for index, game in enumerate(games, start=1):
+        if not isinstance(game, dict):
+            continue
+        game_id = str(game.get("game_id") or "").strip()
+        platform = str(game.get("platform") or "").strip().lower()
+        if game_id and platform == "lichess" and not re.fullmatch(r"[A-Za-z0-9]{8}", game_id):
+            invalid.append(f"partida {index}: {game_id}")
+    return invalid
 
 
 def timeline_kinds(session: str) -> set[str]:
@@ -160,6 +176,9 @@ def verify(session: str, require_published_thumbnail: bool) -> list[Check]:
         checks.append(Check("error", "Timeline não contém evento Fim da prática"))
     if ended and has_games(extra) and "game_start" not in kinds:
         checks.append(Check("error", "Há jogos registrados, mas a timeline não contém Partida"))
+    invalid_ids = invalid_lichess_game_ids(extra)
+    if invalid_ids:
+        checks.append(Check("error", f"game_id Lichess inválido: {', '.join(invalid_ids)}"))
     if kinds:
         checks.append(Check("ok", f"Timeline encontrada com {len(kinds)} tipo(s) de evento"))
 

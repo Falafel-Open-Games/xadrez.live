@@ -250,8 +250,8 @@ O painel `xadrez.live` deve aparecer no canto inferior direito. Fluxo básico:
 5. Em cada partida, abra a página da partida no Lichess ou no Chess.com e clique em `Add partida`.
 6. Use `Practice notes` no meio da sessão, depois dos puzzles/estudos e antes da rapid, para registrar aprendizados, temas e alertas em primeira pessoa. O envio de `Practice notes` também exporta `practice_notes_recorded_at` (relógio de parede ISO) e `practice_notes_event = "practice_end"`; o wrapup converte esse marcador para o tempo relativo da live usando o início real do YouTube. Observações gerais devem ir no paste final do wrapup, não no userscript.
 7. Ao fim da live, abra o chat do Restream e role o histórico carregado se necessário. A tela de admin tende a ser melhor para isso; o embed usado no OBS também é suportado, mas pode ter só as mensagens recentes carregadas.
-8. Clique em `Save TOML` e salve como `data/fcz/wrap_inbox/NNNN.toml`.
-9. No chat do Restream, clique em `Save chat JSON` e salve como `data/fcz/wrap_inbox/NNNN-chat.json`.
+8. Clique em `Save TOML`; o fluxo aceita `data/fcz/wrap_inbox/NNNN.toml` ou o download padrão em `~/Downloads/NNNN.toml`.
+9. No chat do Restream, clique em `Save chat JSON`; o fluxo aceita `data/fcz/wrap_inbox/NNNN-chat.json` ou `~/Downloads/NNNN-chat.json`.
 10. Rode `just wrap-session NNNN` para aplicar o TOML, importar o chat, derivar os agradecimentos do próprio chat, preencher duração pelo YouTube e ratings pelo Lichess, gerar timeline/capivaradas, validar a sessão e fazer build.
 
 Os botões `Copy TOML` e `Copy chat JSON` continuam disponíveis como fallback, mas o caminho normal do wrapup deve usar arquivos em `data/fcz/wrap_inbox/` para evitar perda de dados no clipboard ou no histórico do chat.
