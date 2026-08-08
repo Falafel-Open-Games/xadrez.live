@@ -184,20 +184,28 @@ def session_games(extra: dict[str, Any]) -> list[dict[str, Any]]:
 def puzzle_count(extra: dict[str, Any]) -> int:
     total = 1 if str(extra.get("puzzle_of_the_day_url") or "").strip() else 0
     attempts = extra.get("streak_attempts")
-    if not isinstance(attempts, list):
-        return total
-
     solved_values = []
-    for attempt in attempts:
-        if not isinstance(attempt, dict):
-            continue
-        solved = int_value(attempt.get("solved"))
-        if solved is not None:
-            solved_values.append(solved)
-        elif isinstance(attempt.get("puzzles"), list):
-            solved_values.append(len(attempt["puzzles"]))
+    if isinstance(attempts, list):
+        for attempt in attempts:
+            if not isinstance(attempt, dict):
+                continue
+            solved = int_value(attempt.get("solved"))
+            if solved is not None:
+                solved_values.append(solved)
+            elif isinstance(attempt.get("puzzles"), list):
+                solved_values.append(len(attempt["puzzles"]))
 
-    return total + (max(solved_values) if solved_values else 0)
+    storm_attempts = extra.get("storm_attempts")
+    storm_scores = []
+    if isinstance(storm_attempts, list):
+        for attempt in storm_attempts:
+            if not isinstance(attempt, dict):
+                continue
+            score = int_value(attempt.get("score"))
+            if score is not None:
+                storm_scores.append(score)
+
+    return total + (max(solved_values) if solved_values else 0) + sum(storm_scores)
 
 
 def iter_text_values(value: Any) -> list[str]:

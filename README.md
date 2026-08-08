@@ -246,7 +246,7 @@ O painel `xadrez.live` deve aparecer no canto inferior direito. Fluxo básico:
 1. Clique em `Nova sessão` no começo da live.
 2. No Puzzle do Dia, clique em `Puzzle do dia`; o userscript também exporta o timestamp desse clique para a timeline.
 3. Em cada puzzle da streak, clique em `Add puzzle`.
-4. Ao terminar uma sequência, clique em `Fechar tentativa` e informe quantos puzzles contam como resolvidos.
+4. Para Puzzle Streak, use `Add streak` para capturar a lista atual de puzzles e resultados; como uma streak pode atravessar dias, ela não gera início/fim na timeline. Se a lista automática não estiver disponível, use `Add puzzle`/`Finish streak` como fallback manual. Para Puzzle Storm, use `Start storm` no começo e `Add storm` na tela final; o userscript captura score, puzzles, resultado, tempo e rating de cada puzzle.
 5. Em cada partida, abra a página da partida no Lichess ou no Chess.com e clique em `Add partida`.
 6. Use `Practice notes` no meio da sessão, depois dos puzzles/estudos e antes da rapid, para registrar aprendizados, temas e alertas em primeira pessoa. O envio de `Practice notes` também exporta `practice_notes_recorded_at` (relógio de parede ISO) e `practice_notes_event = "practice_end"`; o wrapup converte esse marcador para o tempo relativo da live usando o início real do YouTube. Observações gerais devem ir no paste final do wrapup, não no userscript.
 7. Ao fim da live, abra o chat do Restream e role o histórico carregado se necessário. A tela de admin tende a ser melhor para isso; o embed usado no OBS também é suportado, mas pode ter só as mensagens recentes carregadas.

@@ -75,6 +75,7 @@ def has_youtube_supporter(extra: dict[str, Any]) -> bool:
 def has_practice(extra: dict[str, Any]) -> bool:
     practice_sets = extra.get("practice_sets")
     streak_attempts = extra.get("streak_attempts")
+    storm_attempts = extra.get("storm_attempts")
     if isinstance(practice_sets, list):
         for practice_set in practice_sets:
             if isinstance(practice_set, dict) and (practice_set.get("url") or practice_set.get("title")):
@@ -85,6 +86,13 @@ def has_practice(extra: dict[str, Any]) -> bool:
                 continue
             puzzles = attempt.get("puzzles")
             if attempt.get("solved") or attempt.get("note") or (isinstance(puzzles, list) and puzzles):
+                return True
+    if isinstance(storm_attempts, list):
+        for attempt in storm_attempts:
+            if not isinstance(attempt, dict):
+                continue
+            puzzles = attempt.get("puzzles")
+            if attempt.get("score") or attempt.get("note") or (isinstance(puzzles, list) and puzzles):
                 return True
     return False
 

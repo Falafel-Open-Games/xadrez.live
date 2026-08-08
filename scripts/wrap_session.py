@@ -20,7 +20,7 @@ RESTREAM_DIR = DATA_DIR / "restream_chat_replays"
 INBOX_DIR = DATA_DIR / "wrap_inbox"
 DOWNLOADS_DIR = Path.home() / "Downloads"
 LOCAL_TZ = ZoneInfo("America/Sao_Paulo")
-ARRAY_REPLACE_KEYS = {"streak_attempts", "practice_sets", "games", "supporters"}
+ARRAY_REPLACE_KEYS = {"streak_attempts", "storm_attempts", "practice_sets", "games", "supporters"}
 SELF_SUPPORTERS = {
     ("youtube", "fczuardi"),
     ("twitch", "sedentarismo"),

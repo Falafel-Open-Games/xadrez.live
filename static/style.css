@@ -1120,6 +1120,26 @@ iframe {
   list-style: none;
 }
 
+.puzzle-result {
+  margin-left: 4px;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.puzzle-detail {
+  margin-left: 4px;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.puzzle-result-win {
+  color: var(--accent-strong);
+}
+
+.puzzle-result-loss {
+  color: var(--danger);
+}
+
 .streak-list {
   display: grid;
   gap: 14px;

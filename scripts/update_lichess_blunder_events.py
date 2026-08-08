@@ -412,6 +412,22 @@ def practice_timeline_event(path: Path, session_start: datetime | None) -> dict[
     }
 
 
+def recorded_seconds(raw_timestamp: Any, session_start: datetime | None) -> int | None:
+    if session_start is None:
+        return None
+    raw_value = str(raw_timestamp or "").strip()
+    if not raw_value:
+        return None
+    try:
+        recorded_at = datetime.fromisoformat(raw_value.replace("Z", "+00:00"))
+    except ValueError:
+        return None
+    if recorded_at.tzinfo is None:
+        recorded_at = recorded_at.replace(tzinfo=timezone.utc)
+    seconds = round((recorded_at.astimezone(timezone.utc) - session_start).total_seconds())
+    return seconds if seconds >= 0 else None
+
+
 def puzzle_of_the_day_timeline_event(path: Path, session_start: datetime | None) -> dict[str, Any] | None:
     if session_start is None:
         return None
@@ -439,6 +455,62 @@ def puzzle_of_the_day_timeline_event(path: Path, session_start: datetime | None)
         "source": "userscript",
         "url": str(extra.get("puzzle_of_the_day_url")),
     }
+
+
+def storm_timeline_events(path: Path, session_start: datetime | None) -> list[dict[str, Any]]:
+    if session_start is None:
+        return []
+    data = read_front_matter(path)
+    extra = data.get("extra")
+    if not isinstance(extra, dict):
+        return []
+    attempts = extra.get("storm_attempts")
+    if not isinstance(attempts, list):
+        return []
+
+    events: list[dict[str, Any]] = []
+    for index, attempt in enumerate(attempts, start=1):
+        if not isinstance(attempt, dict):
+            continue
+        score = str(attempt.get("score") or "").strip()
+        duration_seconds = attempt.get("duration_seconds")
+        started_seconds = recorded_seconds(attempt.get("started_at"), session_start)
+        finished_seconds = recorded_seconds(attempt.get("finished_at"), session_start)
+        if started_seconds is not None:
+            label = "Puzzle Storm"
+            if len(attempts) > 1:
+                label = f"Puzzle Storm {index}"
+            events.append(
+                {
+                    "time": format_time(started_seconds),
+                    "seconds": started_seconds,
+                    "kind": "storm_start",
+                    "label": label,
+                    "source": "userscript",
+                    "storm_index": index,
+                    "estimated": bool(attempt.get("estimated_start")),
+                }
+            )
+        if finished_seconds is not None:
+            details = []
+            if score:
+                details.append(f"{score} pontos")
+            if isinstance(duration_seconds, int) and duration_seconds > 0:
+                details.append(f"{duration_seconds}s")
+            events.append(
+                {
+                    "time": format_time(finished_seconds),
+                    "seconds": finished_seconds,
+                    "kind": "storm_end",
+                    "label": "Fim do Puzzle Storm",
+                    "source": "userscript",
+                    "storm_index": index,
+                    "score": score,
+                    "duration_seconds": duration_seconds,
+                    "details": " · ".join(details),
+                }
+            )
+    return events
 
 
 def blunder_events(ref: GameRef, payload: dict[str, Any]) -> list[dict[str, Any]]:
@@ -591,6 +663,7 @@ def update_sessions(paths: list[Path], token: str, timeout: int) -> int:
             puzzle_event = puzzle_of_the_day_timeline_event(path, session_start)
             if puzzle_event:
                 timeline_events.append(puzzle_event)
+            timeline_events.extend(storm_timeline_events(path, session_start))
         for ref in refs:
             try:
                 payload = fetch_game(ref.game_id, token, timeout)
@@ -606,7 +679,21 @@ def update_sessions(paths: list[Path], token: str, timeout: int) -> int:
             continue
         session_events.sort(key=lambda item: (int(item.get("seconds") or 0), int(item.get("game_index") or 0), int(item.get("ply") or 0)))
         timeline_events.extend(session_events)
-        timeline_events.sort(key=lambda item: (int(item.get("seconds") or 0), {"session_start": 0, "practice_end": 1, "game_start": 2, "blunder": 3, "game_end": 4}.get(item.get("kind"), 9)))
+        timeline_events.sort(
+            key=lambda item: (
+                int(item.get("seconds") or 0),
+                {
+                    "session_start": 0,
+                    "puzzle_of_the_day": 1,
+                    "storm_start": 2,
+                    "practice_end": 3,
+                    "game_start": 4,
+                    "blunder": 5,
+                    "storm_end": 6,
+                    "game_end": 7,
+                }.get(item.get("kind"), 9),
+            )
+        )
         output = {
             "session_number": path.stem,
             "source": "lichess",

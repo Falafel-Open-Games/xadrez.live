@@ -396,6 +396,10 @@
                 <span>Partida {{ event.game_index }}</span>
               {% elif event.kind == "game_start" or event.kind == "game_end" %}
                 <span>Lichess</span>
+              {% elif event.kind == "storm_end" and event.details is defined and event.details %}
+                <span>{{ event.details }}</span>
+              {% elif event.kind == "storm_start" %}
+                <span>Lichess</span>
               {% endif %}
             </div>
           </li>
@@ -857,6 +861,97 @@
           </div>
         {% endif %}
       </section>
+      {% if page.extra.storm_attempts is defined and page.extra.storm_attempts %}
+        <section class="summary-group">
+          <h3>Puzzle Storm</h3>
+          <div class="streak-list">
+            {% for attempt in page.extra.storm_attempts %}
+              {% set attempt_puzzles = attempt.puzzles | default(value=[]) %}
+              {% if attempt.score is defined and attempt.score or attempt_puzzles or attempt.note is defined and attempt.note %}
+                <section class="streak-summary">
+                  <h4>Tentativa {{ loop.index }}</h4>
+                  {% if attempt.score is defined and attempt.score %}
+                    <p class="streak-score">
+                      {{ attempt.score }} pontos
+                      {% if attempt.duration_seconds is defined and attempt.duration_seconds %}
+                        · {{ attempt.duration_seconds }}s
+                      {% endif %}
+                    </p>
+                  {% endif %}
+                  {% if attempt_puzzles %}
+                    <ul class="puzzle-sequence">
+                      {% for puzzle_item in attempt_puzzles %}
+                        {% set puzzle_url = puzzle_item.url | default(value=puzzle_item) %}
+                        {% set puzzle_result = puzzle_item.result | default(value="") %}
+                        {% set puzzle_seconds = puzzle_item.seconds | default(value="") %}
+                        {% set puzzle_rating = puzzle_item.rating | default(value="") %}
+                        <li>
+                          <a href="{{ puzzle_url }}" rel="noopener noreferrer">Puzzle {{ loop.index }}</a>
+                          {% if puzzle_result == "win" %}
+                            <span class="puzzle-result puzzle-result-win">acerto</span>
+                          {% elif puzzle_result == "loss" %}
+                            <span class="puzzle-result puzzle-result-loss">falha</span>
+                          {% endif %}
+                          {% if puzzle_seconds or puzzle_rating %}
+                            <span class="puzzle-detail">
+                              {% if puzzle_seconds %}{{ puzzle_seconds }}s{% endif %}{% if puzzle_seconds and puzzle_rating %}, {% endif %}{% if puzzle_rating %}{{ puzzle_rating }}{% endif %}
+                            </span>
+                          {% endif %}
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
+                  {% if attempt.note is defined and attempt.note %}
+                    <p class="streak-note">{{ attempt.note }}</p>
+                  {% endif %}
+                </section>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </section>
+      {% endif %}
+      {% if page.extra.streak_attempts is defined and page.extra.streak_attempts %}
+        <section class="summary-group">
+          <h3>Tentativas de puzzles</h3>
+          <div class="streak-list">
+            {% for attempt in page.extra.streak_attempts %}
+              {% set attempt_puzzles = attempt.puzzles | default(value=[]) %}
+              {% if attempt.solved is defined and attempt.solved or attempt_puzzles or attempt.note is defined and attempt.note %}
+                <section class="streak-summary">
+                  <h4>Tentativa {{ loop.index }}</h4>
+                  {% if attempt.solved is defined and attempt.solved %}
+                    <p class="streak-score">
+                      {{ attempt.solved }} resolvidos
+                      {% if attempt.duration_seconds is defined and attempt.duration_seconds %}
+                        · {{ attempt.duration_seconds }}s
+                      {% endif %}
+                    </p>
+                  {% endif %}
+                  {% if attempt_puzzles %}
+                    <ul class="puzzle-sequence">
+                      {% for puzzle_item in attempt_puzzles %}
+                        {% set puzzle_url = puzzle_item.url | default(value=puzzle_item) %}
+                        {% set puzzle_result = puzzle_item.result | default(value="") %}
+                        <li>
+                          <a href="{{ puzzle_url }}" rel="noopener noreferrer">Puzzle {{ loop.index }}</a>
+                          {% if puzzle_result == "win" %}
+                            <span class="puzzle-result puzzle-result-win">acerto</span>
+                          {% elif puzzle_result == "loss" %}
+                            <span class="puzzle-result puzzle-result-loss">falha</span>
+                          {% endif %}
+                        </li>
+                      {% endfor %}
+                    </ul>
+                  {% endif %}
+                  {% if attempt.note is defined and attempt.note %}
+                    <p class="streak-note">{{ attempt.note }}</p>
+                  {% endif %}
+                </section>
+              {% endif %}
+            {% endfor %}
+          </div>
+        </section>
+      {% endif %}
       {% if page.extra.practice_sets is defined and page.extra.practice_sets %}
         <section class="summary-group">
           <h3>Prática</h3>

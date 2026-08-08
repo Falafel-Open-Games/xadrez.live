@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.24.0
+// @version      0.26.0
 // @description  Collect chess puzzle, game, notes, and Restream chat usernames during a xadrez.live session.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -38,6 +38,8 @@
     practiceNotes: "",
     practiceNotesRecordedAt: "",
     attempts: [],
+    stormAttempts: [],
+    currentStormStartedAt: "",
     currentPuzzles: [],
     practiceSets: [],
     games: [],
@@ -114,6 +116,25 @@
     return [...new Set(urls)];
   }
 
+  function currentPuzzleSessionPuzzles() {
+    const seen = new Set();
+    return [...document.querySelectorAll(".puzzle__session a[href]")]
+      .map((link) => {
+        const url = normalizePuzzleUrl(new URL(link.getAttribute("href"), location.origin).href);
+        if (!url || seen.has(url)) {
+          return null;
+        }
+        seen.add(url);
+        const result = link.classList.contains("good") || link.querySelector("good")
+          ? "win"
+          : link.classList.contains("bad") || link.querySelector("bad")
+            ? "loss"
+            : "unknown";
+        return { url, result };
+      })
+      .filter(Boolean);
+  }
+
   function currentPuzzleUrl() {
     const revealedLink = document.querySelector('.infos.puzzle a[href^="/training/"]');
     if (revealedLink) {
@@ -121,6 +142,77 @@
     }
 
     return normalizePuzzleUrl(location.href);
+  }
+
+  function isStormEndPage() {
+    return Boolean(document.querySelector("main.storm--end"));
+  }
+
+  function parseIntegerText(value) {
+    const match = String(value || "").match(/\d+/);
+    return match ? Number.parseInt(match[0], 10) : null;
+  }
+
+  function parseStormStat(label) {
+    const expected = String(label || "").trim().toLowerCase();
+    const rows = queryAll(document, ".storm--end__stats tr");
+    for (const row of rows) {
+      const rowLabel = String(row.querySelector("th")?.textContent || "").trim().toLowerCase();
+      if (rowLabel === expected) {
+        return parseIntegerText(row.querySelector("td")?.textContent);
+      }
+    }
+    return null;
+  }
+
+  function currentStormAttempt() {
+    if (!isStormEndPage()) {
+      return null;
+    }
+
+    const score = parseIntegerText(document.querySelector(".storm--end__score__number")?.textContent);
+    const durationSeconds = parseStormStat("Tempo");
+    const puzzles = queryAll(document, ".puz-history__round")
+      .map((round) => {
+        const link = round.querySelector('a.puz-history__round__puzzle[href], a[href^="/training/"]');
+        if (!link) {
+          return null;
+        }
+
+        const url = normalizePuzzleUrl(new URL(link.getAttribute("href"), location.origin).href);
+        if (!url) {
+          return null;
+        }
+
+        const resultElement = round.querySelector(".puz-history__round__result good, .puz-history__round__result bad");
+        const result = link.classList.contains("good") || resultElement?.tagName?.toLowerCase() === "good"
+          ? "win"
+          : link.classList.contains("bad") || resultElement?.tagName?.toLowerCase() === "bad"
+            ? "loss"
+            : "unknown";
+        const seconds = parseIntegerText(resultElement?.textContent);
+        const rating = parseIntegerText(round.querySelector(".puz-history__round__result rating")?.textContent);
+        const puzzle = { url, result };
+        if (seconds !== null) {
+          puzzle.seconds = seconds;
+        }
+        if (rating !== null) {
+          puzzle.rating = rating;
+        }
+        return puzzle;
+      })
+      .filter(Boolean);
+
+    if (score === null && !puzzles.length) {
+      return null;
+    }
+
+    return {
+      score: score === null ? "" : String(score),
+      duration_seconds: durationSeconds,
+      puzzles,
+      note: "Puzzle Storm registrado da tela final do Lichess.",
+    };
   }
 
   function normalizeColor(value) {
@@ -747,8 +839,8 @@
       return;
     }
 
-    const solved = promptValue("How many puzzles count as solved in this attempt?", String(Math.max(0, state.currentPuzzles.length - 1)));
     const note = promptValue("Optional attempt note:", "");
+    const solved = promptValue("How many puzzles count as solved in this streak?", String(Math.max(0, state.currentPuzzles.length - 1)));
     state.attempts.push({
       solved,
       puzzles: [...state.currentPuzzles],
@@ -767,6 +859,62 @@
 
     pushUnique(state.currentPuzzles, url);
     saveState(state);
+  }
+
+  function startStormAttempt(state) {
+    state.currentStormStartedAt = new Date().toISOString();
+    saveState(state);
+    window.alert("Puzzle Storm start marked.");
+  }
+
+  function addCurrentStreakAttempt(state) {
+    const puzzles = currentPuzzleSessionPuzzles();
+    if (!puzzles.length) {
+      window.alert("Could not find a Puzzle Streak session list on this page.");
+      return;
+    }
+
+    const detectedSolved = puzzles.filter((puzzle) => puzzle.result === "win").length;
+    const fallbackSolved = detectedSolved || Math.max(0, puzzles.length - 1);
+    const solved = promptValue("How many puzzles count as solved in this streak?", String(fallbackSolved));
+    const note = promptValue("Optional streak note:", "");
+    const attempt = {
+      solved,
+      puzzles,
+      note,
+    };
+
+    state.attempts = state.attempts || [];
+    state.attempts.push(attempt);
+    state.currentPuzzles = [];
+    saveState(state);
+    window.alert(`Added Puzzle Streak: ${solved || "?"} solved, ${puzzles.length} puzzle(s).`);
+  }
+
+  function addCurrentStormAttempt(state) {
+    const attempt = currentStormAttempt();
+    if (!attempt) {
+      window.alert("Could not find a completed Puzzle Storm on this page.");
+      return;
+    }
+    if (!attempt.puzzles.length && !window.confirm("No individual Puzzle Storm puzzles were found. Save score only?")) {
+      return;
+    }
+
+    const finishedAt = new Date().toISOString();
+    attempt.finished_at = finishedAt;
+    if (state.currentStormStartedAt) {
+      attempt.started_at = state.currentStormStartedAt;
+    } else if (Number.isFinite(attempt.duration_seconds)) {
+      attempt.started_at = new Date(Date.parse(finishedAt) - attempt.duration_seconds * 1000).toISOString();
+      attempt.estimated_start = true;
+    }
+
+    state.stormAttempts = state.stormAttempts || [];
+    state.stormAttempts.push(attempt);
+    state.currentStormStartedAt = "";
+    saveState(state);
+    window.alert(`Added Puzzle Storm: ${attempt.score || "?"} point(s), ${attempt.puzzles.length} puzzle(s).`);
   }
 
   function syncCurrentPuzzleSession(state) {
@@ -1013,6 +1161,29 @@
     return `[${values.map((value) => `"${quote(value)}"`).join(", ")}]`;
   }
 
+  function tomlPuzzleArray(values) {
+    return `[${values.map((value) => {
+      if (!value || typeof value !== "object") {
+        return `"${quote(value)}"`;
+      }
+
+      const fields = [];
+      if (value.url) {
+        fields.push(`url = "${quote(value.url)}"`);
+      }
+      if (value.result) {
+        fields.push(`result = "${quote(value.result)}"`);
+      }
+      if (Number.isFinite(value.seconds)) {
+        fields.push(`seconds = ${value.seconds}`);
+      }
+      if (Number.isFinite(value.rating)) {
+        fields.push(`rating = ${value.rating}`);
+      }
+      return `{ ${fields.join(", ")} }`;
+    }).join(", ")}]`;
+  }
+
   function buildToml(state) {
     const blocks = [];
     if (state.puzzleOfTheDayUrl) {
@@ -1051,10 +1222,31 @@ puzzles = "${quote(state.puzzles)}"`);
     }
 
     attempts.forEach((attempt) => {
-      blocks.push(`[[extra.streak_attempts]]
-solved = "${quote(attempt.solved)}"
-puzzles = ${tomlArray(attempt.puzzles)}
-note = "${quote(attempt.note)}"`);
+      const lines = ["[[extra.streak_attempts]]"];
+      lines.push(`solved = "${quote(attempt.solved)}"`);
+      lines.push(`puzzles = ${tomlPuzzleArray(attempt.puzzles)}`);
+      lines.push(`note = "${quote(attempt.note)}"`);
+      blocks.push(lines.join("\n"));
+    });
+
+    (state.stormAttempts || []).forEach((attempt) => {
+      const lines = ["[[extra.storm_attempts]]"];
+      lines.push(`score = "${quote(attempt.score)}"`);
+      if (attempt.started_at) {
+        lines.push(`started_at = "${quote(attempt.started_at)}"`);
+      }
+      if (attempt.finished_at) {
+        lines.push(`finished_at = "${quote(attempt.finished_at)}"`);
+      }
+      if (Number.isFinite(attempt.duration_seconds)) {
+        lines.push(`duration_seconds = ${attempt.duration_seconds}`);
+      }
+      if (attempt.estimated_start) {
+        lines.push("estimated_start = true");
+      }
+      lines.push(`puzzles = ${tomlPuzzleArray(attempt.puzzles)}`);
+      lines.push(`note = "${quote(attempt.note)}"`);
+      blocks.push(lines.join("\n"));
     });
 
     (state.practiceSets || []).forEach((set) => {
@@ -1748,9 +1940,11 @@ note = "${quote(attempt.note)}"`);
     const practiceContext = currentPracticeContext();
     const canAddGame = Boolean(gameContext);
     const canAddPractice = Boolean(practiceContext);
+    const canAddStorm = isStormEndPage();
     const disabledUnlessLichess = isLichessPage ? "" : ' disabled title="Available on Lichess only"';
     const disabledUnlessGame = canAddGame ? "" : ' disabled title="Open a Lichess or Chess.com game first"';
     const disabledUnlessPractice = canAddPractice ? "" : ' disabled title="Open a Lichess practice exercise first"';
+    const disabledUnlessStorm = canAddStorm ? "" : ' disabled title="Open the completed Lichess Puzzle Storm page first"';
     const scannedRestreamSupporters = isRestreamChatPage ? restreamSupporters() : [];
     const restreamCount = isRestreamChatPage ? scannedRestreamSupporters.length : 0;
     const restreamReplayCount = isRestreamChatPage ? restreamReplayMessages().length : 0;
@@ -1908,6 +2102,8 @@ note = "${quote(attempt.note)}"`);
           <p class="xlc-meta">
             Attempts: ${state.attempts.length}
             · current: ${state.currentPuzzles.length} puzzle(s)
+            · storms: ${(state.stormAttempts || []).length}
+            ${state.currentStormStartedAt ? " · storm running" : ""}
             · games: ${state.games.length}
             · practice: ${savedPracticeCount}
           </p>
@@ -1927,7 +2123,14 @@ note = "${quote(attempt.note)}"`);
             <button type="button" data-action="add-puzzles"${disabledUnlessLichess}>Add puzzles</button>
           </div>
           <div class="xlc-row">
-            <button type="button" data-action="finish-attempt"${disabledUnlessLichess}>Finish attempt</button>
+            <button type="button" data-action="add-streak"${disabledUnlessLichess}>Add streak</button>
+          </div>
+          <div class="xlc-row">
+            <button type="button" data-action="start-storm"${disabledUnlessLichess}>Start storm</button>
+            <button type="button" data-action="add-storm"${disabledUnlessStorm}>Add storm</button>
+          </div>
+          <div class="xlc-row">
+            <button type="button" data-action="finish-attempt"${disabledUnlessLichess}>Finish streak</button>
             <button type="button" data-action="add-game"${disabledUnlessGame}>Add game</button>
           </div>
           <div class="xlc-row">
@@ -1987,6 +2190,15 @@ note = "${quote(attempt.note)}"`);
           break;
         case "add-puzzles":
           syncCurrentPuzzleSession(nextState);
+          break;
+        case "add-streak":
+          addCurrentStreakAttempt(nextState);
+          break;
+        case "start-storm":
+          startStormAttempt(nextState);
+          break;
+        case "add-storm":
+          addCurrentStormAttempt(nextState);
           break;
         case "finish-attempt":
           finishAttempt(nextState);
