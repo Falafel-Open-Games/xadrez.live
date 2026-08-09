@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.26.0
+// @version      0.26.1
 // @description  Collect chess puzzle, game, notes, and Restream chat usernames during a xadrez.live session.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -19,6 +19,7 @@
 
   const STORAGE_KEY = "xadrez-live-lichess-collector:v1";
   const PANEL_ID = "xadrez-live-collector";
+  const SCRIPT_VERSION = "0.26.1";
   const LICHESS_SELF_USERNAMES = new Set(["fcz"]);
   const SELF_SUPPORTERS = {
     YouTube: new Set(["fczuardi"]),
@@ -46,6 +47,22 @@
     games: [],
     supporters: [],
   };
+
+  function markBoot(status, detail = "") {
+    if (document.documentElement) {
+      document.documentElement.dataset.xadrezLiveCollectorVersion = SCRIPT_VERSION;
+      document.documentElement.dataset.xadrezLiveCollectorStatus = status;
+      document.documentElement.dataset.xadrezLiveCollectorDetail = detail;
+    }
+    const message = `[xadrez.live userscript] ${status} ${SCRIPT_VERSION}`;
+    if (detail) {
+      console.info(message, detail);
+    } else {
+      console.info(message);
+    }
+  }
+
+  markBoot("boot", location.href);
 
   function loadState() {
     if (typeof GM_getValue === "function") {
@@ -1932,6 +1949,7 @@ puzzles = "${quote(state.puzzles)}"`);
   }
 
   function renderPanel() {
+    markBoot("rendering", location.href);
     document.getElementById(PANEL_ID)?.remove();
 
     const state = loadState();
@@ -2252,6 +2270,7 @@ puzzles = "${quote(state.puzzles)}"`);
     });
 
     document.body.append(panel);
+    markBoot("mounted", `${location.hostname} ${isRestreamChatPage ? "restream-chat" : "page"}`);
   }
 
   let renderTimer = 0;
@@ -2263,7 +2282,13 @@ puzzles = "${quote(state.puzzles)}"`);
         scheduleRenderPanel();
         return;
       }
-      renderPanel();
+      try {
+        renderPanel();
+      } catch (error) {
+        const detail = error && error.stack ? error.stack : String(error);
+        markBoot("render-error", detail);
+        console.error("[xadrez.live userscript] render failed", error);
+      }
     }, 100);
   }
 
@@ -2272,12 +2297,19 @@ puzzles = "${quote(state.puzzles)}"`);
       return;
     }
 
-    const observer = new MutationObserver(() => {
-      if (!document.getElementById(PANEL_ID)) {
-        scheduleRenderPanel();
-      }
-    });
-    observer.observe(document.documentElement, { childList: true, subtree: true });
+    try {
+      const observer = new MutationObserver(() => {
+        if (!document.getElementById(PANEL_ID)) {
+          scheduleRenderPanel();
+        }
+      });
+      observer.observe(document.documentElement, { childList: true, subtree: true });
+      markBoot("observing", location.href);
+    } catch (error) {
+      const detail = error && error.stack ? error.stack : String(error);
+      markBoot("observer-error", detail);
+      console.error("[xadrez.live userscript] observer failed", error);
+    }
   }
 
   if (document.readyState === "loading") {
