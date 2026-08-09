@@ -75,7 +75,6 @@ def has_youtube_supporter(extra: dict[str, Any]) -> bool:
 def has_practice(extra: dict[str, Any]) -> bool:
     practice_sets = extra.get("practice_sets")
     streak_attempts = extra.get("streak_attempts")
-    storm_attempts = extra.get("storm_attempts")
     if isinstance(practice_sets, list):
         for practice_set in practice_sets:
             if isinstance(practice_set, dict) and (practice_set.get("url") or practice_set.get("title")):
@@ -87,14 +86,20 @@ def has_practice(extra: dict[str, Any]) -> bool:
             puzzles = attempt.get("puzzles")
             if attempt.get("solved") or attempt.get("note") or (isinstance(puzzles, list) and puzzles):
                 return True
-    if isinstance(storm_attempts, list):
-        for attempt in storm_attempts:
-            if not isinstance(attempt, dict):
-                continue
-            puzzles = attempt.get("puzzles")
-            if attempt.get("score") or attempt.get("note") or (isinstance(puzzles, list) and puzzles):
-                return True
     return False
+
+
+def storm_timestamp_kinds(extra: dict[str, Any]) -> set[str]:
+    attempts = extra.get("storm_attempts")
+    if not isinstance(attempts, list):
+        return set()
+    kinds = set()
+    for attempt in attempts:
+        if not isinstance(attempt, dict):
+            continue
+        if attempt.get("started_at"):
+            kinds.add("storm_start")
+    return kinds
 
 
 def has_games(extra: dict[str, Any]) -> bool:
@@ -137,6 +142,43 @@ def chat_platforms(session: str) -> set[str]:
     if not isinstance(messages, list):
         return set()
     return {str(message.get("platform") or "").strip() for message in messages if isinstance(message, dict) and message.get("platform")}
+
+
+def anonymous_chat_author_count(session: str) -> int:
+    data = read_json(DATA_DIR / "chat_replays" / f"{session}.json")
+    if not data:
+        return 0
+    messages = data.get("messages")
+    if not isinstance(messages, list):
+        return 0
+    return sum(
+        1
+        for message in messages
+        if isinstance(message, dict)
+        and re.fullmatch(r"Person \d+", str(message.get("author") or "").strip())
+    )
+
+
+def wrap_input_has_known_chat_authors(session: str) -> bool:
+    data = read_json(DATA_DIR / "wrap_sessions" / f"{session}.json")
+    if not data:
+        return False
+    inputs = data.get("inputs")
+    if not isinstance(inputs, dict):
+        return False
+    chat_json = inputs.get("chat_json")
+    if not isinstance(chat_json, dict):
+        return False
+    messages = chat_json.get("messages")
+    if not isinstance(messages, list):
+        return False
+    for message in messages:
+        if not isinstance(message, dict):
+            continue
+        author = str(message.get("author") or "").strip()
+        if author and not re.fullmatch(r"Person \d+", author):
+            return True
+    return False
 
 
 def thumbnail_path(extra: dict[str, Any]) -> Path | None:
@@ -182,6 +224,9 @@ def verify(session: str, require_published_thumbnail: bool) -> list[Check]:
         checks.append(Check("error", "Timeline não contém evento Puzzle do dia"))
     if extra.get("practice_notes_recorded_at") and "practice_end" not in kinds:
         checks.append(Check("error", "Timeline não contém evento Fim da prática"))
+    expected_storm_kinds = storm_timestamp_kinds(extra)
+    if "storm_start" in expected_storm_kinds and "storm_start" not in kinds:
+        checks.append(Check("error", "Timeline não contém início de Puzzle Storm"))
     if ended and has_games(extra) and "game_start" not in kinds:
         checks.append(Check("error", "Há jogos registrados, mas a timeline não contém Partida"))
     invalid_ids = invalid_lichess_game_ids(extra)
@@ -195,6 +240,10 @@ def verify(session: str, require_published_thumbnail: bool) -> list[Check]:
         checks.append(Check("error", "Há supporter do YouTube, mas o chat final não contém mensagens do YouTube"))
     elif platforms:
         checks.append(Check("ok", f"Chat final contém: {', '.join(sorted(platforms))}"))
+    anonymous_authors = anonymous_chat_author_count(session)
+    if anonymous_authors:
+        level = "error" if wrap_input_has_known_chat_authors(session) else "warning"
+        checks.append(Check(level, f"Chat final contém {anonymous_authors} autor(es) anonimizado(s) como Person N"))
 
     thumb = thumbnail_path(extra)
     published = read_toml(DATA_DIR / "youtube_published_assets.toml").get("thumbnails", {})
@@ -207,7 +256,7 @@ def verify(session: str, require_published_thumbnail: bool) -> list[Check]:
         current_hash = sha256(thumb)
         published_hash = str(published_session.get("sha256") or "")
         if published_hash == current_hash:
-            checks.append(Check("ok", "Thumbnail publicado no YouTube está atualizado"))
+            checks.append(Check("ok", "Thumbnail local corresponde ao último upload registrado"))
         elif require_published_thumbnail:
             checks.append(Check("error", "Thumbnail local mudou ou ainda não foi publicado no YouTube"))
         else:

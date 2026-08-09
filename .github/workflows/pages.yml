@@ -55,6 +55,9 @@ jobs:
       - name: Update Lichess rating history
         run: python3 scripts/update_lichess_rating_history.py
 
+      - name: Export cached PGNs
+        run: python3 scripts/export_session_pgns.py
+
       - name: Build site
         run: zola build
 

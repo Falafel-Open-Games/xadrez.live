@@ -9,7 +9,7 @@ menu:
 serve: build-search
   zola serve
 
-build: validate-session-games update-supporters update-site-stats update-lichess-rating-history
+build: validate-session-games update-supporters update-site-stats update-lichess-rating-history export-session-pgns
   zola build
   python3 scripts/update_sitemap_lastmod.py
 
@@ -24,7 +24,7 @@ pre-wrap RECENT="2":
   @python3 scripts/import_restream_chat_replays.py --cache-dir /tmp/xadrez-restream-chat --latest {{RECENT}} || echo "Restream chat unavailable; keeping direct-platform chat fallback"
   @python3 scripts/merge_chat_replays.py --latest {{RECENT}}
   @python3 scripts/import_youtube_transcripts.py --cache-dir /tmp/xadrez-transcripts --latest {{RECENT}}
-  @python3 scripts/import_openai_transcripts.py --latest {{RECENT}} || echo "OpenAI transcript unavailable; keeping existing transcript fallback"
+  @python3 scripts/import_openai_transcripts.py --latest {{RECENT}} || echo "ATENCAO: transcricao GPT mini falhou ou ficou incompleta; rode just import-openai-transcript NNNN para retomar usando o cache de chunks"
   @python3 scripts/align_transcript_timestamps.py --latest {{RECENT}} --source-suffix openai-gpt-4o-mini-transcribe --output-suffix openai-gpt-4o-mini-transcribe.aligned
   @python3 scripts/align_transcript_timestamps.py --latest {{RECENT}} --source-suffix openai-gpt-4o-transcribe --output-suffix openai-gpt-4o-transcribe.aligned
   @python3 scripts/suggest_highlights.py --latest {{RECENT}}
@@ -72,16 +72,23 @@ find-lichess-game-candidates SESSIONS="0001-0010" EXTRA="":
 update-lichess-game-analysis EXTRA="":
   @python3 scripts/update_lichess_game_analysis.py {{EXTRA}}
 
+export-session-pgns:
+  @python3 scripts/export_session_pgns.py
+
 missing-lichess-game-analysis:
   @python3 scripts/update_lichess_game_analysis.py --missing-only
+
+backfill-lichess-pgns EXTRA="":
+  @python3 scripts/update_lichess_game_analysis.py --missing-pgn-only {{EXTRA}}
+  @just build
 
 update-lichess-blunder-events EXTRA="":
   @python3 scripts/update_lichess_blunder_events.py {{EXTRA}}
 
-calibrate-lichess-video-offset SESSION:
+calibrate-lichess-video-offset-only SESSION:
   @python3 scripts/calibrate_lichess_video_offset.py {{SESSION}}
 
-calibrate-session-capivaradas SESSION:
+calibrate-lichess-video-offset SESSION:
   @if python3 scripts/calibrate_lichess_video_offset.py {{SESSION}} --exit-code-on-skip 75; then \
     python3 scripts/update_lichess_game_analysis.py {{SESSION}} --missing-only; \
     python3 scripts/update_lichess_blunder_events.py {{SESSION}}; \
@@ -92,6 +99,9 @@ calibrate-session-capivaradas SESSION:
     if [ "$status" -eq 75 ]; then exit 0; fi; \
     exit "$status"; \
   fi
+
+calibrate-session-capivaradas SESSION:
+  @just calibrate-lichess-video-offset {{SESSION}}
 
 update-session-capivaradas SESSION:
   @python3 scripts/update_lichess_game_analysis.py {{SESSION}} --missing-only
@@ -146,10 +156,18 @@ youtube-hook-options SESSION:
 youtube-hook-choose SESSION:
   @python3 scripts/youtube_title_options.py {{SESSION}} --kind hook --choose --write
 
+thumbnail-bullets SESSION:
+  @python3 scripts/thumbnail_bullet_options.py {{SESSION}}
+
+thumbnail-bullets-choose SESSION:
+  @python3 scripts/thumbnail_bullet_options.py {{SESSION}} --choose --write --generate
+
 youtube-finish-session SESSION:
   @just verify-session {{SESSION}}
   @just youtube-title-choose {{SESSION}}
   @just youtube-hook-choose {{SESSION}}
+  @just thumbnail-bullets-choose {{SESSION}}
+  @just build
   @just youtube-chapters-write-confirm {{SESSION}}
   @just youtube-thumbnail {{SESSION}}
   @just verify-session {{SESSION}} --require-published-thumbnail
@@ -157,6 +175,8 @@ youtube-finish-session SESSION:
 youtube-finish-session-skip-title SESSION:
   @just verify-session {{SESSION}}
   @just youtube-hook-choose {{SESSION}}
+  @just thumbnail-bullets-choose {{SESSION}}
+  @just build
   @just youtube-chapters-write-confirm {{SESSION}}
   @just youtube-thumbnail {{SESSION}}
   @just verify-session {{SESSION}} --require-published-thumbnail

@@ -11,6 +11,7 @@
 // @grant        GM_getValue
 // @grant        GM_setClipboard
 // @grant        GM_setValue
+// @run-at       document-idle
 // ==/UserScript==
 
 (function () {
@@ -2253,9 +2254,36 @@ puzzles = "${quote(state.puzzles)}"`);
     document.body.append(panel);
   }
 
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", renderPanel, { once: true });
-  } else {
-    renderPanel();
+  let renderTimer = 0;
+
+  function scheduleRenderPanel() {
+    window.clearTimeout(renderTimer);
+    renderTimer = window.setTimeout(() => {
+      if (!document.body) {
+        scheduleRenderPanel();
+        return;
+      }
+      renderPanel();
+    }, 100);
   }
+
+  function keepPanelMounted() {
+    if (!document.documentElement) {
+      return;
+    }
+
+    const observer = new MutationObserver(() => {
+      if (!document.getElementById(PANEL_ID)) {
+        scheduleRenderPanel();
+      }
+    });
+    observer.observe(document.documentElement, { childList: true, subtree: true });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", scheduleRenderPanel, { once: true });
+  } else {
+    scheduleRenderPanel();
+  }
+  keepPanelMounted();
 })();

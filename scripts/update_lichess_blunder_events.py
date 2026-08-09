@@ -19,6 +19,7 @@ from typing import Any
 ROOT = Path(__file__).resolve().parents[1]
 CONTENT_DIR = ROOT / "content" / "fcz"
 OUTPUT_DIR = ROOT / "data" / "fcz" / "lichess_blunders"
+ANALYSIS_CACHE_PATH = ROOT / "data" / "fcz" / "lichess_game_analysis.toml"
 YOUTUBE_METADATA_PATH = ROOT / "data" / "fcz" / "youtube_video_metadata.toml"
 ENV_PATH = ROOT / ".env"
 LICHESS_URL_RE = re.compile(r"^https://lichess\.org/(?P<id>[A-Za-z0-9]{8,12})(?:/(?P<color>white|black))?$")
@@ -105,6 +106,22 @@ def youtube_start_timestamp(session_number: str) -> int:
     return int_value(session.get("release_timestamp"))
 
 
+def session_start_utc_from_path(path: Path, refs: list[GameRef]) -> datetime | None:
+    if refs:
+        return session_start_utc(refs[0])
+
+    data = read_front_matter(path)
+    extra = data.get("extra")
+    if not isinstance(extra, dict):
+        return None
+
+    session_number = str(extra.get("session_number") or path.stem)
+    timestamp = int_value(extra.get("youtube_release_timestamp")) or youtube_start_timestamp(session_number)
+    if timestamp <= 0:
+        return None
+    return datetime.fromtimestamp(timestamp, timezone.utc)
+
+
 def session_game_refs(path: Path) -> list[GameRef]:
     data = read_front_matter(path)
     if data.get("draft") is True:
@@ -159,13 +176,18 @@ def session_game_refs(path: Path) -> list[GameRef]:
 
 
 def session_numbers(numbers: set[str] | None, latest: int | None) -> list[Path]:
+    if numbers is not None:
+        return [
+            path
+            for path in sorted(CONTENT_DIR.glob("[0-9][0-9][0-9][0-9].md"))
+            if path.stem in numbers and read_front_matter(path).get("draft") is not True
+        ]
+
     paths = []
     for path in sorted(CONTENT_DIR.glob("[0-9][0-9][0-9][0-9].md")):
         refs = session_game_refs(path)
         if refs:
             paths.append(path)
-    if numbers is not None:
-        return [path for path in paths if path.stem in numbers]
     if latest is not None and latest > 0:
         return paths[-latest:]
     return paths
@@ -191,6 +213,32 @@ def fetch_game(game_id: str, token: str, timeout: int) -> dict[str, Any]:
     )
     with urllib.request.urlopen(request, timeout=timeout) as response:
         return json.loads(response.read().decode("utf-8"))
+
+
+@lru_cache(maxsize=1)
+def cached_game_payloads() -> dict[str, dict[str, Any]]:
+    if not ANALYSIS_CACHE_PATH.exists():
+        return {}
+    try:
+        data = tomllib.loads(ANALYSIS_CACHE_PATH.read_text(encoding="utf-8"))
+    except tomllib.TOMLDecodeError:
+        return {}
+    rows = data.get("games")
+    if not isinstance(rows, list):
+        return {}
+    payloads: dict[str, dict[str, Any]] = {}
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        game_id = str(row.get("game_id") or "").strip()
+        pgn = str(row.get("pgn") or "").strip()
+        if re.fullmatch(r"[A-Za-z0-9]{8}", game_id) and pgn:
+            payloads[game_id] = {"pgn": pgn}
+    return payloads
+
+
+def cached_game_payload(game_id: str) -> dict[str, Any] | None:
+    return cached_game_payloads().get(game_id)
 
 
 def pgn_headers(pgn: str) -> dict[str, str]:
@@ -491,25 +539,6 @@ def storm_timeline_events(path: Path, session_start: datetime | None) -> list[di
                     "estimated": bool(attempt.get("estimated_start")),
                 }
             )
-        if finished_seconds is not None:
-            details = []
-            if score:
-                details.append(f"{score} pontos")
-            if isinstance(duration_seconds, int) and duration_seconds > 0:
-                details.append(f"{duration_seconds}s")
-            events.append(
-                {
-                    "time": format_time(finished_seconds),
-                    "seconds": finished_seconds,
-                    "kind": "storm_end",
-                    "label": "Fim do Puzzle Storm",
-                    "source": "userscript",
-                    "storm_index": index,
-                    "score": score,
-                    "duration_seconds": duration_seconds,
-                    "details": " · ".join(details),
-                }
-            )
     return events
 
 
@@ -624,6 +653,17 @@ def write_json_if_changed(path: Path, data: dict[str, Any]) -> bool:
     return True
 
 
+def existing_output(session: str) -> dict[str, Any]:
+    path = OUTPUT_DIR / f"{session}.json"
+    if not path.exists():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
 def update_sessions(paths: list[Path], token: str, timeout: int) -> int:
     refs_by_path: list[tuple[Path, list[GameRef]]] = []
     missing_timestamps: list[str] = []
@@ -646,7 +686,7 @@ def update_sessions(paths: list[Path], token: str, timeout: int) -> int:
         session_events = []
         timeline_events: list[dict[str, Any]] = []
         failures = []
-        session_start = session_start_utc(refs[0]) if refs else None
+        session_start = session_start_utc_from_path(path, refs)
         if session_start is not None:
             timeline_events.append(
                 {
@@ -665,18 +705,30 @@ def update_sessions(paths: list[Path], token: str, timeout: int) -> int:
                 timeline_events.append(puzzle_event)
             timeline_events.extend(storm_timeline_events(path, session_start))
         for ref in refs:
-            try:
-                payload = fetch_game(ref.game_id, token, timeout)
-            except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as error:
-                failures.append(f"{ref.url}: {error}")
-                continue
+            payload = cached_game_payload(ref.game_id)
+            if payload is None:
+                try:
+                    payload = fetch_game(ref.game_id, token, timeout)
+                except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as error:
+                    failures.append(f"{ref.url}: {error}")
+                    continue
             session_events.extend(blunder_events(ref, payload))
             timeline_events.extend(game_timeline_events(ref, payload))
         if failures:
-            print(f"{path.stem}: skipped; keeping existing blunder events because Lichess fetch failed")
+            print(f"{path.stem}: keeping existing Lichess-derived events because Lichess fetch failed")
             for failure in failures:
                 print(f"  warning: {failure}")
-            continue
+            existing = existing_output(path.stem)
+            existing_events = existing.get("events")
+            if isinstance(existing_events, list):
+                session_events = [event for event in existing_events if isinstance(event, dict)]
+            existing_timeline = existing.get("timeline")
+            if isinstance(existing_timeline, list):
+                timeline_events.extend(
+                    event
+                    for event in existing_timeline
+                    if isinstance(event, dict) and event.get("kind") in {"game_start", "game_end"}
+                )
         session_events.sort(key=lambda item: (int(item.get("seconds") or 0), int(item.get("game_index") or 0), int(item.get("ply") or 0)))
         timeline_events.extend(session_events)
         timeline_events.sort(
@@ -689,8 +741,7 @@ def update_sessions(paths: list[Path], token: str, timeout: int) -> int:
                     "practice_end": 3,
                     "game_start": 4,
                     "blunder": 5,
-                    "storm_end": 6,
-                    "game_end": 7,
+                    "game_end": 6,
                 }.get(item.get("kind"), 9),
             )
         )

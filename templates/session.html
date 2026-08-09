@@ -617,6 +617,7 @@
 
   <section id="resumo" class="session-summary" data-pagefind-body>
     {% set lichess_game_analysis = load_data(path="data/fcz/lichess_game_analysis.toml", required=false) %}
+    {% set pgn_files = load_data(path="data/fcz/pgn_files.json", required=false) %}
     <h2>Resumo da sessão</h2>
     <div class="summary-groups">
       <section class="summary-group">
@@ -648,6 +649,14 @@
                 {% set lichess_game_color = game.color %}
               {% endif %}
               {% set game_index = loop.index %}
+              {% set_global pgn_url = "" %}
+              {% if pgn_files and pgn_files.games is defined %}
+                {% for pgn_file in pgn_files.games %}
+                  {% if pgn_file.session_number == page.extra.session_number and pgn_file.game_index == game_index and pgn_file.game_id == lichess_game_id %}
+                    {% set_global pgn_url = pgn_file.url %}
+                  {% endif %}
+                {% endfor %}
+              {% endif %}
               <section class="game-summary">
                 {% if page.extra.games | length > 1 %}
                   <h4>Partida {{ loop.index }}</h4>
@@ -697,6 +706,12 @@
                       <div class="game-detail">
                         <dt>Cor</dt>
                         <dd>{{ game.color }}</dd>
+                      </div>
+                    {% endif %}
+                    {% if pgn_url %}
+                      <div class="game-detail game-detail-link">
+                        <dt>PGN</dt>
+                        <dd><a href="{{ pgn_url }}" download>Baixar PGN</a></dd>
                       </div>
                     {% endif %}
                     {% if lichess_game_analysis and lichess_game_analysis.games is defined and lichess_game_id %}

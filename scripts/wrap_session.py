@@ -5,6 +5,7 @@ import argparse
 import json
 import subprocess
 import tomllib
+import time as time_module
 from datetime import date, datetime, time, timedelta, timezone
 from pathlib import Path
 from typing import Any
@@ -196,7 +197,62 @@ def apply_wrap_toml(session: str, data: dict[str, Any], wrap: dict[str, Any]) ->
     extra["status"] = "encerrada"
     extra["status_tone"] = "ended"
     extra["session_number"] = session
+    clean_empty_generated_entries(extra)
     return data
+
+
+def has_text_value(item: dict[str, Any], keys: tuple[str, ...]) -> bool:
+    return any(str(item.get(key) or "").strip() for key in keys)
+
+
+def clean_empty_generated_entries(extra: dict[str, Any]) -> bool:
+    changed = False
+
+    games = extra.get("games")
+    if isinstance(games, list):
+        cleaned_games = [
+            game
+            for game in games
+            if isinstance(game, dict)
+            and has_text_value(
+                game,
+                (
+                    "game_url",
+                    "lichess_game_url",
+                    "game_id",
+                    "platform",
+                    "result",
+                    "color",
+                    "opening",
+                    "opening_url",
+                    "note",
+                ),
+            )
+        ]
+        if len(cleaned_games) != len(games):
+            changed = True
+        if cleaned_games:
+            extra["games"] = cleaned_games
+        elif "games" in extra:
+            del extra["games"]
+
+    attempts = extra.get("streak_attempts")
+    if isinstance(attempts, list):
+        cleaned_attempts = []
+        for attempt in attempts:
+            if not isinstance(attempt, dict):
+                continue
+            puzzles = attempt.get("puzzles")
+            if has_text_value(attempt, ("solved", "note")) or (isinstance(puzzles, list) and len(puzzles) > 0):
+                cleaned_attempts.append(attempt)
+        if len(cleaned_attempts) != len(attempts):
+            changed = True
+        if cleaned_attempts:
+            extra["streak_attempts"] = cleaned_attempts
+        elif "streak_attempts" in extra:
+            del extra["streak_attempts"]
+
+    return changed
 
 
 def normalized_handle(name: str) -> str:
@@ -442,6 +498,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--dry-run", action="store_true", help="Persist raw inputs and print commands without applying changes")
     parser.add_argument("--skip-build", action="store_true")
     parser.add_argument("--skip-capivaradas", action="store_true")
+    parser.add_argument("--skip-youtube-finish", action="store_true")
+    parser.add_argument("--skip-youtube-title", action="store_true")
+    parser.add_argument("--downloads-max-age-hours", type=float, default=12.0, help="Maximum age for implicit ~/Downloads fallback inputs")
     return parser.parse_args()
 
 
@@ -452,20 +511,28 @@ def existing_input(candidates: list[Path]) -> Path | None:
     return max(existing, key=lambda path: path.stat().st_mtime)
 
 
+def fresh_download_input(path: Path, max_age_hours: float) -> Path | None:
+    if not path.exists():
+        return None
+    age_seconds = time_module.time() - path.stat().st_mtime
+    if age_seconds <= max_age_hours * 3600:
+        return path
+    print(f"warning: ignoring stale Downloads input older than {max_age_hours:g}h: {path}")
+    return None
+
+
 def main() -> int:
     args = parse_args()
     session = args.session.zfill(4)
-    toml_file = args.toml_file or existing_input(
-        [
-            INBOX_DIR / f"{session}.toml",
-            DOWNLOADS_DIR / f"{session}.toml",
-        ]
+    toml_file = (
+        args.toml_file
+        or existing_input([INBOX_DIR / f"{session}.toml"])
+        or fresh_download_input(DOWNLOADS_DIR / f"{session}.toml", args.downloads_max_age_hours)
     )
-    chat_json_file = args.chat_json_file or existing_input(
-        [
-            INBOX_DIR / f"{session}-chat.json",
-            DOWNLOADS_DIR / f"{session}-chat.json",
-        ]
+    chat_json_file = (
+        args.chat_json_file
+        or existing_input([INBOX_DIR / f"{session}-chat.json"])
+        or fresh_download_input(DOWNLOADS_DIR / f"{session}-chat.json", args.downloads_max_age_hours)
     )
     path, data, body = read_session(session)
     state: dict[str, Any] = {"session": session, "updated_at": datetime.now(timezone.utc).isoformat(), "inputs": {}}
@@ -488,9 +555,11 @@ def main() -> int:
         state["inputs"]["chat_json"] = raw_chat
         replay = normalize_chat(session, data, raw_chat)
         added_supporters = merge_session_supporters(data, chat_supporters(replay["messages"]))
+        extra = data.get("extra") if isinstance(data.get("extra"), dict) else {}
+        cleaned_entries = clean_empty_generated_entries(extra)
         if not args.dry_run:
             save_json(RESTREAM_DIR / f"{session}.json", replay)
-            if added_supporters:
+            if added_supporters or cleaned_entries:
                 write_session(path, data, body)
         print(f"{session}: imported {replay['message_count']} Restream chat message(s)")
         print(f"{session}: added {added_supporters} supporter(s) from chat")
@@ -501,9 +570,14 @@ def main() -> int:
         save_json(WRAP_DIR / f"{session}.json", state)
         refresh_automatic_stat_sources(session, args.dry_run)
         updated_stats = auto_fill_post_stats(session, data)
+        extra = data.get("extra") if isinstance(data.get("extra"), dict) else {}
+        cleaned_entries = clean_empty_generated_entries(extra)
         if updated_stats:
             write_session(path, data, body)
             print(f"{session}: auto-filled post stats ({', '.join(updated_stats)})")
+        elif cleaned_entries:
+            write_session(path, data, body)
+            print(f"{session}: removed empty generated entries")
         if chat_json_file:
             run(["python3", "scripts/merge_chat_replays.py", session], args.dry_run)
         if not args.skip_capivaradas:
@@ -511,6 +585,9 @@ def main() -> int:
         run(["just", "verify-session", session], args.dry_run)
         if not args.skip_build:
             run(["just", "build"], args.dry_run)
+        if not args.skip_youtube_finish:
+            recipe = "youtube-finish-session-skip-title" if args.skip_youtube_title else "youtube-finish-session"
+            run(["just", recipe, session], args.dry_run)
     else:
         print(f"{session}: dry run; no files written")
 

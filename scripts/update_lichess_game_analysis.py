@@ -148,6 +148,7 @@ def fetch_game(game_id: str, token: str, timeout: int) -> dict[str, Any]:
             "evals": 1,
             "opening": 1,
             "division": 1,
+            "pgnInJson": 1,
         }
     )
     request = urllib.request.Request(
@@ -229,6 +230,7 @@ def export_rows(rows: list[dict[str, Any]]) -> str:
                 f"opening_accuracy = {row['opening_accuracy']}",
                 f"middlegame_accuracy = {row['middlegame_accuracy']}",
                 f"endgame_accuracy = {row['endgame_accuracy']}",
+                *( [f"pgn = {toml_string(row['pgn'])}"] if row.get("pgn") else [] ),
                 "",
             ]
         )
@@ -268,6 +270,7 @@ def build_row(game: SessionGame, payload: dict[str, Any] | None) -> dict[str, An
         "opening_accuracy": int_or_none(phases.get("opening")) or 0,
         "middlegame_accuracy": int_or_none(phases.get("middlegame")) or 0,
         "endgame_accuracy": int_or_none(phases.get("endgame")) or 0,
+        "pgn": str((payload or {}).get("pgn") or ""),
     }
 
 
@@ -323,18 +326,26 @@ def main() -> int:
     parser.add_argument("--timeout", type=int, default=20)
     parser.add_argument("--sleep", type=float, default=0.15)
     parser.add_argument("--missing-only", action="store_true", help="Only print games without saved analysis after fetching.")
+    parser.add_argument("--missing-pgn-only", action="store_true", help="Only fetch registered games that do not have a cached PGN.")
     parser.add_argument("--no-write", action="store_true", help="Fetch and report without writing the TOML cache.")
     args = parser.parse_args()
 
     games = load_all_session_games()
     selected_numbers = set(args.sessions)
+    existing_rows = existing_rows_by_key(OUTPUT)
     games_to_fetch = selected_games(games, selected_numbers)
-    existing_rows = existing_rows_by_key(OUTPUT) if selected_numbers else {}
+    if args.missing_pgn_only:
+        games_to_fetch = [
+            game
+            for game in games_to_fetch
+            if not str(existing_rows.get((game.session_number, game.game_index), {}).get("pgn") or "").strip()
+        ]
     rows = []
     failures = []
     fetch_keys = {(game.session_number, game.game_index) for game in games_to_fetch}
-    if selected_numbers:
-        print(f"Fetching Lichess analysis for {len(games_to_fetch)} game(s): {', '.join(sorted(selected_numbers))}")
+    if selected_numbers or args.missing_pgn_only:
+        target = ", ".join(sorted(selected_numbers)) if selected_numbers else "all sessions missing cached PGN"
+        print(f"Fetching Lichess analysis for {len(games_to_fetch)} game(s): {target}")
 
     fetched = 0
     for game in games:

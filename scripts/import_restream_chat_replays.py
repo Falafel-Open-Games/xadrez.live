@@ -397,6 +397,36 @@ def load_static_chat_messages(path: Path) -> list[dict]:
     return messages if isinstance(messages, list) else []
 
 
+def platform_messages(messages: list[dict], platform: str) -> list[dict]:
+    return [
+        message
+        for message in messages
+        if str(message.get("platform") or "").strip().casefold() == platform.casefold()
+    ]
+
+
+def merge_lookups(
+    primary: tuple[dict[tuple[str, int], str], dict[str, str]],
+    fallback: tuple[dict[tuple[str, int], str], dict[str, str]],
+) -> tuple[dict[tuple[str, int], str], dict[str, str]]:
+    primary_timed, primary_text = primary
+    fallback_timed, fallback_text = fallback
+    return ({**fallback_timed, **primary_timed}, {**fallback_text, **primary_text})
+
+
+def anon_author_count(messages: list[dict]) -> int:
+    return sum(1 for message in messages if ANON_AUTHOR_RE.match(str(message.get("author") or "")))
+
+
+def known_author_count(messages: list[dict]) -> int:
+    return sum(
+        1
+        for message in messages
+        if str(message.get("author") or "").strip()
+        and not ANON_AUTHOR_RE.match(str(message.get("author") or ""))
+    )
+
+
 def event_start(event: dict) -> datetime | None:
     raw_started_at = event.get("startedAt") or event.get("scheduledFor")
     if raw_started_at is None:
@@ -529,6 +559,18 @@ def import_replays(
         youtube_timed_authors, youtube_text_authors = youtube_author_lookups(youtube_messages, youtube_match_window)
         twitch_messages = load_static_chat_messages(twitch_data_dir / f"{session['session_number']}.json")
         twitch_timed_authors, twitch_text_authors = youtube_author_lookups(twitch_messages, youtube_match_window)
+        output_path = output_dir / f"{session['session_number']}.json"
+        existing_messages = load_static_chat_messages(output_path)
+        existing_youtube_lookups = youtube_author_lookups(platform_messages(existing_messages, "YouTube"), youtube_match_window)
+        existing_twitch_lookups = youtube_author_lookups(platform_messages(existing_messages, "Twitch"), youtube_match_window)
+        youtube_timed_authors, youtube_text_authors = merge_lookups(
+            (youtube_timed_authors, youtube_text_authors),
+            existing_youtube_lookups,
+        )
+        twitch_timed_authors, twitch_text_authors = merge_lookups(
+            (twitch_timed_authors, twitch_text_authors),
+            existing_twitch_lookups,
+        )
         aliases = infer_single_youtube_supporter_alias(
             raw_messages,
             event,
@@ -560,7 +602,16 @@ def import_replays(
             "message_count": len(messages),
             "messages": messages,
         }
-        output_path = output_dir / f"{session['session_number']}.json"
+        if (
+            existing_messages
+            and anon_author_count(messages) > anon_author_count(existing_messages)
+            and known_author_count(messages) < known_author_count(existing_messages)
+        ):
+            print(
+                f"{session['session_number']}: keeping existing Restream replay; "
+                "API response would replace known authors with anonymous Person labels"
+            )
+            continue
         output_path.write_text(json.dumps(output, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
         print(
             f"{session['session_number']}: imported {len(messages)} Restream messages "

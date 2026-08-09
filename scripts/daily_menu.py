@@ -17,7 +17,7 @@ class Action:
 ACTIONS = [
     Action(
         "Pre-wrap recente",
-        "resgatar chat e transcricoes do YouTube depois que o VOD terminar",
+        "resgatar chat, transcricao do YouTube e transcricao GPT mini depois que o VOD terminar",
         "pre-wrap",
     ),
     Action(
