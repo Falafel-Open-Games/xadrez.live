@@ -525,9 +525,9 @@ def storm_timeline_events(path: Path, session_start: datetime | None) -> list[di
         started_seconds = recorded_seconds(attempt.get("started_at"), session_start)
         finished_seconds = recorded_seconds(attempt.get("finished_at"), session_start)
         if started_seconds is not None:
-            label = "Puzzle Storm"
+            label = "Storm"
             if len(attempts) > 1:
-                label = f"Puzzle Storm {index}"
+                label = f"Storm {index}"
             events.append(
                 {
                     "time": format_time(started_seconds),

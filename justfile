@@ -159,6 +159,12 @@ youtube-hook-options SESSION:
 youtube-hook-choose SESSION:
   @python3 scripts/youtube_title_options.py {{SESSION}} --kind hook --choose --write
 
+page-summary-options SESSION:
+  @python3 scripts/session_summary_options.py {{SESSION}}
+
+page-summary-choose SESSION:
+  @python3 scripts/session_summary_options.py {{SESSION}} --choose --write
+
 thumbnail-bullets SESSION:
   @python3 scripts/thumbnail_bullet_options.py {{SESSION}}
 
@@ -171,6 +177,7 @@ youtube-finish-session SESSION:
 
 youtube-finish-session-no-build SESSION:
   @just verify-session {{SESSION}}
+  @just page-summary-choose {{SESSION}}
   @just youtube-title-choose {{SESSION}}
   @just youtube-hook-choose {{SESSION}}
   @just thumbnail-bullets-choose {{SESSION}}
@@ -184,6 +191,7 @@ youtube-finish-session-skip-title SESSION:
 
 youtube-finish-session-skip-title-no-build SESSION:
   @just verify-session {{SESSION}}
+  @just page-summary-choose {{SESSION}}
   @just youtube-hook-choose {{SESSION}}
   @just thumbnail-bullets-choose {{SESSION}}
   @just youtube-chapters-write-confirm {{SESSION}}

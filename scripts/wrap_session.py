@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import shutil
 import subprocess
 import sys
@@ -22,6 +23,8 @@ WRAP_DIR = DATA_DIR / "wrap_sessions"
 RESTREAM_DIR = DATA_DIR / "restream_chat_replays"
 INBOX_DIR = DATA_DIR / "wrap_inbox"
 DOWNLOADS_DIR = Path.home() / "Downloads"
+SESSION_EDITORIAL_CHOICES_PATH = DATA_DIR / "session_editorial_choices.json"
+YOUTUBE_EDITORIAL_CHOICES_PATH = DATA_DIR / "youtube_editorial_choices.json"
 LOCAL_TZ = ZoneInfo("America/Sao_Paulo")
 ARRAY_REPLACE_KEYS = {"streak_attempts", "storm_attempts", "practice_sets", "games", "supporters"}
 SELF_SUPPORTERS = {
@@ -56,6 +59,8 @@ EXTRA_SCALAR_ORDER = [
     "practice_notes_recorded_at",
     "practice_notes_event",
 ]
+PLACEHOLDER_DESCRIPTION = "Treino de puzzles e uma partida rapid."
+PLACEHOLDER_SUMMARY_TITLE = "Puzzles e rapid"
 
 
 def fail(message: str) -> None:
@@ -167,6 +172,65 @@ def render_front_matter(data: dict[str, Any]) -> str:
 
 def write_session(path: Path, data: dict[str, Any], body: str) -> None:
     path.write_text(render_front_matter(data) + body, encoding="utf-8")
+
+
+def compact_spaces(value: str) -> str:
+    return re.sub(r"\s+", " ", value).strip()
+
+
+def selected_youtube_editorial_choice(session: str, key: str) -> str:
+    if not YOUTUBE_EDITORIAL_CHOICES_PATH.exists():
+        return ""
+    try:
+        data = json.loads(YOUTUBE_EDITORIAL_CHOICES_PATH.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return ""
+    sessions = data.get("sessions")
+    if not isinstance(sessions, dict):
+        return ""
+    item = sessions.get(session, {}).get(key)
+    if not isinstance(item, dict):
+        return ""
+    selected = item.get("selected")
+    return compact_spaces(str(selected or ""))
+
+
+def selected_session_editorial_choice(session: str, key: str) -> str:
+    if not SESSION_EDITORIAL_CHOICES_PATH.exists():
+        return ""
+    try:
+        data = json.loads(SESSION_EDITORIAL_CHOICES_PATH.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return ""
+    sessions = data.get("sessions")
+    if not isinstance(sessions, dict):
+        return ""
+    item = sessions.get(session, {}).get(key)
+    if not isinstance(item, dict):
+        return ""
+    selected = item.get("selected")
+    return compact_spaces(str(selected or ""))
+
+
+def apply_selected_editorial_choices(session: str, data: dict[str, Any]) -> list[str]:
+    extra = data.setdefault("extra", {})
+    if not isinstance(extra, dict):
+        fail("[extra] is not a table")
+
+    updated = []
+    current_description = compact_spaces(str(extra.get("description") or ""))
+    selected_hook = selected_youtube_editorial_choice(session, "description_hooks")
+    if selected_hook and current_description in {"", PLACEHOLDER_DESCRIPTION}:
+        extra["description"] = selected_hook
+        updated.append("description")
+
+    current_summary = compact_spaces(str(extra.get("summary_title") or ""))
+    selected_summary = selected_session_editorial_choice(session, "summary_titles")
+    if selected_summary and current_summary in {"", PLACEHOLDER_SUMMARY_TITLE}:
+        extra["summary_title"] = selected_summary
+        updated.append("summary_title")
+
+    return updated
 
 
 def load_wrap_toml(path: Path) -> dict[str, Any]:
@@ -678,6 +742,10 @@ def main() -> int:
         if not args.skip_youtube_finish:
             recipe = "youtube-finish-session-skip-title-no-build" if args.skip_youtube_title else "youtube-finish-session-no-build"
             run(["just", recipe, session], args.dry_run)
+            editorial_updates = apply_selected_editorial_choices(session, data)
+            if editorial_updates:
+                write_session(path, data, body)
+                print(f"{session}: applied selected editorial choices to page ({', '.join(editorial_updates)})")
         else:
             run(["just", "verify-session", session], args.dry_run)
         next_session_command = schedule_next_session(args, session)
