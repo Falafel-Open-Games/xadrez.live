@@ -5,6 +5,7 @@ import argparse
 import shutil
 import subprocess
 from dataclasses import dataclass
+from datetime import date, timedelta
 
 
 @dataclass(frozen=True)
@@ -44,6 +45,11 @@ ACTIONS = [
         "Finalizar YouTube",
         "escolher titulo/hook, publicar descricao/capitulos e thumbnail",
         "youtube-finish",
+    ),
+    Action(
+        "Agendar próxima sessão",
+        "criar/atualizar markdown com horário e ID da próxima live",
+        "schedule-next",
     ),
     Action(
         "Listar comandos avancados",
@@ -160,6 +166,21 @@ def command_for(action: Action) -> list[str] | None:
             return ["just", "youtube-finish-session", session]
         print("Pulando titulo.")
         return ["just", "youtube-finish-session-skip-title", session]
+
+    if action.key == "schedule-next":
+        session = prompt("Sessao, ex. 0056")
+        if not session:
+            return None
+        date = prompt("Data YYYY-MM-DD", (date.today() + timedelta(days=1)).isoformat())
+        if not date:
+            return None
+        time = prompt("Horario BRT HH:MM", "08:30")
+        if not time:
+            return None
+        youtube = prompt("YouTube URL ou ID")
+        if not youtube:
+            return None
+        return ["just", "schedule-next-session", session, "--date", date, "--time", time, "--youtube", youtube]
 
     if action.key == "list":
         return ["just", "--list"]

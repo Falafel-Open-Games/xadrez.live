@@ -9,6 +9,8 @@ import json
 import os
 import re
 import secrets
+import shutil
+import subprocess
 import urllib.error
 import urllib.parse
 import urllib.request
@@ -322,6 +324,10 @@ def validate_description(description: str) -> None:
         raise RuntimeError(f"generated description is {size} bytes; YouTube allows at most {MAX_DESCRIPTION_BYTES} bytes")
 
 
+def normalized_description(description: str) -> str:
+    return description.replace("\r\n", "\n").replace("\r", "\n").strip()
+
+
 def api_request(path: str, token: str, *, method: str = "GET", query: dict[str, str] | None = None, body: dict[str, Any] | None = None) -> dict[str, Any]:
     url = f"{YOUTUBE_API}/{path}"
     if query:
@@ -468,13 +474,23 @@ def updated_snippet(snippet: dict[str, Any], description: str) -> dict[str, Any]
     return output
 
 
+def has_gum() -> bool:
+    return shutil.which("gum") is not None
+
+
+def confirm(message: str) -> bool:
+    if has_gum():
+        return subprocess.run(["gum", "confirm", message], check=False).returncode == 0
+    return input(f"{message} Type YES to continue: ").strip() == "YES"
+
+
 def confirm_description(session_number: str, video_id: str, description: str) -> bool:
     print()
     print(f"{session_number} ({video_id}) description preview")
     print("-" * 72)
     print(description.strip())
     print("-" * 72)
-    return input("Publish this YouTube description? Type YES to continue: ").strip() == "YES"
+    return confirm("Publicar esta descrição no YouTube?")
 
 
 def main() -> int:
@@ -547,9 +563,9 @@ def main() -> int:
             print(f"{session_number}: video {video_id} was not returned by YouTube")
             continue
         description = str(snippet.get("description") or "")
-        next_description = update_description(description, path, chapters, not args.chapters_only)
+        next_description = normalized_description(update_description(description, path, chapters, not args.chapters_only))
         validate_description(next_description)
-        if next_description == description:
+        if normalized_description(next_description) == normalized_description(description):
             print(f"{session_number}: unchanged")
             continue
         if args.confirm and not confirm_description(session_number, video_id, next_description):

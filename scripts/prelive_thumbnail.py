@@ -6,6 +6,8 @@ import tempfile
 import tomllib
 from pathlib import Path
 
+from wrap_session import read_session, write_session
+
 
 ROOT = Path(__file__).resolve().parents[1]
 TEMPLATE = ROOT / "content/fcz/_thumbnail-templates/pre-live-offline-template.jpg"
@@ -48,6 +50,20 @@ def load_session(session):
         return tomllib.loads(extract_front_matter(path.read_text(encoding="utf-8"), path))
     except tomllib.TOMLDecodeError as error:
         fail(f"malformed TOML front matter in {path}: {error}")
+
+
+def update_session_og_image(session, output):
+    try:
+        relative = output.relative_to(ROOT / "static")
+    except ValueError:
+        fail(f"output must be under static/ to be used as og_image: {output}")
+
+    path, data, body = read_session(session)
+    extra = data.setdefault("extra", {})
+    if not isinstance(extra, dict):
+        fail(f"missing [extra] in content/fcz/{session}.md")
+    extra["og_image"] = "/" + relative.as_posix()
+    write_session(path, data, body)
 
 
 def normalized_time(raw):
@@ -199,6 +215,7 @@ def main():
         print(output.relative_to(ROOT))
     except ValueError:
         print(output)
+    update_session_og_image(args.session, output)
 
 
 if __name__ == "__main__":

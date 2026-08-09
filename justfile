@@ -104,9 +104,12 @@ calibrate-session-capivaradas SESSION:
   @just calibrate-lichess-video-offset {{SESSION}}
 
 update-session-capivaradas SESSION:
-  @python3 scripts/update_lichess_game_analysis.py {{SESSION}} --missing-only
-  @python3 scripts/update_lichess_blunder_events.py {{SESSION}}
+  @just update-session-capivaradas-data {{SESSION}}
   @just build
+
+update-session-capivaradas-data SESSION:
+  @python3 scripts/update_lichess_game_analysis.py {{SESSION}} --fetch-missing-only --missing-only
+  @python3 scripts/update_lichess_blunder_events.py {{SESSION}}
 
 update-youtube-video-metadata EXTRA="":
   @python3 scripts/update_youtube_video_metadata.py {{EXTRA}}
@@ -163,20 +166,26 @@ thumbnail-bullets-choose SESSION:
   @python3 scripts/thumbnail_bullet_options.py {{SESSION}} --choose --write --generate
 
 youtube-finish-session SESSION:
+  @just youtube-finish-session-no-build {{SESSION}}
+  @just build
+
+youtube-finish-session-no-build SESSION:
   @just verify-session {{SESSION}}
   @just youtube-title-choose {{SESSION}}
   @just youtube-hook-choose {{SESSION}}
   @just thumbnail-bullets-choose {{SESSION}}
-  @just build
   @just youtube-chapters-write-confirm {{SESSION}}
   @just youtube-thumbnail {{SESSION}}
   @just verify-session {{SESSION}} --require-published-thumbnail
 
 youtube-finish-session-skip-title SESSION:
+  @just youtube-finish-session-skip-title-no-build {{SESSION}}
+  @just build
+
+youtube-finish-session-skip-title-no-build SESSION:
   @just verify-session {{SESSION}}
   @just youtube-hook-choose {{SESSION}}
   @just thumbnail-bullets-choose {{SESSION}}
-  @just build
   @just youtube-chapters-write-confirm {{SESSION}}
   @just youtube-thumbnail {{SESSION}}
   @just verify-session {{SESSION}} --require-published-thumbnail
@@ -326,14 +335,8 @@ post-thumb SESSION:
 thumbnail-optimize INPUT OUTPUT:
   @magick "{{INPUT}}" -strip -resize 1200x675 -quality 85 "{{OUTPUT}}"
 
+schedule-next-session *ARGS:
+  @python3 scripts/schedule_next_session.py {{ARGS}}
+
 init-session number:
-  @file="content/fcz/{{number}}.md"; today="$(date +%F)"; \
-    test ! -e "$file" || { echo "$file already exists"; exit 1; }; \
-    cp content/fcz/_session-template.md "$file"; \
-    sed -i \
-      -e "s/Sessão #00XX/Sessão #{{number}}/g" \
-      -e "s/session_number = \"00XX\"/session_number = \"{{number}}\"/g" \
-      -e "s/date = 2000-01-01/date = ${today}/g" \
-      -e "s/draft = true/draft = false/g" \
-      "$file"; \
-    echo "Created $file"
+  @python3 scripts/schedule_next_session.py {{number}} --date "$(date +%F)" --time 11:00 --youtube https://youtube.com/live/REPLACE_WITH_YOUTUBE_VIDEO_ID --no-prompt

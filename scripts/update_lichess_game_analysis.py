@@ -145,7 +145,9 @@ def fetch_game(game_id: str, token: str, timeout: int) -> dict[str, Any]:
     query = urllib.parse.urlencode(
         {
             "accuracy": 1,
+            "clocks": 1,
             "evals": 1,
+            "literate": 1,
             "opening": 1,
             "division": 1,
             "pgnInJson": 1,
@@ -326,6 +328,7 @@ def main() -> int:
     parser.add_argument("--timeout", type=int, default=20)
     parser.add_argument("--sleep", type=float, default=0.15)
     parser.add_argument("--missing-only", action="store_true", help="Only print games without saved analysis after fetching.")
+    parser.add_argument("--fetch-missing-only", action="store_true", help="Only fetch games that do not have saved analysis.")
     parser.add_argument("--missing-pgn-only", action="store_true", help="Only fetch registered games that do not have a cached PGN.")
     parser.add_argument("--no-write", action="store_true", help="Fetch and report without writing the TOML cache.")
     args = parser.parse_args()
@@ -334,6 +337,12 @@ def main() -> int:
     selected_numbers = set(args.sessions)
     existing_rows = existing_rows_by_key(OUTPUT)
     games_to_fetch = selected_games(games, selected_numbers)
+    if args.fetch_missing_only:
+        games_to_fetch = [
+            game
+            for game in games_to_fetch
+            if not bool(existing_rows.get((game.session_number, game.game_index), {}).get("has_analysis"))
+        ]
     if args.missing_pgn_only:
         games_to_fetch = [
             game

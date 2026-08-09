@@ -3,7 +3,9 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import subprocess
+import sys
 import tomllib
 import time as time_module
 from datetime import date, datetime, time, timedelta, timezone
@@ -490,6 +492,91 @@ def run(command: list[str], dry_run: bool) -> None:
     subprocess.run(command, check=True)
 
 
+def has_gum() -> bool:
+    return shutil.which("gum") is not None
+
+
+def prompt(label: str, default: str = "") -> str:
+    if has_gum():
+        command = ["gum", "input", "--prompt", f"{label}: "]
+        if default:
+            command.extend(["--value", default])
+        result = subprocess.run(command, text=True, stdout=subprocess.PIPE, check=False)
+        if result.returncode != 0:
+            return ""
+        return result.stdout.strip() or default
+    suffix = f" [{default}]" if default else ""
+    return input(f"{label}{suffix}: ").strip() or default
+
+
+def confirm(message: str) -> bool:
+    if has_gum():
+        return subprocess.run(["gum", "confirm", message], check=False).returncode == 0
+    return prompt(f"{message} Digite SIM para confirmar", "") == "SIM"
+
+
+def next_session_number(session: str) -> str:
+    try:
+        return f"{int(session) + 1:04d}"
+    except ValueError:
+        return ""
+
+
+def has_scheduled_session(session: str) -> bool:
+    if not session:
+        return False
+    path = CONTENT_DIR / f"{session}.md"
+    if not path.exists():
+        return False
+    try:
+        data = tomllib.loads(extract_front_matter(path.read_text(encoding="utf-8"), path)[0])
+    except tomllib.TOMLDecodeError:
+        return False
+    extra = data.get("extra")
+    if not isinstance(extra, dict):
+        return False
+    tone = str(extra.get("status_tone") or "").strip().casefold()
+    video_id = str(extra.get("youtube_video_id") or "").strip()
+    return tone in {"scheduled", "live"} and bool(video_id) and video_id != "REPLACE_WITH_YOUTUBE_VIDEO_ID"
+
+
+def schedule_next_session(args: argparse.Namespace, session: str) -> tuple[list[str], str, str] | None:
+    has_explicit_next = any([args.next_session, args.next_date, args.next_time, args.next_youtube])
+    if args.skip_next_session:
+        return None
+    default_next_session = next_session_number(session)
+    if not has_explicit_next and has_scheduled_session(default_next_session):
+        print(f"{session}: next session {default_next_session} already scheduled; skipping next-session prompt")
+        return None
+    if not has_explicit_next and not sys.stdin.isatty():
+        return None
+    if not has_explicit_next and not confirm("Agendar a próxima sessão agora?"):
+        return None
+
+    next_session = args.next_session or prompt("Próxima sessão", default_next_session)
+    next_date = args.next_date or prompt("Data da próxima live YYYY-MM-DD", (date.today() + timedelta(days=1)).isoformat())
+    next_time = args.next_time or prompt("Horário BRT HH:MM", "08:30")
+    next_youtube = args.next_youtube or prompt("YouTube URL ou ID")
+    if not next_session or not next_date or not next_time or not next_youtube:
+        fail("próxima sessão precisa de número, data, horário e YouTube URL/ID")
+
+    return (
+        [
+            "just",
+            "schedule-next-session",
+            next_session,
+            "--date",
+            next_date,
+            "--time",
+            next_time,
+            "--youtube",
+            next_youtube,
+        ],
+        next_session,
+        next_time,
+    )
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Persist and apply a daily xadrez.live wrapup from files.")
     parser.add_argument("session", help="Session number, e.g. 0054")
@@ -500,6 +587,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--skip-capivaradas", action="store_true")
     parser.add_argument("--skip-youtube-finish", action="store_true")
     parser.add_argument("--skip-youtube-title", action="store_true")
+    parser.add_argument("--skip-next-session", action="store_true", help="Do not offer to create/update the next scheduled session")
+    parser.add_argument("--skip-next-pre-thumb", action="store_true", help="Do not generate/upload the next session pre-live thumbnail")
+    parser.add_argument("--next-session", help="Next session number, e.g. 0056")
+    parser.add_argument("--next-date", help="Next session date in YYYY-MM-DD")
+    parser.add_argument("--next-time", help="Next session local time in HH:MM")
+    parser.add_argument("--next-youtube", help="Next YouTube video id or URL")
     parser.add_argument("--downloads-max-age-hours", type=float, default=12.0, help="Maximum age for implicit ~/Downloads fallback inputs")
     return parser.parse_args()
 
@@ -581,13 +674,20 @@ def main() -> int:
         if chat_json_file:
             run(["python3", "scripts/merge_chat_replays.py", session], args.dry_run)
         if not args.skip_capivaradas:
-            run(["just", "update-session-capivaradas", session], args.dry_run)
-        run(["just", "verify-session", session], args.dry_run)
+            run(["just", "update-session-capivaradas-data", session], args.dry_run)
+        if not args.skip_youtube_finish:
+            recipe = "youtube-finish-session-skip-title-no-build" if args.skip_youtube_title else "youtube-finish-session-no-build"
+            run(["just", recipe, session], args.dry_run)
+        else:
+            run(["just", "verify-session", session], args.dry_run)
+        next_session_command = schedule_next_session(args, session)
+        if next_session_command:
+            command, next_session, next_time = next_session_command
+            run(command, args.dry_run)
+            if not args.skip_next_pre_thumb:
+                run(["just", "pre-thumb", next_session, next_time], args.dry_run)
         if not args.skip_build:
             run(["just", "build"], args.dry_run)
-        if not args.skip_youtube_finish:
-            recipe = "youtube-finish-session-skip-title" if args.skip_youtube_title else "youtube-finish-session"
-            run(["just", recipe, session], args.dry_run)
     else:
         print(f"{session}: dry run; no files written")
 
