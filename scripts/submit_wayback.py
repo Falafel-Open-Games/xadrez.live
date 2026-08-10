@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import json
 import time
 import urllib.error
 import urllib.parse
@@ -13,6 +14,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 SITEMAP = ROOT / "public" / "sitemap.xml"
 WAYBACK_SAVE_URL = "https://web.archive.org/save/"
+WAYBACK_CDX_URL = "https://web.archive.org/cdx/search/cdx"
 SITEMAP_NS = {"sm": "http://www.sitemaps.org/schemas/sitemap/0.9"}
 RETRYABLE_HTTP_STATUS = {408, 425, 429, 500, 502, 503, 504}
 
@@ -80,6 +82,72 @@ def archive_url_with_retries(url: str, timeout: int, retries: int, retry_delay: 
     return False, "unknown retry failure"
 
 
+def latest_cdx_capture(url: str, timeout: int) -> tuple[str, str]:
+    query = urllib.parse.urlencode(
+        {
+            "url": url,
+            "output": "json",
+            "fl": "original,timestamp,statuscode,mimetype",
+            "filter": "statuscode:200",
+            "limit": "-1",
+        }
+    )
+    request = urllib.request.Request(
+        f"{WAYBACK_CDX_URL}?{query}",
+        headers={
+            "Accept": "application/json,text/plain;q=0.9,*/*;q=0.8",
+            "User-Agent": "xadrez-live-wayback-submit/1.0",
+        },
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            text = response.read().decode("utf-8", errors="replace").strip()
+    except urllib.error.HTTPError as error:
+        if error.code == 429:
+            return "rate_limited", f"CDX HTTP 429 {error.reason}"
+        detail = error.read().decode("utf-8", errors="replace").strip()
+        return "failed", f"CDX HTTP {error.code} {error.reason}: {detail[:240]}"
+    except urllib.error.URLError as error:
+        return "pending", f"CDX unavailable: {error.reason}"
+
+    if not text or text == "[]":
+        return "pending", "CDX has no 200 capture yet"
+
+    try:
+        rows = json.loads(text)
+    except json.JSONDecodeError:
+        return "pending", f"CDX returned non-JSON response: {text[:120]}"
+
+    if not isinstance(rows, list) or len(rows) < 2 or not isinstance(rows[-1], list):
+        return "pending", "CDX has no capture rows yet"
+
+    headers = rows[0]
+    latest = rows[-1]
+    if not isinstance(headers, list):
+        return "pending", "CDX returned malformed header"
+    row = {str(key): str(value) for key, value in zip(headers, latest)}
+    timestamp = row.get("timestamp", "")
+    statuscode = row.get("statuscode", "")
+    mimetype = row.get("mimetype", "")
+    if timestamp and statuscode == "200":
+        return "captured", f"CDX {timestamp} HTTP {statuscode} {mimetype}".strip()
+    return "pending", f"CDX latest row is not a 200 capture: {row}"
+
+
+def verify_cdx_capture(url: str, timeout: int, wait_seconds: int, interval: float) -> tuple[str, str]:
+    deadline = time.monotonic() + max(0, wait_seconds)
+    messages = []
+    while True:
+        status, message = latest_cdx_capture(url, timeout)
+        if status in {"captured", "rate_limited", "failed"}:
+            return status, message
+        messages.append(message)
+        remaining = deadline - time.monotonic()
+        if remaining <= 0:
+            return "pending", " | ".join(unique(messages[-3:]))
+        time.sleep(min(interval, remaining))
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Submit sitemap URLs to Internet Archive Save Page Now.")
     parser.add_argument("--write", action="store_true", help="Submit URLs. Without this flag, only list what would be submitted.")
@@ -89,6 +157,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--retries", type=int, default=2, help="Retries for temporary HTTP/network failures.")
     parser.add_argument("--retry-delay", type=float, default=30.0, help="Base seconds to wait before retrying temporary failures.")
     parser.add_argument("--timeout", type=int, default=60, help="HTTP timeout per URL.")
+    parser.add_argument("--no-verify", action="store_true", help="Do not verify submitted URLs in the Wayback CDX index.")
+    parser.add_argument("--verify-wait", type=int, default=45, help="Seconds to wait for each submitted URL to appear in CDX.")
+    parser.add_argument("--verify-interval", type=float, default=5.0, help="Seconds between CDX verification attempts.")
     parser.add_argument("--sitemap", type=Path, default=SITEMAP)
     return parser.parse_args()
 
@@ -114,19 +185,40 @@ def main() -> int:
         print("\nuse --write to submit")
         return 0
 
-    print(f"Submitting {len(urls)} URL(s) to Internet Archive Save Page Now.")
-    failures = 0
+    verify_suffix = "" if args.no_verify else " and verifying CDX captures"
+    print(f"Submitting {len(urls)} URL(s) to Internet Archive Save Page Now{verify_suffix}.")
+    counts = {"captured": 0, "submitted": 0, "pending": 0, "rate_limited": 0, "failed": 0}
     for index, url in enumerate(urls, start=1):
         absolute_index = args.start + index - 1
         ok, message = archive_url_with_retries(url, args.timeout, args.retries, args.retry_delay)
-        status = "ok" if ok else "failed"
-        print(f"{absolute_index} {status}: {url} ({message})", flush=True)
         if not ok:
-            failures += 1
+            counts["failed"] += 1
+            print(f"{absolute_index} failed: {url} ({message})", flush=True)
+        elif args.no_verify:
+            counts["submitted"] += 1
+            print(f"{absolute_index} submitted: {url} ({message})", flush=True)
+        else:
+            verify_status, verify_message = verify_cdx_capture(
+                url,
+                args.timeout,
+                args.verify_wait,
+                args.verify_interval,
+            )
+            counts[verify_status] += 1
+            print(f"{absolute_index} {verify_status}: {url} ({message}; {verify_message})", flush=True)
         if index < len(urls) and args.delay > 0:
             time.sleep(args.delay)
-    print(f"summary: {len(urls) - failures} submitted, {failures} failed")
-    return 0 if failures == 0 else 1
+    if args.no_verify:
+        print(f"summary: {counts['submitted']} submitted, {counts['failed']} failed")
+        return 0 if counts["failed"] == 0 else 1
+    print(
+        "summary: "
+        f"{counts['captured']} captured, "
+        f"{counts['pending']} pending, "
+        f"{counts['rate_limited']} rate_limited, "
+        f"{counts['failed']} failed"
+    )
+    return 0 if counts["pending"] == counts["rate_limited"] == counts["failed"] == 0 else 1
 
 
 if __name__ == "__main__":

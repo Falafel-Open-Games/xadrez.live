@@ -22,6 +22,14 @@ CHOICES_PATH = ROOT / "data" / "fcz" / "session_editorial_choices.json"
 ENV_PATH = ROOT / ".env"
 OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses"
 MAX_SUMMARY_LENGTH = 64
+GENERIC_SUMMARY_PATTERNS = [
+    r"^puzzles?\s+e\s+rapid$",
+    r"^puzzle\s+do\s+dia\s+seguido\s+de\s+partida\s+rapid$",
+    r"^treino\s+de\s+puzzles?\s+e\s+(?:uma\s+)?partida\s+rapid$",
+    r"^puzzles?,?\s+rapid\s+e\s+progresso\s+(?:real|honesto)$",
+    r"^mais\s+uma\s+sess[aã]o\s+de\s+xadrez\s+real$",
+]
+PLACEHOLDER_DESCRIPTION = "Treino de puzzles e uma partida rapid."
 
 
 def fail(message: str) -> None:
@@ -145,11 +153,18 @@ def unique_options(values: list[str], count: int) -> list[str]:
     return output
 
 
+def is_generic_summary(value: str) -> bool:
+    normalized = re.sub(r"\s+", " ", value).strip(" .;:-").casefold()
+    return any(re.search(pattern, normalized, flags=re.I) for pattern in GENERIC_SUMMARY_PATTERNS)
+
+
+def filter_summary_options(values: list[str], count: int) -> list[str]:
+    filtered = [value for value in values if not is_generic_summary(value)]
+    return unique_options(filtered, count)
+
+
 def fallback_options(context: dict[str, Any], count: int) -> list[str]:
     hooks = []
-    for value in context.get("thumbnail_notes") or []:
-        if isinstance(value, str) and value.strip():
-            hooks.append(value)
     for game in context.get("games") or []:
         if isinstance(game, dict):
             opening = str(game.get("opening") or "").strip()
@@ -160,12 +175,18 @@ def fallback_options(context: dict[str, Any], count: int) -> list[str]:
             elif opening:
                 hooks.append(opening)
             if note:
-                hooks.append(note.splitlines()[0])
+                for line in note.splitlines():
+                    line = line.strip()
+                    if line:
+                        hooks.append(line)
+                        break
+    for value in context.get("thumbnail_notes") or []:
+        if isinstance(value, str) and value.strip():
+            hooks.append(value)
     description = str(context.get("description") or "").strip()
-    if description:
+    if description and description != PLACEHOLDER_DESCRIPTION:
         hooks.append(description)
-    hooks.extend(["Puzzles, rapid e progresso real", "Mais uma sessão de xadrez real"])
-    return unique_options([complete_summary(hook) for hook in hooks], count)
+    return filter_summary_options([complete_summary(hook) for hook in hooks], count)
 
 
 def prompt_for_model(context: dict[str, Any], count: int) -> str:
@@ -264,7 +285,7 @@ def parse_options(text: str, count: int) -> list[str]:
             line = re.sub(r"^\s*(?:[-*]|\d+[.)])\s*", "", line).strip()
             if line:
                 options.append(line.strip('"'))
-    return unique_options([complete_summary(option) for option in options], count)
+    return filter_summary_options([complete_summary(option) for option in options], count)
 
 
 def openai_options(context: dict[str, Any], count: int, model: str, api_key: str, timeout: int) -> list[str]:
@@ -371,7 +392,7 @@ def main() -> int:
     if not options and api_key and not args.no_ai:
         options = openai_options(context, args.count, args.model, api_key, args.timeout)
     if len(options) < args.count:
-        options = unique_options(options + fallback_options(context, args.count), args.count)
+        options = filter_summary_options(options + fallback_options(context, args.count), args.count)
     if not options:
         fail("no summary title options generated")
     if not (args.no_ai and not args.choose and not args.write):

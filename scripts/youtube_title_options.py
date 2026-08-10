@@ -33,6 +33,13 @@ OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses"
 TITLE_SUFFIX_TEMPLATE = " | xadrez depois dos 40 #{session}"
 MAX_TITLE_LENGTH = 100
 MAX_HOOK_LENGTH = 180
+GENERIC_OPTION_PATTERNS = [
+    r"^puzzles?\s+e\s+rapid(?:\s+e\s+progresso\s+(?:real|honesto))?",
+    r"^puzzles?,?\s+rapid\s+e\s+progresso",
+    r"^puzzle\s+do\s+dia\s+seguido\s+de\s+partida\s+rapid",
+    r"^treino\s+de\s+puzzles?\s+e\s+(?:uma\s+)?partida\s+rapid",
+    r"^mais\s+uma\s+sess[aã]o\s+de\s+xadrez\s+real",
+]
 
 
 def fail(message: str) -> None:
@@ -170,6 +177,16 @@ def remember_selected(session: str, kind: str, value: str) -> None:
     write_choices(data)
 
 
+def is_generic_option(value: str) -> bool:
+    value = re.sub(r"\s+", " ", value).strip(" -|:;.\"'").casefold()
+    value = re.sub(r"\s*\|\s*xadrez depois dos 40\s+#?\d{4}$", "", value, flags=re.I).strip(" -|:;.\"'")
+    return any(re.search(pattern, value, flags=re.I) for pattern in GENERIC_OPTION_PATTERNS)
+
+
+def filter_options(values: list[str], count: int) -> list[str]:
+    return unique_options([value for value in values if not is_generic_option(value)], count)
+
+
 def fallback_options(context: dict[str, Any], count: int, kind: str) -> list[str]:
     session = context["session"]
     hooks = []
@@ -187,13 +204,18 @@ def fallback_options(context: dict[str, Any], count: int, kind: str) -> list[str
     for game in context.get("games") or []:
         if isinstance(game, dict):
             opening = str(game.get("opening") or "").strip()
+            note = str(game.get("note") or "").strip()
             if opening:
                 hooks.append(f"{opening} e uma lição no relógio")
+            if note:
+                for line in note.splitlines():
+                    line = line.strip()
+                    if line:
+                        hooks.append(line)
+                        break
     if kind == "hook":
-        hooks.extend(["Mais uma sessão de xadrez real, com erros úteis para estudar", "Puzzles, partida rapid e progresso honesto no tabuleiro"])
-        return unique_options([complete_hook(hook) for hook in hooks], count)
-    hooks.extend(["Puzzles, rapid e progresso real", "Mais uma sessão de xadrez real"])
-    return unique_options([complete_title(hook, session) for hook in hooks], count)
+        return filter_options([complete_hook(hook) for hook in hooks], count)
+    return filter_options([complete_title(hook, session) for hook in hooks], count)
 
 
 def prompt_for_model(context: dict[str, Any], count: int, kind: str) -> str:
@@ -336,8 +358,8 @@ def parse_options(text: str, session: str, count: int, kind: str) -> list[str]:
             if line:
                 options.append(line.strip('"'))
     if kind == "hook":
-        return unique_options([complete_hook(option) for option in options], count)
-    return unique_options([complete_title(option, session) for option in options], count)
+        return filter_options([complete_hook(option) for option in options], count)
+    return filter_options([complete_title(option, session) for option in options], count)
 
 
 def unique_options(values: list[str], count: int) -> list[str]:
@@ -511,7 +533,7 @@ def main() -> int:
     if not options and api_key and not args.no_ai:
         options = openai_options(context, args.count, args.model, api_key, args.timeout, args.kind)
     if len(options) < args.count:
-        options = unique_options(options + fallback_options(context, args.count, args.kind), args.count)
+        options = filter_options(options + fallback_options(context, args.count, args.kind), args.count)
     if not options:
         fail("no title options generated")
     if not (args.no_ai and not args.choose and not args.write):
