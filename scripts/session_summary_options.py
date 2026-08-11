@@ -29,6 +29,36 @@ GENERIC_SUMMARY_PATTERNS = [
     r"^puzzles?,?\s+rapid\s+e\s+progresso\s+(?:real|honesto)$",
     r"^mais\s+uma\s+sess[aã]o\s+de\s+xadrez\s+real$",
 ]
+SUMMARY_STOPWORDS = {
+    "a",
+    "as",
+    "com",
+    "da",
+    "de",
+    "do",
+    "dos",
+    "e",
+    "em",
+    "na",
+    "no",
+    "o",
+    "os",
+    "uma",
+    "um",
+}
+WEAK_SUMMARY_TOPIC_WORDS = {
+    "partida",
+    "partidas",
+    "pratica",
+    "puzzle",
+    "puzzles",
+    "rapid",
+    "rapida",
+    "rapidas",
+    "sessao",
+    "treino",
+    "xadrez",
+}
 PLACEHOLDER_DESCRIPTION = "Treino de puzzles e uma partida rapid."
 
 
@@ -114,7 +144,9 @@ def write_choices(data: dict[str, Any]) -> None:
 def cached_options(session: str) -> list[str]:
     item = read_choices().get("sessions", {}).get(session, {}).get("summary_titles", {})
     options = item.get("options") if isinstance(item, dict) else []
-    return [str(option) for option in options] if isinstance(options, list) else []
+    if not isinstance(options, list):
+        return []
+    return [str(option) for option in options if not is_generic_summary(str(option))]
 
 
 def selected_choice(session: str) -> str:
@@ -155,7 +187,11 @@ def unique_options(values: list[str], count: int) -> list[str]:
 
 def is_generic_summary(value: str) -> bool:
     normalized = re.sub(r"\s+", " ", value).strip(" .;:-").casefold()
-    return any(re.search(pattern, normalized, flags=re.I) for pattern in GENERIC_SUMMARY_PATTERNS)
+    if any(re.search(pattern, normalized, flags=re.I) for pattern in GENERIC_SUMMARY_PATTERNS):
+        return True
+    tokens = re.findall(r"[a-z0-9]+", normalized.replace("ã", "a").replace("á", "a").replace("ç", "c"))
+    content_tokens = [token for token in tokens if token not in SUMMARY_STOPWORDS]
+    return bool(content_tokens) and all(token in WEAK_SUMMARY_TOPIC_WORDS for token in content_tokens)
 
 
 def filter_summary_options(values: list[str], count: int) -> list[str]:
@@ -315,7 +351,7 @@ def openai_options(context: dict[str, Any], count: int, model: str, api_key: str
 
 
 def options_with_default(options: list[str], default: str) -> list[str]:
-    if not default:
+    if not default or is_generic_summary(default):
         return options
     return unique_options([default, *options], len(options) + 1)
 
@@ -404,6 +440,8 @@ def main() -> int:
         return 0
 
     previous = selected_choice(session) or complete_summary(str(context.get("current_summary_title") or ""))
+    if is_generic_summary(previous):
+        previous = ""
     title = choose_option(options, previous)
     if not title:
         print("No option selected.")

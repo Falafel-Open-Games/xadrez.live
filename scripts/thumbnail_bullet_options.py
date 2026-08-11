@@ -399,14 +399,16 @@ def main() -> int:
             print(label_option(option))
         return 0
 
-    previous = selected_bullets(session) or current_thumbnail_notes(session)
+    current_notes = current_thumbnail_notes(session)
+    previous = selected_bullets(session) or current_notes
     selected = choose_option(options, previous)
     if not selected:
         print("No option selected.")
         return 1
     print(label_option(selected))
     old_selected = selected_bullets(session)
-    changed = selected != old_selected
+    selection_changed = selected != old_selected
+    image_content_changed = selected != current_notes
     remember_selected(session, selected)
 
     notes_changed = False
@@ -419,10 +421,12 @@ def main() -> int:
 
     image_path = og_image_path(session)
     missing_image = image_path is None or not image_path.exists()
-    should_generate = args.force_generate or (args.generate and (changed or notes_changed or missing_image))
+    should_generate = args.force_generate or (args.generate and (image_content_changed or notes_changed or missing_image))
     if should_generate:
         run(["just", "post-thumb", session])
     elif args.generate:
+        if selection_changed:
+            print(f"{session}: remembered thumbnail bullet selection")
         print(f"{session}: thumbnail bullets unchanged and local thumbnail exists; skipping post-thumb")
 
     return 0

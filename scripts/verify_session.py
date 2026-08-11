@@ -72,13 +72,10 @@ def has_youtube_supporter(extra: dict[str, Any]) -> bool:
     return any(str(supporter.get("platform") or "").strip().lower() == "youtube" for supporter in supporters if isinstance(supporter, dict))
 
 
-def has_practice(extra: dict[str, Any]) -> bool:
-    practice_sets = extra.get("practice_sets")
+def has_timed_practice(extra: dict[str, Any]) -> bool:
+    if str(extra.get("practice_notes") or "").strip():
+        return True
     streak_attempts = extra.get("streak_attempts")
-    if isinstance(practice_sets, list):
-        for practice_set in practice_sets:
-            if isinstance(practice_set, dict) and (practice_set.get("url") or practice_set.get("title")):
-                return True
     if isinstance(streak_attempts, list):
         for attempt in streak_attempts:
             if not isinstance(attempt, dict):
@@ -213,7 +210,7 @@ def verify(session: str, require_published_thumbnail: bool) -> list[Check]:
     elif extra.get("puzzle_of_the_day_recorded_at"):
         checks.append(Check("ok", "Puzzle do dia tem timestamp"))
 
-    practice_expected = ended and has_practice(extra)
+    practice_expected = ended and has_timed_practice(extra)
     if practice_expected and not extra.get("practice_notes_recorded_at"):
         checks.append(Check("error", "Há prática/streak registrados, mas falta practice_notes_recorded_at"))
     elif extra.get("practice_notes_recorded_at"):
