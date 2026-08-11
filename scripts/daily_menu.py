@@ -5,7 +5,6 @@ import argparse
 import shutil
 import subprocess
 from dataclasses import dataclass
-from datetime import date, timedelta
 
 
 @dataclass(frozen=True)
@@ -22,9 +21,9 @@ ACTIONS = [
         "pre-wrap",
     ),
     Action(
-        "Atualizar capivaradas",
-        "buscar analise do Lichess e gerar capivaradas de uma sessao",
-        "capivaradas",
+        "Wrapup da sessão",
+        "aplicar TOML/chat, finalizar YouTube, capivaradas, thumbnails, próxima sessão e build",
+        "wrap-session",
     ),
     Action(
         "Calibrar offset Lichess",
@@ -40,21 +39,6 @@ ACTIONS = [
         "Realinhar e gerar highlights",
         "rodar alinhamento e highlights depois que Faster Whisper terminar",
         "realign-highlights",
-    ),
-    Action(
-        "Finalizar YouTube",
-        "escolher titulo/hook, publicar descricao/capitulos e thumbnail",
-        "youtube-finish",
-    ),
-    Action(
-        "Agendar próxima sessão",
-        "criar/atualizar markdown com horário e ID da próxima live",
-        "schedule-next",
-    ),
-    Action(
-        "Listar comandos avancados",
-        "mostrar todos os recipes do justfile",
-        "list",
     ),
 ]
 
@@ -131,11 +115,12 @@ def command_for(action: Action) -> list[str] | None:
         recent = prompt("RECENT", "5")
         return ["just", "pre-wrap", recent]
 
-    if action.key == "capivaradas":
-        session = prompt("Sessao, ex. 0052")
+    if action.key == "wrap-session":
+        session = prompt("Sessao, ex. 0057")
         if not session:
             return None
-        return ["just", "update-session-capivaradas", session]
+        extra = prompt("Argumentos extras", "")
+        return ["just", "wrap-session", session, *extra.split()]
 
     if action.key == "calibrate-offset":
         session = prompt("Sessao, ex. 0052")
@@ -157,33 +142,6 @@ def command_for(action: Action) -> list[str] | None:
         if not session:
             return None
         return ["just", "realign-highlights", session]
-
-    if action.key == "youtube-finish":
-        session = prompt("Sessao, ex. 0052")
-        if not session:
-            return None
-        if confirm("Escolher/publicar titulo agora?"):
-            return ["just", "youtube-finish-session", session]
-        print("Pulando titulo.")
-        return ["just", "youtube-finish-session-skip-title", session]
-
-    if action.key == "schedule-next":
-        session = prompt("Sessao, ex. 0056")
-        if not session:
-            return None
-        date = prompt("Data YYYY-MM-DD", (date.today() + timedelta(days=1)).isoformat())
-        if not date:
-            return None
-        time = prompt("Horario BRT HH:MM", "08:30")
-        if not time:
-            return None
-        youtube = prompt("YouTube URL ou ID")
-        if not youtube:
-            return None
-        return ["just", "schedule-next-session", session, "--date", date, "--time", time, "--youtube", youtube]
-
-    if action.key == "list":
-        return ["just", "--list"]
 
     return None
 

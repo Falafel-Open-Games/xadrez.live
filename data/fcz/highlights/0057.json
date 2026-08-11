@@ -1,24 +1,25 @@
 {
   "session_number": "0057",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "limit": 6,
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 868,
-      "end_seconds": 930,
-      "time": "14:28",
+      "start_seconds": 862,
+      "end_seconds": 870,
+      "time": "14:22",
       "duration": "1:30",
       "kind": "research",
-      "score": 3.6,
+      "score": 4.0,
       "summary": "Momento pesquisa. Joseph Henry Blackburne. Tem um jogo imortal dele aqui. Wikipedia, vamos ver. Quem foi Joseph Henry Blackburne? De 1841 a 1924.",
-      "reason": "reação forte na fala; tema claro de xadrez; pesquisa ou contexto externo; consulta em fonte externa",
+      "reason": "tema claro de xadrez; treino ou puzzle streak; raciocínio em voz alta; pesquisa ou contexto externo; consulta em fonte externa",
       "signals": [
-        "reação forte na fala",
         "tema claro de xadrez",
+        "treino ou puzzle streak",
+        "raciocínio em voz alta",
         "pesquisa ou contexto externo",
         "consulta em fonte externa"
       ],
@@ -26,20 +27,21 @@
       "transcript_count": 4
     },
     {
-      "start_seconds": 2500,
-      "end_seconds": 2580,
-      "time": "41:40",
+      "start_seconds": 2536,
+      "end_seconds": 2610,
+      "time": "42:16",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 6.55,
-      "summary": "Eu acho que eu não puni devidamente o dama cedo do meu oponente. Ele abriu a casa pro bispo fazer alguma brincadeira aqui…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
+      "score": 7.05,
+      "summary": "Enche o saco aqui. Posso me arrepender disso? Não, né? Continuar enchendo o saco da dama. Aí se ele tomar, não tem como retomar. Então deixa quieto essa ideia…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
       "signals": [
         "1 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
+        "interação com o chat",
         "review ou melhor lance",
         "plano ou estratégia",
         "pressão no relógio",
@@ -47,21 +49,23 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 1,
-      "transcript_count": 3
+      "transcript_count": 4,
+      "lead_in": "trocou seis por meia dúzia"
     },
     {
-      "start_seconds": 3156,
+      "start_seconds": 3153,
       "end_seconds": 3180,
-      "time": "52:36",
+      "time": "52:33",
       "duration": "1:30",
       "kind": "research",
-      "score": 7.45,
+      "score": 8.35,
       "summary": "Ah, deixa eu duplicar essa aba aqui. Bom capivara, hein? Eu acho que eu vou no desafio, hein? Quem que tá... Felps! Ah, beleza…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; raciocínio em voz alta; pesquisa ou contexto externo",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; raciocínio em voz alta; pesquisa ou contexto externo",
       "signals": [
         "1 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
         "reação forte na fala",
+        "erro ou momento perdido",
         "review ou melhor lance",
         "plano ou estratégia",
         "pressão no relógio",
@@ -71,12 +75,13 @@
         "pesquisa ou contexto externo"
       ],
       "chat_count": 1,
-      "transcript_count": 3
+      "transcript_count": 4,
+      "lead_in": "Opa tem desafio aqui"
     },
     {
-      "start_seconds": 4384,
+      "start_seconds": 4395,
       "end_seconds": 4470,
-      "time": "1:13:04",
+      "time": "1:13:15",
       "duration": "1:30",
       "kind": "opening",
       "score": 5.55,
@@ -93,21 +98,21 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 1,
-      "transcript_count": 3
+      "transcript_count": 3,
+      "lead_in": "para"
     },
     {
-      "start_seconds": 4733,
-      "end_seconds": 4830,
-      "time": "1:18:53",
+      "start_seconds": 4530,
+      "end_seconds": 4620,
+      "time": "1:15:30",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 7.35,
-      "summary": "É porque um erro de dama cedo com quem tá no meu nível é voltar essa dama pra outro lugar, né? Essa dama voltar pra aqui é só perda de tempo, né? Mas tem gente que sai com essa…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; raciocínio em voz alta",
+      "score": 6.55,
+      "summary": "Não dá pra comparar, né, gente, pelo amor de Deus. D4 é essencial pra soltar o bispo. Sim, correto, Geraldo. Eu concordo com você. Ali era D4…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; raciocínio em voz alta",
       "signals": [
         "1 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
-        "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
         "review ou melhor lance",
@@ -118,12 +123,13 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 1,
-      "transcript_count": 4
+      "transcript_count": 4,
+      "lead_in": "a Caruana contra Carlsen né"
     },
     {
-      "start_seconds": 5081,
+      "start_seconds": 5095,
       "end_seconds": 5160,
-      "time": "1:24:41",
+      "time": "1:24:55",
       "duration": "1:30",
       "kind": "opening",
       "score": 6.6,
@@ -141,7 +147,8 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 2,
-      "transcript_count": 4
+      "transcript_count": 4,
+      "lead_in": "as prioridades no lugar certo"
     }
   ]
 }
