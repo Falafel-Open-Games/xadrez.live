@@ -305,11 +305,11 @@ def openai_options(context: dict[str, Any], count: int, model: str, api_key: str
             payload = json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as error:
         detail = error.read().decode("utf-8", errors="replace")
-        print(f"warning: OpenAI thumbnail bullet generation failed with HTTP {error.code}: {detail[:400]}", file=sys.stderr)
-        return []
+        fail(f"OpenAI thumbnail bullet generation failed with HTTP {error.code}: {detail[:400]}")
     except urllib.error.URLError as error:
-        print(f"warning: OpenAI thumbnail bullet generation failed: {error.reason}", file=sys.stderr)
-        return []
+        fail(f"OpenAI thumbnail bullet generation failed: {error.reason}")
+    except TimeoutError:
+        fail(f"OpenAI thumbnail bullet generation timed out after {timeout}s; retry when the API is responsive or increase --timeout")
     return parse_options(response_text(payload), count)
 
 
@@ -385,10 +385,14 @@ def main() -> int:
     api_key = os.environ.get("OPENAI_API_KEY", "")
 
     options = [] if args.refresh else cached_options(session)
-    if not options and api_key and not args.no_ai:
-        options = openai_options(context, args.count, args.model, api_key, args.timeout)
-    if len(options) < args.count:
+    if not options and args.no_ai:
         options = unique_bullet_sets(options + fallback_options(context, args.count), args.count)
+    elif not options:
+        if not api_key:
+            fail("OPENAI_API_KEY is required for thumbnail bullet suggestions; pass --no-ai to use deterministic fallback options")
+        options = openai_options(context, args.count, args.model, api_key, args.timeout)
+        if len(options) < args.count:
+            fail(f"OpenAI returned {len(options)} valid thumbnail bullet option(s), expected {args.count}; retry or adjust the prompt")
     if not options:
         fail("no thumbnail bullet options generated")
     if not (args.no_ai and not args.choose and not args.write):

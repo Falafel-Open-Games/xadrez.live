@@ -1,0 +1,1055 @@
+{
+  "session_number": "0058",
+  "youtube_video_id": "yw_pJXNWRe0",
+  "language": "pt",
+  "source": "openai-api",
+  "source_id": "openai-gpt-4o-mini-transcribe",
+  "model": "gpt-4o-mini-transcribe",
+  "response_format": "json",
+  "timestamp_source": "estimated_by_chunk_character_position",
+  "timestamp_chunk_seconds": 300,
+  "initial_prompt": "Transcrição em português brasileiro de uma live de xadrez. Vocabulário esperado: Lichess, lichess.org, Chess.com, Stockfish, YouTube, Twitch, Restream, GoatCounter, roque, fianchetto, Sicilian Defense, Scandinavian Defense, Puzzle do dia, Puzzle Streak, Puzzle Storm, Puzzle Racer, blunder, rating, mate, xeque, xeque-mate, blitz, rapid, en passant. Frases comuns: puzzle do dia, resposta com a dama, a resposta é, qual é a resposta. Peão é a peça de xadrez; em frases como esse peão, um peão, peão passado, peão pendurado, peão de e4 ou tomar o peão, não transcreva como espião. Em xadrez, peça pendurada significa hanging piece: se a fala soar como hanging, hang, reng, heng, renguem, hanging bishop ou hang em bishop perto de peça, bispo, cavalo, torre, dama ou peão, prefira peça pendurada ou a peça específica pendurada, como bispo pendurado. Em frases como bispo hanging, bispo hang ou hanging bishop, transcreva como bispo pendurado. Quando for o lance ou ameaça ao rei em uma frase em português, prefira xeque; mantenha check em nomes ou frases em inglês, como Force Online Check e checkmate patterns. Quando for o fim da partida, mate no rei, ou ideia de mate em frase em português, prefira xeque-mate; mantenha checkmate apenas em títulos, nomes de exercícios ou frases em inglês, como Checkmate Patterns. En passant é o nome do lance especial de peão; não transcreva como empassant, impassant ou em passando. Quando a fala se referir ao site ou plataforma de xadrez, transcreva como Lichess, não como lixar, lixares, lixés ou outras aproximações fonéticas. Restream é o nome da plataforma de transmissão, não transcreva como restring.",
+  "block_count": 175,
+  "audio_seconds": 4658.465,
+  "elapsed_seconds": 123.454,
+  "estimated_cost_usd": 0.120472,
+  "raw_usage": [
+    {
+      "type": "tokens",
+      "total_tokens": 4030,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 603
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 3997,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 570
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4035,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 608
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4047,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 620
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4120,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 693
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 3969,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 542
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4019,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 592
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4186,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 759
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4244,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 817
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4215,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 788
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4190,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 763
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4144,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 717
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4233,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 806
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4214,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 787
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4122,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 695
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 2393,
+      "input_tokens": 2013,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 1585
+      },
+      "output_tokens": 380
+    }
+  ],
+  "blocks": [
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "text": "Vamos lá. Vamos lá. 8h32. Espero que o microfone esteja funcionando. Ah, sujo o óculos mesmo. Não dá nada, né? Vamos lá. Praticando xadrez depois dos 40. Cadê? Xadrez.live. Esse é o site. Essa é a sessão."
+    },
+    {
+      "time": "0:29",
+      "seconds": 29,
+      "text": "Como é que tá o áudio? Depois dos 40. Beleza. Áudio tá funcionando. Aquele setting do YouTube. Cadê? Tem um set no YouTube pra baixa latência, que eu nunca sei. Tem que ficar lembrando de ligar isso aí todo dia. Cadê?"
+    },
+    {
+      "time": "0:59",
+      "seconds": 59,
+      "text": "Ah, ele disse que já tiver começado a live e não tem como ligar. É. Hoje vai com latência. Ô, caramba de live, viu? Será que se eu der um... É, então não dá mais pra mudar."
+    },
+    {
+      "time": "1:24",
+      "seconds": 84,
+      "text": "Isso aqui é muito chato do YouTube, das transmissões do YouTube. É que você não pode botar isso como padrão. Ou pelo menos no cachê, um lugar."
+    },
+    {
+      "time": "1:44",
+      "seconds": 104,
+      "text": "Você tem que lembrar de vir aqui antes, começar a live e clicar no Ultra Low Latency. Muito chato. Muito chato, YouTube. Cadê? Vou dar um bom dia no chat do YouTube. Porque eu preciso... Ah, cadê? Ah, tá ali."
+    },
+    {
+      "time": "2:13",
+      "seconds": 133,
+      "text": "Preciso jogar esse chat pra fora. Em outra janela. Já vamos começar aqui, galera. Me dá um segundinho. Esse chat aqui, outra janela. Tá bom. Stream chat. Alright, alright. Teste 1. Vamos ver se vai sair mensagem."
+    },
+    {
+      "time": "2:43",
+      "seconds": 163,
+      "text": "Passei dessa janela, saiu. Beleza. Então agora só falta diminuir minhas janelas aqui, aumentar o browser. Aumentar um pouquinho o browser. Tá bom aqui? Acho que tá bom, né? Diminuir... Diminuir o quê? Ah, tá bom assim."
+    },
+    {
+      "time": "3:14",
+      "seconds": 194,
+      "text": "Se precisar, a gente espreme esse chat aqui. Não tá cabendo as coisas aqui. O que que não tá cabendo? Aí, tá. Agora vai. Ah, isso é pra uma luta. É sempre uma luta. Uma batalha depois da outra. Vamos lá."
+    },
+    {
+      "time": "3:42",
+      "seconds": 222,
+      "text": "Então deixa o YouTube aí quietinho. Hoje vai ser com latência mesmo. Ah, um dia eu vou ter a rotina. Se a gente começasse com o problema do dia do Lichess. Vou tirar do modo Zen."
+    },
+    {
+      "time": "4:07",
+      "seconds": 247,
+      "text": "Não sei se isso atrapalha a minha extensão aqui. Dia novo, sessão nova. Puzzle do dia do Lichess. Registrado. Aqui, quem joga são as pretas. Modo Zen, modo Zen. Puzzle do dia, quem joga são as pretas. Certo."
+    },
+    {
+      "time": "4:37",
+      "seconds": 277,
+      "text": "Tem uma dama me ameaçando. Essa ameaça aqui não é nada. Tá bom. Ah, vamos lá. Tomar um cafezinho. Essa casa G2 aqui parece interessante. CCT. Não é check aqui. Check"
+    },
+    {
+      "time": "5:00",
+      "seconds": 300,
+      "text": "sacrificar a dama, começar os dias sacrificando a dama. Tem que avaliar, né? Esse é um, esse é outro, esse é outro. Vamos ver. Check, são isso. Por que que eu sacrificaria minha dama aqui, né?"
+    },
+    {
+      "time": "5:28",
+      "seconds": 328,
+      "text": "Para sair com essa torre pra frente, preciso tirar esse cavalo do caminho também. A situação tá, vamos ver. Puzzle do dia do Lichess. Movimentos forçados. Movimentos forçados."
+    },
+    {
+      "time": "5:53",
+      "seconds": 353,
+      "text": "Esse cavalo não dá pra chegar em nenhum lugar, né? O que que esse cavalo pode me ajudar? Tem algum fork aqui de cavalo, alguma coisa? Não, né? Tá certo, tem um peão perto da promoção aqui, ó."
+    },
+    {
+      "time": "6:21",
+      "seconds": 381,
+      "text": "Ameaçar o coroamento dele pode ser interessante, né? Mas sem cheque, sem movimento forçado, às vezes não é bem o que o puzzle espera, né? Puzzle do dia do Lichess. Treinamento diário."
+    },
+    {
+      "time": "6:47",
+      "seconds": 407,
+      "text": "Se eu só ameaçar esse coroamento aqui, alguém... Ah, já tem um cara olhando ali pro coroamento. Tudo bem. Vamos pensar em outra ideia. Que que isso me dá? Esse cavalo tá longe de tudo. Ah, e essa torre aqui, ó, né?"
+    },
+    {
+      "time": "7:18",
+      "seconds": 438,
+      "text": "Se essa torre vier aqui, vamos ver. Se essa torre sair por aqui... Ah, uma ideia. Se eu abrir essa casinha aqui, protegido pelo cavalo. Ainda não consigo chegar em nenhum lugar legal aqui do backrank."
+    },
+    {
+      "time": "7:47",
+      "seconds": 467,
+      "text": "Que que tem nesse puzzle pra mim? Vamos ver. Tem esse peão. CCT, tem isso aqui. Que aí ele vem aqui e eu venho aqui. Isso é uma opção. Aí ele volta pra qualquer lado e acabaram minhas coisas, né? Aqui não pega ninguém."
+    },
+    {
+      "time": "8:18",
+      "seconds": 498,
+      "text": "Que que tem pra mim? Que que tem pra mim? Cavalo aqui é uma ideia. Pra liberar essa torre. Cavalo ali. Cavalo ali. Torre aqui. Ô, já? 8h40? Que isso? Que que é isso? Oito minutos de live? Oito minutos e cinquenta."
+    },
+    {
+      "time": "8:49",
+      "seconds": 529,
+      "text": "Nossa. Como gasta tempo no puzzle do dia, hein? Que eu não quero errar. Eu não quero errar. Hum, já aqui, aqui, aqui, acabou tudo, né? Tô perto, tão perto, mas tão longe, né? Cadê? Ah, isso é interessante demais, ó."
+    },
+    {
+      "time": "9:20",
+      "seconds": 560,
+      "text": "Isso aqui é um cheque com o peão pinado. Minha dama tá segura aqui. Tá bom. Peão cravado aqui por conta desse bispo. Hum, tá. Podia ter enxergado isso antes, né? Vamos lá. Dama aqui. O rei, o único movimento é isso."
+    },
+    {
+      "time": "9:51",
+      "seconds": 591,
+      "text": "Isso se segue com... E agora, hein? Segundo movimento. Dama..."
+    },
+    {
+      "time": "10:00",
+      "seconds": 600,
+      "text": "Dama H1, hein? Depois daqui. Dama G3, rei vai para H1. Depois disso, o que que eu faço? Depois disso, o que fazer? Dama ali, sobe, vira, vamos ver. Dama aqui, ó. Ou quer um desses dois, o rei toma."
+    },
+    {
+      "time": "10:27",
+      "seconds": 627,
+      "text": "Se eu vier aqui, ameaço aí tomar uma torre. Acho que é isso, né? Ameaço tomar uma torre. Não tem ninguém pra me ajudar num xeque-mate aqui, né? Esse cavalo tá longe pra caramba. Deixa eu ver."
+    },
+    {
+      "time": "10:52",
+      "seconds": 652,
+      "text": "É, minha melhor ideia, por enquanto, é começar esse puzzle aqui, essa sequência de movimento forçada, né? Check, vai pra H1. Aí, pior que aqui eu ainda não tô na... Ainda não tô na reta de ninguém aqui, né? Depois desse..."
+    },
+    {
+      "time": "11:22",
+      "seconds": 682,
+      "text": "Tô considerando aqui, ameaçar a torre, né? Threats. Ameaçando a torre. Acho que ele vai querer manter a torre, ele sai desse lugar aqui. Eu venho pra cá, né?"
+    },
+    {
+      "time": "11:43",
+      "seconds": 703,
+      "text": "Então, provavelmente ele não vai sair pra cá, ele vai sair com essa torre. Pra cá, talvez. Mas, com minha torre ali ajudando, depois já é legal... Fazer o quê? Aí... A gente ainda não dá, né? Pera aí, pera aí."
+    },
+    {
+      "time": "12:11",
+      "seconds": 731,
+      "text": "Pensar direito aqui. Eu acho que o primeiro é aqui. Rei tem que escapar pra lá. Minha ideia é chegar aqui pra terminar aqui, porém tem essa torre atrapalhando. Então, essa ideia não tá fácil de executar ainda."
+    },
+    {
+      "time": "12:40",
+      "seconds": 760,
+      "text": "Então, tenho uma ideia de vim pra cá, espantar essa torre pra qualquer lugar. Trazer esse pra cá. Pra depois voltar e ir. Aí não, muito movimento. Não é tanto assim, né?"
+    },
+    {
+      "time": "13:02",
+      "seconds": 782,
+      "text": "E se esse cara vier primeiro aqui montar a bateria, só ameaçar um xeque-mate, né? É outra ideia também. Então, bispo no G5 ameaça um xeque-mate aqui. Quem que pode impedir esse bispo ali? Ninguém, né?"
+    },
+    {
+      "time": "13:29",
+      "seconds": 809,
+      "text": "Mas muita gente pode querer entrar aqui, vai. Não, isso aqui não é nada. Tá, pera aí. É mesmo, né? Aí pode... Quem que consegue impedir esse bispo em E5, né? Essa ameaça de xeque-mate lá no H2."
+    },
+    {
+      "time": "13:55",
+      "seconds": 835,
+      "text": "Não sei se tem alguém que consegue impedir isso, não. É uma bela ameaça, hein? A dama aqui não pode nada, a dama aqui já não pode nada também. Tá aparecendo, hein? Tá. Demorou, mas chegou. Demorou, mas chegou."
+    },
+    {
+      "time": "14:23",
+      "seconds": 863,
+      "text": "Essa é a brincadeira aqui, né? Ameaçar um xeque-mate com... Trazendo o bispo pro apoio aqui. Pra bateria. E depois disso eu acho que é imparável, né? xeque-mate usando a voadable aqui. Como que alguém pararia isso?"
+    },
+    {
+      "time": "14:52",
+      "seconds": 892,
+      "text": "Não, não tem como, né? Tá, minha melhor ideia depois de..."
+    },
+    {
+      "time": "15:00",
+      "seconds": 900,
+      "text": "14 minutos aqui enrolando. É, se acerta ou errado, saberemos agora. Acertou, yeah! Acabou, né? Tá... Não acabou não, não é mate em 2, porque esse cavalo ainda protege aqui. Agora ganha um cavalo, é uma opção. Tá. Hum..."
+    },
+    {
+      "time": "15:28",
+      "seconds": 928,
+      "text": "Ganhar um cavalo é quase matador, né? Aí, depois de ganhar o cavalo, faz o quê? Não tem um xeque-mate mais rápido nessa brincadeira? Checar aqui, anyways... Não, espera aí. Ah... Acho que é só tomar o cavalo, né? Pelo menos ganha peça."
+    },
+    {
+      "time": "15:58",
+      "seconds": 958,
+      "text": "Tomar o cavalo não força ninguém a nada, né? Tem coisa melhor aqui. As opções da dama são essas 2. Hum... Não, essas 3 na real. Se esse vier aqui... Se esse vier aqui... É bobeira, né?"
+    },
+    {
+      "time": "16:21",
+      "seconds": 981,
+      "text": "Então, pra dama, uma das opções mais atraentes é tomar o cavalo mesmo, né? Desfazer a ameaça de cheque por um momento. Pensando em ganhar material. Porque aqui não ganha o jogo, aqui não ganha o jogo. Ah..."
+    },
+    {
+      "time": "16:48",
+      "seconds": 1008,
+      "text": "Não tô vendo nada muito melhor do que tomar esse cavalo, não. Era a resposta do puzzle! Uhuuuul! Congrats, congrats, congrats! Vou fazer alguns dias que eu não conseguia resolver o puzzle do dia, hein? Muito bem. 17 minutos de live."
+    },
+    {
+      "time": "17:17",
+      "seconds": 1037,
+      "text": "Vamos praticar uns... Alguns padrões de mate. Subir esse progresso aqui do 23%, que tá vergonhoso. Vamos terminar esse bloquinho aqui, né? Que tal? Mate da caixa da morte, mate do triângulo. Mate Vukovic. Muito bem, vamos nessa."
+    },
+    {
+      "time": "17:47",
+      "seconds": 1067,
+      "text": "Vamos fazer então... Killbox mate number 1. Aqui existe um xeque-mate em um movimento, porque ele só tá tentando me ensinar como funciona esse xeque-mate aqui. Então... Killbox mate. Caixa da morte, caixa matadora, sei lá."
+    },
+    {
+      "time": "18:15",
+      "seconds": 1095,
+      "text": "Como que o pessoal traduz isso pro português? Tradução? Tradução. Caixa de matar, área da eliminação. Conceito de killbox. Área ou zona específica em um mapa de jogo. Killbox, esse é o conceito de killbox."
+    },
+    {
+      "time": "18:41",
+      "seconds": 1121,
+      "text": "Mais um mate da caixa matadora e killbox mate. Chessfox. Lichess. Chess.com. Trapping pieces. Trapping air. Armadilha. Isso aqui era puca. A ideia do exemplo aqui. Dama e torre trabalhando juntas. Vamos lá então."
+    },
+    {
+      "time": "19:08",
+      "seconds": 1148,
+      "text": "Mate da caixa matadora. Ocorre quando torre está próxima do rei inimigo e tem o apoio da dama. Também bloqueia... Bom dia, Daniel. Bom dia, Daniel. Bons estudos. Boa quarta-feira pra nós. 12 de agosto. Hum..."
+    },
+    {
+      "time": "19:35",
+      "seconds": 1175,
+      "text": "Quem que tá fazendo aniversário hoje? Alguém, né? Ontem foi um amigo meu. Supported by a queen that also blocks the king's escape squares. Então tá. Então o rei já tá numa situação meio chata aqui."
+    },
+    {
+      "time": "20:00",
+      "seconds": 1200,
+      "text": "de ficar onde está e pode vim para cá. 3x3, um quadrado de 3x3, matador. Então a gente quer fazer esse quadrado aqui. 3x3, certo? Tudo aqui tem que ser morte. Quadrado matador. Ah, aqui é, se a dama chegar aqui, vira um quadrado matador? Não, né?"
+    },
+    {
+      "time": "20:27",
+      "seconds": 1227,
+      "text": "Bom, para o ponto de vista do rei, sim, mas não, ainda não. Esse não está coberto, então não é dama ali. Aqui, aqui sim, né, porque isso aqui quem cobre é a dama, inclusive esse. E acabou, né? É só disso que se trata fazer um quadrado da morte."
+    },
+    {
+      "time": "20:54",
+      "seconds": 1254,
+      "text": "Quadradinho de oito, quadradinho da morte. Beleza, isso foi simples. Esse conceito aqui é fácil de entender. Vamos então adicionar na nossa lista. Cubebox, quadrado matador. Já ainda nessas figuras geométricas, a gente sai do quadrado e vai para o triângulo."
+    },
+    {
+      "time": "21:23",
+      "seconds": 1283,
+      "text": "Tem um mate do triângulo. Ah... Delivered by a queen attacking an enemy king. Que quem joga são as brancas. Tem rainha atacando o enemy king aqui. Ah, não, aqui eu deixei minha torre pendurada, não é isso que eu quero. Eu acho que é isso aqui que eu quero."
+    },
+    {
+      "time": "21:52",
+      "seconds": 1312,
+      "text": "Porque o mate é entregue pela rainha atacando o rei inimigo while it is supported by a rook. The queen and rook are one square away from the enemy. Os dois coladinhos no rei."
+    },
+    {
+      "time": "22:11",
+      "seconds": 1331,
+      "text": "They are on the same rank or file separated by one square with the enemy king between them one square away forming a triangle. Tá, então não é aqui. Quero formar o triângulo, o triângulo da alegria aqui. Não precisaria ser um triângulo da alegria aqui, né?"
+    },
+    {
+      "time": "22:39",
+      "seconds": 1359,
+      "text": "A vantagem de ser um triângulo é que minha rainha faz esse, minha dama faz esse, minha torre faz esse e a dama também faz esse. Então o cara tá... Se fosse ali onde eu pensei inicialmente, seria ruim, né? Porque a dama só faz esses três, esses quatro aqui."
+    },
+    {
+      "time": "23:08",
+      "seconds": 1388,
+      "text": "Então, apesar de estar protegendo o... a torre, permitir os caras escapar pra lá, né? Acho que não é a ideia. Então vamos fazer o triângulo aqui. Mais interessante, né? Então, só pra terminar de ler a descrição, formando um triângulo."
+    },
+    {
+      "time": "23:34",
+      "seconds": 1414,
+      "text": "O rei must be restricted from escape to the middle square behind it, away from the queen and the rook. Tá, a ideia quando você forma esse triângulo, o rei poderia escapar pra trás, então... Se essa dama estivesse aqui, aquele quadrado bem atrás do..."
+    },
+    {
+      "time": "24:02",
+      "seconds": 1442,
+      "text": "do rei não tá coberto aqui por esse monte de seta, né? Certo, tá... Ele lá tá... Seria safe. Mas numa situação onde ele já tá com alguém bloqueando a traseira, só fazer o triângulo. Pau, triângulo. Deixa eu adicionar a prática. Está adicionada."
+    },
+    {
+      "time": "24:29",
+      "seconds": 1469,
+      "text": "Deixa eu ver se tem mais alguma coisa da descrição que eu não li. Square behind it, away from the queen, by the edge of the board. Ah, isso pode acontecer no canto do tabuleiro também. Or by controlling that square with a third piece. Tá bom."
+    },
+    {
+      "time": "24:56",
+      "seconds": 1496,
+      "text": "Lembrado esse padrão aí do triângulo."
+    },
+    {
+      "time": "25:00",
+      "seconds": 1500,
+      "text": "Tem um exemplo de triângulo, tá bom. Então, para fechar esse bloco, Mate de Vukovic. Mais uma pessoa famosa do xadrez, Vukovic. Vukovic, Vladimir Vukovic, International Master. Ó, recente, hein? Só 1898, Zagreb."
+    },
+    {
+      "time": "25:31",
+      "seconds": 1531,
+      "text": "Capital e maior cidade da Croácia. Fica do lado do rio Sava. Ok, Vladimir Vukovic, prazer. Croata, judeu, escritor de xadrez, teórico, jogador, árbitro e jornalista. Terceiro lugar nesse campeonato de 1921."
+    },
+    {
+      "time": "26:02",
+      "seconds": 1562,
+      "text": "Empatou, quarto lugar com essas pessoas. Em 1921 ganhou em primeiro, em Viena, décimo, sétimo, quarto, sexto, terceiro. International Master. Porque aqui existe um mate com o nome dele, vamos ver. Zagreb, Croácia."
+    },
+    {
+      "time": "26:34",
+      "seconds": 1594,
+      "text": "Aqui é o exemplo básico, xeque-mate em um. Qualquer ideia. Brancas jogam. Torre e cavalo se coordenam para um mate do rei na borda do tabuleiro. A torre entrega com o apoio de uma terceira peça."
+    },
+    {
+      "time": "27:03",
+      "seconds": 1623,
+      "text": "Então aqui, provavelmente, para ter o apoio do bispo, é isso? E o cavalo bloqueia as rotas de fuga aqui. Certo. Vukovic, croata, croata. Popularizou essa ideia aqui."
+    },
+    {
+      "time": "27:28",
+      "seconds": 1648,
+      "text": "Fizemos um, vamos fazer o dois e três, que são progressivamente mais difíceis de achar. Espero eu. xeque-mate em três, temos aqui. Jogo de 1851. Quem joga são as pretas. 1851."
+    },
+    {
+      "time": "27:54",
+      "seconds": 1674,
+      "text": "O cavalo nesse momento não está propriamente tapando rotas de fuga de ninguém, né? Porque esse aqui chegar aqui e tem coisas como isso e isso, então não é o momento. Esse xeque-mate vai chegar em três movimentos."
+    },
+    {
+      "time": "28:25",
+      "seconds": 1705,
+      "text": "Tem uma posição do rei aqui. Então, se esse cavalo entregar o primeiro cheque, o que acontece? Cavalo aqui. Essa linha está totalmente bloqueada e não pode vir para cá. Ele poderia escapar para cá."
+    },
+    {
+      "time": "28:55",
+      "seconds": 1735,
+      "text": "Querer ameaçar a torre, pode ser, hein? Aí, se ele estiver aqui, eu já entregaria, né? Então, isso seria um mate em dois. Acho que não, ah não. E aqui, a torre precisa do apoio de uma terceira peça, né?"
+    },
+    {
+      "time": "29:25",
+      "seconds": 1765,
+      "text": "Então, seria legal que fosse com o apoio do rei, talvez, né? Aqui. Então tá. Então, ainda assim, para o cavalo ficar aqui. Ah, isso é interessante. Será que tem futuro essa ideia? xeque-mate em três, um. Veio para cá."
+    },
+    {
+      "time": "29:57",
+      "seconds": 1797,
+      "text": "Veio para cá, dois."
+    },
+    {
+      "time": "30:00",
+      "seconds": 1800,
+      "text": "Aí não foi em 3, né? Enquanto que essa opção aqui, 1, vem pra cá, 2, ele vem pra cá, aí escapou, né? Aí deu ruim. Então tá, mate em 3, pra cá tava quase que mais interessante, né?"
+    },
+    {
+      "time": "30:28",
+      "seconds": 1828,
+      "text": "Se ele vier pra cá, não vai fazer nada contra o cavalo. Aí eu venho pra cá. Aí aqui tá bloqueado, aqui tá livre. Então esse é o 2, ele vai pro canto mesmo."
+    },
+    {
+      "time": "30:52",
+      "seconds": 1852,
+      "text": "Uma vez chegando lá no canto, eu saio com o meu cavalo pra liberar outro canto. Vem pra cá, talvez. 1, 1, 2, 2, 3, não é o mate em 3 que a gente tava buscando, né? Tá... Aqui não é nada, né?"
+    },
+    {
+      "time": "31:22",
+      "seconds": 1882,
+      "text": "Aí, fora que tem essa torre ainda, se eu não der check, ela vai me proteger aqui. Ou vem me ameaçar aqui alguma coisa, né? Tem que ser movimento forçado, eu acho. Essas histórias de mate em 3, né?"
+    },
+    {
+      "time": "31:52",
+      "seconds": 1912,
+      "text": "Se o primeiro não for um movimento forçado, o que você vai fazer, né? Então vamos de torre aqui, ó. 1. Ele não pode vim nem aqui, nem aqui, né? Ele vai ter que vim pra cá. Então tá, 1, 1. Aí..."
+    },
+    {
+      "time": "32:22",
+      "seconds": 1942,
+      "text": "Quem que vai dar o suporte pra essa torre aqui? 2 não dá, né? Só dar um checkzinho antes com o rei aqui. Não, o rei não pode vim aqui, que que tá acontecendo aqui? Aqui já acabou, né? Pera aí."
+    },
+    {
+      "time": "32:52",
+      "seconds": 1972,
+      "text": "Aqui, torre aqui, o rei pode vim aqui sim, tá bom. Ah, rei aqui. Vim pra cá, ele toma a minha, não faz sentido. Tá, começar isso com a torre, acho que é ruim. Começar com o cavalo tem um pouquinho mais de futuro."
+    },
+    {
+      "time": "33:25",
+      "seconds": 2005,
+      "text": "Começar com o cavalo. Aqui não é check. Qual desses 3 checks é o melhor, hein? Pra começar um xeque-mate em 3. Cavalo, ele vem pra cá. Aí cavalo aqui, tá bom, tá. Acho que essa ideia aqui é boa, vamos ver."
+    },
+    {
+      "time": "33:57",
+      "seconds": 2037,
+      "text": "Cavalo, check, foge pra lá, check de novo. Né, assumindo que ele vai querer pegar minha torre. Check de novo, protegendo a torre. Então o rei vai tá aqui. Isso aqui esquece, não foi isso que aconteceu. Tá, 1, 2."
+    },
+    {
+      "time": "34:30",
+      "seconds": 2070,
+      "text": "Único movimento, né? 2 volta, 3 termina com o apoio do rei. Achei o mate em 3 aqui. Então, 1, correto. 2, correto. 3, mate em 3, mate do Vukovic. Adicionar essa prática aí. 34 minutos de live."
+    },
+    {
+      "time": "35:00",
+      "seconds": 2100,
+      "text": "vai dar tempo de fazer o 3. Hoje eu estou apertado no tempo, hein? Ficamos por aqui, então, dos patterns, senão não vai ter jogatina aí para o dia. Vamos lá, não deu tempo, não deu tempo. Tá bom, fizemos bastante lives curtas, né? Vamos de amistosa, partida..."
+    },
+    {
+      "time": "35:27",
+      "seconds": 2127,
+      "text": "Ah, espera aí, cancela, cancela, cancela tudo, cancela pelo amor de Deus, cancela. Cancela, deu ruim. Ai meu Deus. Cadê o Fabricio saiu? Ufa. Cancelou, né? Espero. Se começar uma partida do nada, a gente vê o que faz."
+    },
+    {
+      "time": "35:50",
+      "seconds": 2150,
+      "text": "Eu tenho que botar uma notazinha sobre a prática aqui, para ficar com uma timeline bonita depois lá no site. Ontem eu esqueci de fazer isso. Então, notas da prática. Consegui o do dia, o problema do dia. Consegui, né? A minha memória não está tão ruim assim, né?"
+    },
+    {
+      "time": "36:17",
+      "seconds": 2177,
+      "text": "Consegui o problema do dia, pratiquei três padrões de mate. É isso, né? Foi o da caixa da morte, o triângulo e o Ludovico, né? Não vou escrever os nomes, porque já vai estar no site."
+    },
+    {
+      "time": "36:36",
+      "seconds": 2196,
+      "text": "Pronto, só para marcar aqui, ó, Recorded at, então a partir desse timestamp acabou a prática e aí a gente vai para um jogo, né? Jogar contra o computador, eu já fiz isso em live, interessante. E olha, enquanto eu não sei se tem alguém me assistindo aqui, pelo menos o Daniel estava ali."
+    },
+    {
+      "time": "37:06",
+      "seconds": 2226,
+      "text": "Vamos ver analytics. Ah, tem, tem umas duas pessoas no YouTube, não sei na Twitch. O que eu ia falar é que está rolando a Copa do Mundo lá de eSports. Cadê o Chess? Chess.com? Cadê o ChessPT aqui, ó. Chess.com PT. Os comentários do Krieger lá, não sei se isso aqui está rolando. Cadê?"
+    },
+    {
+      "time": "37:35",
+      "seconds": 2255,
+      "text": "Tudo abdu, Erigaze contra Firur. Esse aqui vai ser jogão, hein? Tudo bem, depois que acabar a live aqui, vocês vão para lá. Olha quem que está ali, ó. Naka contra... Heart rate. Os caras medem os batimentos dos jogadores lá."
+    },
+    {
+      "time": "37:59",
+      "seconds": 2279,
+      "text": "Mas nesse momento a gente tem Ricardo Nakamura contra Sarana, Alexei Sarana. Se vocês querem ver um pouquinho desse jogo aqui. É o Krieger que está comentando ou não? Eu estou sem áudio aqui, tudo bem. Pause. Fala Sward, Adriano. Oh, tá lá em Londres, o nosso amigo Adriano do Mozilla."
+    },
+    {
+      "time": "38:28",
+      "seconds": 2308,
+      "text": "Pô Adriano, valeu cara. A gente estava fazendo esse aqui o meu site, xadrez.live. Eu estou com uma prática diária aqui de mostrar as minhas burrices em público aqui. Em jogos que sempre tem esse vermelhinho aqui, que são as burradas, são as capivaradas, entendeu?"
+    },
+    {
+      "time": "38:56",
+      "seconds": 2336,
+      "text": "Ontem deu para fazer dois jogos, mas hoje só vai dar para fazer um. Porque os jogos são interessantes, o chat é engraçado. Aqui fica mesclado a transcrição com o que rolou no chat. Então, seu nome vai estar ali para a sessão de hoje."
+    },
+    {
+      "time": "39:20",
+      "seconds": 2360,
+      "text": "E você vai entrar na lista de apoiadores também, porque quem participa do chat entra nessa lista de apoiadores também. E aí a gente faz aqui isso aqui, né? Tem pelo menos uma partida, mas o grosso aqui, a parte onde eu pretendo melhorar no jogo de xadrez, é fazendo as práticas aqui."
+    },
+    {
+      "time": "39:49",
+      "seconds": 2389,
+      "text": "Então a gente está estudando alguns padrões de xeque-mate forçados e tal. Mas para título de entre..."
+    },
+    {
+      "time": "40:00",
+      "seconds": 2400,
+      "text": "E quem vem aqui visitar, eu exibo a minha inabilidade de jogar xadrez em partidas amistosas contra estranhos da internet. Não sei se você tem Lichess. Se você quiser, adiciona lá. FCZ é meu username. Bom dia, Solid Knight, jazz player. Como estamos? Como estamos, Solid Knight? Primeira vez aqui, mano?"
+    },
+    {
+      "time": "40:29",
+      "seconds": 2429,
+      "text": "Que que eu posso fazer aqui? Nossa Senhora, tristeza, hein? Já saí com esse cavalo. Que que será que meu oponente fez? Não sei se essa abertura dele tem nome, depois a gente vê no database. Aqui não é uma má ideia, aqui também não. Acho que eu vim aqui pra... Talvez agilizar meu rock aqui."
+    },
+    {
+      "time": "40:57",
+      "seconds": 2457,
+      "text": "Estou jogando contra alguém sem classificação ainda. Lichess acha que ele é 1000. Oxe, chat bombando. Quero brilhantes ou capivaradas. Bom dia pra Waze. Sem morningo aqui, vou até desligar o chat pra eu tentar me concentrar mais. Vou até botar no modo zen aqui pra poupar vocês de deslizes muito fortes aqui."
+    },
+    {
+      "time": "41:27",
+      "seconds": 2487,
+      "text": "O basic que é ou brilhante ou capivarada, sem meio termo, hein? Vamos lá. Que seria capivarada, né, Probase? Vamos lá. Que que tem pra mim nesse tabuleiro? Aqui, né? Vamos... desenvolvimento, né? Aqui pra lá, pra cá... Acho que tô safe, vamos embora. Vamos lá, sem gastar tempo no relógio também, né, galera?"
+    },
+    {
+      "time": "41:57",
+      "seconds": 2517,
+      "text": "Cadê? Certo, não vamos fazer aquela dancinha. Ah... eu vim aqui ou venho aqui? Tá bom. Aqui tudo bem, aí ele... trapped. Eu devia ter pego aquele peão antes, né? Agora tô fodido, então... Eu vou fazer meu rock, né? Perder um baita de um peão bom, de um bispo bom por conta desse peão aí, né? Ai, ai, ai."
+    },
+    {
+      "time": "42:27",
+      "seconds": 2547,
+      "text": "Aí, ó, quem queria capivarada, ele chegou. Eu caí numa armadilha muito básica aqui, né? Então vamos lá. Que que temos ali? Chat já tá me xingando, eu vejo depois. Tô tendo que me concentrar um pouco aqui. Três pontos não vale essa velocidade no meu desenvolvimento aqui, né?"
+    },
+    {
+      "time": "42:53",
+      "seconds": 2573,
+      "text": "Não tem um check bonito pra eu fazer em algum lugar aqui. Tô muito longe de tudo. Ah, que podemos fazer? Que podemos fazer, minha gente? Ameaçando, não consigo nem ameaçar nenhum cavalo. Aqui, gente, não, aqui não tem nada. Se eu sacrificar a vida desse cara pra um desses dois aqui..."
+    },
+    {
+      "time": "43:21",
+      "seconds": 2601,
+      "text": "Foi uma vida bem sacrificada, talvez. Né, porque perder de graça pra ganhar, ele tá... Ele tá fraco no desenvolvimento dele também. Perder de graça aqui é o certo? Ou voltar pra cá. Voltar pra cá, fazer ele perder esse tempo aqui, ao invés desse tempo aqui, ajudar, né? Ah, eu acho que voltar..."
+    },
+    {
+      "time": "43:50",
+      "seconds": 2630,
+      "text": "Olha a cagada que eu fiz, né? Puta cagada. Tá bom. É, parabéns. Congratulations, my friend. Tá ali, meu adversário tá com três pontos na minha frente. Espero que eu ter rocado primeiro me dê algum tipo de compensação aqui. Vem pra cá, vem pra cá... Não... Agora eu tô complicado com outro cavalo."
+    },
+    {
+      "time": "44:18",
+      "seconds": 2658,
+      "text": "Se ele for pra lá, eu venho pra cá. Eu acho que tá tudo certo aqui. Perdemos três pontos, mas segue a vida, né? Segue a vida. Não tá fácil. Eu tenho certeza que o chat deve estar com mensagens engraçadíssimas ali. Ah, vamos lá. E o tempo no relógio tá uma porcaria aqui também. Ok."
+    },
+    {
+      "time": "44:46",
+      "seconds": 2686,
+      "text": "Esse aqui é um peão gratuito. Eu tô precisando e tô aceitando qualquer coisa nesse momento. Isso é um peão gratuito pra eu fazer alguma coisa depois?"
+    },
+    {
+      "time": "45:00",
+      "seconds": 2700,
+      "text": "Ah, ruim não deve ser aqui, hein? Palca parada. Deixa eu ver famosas últimas palavras, né? Aí esse aqui vai vir aqui. Ah, não tem problema em abrir aqui. Esse cheque vazio. Meu irmão, que que você quer com esse cheque? Isso aqui me dá retribuição do bispo que eu te dei. Ah, pegou um cavalo."
+    },
+    {
+      "time": "45:30",
+      "seconds": 2730,
+      "text": "É bom. Ah, onde que esse cara tá querendo chegar com essa dama agora? Ah, que tal... que tal o cheque aqui, ele toma, meu, não é muito bom nesse momento. Aqui não tá livre. Ah, eu acho que eu deveria andar com esse peãozinho aqui, né? Tem ninguém, tem ninguém pra me ajudar aqui."
+    },
+    {
+      "time": "45:59",
+      "seconds": 2759,
+      "text": "Eu vou andar com esse peão. Ah, tá, ele tá querendo vim armar um chequemate pra quê? Pra minha cabeça? Vamos fazer algo antes disso, então. Aqui, vou cair em outra armadilha. Agora ele só tá dois pontos na minha frente. Que que é esse outro cheque vazio, meu amigo? Que que você tá tentando?"
+    },
+    {
+      "time": "46:28",
+      "seconds": 2788,
+      "text": "Aqui pra vim pra cá. E... é isso, né? Eu vou igual um idiota pra lá, eu vou voltar pro meu cantinho, né? Tá. Vou voltar pro meu cantinho. Agora ele tá com um cavalo em G5, que é um belo de um outpost aqui, né? Então, o que que eu posso fazer pra..."
+    },
+    {
+      "time": "46:54",
+      "seconds": 2814,
+      "text": "Ixe, tá me trazendo todo mundo pro chequemate. Ixe Maria. Vixe Maria. Tá trazendo todo mundo pro chequemate. Quer ir pro endgame? Se eu vier aqui oferecer a troca de dama... Que que ele pode fazer? Ou um cavalo primeiro pra ameaçar? Não ameaça ninguém um cavalo aqui. Ameaça alguma coisa?"
+    },
+    {
+      "time": "47:23",
+      "seconds": 2843,
+      "text": "Ameaça um fork. Ah, cavalo ali, ameaça um fork. Esse cara tá muito perto do chequemate dele ou dá tempo de eu fazer alguma coisa? Acho que dá tempo de eu ameaçar um fork aqui. Será que ele vai ver que eu tô ameaçando um fork? Aí tá me deu uma dama. Ah, trocou dama, né?"
+    },
+    {
+      "time": "47:51",
+      "seconds": 2871,
+      "text": "A gente já tava pensando em trocar dama. Então... Trocou dama aqui, eu ainda nem conectei minhas torres. Tô fodido, né? Ah, Vou ter que trocar dama. Não tem o que fazer. Tudo bem. Aí, pelo menos minha torre foge depois. Então, tudo bem. Esse jogo vai ficar +4 pro lado dele."
+    },
+    {
+      "time": "48:19",
+      "seconds": 2899,
+      "text": "Ah, foge aqui, né? Vai fazer o quê? Tá, entramos no middlegame, é isso? Que que isso aqui acontece? Que que isso aqui acontece? Vamos ver se é um pouco mais discreto esse jogo aqui. Aí depois bispo aqui. Que que tá acontecendo? Capivara. Quem veio pra ver capivaradas já deve ter saído..."
+    },
+    {
+      "time": "48:49",
+      "seconds": 2929,
+      "text": "Não vai pedir o dinheiro de volta, né? Porque capivaradas houveram, houveram, houve. Ah, esse aqui protegido pelo pião, nada mal. Aqui... Aqui, acho que agora é a hora de eu entrar ali, né? Porque esse cavalo pode vim aqui e querer fazer graça. Saí andando com meus piões, com tudo, né?"
+    },
+    {
+      "time": "49:18",
+      "seconds": 2958,
+      "text": "Ah, não, vou ameaçar aquela torre dele lá. Vamos lá, na esperança de que o oponente esteja tomando café e esteja com muita confiança, né? Isso aqui não tem xeque-mate, nada aqui, né? Tá. Ai agora, trazer uma torre aqui. Ameaçar esse cavalo aqui. Hum, ameaçar um cavalo ali."
+    },
+    {
+      "time": "49:46",
+      "seconds": 2986,
+      "text": "Agora já é uma boa hora, talvez, pra fazer isso. Porque... Tá. Porque aquele... Cavalo na beira. Cavalo na beira, sinal de besteira. G"
+    },
+    {
+      "time": "50:00",
+      "seconds": 3000,
+      "text": "Caramba, ameaçar. É, não, isso aqui é mais para proteger o meu passante aqui do que... Se eu vier aqui, ele vem aqui, eu faço o quê, né? Não, melhor ter calma, melhor eu ver aqui primeiro. Quem sabe eu não ganho uma pecinha, né? Tem três peças olhando para essa casa."
+    },
+    {
+      "time": "50:29",
+      "seconds": 3029,
+      "text": "Um minuto, não vai dar tempo, galera. Beleza, vou cair, mas vou cair lutando, pelo menos. Vou cair lutando, eu não sei controlar o tempo. Para quê? Quatro peças, essa casa C5 aqui, como se fosse a coisa mais importante do mundo, meu. Para quê? Para quê tanta zoeira?"
+    },
+    {
+      "time": "50:58",
+      "seconds": 3058,
+      "text": "Galera tá de olho aqui, ó. Quatro, precisa de quatro atacantes contra essa casa, meu? Esse cara não quer chegar num xeque-mate, né? Ele tá querendo liberar esse file aqui, né? Pronto. Beleza. Com isso aqui, eu acho que agora é melhor eu ameaçar o..."
+    },
+    {
+      "time": "51:24",
+      "seconds": 3084,
+      "text": "Bom, ele veio dar a proteção para aquele ali. Vai chegar com o peão. Ah, bom. Aí eu vou ficar com quatro contra três. Vamos ver no que que vai dar isso aqui. Vamos lá. Um minuto, um minuto. Ele vai tomar aqui, eu tomo aqui. Hum..."
+    },
+    {
+      "time": "51:49",
+      "seconds": 3109,
+      "text": "Caí numa armadilha dele, ele vem com check aqui. Ah, tá. Interessante demais, hein. Não, deixa esse cara aí. Vai com essa torre pra algum canto, então. Aqui, tá bom. Ou só vem pro cantinho de volta. Quem que é o peão que eu quero proteger aqui? Ah, ele vai vim com puta."
+    },
+    {
+      "time": "52:18",
+      "seconds": 3138,
+      "text": "Puta, eu me botei num fork de torre. Olha aí como eu sou capivara mesmo, viu. Eu me botei numa bela de uma inutilidade. Devia ter vindo com esse cara pro canto, né? Beleza, não vai ter nem o que analisar aqui, galera. Não, não, peraí. Essa tá protegida, deixa. Bom. Ah..."
+    },
+    {
+      "time": "52:48",
+      "seconds": 3168,
+      "text": "Vou querer, então... ganhar uma, perder a outra. Ah... Eu me botei nessa situação, né? Eu me botei nessa situação. Sempre, como sempre. Então aqui, ainda bem que era amistosa. Não tá valendo nada. Tá valendo nada! Agora 7, tarde demais. Hum... Agora ele sai com esse cara dali."
+    },
+    {
+      "time": "53:18",
+      "seconds": 3198,
+      "text": "Eu continuo minhas caminhadas aqui. Quem sabe, né? Quem sabe uma promoçãozinha pra eu me dar uma alegria nesse mundo. Aquilo ali... Acabou. Acabou, chat. Valeu. 53 minutos de live. Um minuto é um minuto e um sonho. Ei, Solid Night. Cai atirando, pelo menos, né? É isso, galera."
+    },
+    {
+      "time": "53:48",
+      "seconds": 3228,
+      "text": "Não foi hoje que vocês me viram vencer. Pra isso que eu tô... Metade da live é prática, né? Ah, estudar. Sem estudar, não tem como evoluir. Nem o jogador de branco sabe o que fazer. Jogo de recuperação. Eu gosto do seu otimismo, Probeis."
+    },
+    {
+      "time": "54:13",
+      "seconds": 3253,
+      "text": "Você acha que tinha recuperação aqui no meio do jogo? Já era, né? Esse jogo aqui, a minha única esperança foi na abertura e eu deixei passar. Ah! Duas capivaradas. Pelo menos não foi um marco, né? Duas capivaradas que entregaram o jogo. Essa... Essa aqui, né?"
+    },
+    {
+      "time": "54:41",
+      "seconds": 3281,
+      "text": "Não pode deixar esse peão dando bobeira, né? Ah... Best seria... Ah, aqui, ó. Foi... Quem que falou isso aqui ontem? Ó, o melhor teria sido... Ah, voltar, recuar com o bispo."
+    },
+    {
+      "time": "55:00",
+      "seconds": 3300,
+      "text": "Preset tá bom, é abertura, né? Nem cogitei retornar aqui no E7. Esse teria sido jogado, certo? Até aqui eu acho que Até aqui estava melhor no jogo, hein? Olha a barra das pretas. Ah, aqui foi blunder, né? Que teria sido... Não, inaccuracy."
+    },
+    {
+      "time": "55:29",
+      "seconds": 3329,
+      "text": "C toma D5 teria sido melhor. Hã? Cadê o D5? Do que que ele tá falando? Ah, do lado dele. Tá, tem como ele ter... Inaccuracy foi ele. O meu seria C5, seria melhor. Aqui C5 teria sido melhor. C5 teria sido melhor nesse momento do desenvolvimento."
+    },
+    {
+      "time": "55:58",
+      "seconds": 3358,
+      "text": "É, isso aqui é bom. Deixa eu ver contra o que que eu lutei aqui. Eu lutei contra Queen's Gambit Declined. Ah, esse peão aqui é o Gambito da Dama Declined. Gambito da Dama negado. Gambito negado. Não, cadê? Quem que é? É aqui, ó. O peãozinho aqui, ó."
+    },
+    {
+      "time": "56:28",
+      "seconds": 3388,
+      "text": "Ah, como que funciona o Gambito da Dama negado? Ah, Gambito da Dama recusado. Então, com... Né, o jogo começa ali com D4, D5 e aí o 2 é o E6. Esse seria a oferta aqui. Gambito da Dama que eu recusei. Tem gente que recusa assim e... tá."
+    },
+    {
+      "time": "56:56",
+      "seconds": 3416,
+      "text": "Então, foi exatamente o que eu fiz no jogo, é isso? Eu estava... Ah, isso, eu estava de pretas. Ele veio aqui, peão da dama. Gambito da dama. Eu recusei de cavalo, né? Que é essa linha aqui. Marshall Defense."
+    },
+    {
+      "time": "57:21",
+      "seconds": 3441,
+      "text": "Até aqui eu estava fazendo coisas que a teoria me apoia, hein? Ah, jogo bem tranquilo. Pô, é isso aí. É a linha mais fácil de jogar. Queen's Gambit, né? Tem um filme da Netflix com esse nome aqui. Gambito da dama. Gambito da dama recusado."
+    },
+    {
+      "time": "57:49",
+      "seconds": 3469,
+      "text": "Muita teoria em cima dessa linha aqui. E aqui, nos gráficos que não querem dizer nada, deu abertura aqui, porque está tudo certo. Tudo, todo mundo já jogou isso aqui. 62% das partidas é vitória para branca. Ah, não, desculpa."
+    },
+    {
+      "time": "58:16",
+      "seconds": 3496,
+      "text": "62% o branco toma D5, é a próxima jogada mais popular. Em 2012, Karpov contra Ivanchuk deu empate. 2022 deu empate. Empate. Então, até aqui não quer dizer muito não, né? Jogos que começam assim podem chegar no empate."
+    },
+    {
+      "time": "58:42",
+      "seconds": 3522,
+      "text": "Depois brancas vencem com esse movimento e pra lá, né? Mas aqui muito cedo pra saber qualquer coisa. Aqui ainda tem jogo documentado. Karpov chegou num empate assim. Aqui, Carlsen. Aqui a gente já está numa modernidade de 2016."
+    },
+    {
+      "time": "59:10",
+      "seconds": 3550,
+      "text": "Carlsen com as brancas já ganhou do Vladimir Kramnik com um jogo onde o lance 3 era assim. Aí Carlsen já... É, quem fez isso que o Stockfish considera uma inaccuracy. Ainda teve gente que fazia isso em 2017, 2001. A minha inaccuracy Caruana."
+    },
+    {
+      "time": "59:39",
+      "seconds": 3579,
+      "text": "Caruana e Carlsen. Olha aí, ó. Caruana contra Carlsen já veio pra um lance 4 desse jeito, hein? O que eu fiz com o meu bispo? Vamos ver aqui quem que jogou de bispo nesse Caruana."
+    },
+    {
+      "time": "1:00:00",
+      "seconds": 3600,
+      "text": "Carlsen Era o Carlsen. Até aqui o Carlsen me dava suporte. O lance 4 da partida de Carlsen, que ele não ganhou, infelizmente, né? Eu acho que... Não, o Carlsen ganhou. O Carlsen ganhou de pretas fazendo exatamente o que eu fiz até aqui. Quando toma o pião é a variante das trocas, né?"
+    },
+    {
+      "time": "1:00:28",
+      "seconds": 3628,
+      "text": "O Solid Knight aqui, desculpa a latência, Solid Knight. Hoje eu esqueci de ligar esse ultra low latency, então deve estar uns 20 segundos de latência aí, você me desculpa. Gambito da dama recusado. Eu fui para o normal defense, que é o cavalo f6."
+    },
+    {
+      "time": "1:00:53",
+      "seconds": 3653,
+      "text": "Caruana, Carlsen também foi para esse, num jogo de 2020. Até aqui Carlsen me dava apoio. Caruana, Carlsen ousado, tomou o cavalo aqui no lance 5. O que... Será que se eu tivesse... Ah, tá. É, aqui ó, esse meu jogo estava igualzinho do Carlsen. E o Carlsen foi..."
+    },
+    {
+      "time": "1:01:19",
+      "seconds": 3679,
+      "text": "Carlsen assumindo que Carlsen sabe o que está fazendo, Carlsen foi de... Entregar um bispo bom aqui para criar um pião duplo ali. Carlsen realmente sabe o que está fazendo, hein? Porque Stockfish dá vantagem para as brancas aqui."
+    },
+    {
+      "time": "1:01:42",
+      "seconds": 3702,
+      "text": "Carlsen pega o cavalo, eu faria isso também, mas já ouvi falar que não é bom. É, ruim também não é, não está tão desequilibrado aqui ó."
+    },
+    {
+      "time": "1:01:56",
+      "seconds": 3716,
+      "text": "Depois da troca de bispo por cavalo, apesar de ser o bispo da casa das escuras, que muita gente gosta mais do que das brancas, a barrinha do Stockfish está com pouca vantagem para branco aqui. Um jogo normal, né? E aí, quando captura, dobra os piões. Solid Knight tem uma boa observação isso aqui."
+    },
+    {
+      "time": "1:02:26",
+      "seconds": 3746,
+      "text": "Pião dobrado não é uma coisa legal. E não voltar. É, então, mas olha coisa. Eu fiz para minha partida e eu voltei, não só voltei como voltei para o lado errado, né? Se fosse para voltar, a recomendação do Stockfish é voltar tudo até o E7. Mas, né, Carlsen também não gosta de voltar."
+    },
+    {
+      "time": "1:02:54",
+      "seconds": 3774,
+      "text": "Carlsen foi lá e falou, não, vamos jogar, né? Então, esse aqui foi o jogo do Carlsen contra o Fabiano Caruana. Trocou o pião duplo de lugar aqui depois. Deve ter sido uma partida bem equilibrada aqui. Olha como que o Carlsen é o Carlsen, né?"
+    },
+    {
+      "time": "1:03:18",
+      "seconds": 3798,
+      "text": "No meio do jogo, teve um lugar que a vantagem estava bem boa para as brancas. Teve capivarada que mudou o rumo desse jogo? Teve aqui, né? No lance 18. Caruana, Caruana. Propôs uma troca de dama aqui. Carlsen não aceitou. Por que que essa dama aqui foi capivarada no ponto de vista do Stockfish?"
+    },
+    {
+      "time": "1:03:48",
+      "seconds": 3828,
+      "text": "A toma B5 teria sido melhor. A toma B5. É, teria sido melhor porque... Porque esse jogo de a toma B5, você está entregando uma torre para o Carlsen. É isso mesmo? Olha, e que engraçado esse jogo aqui, né?"
+    },
+    {
+      "time": "1:04:08",
+      "seconds": 3848,
+      "text": "Ele foi classificado como Ninzo Indian Defense Shamit Variation ali, sei lá o que lá no começo, né? Tudo bem. Então, apesar do jogo no lance 5 estar igual o meu, o começo dele deve ter sido diferente, né? Pião da dama. Ah, o Carlsen já foi direto para o cavalo, né? Isso é a defesa índia."
+    },
+    {
+      "time": "1:04:37",
+      "seconds": 3877,
+      "text": "Interessante, interessante ver o jogo dos outros. Voltar muito atrás parece ser retrocesso. Nessa faixa de rate, quando se lançam o ataque, a gente gosta de se manter em ataque e toma golpe. Identificação total aí, o Probase."
+    },
+    {
+      "time": "1:05:00",
+      "seconds": 3900,
+      "text": "É, geralmente o bispo volta em E7, Solid Knight já passamos por isso, boa. E aí, e não voltar, é, fiz cagada na minha partida. Isso aqui vocês já identificaram. Ah, mas jogar como Carlsen ali, tomando o cavalo, acho que também não é pra qualquer um não, né?"
+    },
+    {
+      "time": "1:05:26",
+      "seconds": 3926,
+      "text": "Carlsen nessa época aqui tinha meros 2.863 de rating, né? Beleza, esse foi Magnus Carlsen, ganhando de pretas depois de uma virada. Ó, aqui o jogo, isso aqui, inaccuracy do Carlsen. Nossa, mas vai saber o que passa na cabeça desses grandes mestres, né?"
+    },
+    {
+      "time": "1:05:51",
+      "seconds": 3951,
+      "text": "O Caruana, em teoria, Stockfish viu um jeito dele manter essa vantagem bastante e ele perdeu com essa jogada da dama aqui. Quis ganhar um material, deveria ter tomado de peão. Isso ainda deixaria o Caruana na vantagem aqui. Beleza, chega de Caruana, chega de Carlsen. Vamos aprender com os meus erros."
+    },
+    {
+      "time": "1:06:21",
+      "seconds": 3981,
+      "text": "Queen's Gambit Declined. Deixa eu só deixar isso já registrado aqui, pra ter menos coisa pra escrever depois. Tá certo. Uma hora de live, gente, eu vou ter que fechar daqui a pouquinho. Mas vocês estão bem aí de pra onde ir, porque tem, tá rolando Copa do Mundo aí de eSports. Cadê a Twitch aqui, ó."
+    },
+    {
+      "time": "1:06:51",
+      "seconds": 4011,
+      "text": "Deve ter comentado, comentários do Grandmaster Krikor Meritate. Ah, quem que tá jogando nesse momento? Denis Lazavik contra Cinema Varred. Pois vou até mandar minha raid aqui, não sei se tem alguém na Twitch hoje. Cadê o meu Managed Stream aqui, ó. Tem um viewer, acho que..."
+    },
+    {
+      "time": "1:07:18",
+      "seconds": 4038,
+      "text": "Ah, ProBase, é claro, claro, ProBase. Ó, o ProBase, ó. Olha como é estranho essas recomendações de raid aqui, ó. Ele me mostra o chess de todas as línguas, menos português. Ó, Argentina... Não é estranho não aparecer como recomendação pra mim, que falo português? O ChessPT, cara."
+    },
+    {
+      "time": "1:07:46",
+      "seconds": 4066,
+      "text": "Eu tenho que ir lá e procurar eu mesmo, na mão. Ó, tá todo mundo inteiro tá assistindo esse negócio aqui, ó. Então, daqui a pouco eu fecho minha live e mando vocês pra lá. Se eu achar o ChessPT aqui, ó. ChessPT. Ah, não aparece ChessComPT? ChessComPT. Ó lá. Quero mandar vocês pra cá depois, ó."
+    },
+    {
+      "time": "1:08:15",
+      "seconds": 4095,
+      "text": "Então, vou começar essa raid daqui a pouquinho, ó. Vamos só terminar aqui, terminar de documentar minha derrota de pretas. Boa, sólida. Falta estudo. É, eu tô começando, só. Eu, né. Eu jogo aqui, talvez eu nem deveria jogar na live, deveria só estudar mesmo. Uma hora de estudo."
+    },
+    {
+      "time": "1:08:43",
+      "seconds": 4123,
+      "text": "Uma hora de estudo deve ser melhor do que meia hora de estudo e meia hora de derrota, porque tô fazendo coisa errada, né. Ah, uma hora de estudo com certeza tá valendo mais a pena. Mas, pô, eu quero... Eu quero perder um pouquinho também."
+    },
+    {
+      "time": "1:09:07",
+      "seconds": 4147,
+      "text": "É o momento do dia que eu tenho pra me divertir, é amistoso, não tô perdendo rating nem nada, né. E eu posso contar com a grande contribuição do chat aqui, de vocês, meu. Pô, é uma honra pra mim ter gente que manja aqui no chat, dando umas dicas valiosíssimas aqui. Tem que jogar, tem que jogar."
+    },
+    {
+      "time": "1:09:36",
+      "seconds": 4176,
+      "text": "Jogo faz parte do estudo. Boa, sólida. Então, tá bom. Acho que eu tô num caminho razoável aí. Aqui, então, o que que eu posso aprender com meus erros aqui, ó. Contando entre capivaradas e imprecisões ou mistakes mais graves, o Lichess..."
+    },
+    {
+      "time": "1:10:00",
+      "seconds": 4200,
+      "text": "Com a ajuda do Stockfish aí, me fala que eu cometi 3. Então, o 1 de 3 aqui, a gente já passou bastante por ele. Melhor teria sido aqui na cabeça do Stockfish. Essa teria sido a boa jogada, né?"
+    },
+    {
+      "time": "1:10:23",
+      "seconds": 4223,
+      "text": "Então, eu ainda não tenho 2.800 para arriscar um jogo que começa trocando coisa aqui igual o Carlsen. Ah, erro 2 de 3 foi aqui, né? Aí aqui, aqui eu já estava perdido, né? Eu tinha que ter entregue isso aqui, pelo menos."
+    },
+    {
+      "time": "1:10:49",
+      "seconds": 4249,
+      "text": "Essa teria sido a boa jogada nesse ponto. É, perdido por perdido ali, né? Pelo menos mantém o ataque um pouquinho mais longe, né? O que eu fiz ali permitiu o que vocês viram na partida, né? Esse foi o erro 3 de 3?"
+    },
+    {
+      "time": "1:11:14",
+      "seconds": 4274,
+      "text": "Não, erro 3 de 3 foi ter tomado esse peão. Nesse momento, eu confesso que... Ah, o motivo pelo qual eu tomei esse peão foi de que das coisas que eu tinha para fazer, essa era uma que me dava, foi meio que na matemática."
+    },
+    {
+      "time": "1:11:40",
+      "seconds": 4300,
+      "text": "Falei, ah, ele tá mais 3, se eu diminuir 1, fica mais 2. Talvez eu não vi as próximas ameaças de liberar o espaço para esse peão andar, não sei. Então, vamos ver aqui. Tinha jogada melhor que essa."
+    },
+    {
+      "time": "1:12:04",
+      "seconds": 4324,
+      "text": "Esse aqui é a mesma ideia com menos consequências, talvez. Isso, porque aí, se ele vier, eu tô protegido, né? Bom, aqui é a mesma coisa também. Isso aqui não pode ter sido... Isso aqui seria boa, não, né? Tem coisa ainda melhor que isso."
+    },
+    {
+      "time": "1:12:32",
+      "seconds": 4352,
+      "text": "Qual teria sido a boa aqui? Trazer esse e tirar a dama, né? Ah, eu podia ter pego isso aqui depois de um cheque da dama. Essa teria sido a boa jogada, né? Aqui, fazer aquele set lá, ó. Essa teria sido a boa jogada, né? Porque esse jogo progride assim."
+    },
+    {
+      "time": "1:13:02",
+      "seconds": 4382,
+      "text": "Então, a mesma coisa que eu queria fazer com o cavalo, podia ter feito com a rainha, com o cheque, estragando talvez o tempo dele, alguma coisa. Esqueceu do golpe. É, no jogo eu levei um golpe, né? Vamos ver aqui o golpe que eu levei."
+    },
+    {
+      "time": "1:13:30",
+      "seconds": 4410,
+      "text": "No jogo, eu esqueci... Será que ele me deu o golpe? Isso aqui não chega a ser um golpe, né? Ah, ganhou o cavalo. Então tá, tá, entendi. O golpe é a mesma coisa que eu podia ter feito..."
+    },
+    {
+      "time": "1:13:52",
+      "seconds": 4432,
+      "text": "Ou uma coisa similar com o que eu poderia ter feito aqui, que é dar um cheque pra ganhar uma peça depois, né? Ele fez comigo, né? Ele fez um cheque pra ganhar uma peça, que era um cavalo que estava ali, né? Tá bom. Exato, sólido. Legal."
+    },
+    {
+      "time": "1:14:20",
+      "seconds": 4460,
+      "text": "Esse foi o golpe. Ah, esse foi o golpe. Tá certo. Então tá, vamos botar essa nota aqui. Esse foi uma das minhas capivaradas. Foi o lance 11. A minha segunda capivarada... Lance 11... Eu tô... Eu..."
+    },
+    {
+      "time": "1:14:44",
+      "seconds": 4484,
+      "text": "Não vi que ir de cavalo permitiria um golpe dele ganhar este cavalo. A minha pressa... Sei lá, vamos chamar de pressa. Me fez não analisar"
+    },
+    {
+      "time": "1:15:00",
+      "seconds": 4500,
+      "text": "BST, né? Essa CT ou uma boa jogada. Aí tá ruim aqui, hein? Teria sido dama, dama check, né? Dama check para tomar este D4 com ela mesmo, com ela e não o cavalo. Tá bom. Chat bombando aí. Eu acho que tá bom aqui por hoje."
+    },
+    {
+      "time": "1:15:25",
+      "seconds": 4525,
+      "text": "E a pessoa com material a menos só existe a resistência de recuperação, o que é mais complicado. É, só existe a resistência, né? Certo. Fica dependendo de um erro do adversário. Corretíssimo sólido. Muito obrigado aí pela participação de todo mundo."
+    },
+    {
+      "time": "1:15:54",
+      "seconds": 4554,
+      "text": "Eu vou encerrar por aqui, porque hoje a agenda tá um pouquinho pesada. Ah, mas vocês... vocês dão uma audiência lá, pô, pra transmissão brasileira aí. Ó, Carlsen tá jogando, ó. Carlsen contra Ezipenko. Carlsen tá o quê? De brancas aqui."
+    },
+    {
+      "time": "1:16:21",
+      "seconds": 4581,
+      "text": "Bem ruim essa interface das transmissão, né? Mas vai rage pra lá assim mesmo. Fala pro probase quando... Sim. Não, vocês estão conversando aí no chat. Eu só li. Você fala pro probase. Rage não. Não, valeu. Tá tudo certo, galera."
+    },
+    {
+      "time": "1:16:47",
+      "seconds": 4607,
+      "text": "Não tô aparecendo mais nas lives. Ah, beleza, voltou pra facul, Murilo. Pô, legal, cara. Pô, tô te devendo gravar uma daqueles tudo, né? Vamos fazer isso aí, cara. Vamos aí, Murilo. Não, tá de boas, cara. A gente... A gente tenta aí alguma coisa. A live..."
+    },
+    {
+      "time": "1:17:16",
+      "seconds": 4636,
+      "text": "A facul tem prioridade, né? Ah, certo. Valeu, galera. Já mandei minha party de um aqui pra vocês assistirem a Copa do Mundo de Esports. Boa quarta aí pra todo mundo. Valeu. Até amanhã. Abraço."
+    }
+  ]
+}
