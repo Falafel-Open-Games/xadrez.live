@@ -1,11 +1,12 @@
 #!/usr/bin/env python3
-"""Suggest a replay offset from a manually observed first-game clock anchor."""
+"""Suggest a replay offset from a manually observed video anchor."""
 from __future__ import annotations
 
 import argparse
 import json
 import re
 import sys
+from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
@@ -17,6 +18,7 @@ from scripts.update_lichess_blunder_events import (
     body_tokens,
     fetch_game,
     pgn_headers,
+    session_start_utc_from_path,
     session_game_refs,
     time_control,
     token_is_move_number,
@@ -187,11 +189,89 @@ def first_game_anchor(session: str) -> tuple[Path, int, int, int, str]:
     return content_path, raw_seconds + elapsed, configured_offset, elapsed, white_clock
 
 
+def configured_video_offset(extra: dict[str, Any]) -> int:
+    try:
+        return int(extra.get("lichess_video_offset_seconds") or 0)
+    except (TypeError, ValueError):
+        return 0
+
+
+def puzzle_of_the_day_anchor(session: str) -> tuple[Path, int, int, str]:
+    content_path = CONTENT_DIR / f"{session}.md"
+    if not content_path.exists():
+        raise RuntimeError(f"sessão não encontrada: {session}")
+
+    front_matter = read_front_matter(content_path)
+    extra = front_matter.get("extra")
+    if not isinstance(extra, dict):
+        raise RuntimeError(f"seção [extra] não encontrada em {content_path}")
+
+    raw_recorded_at = str(extra.get("puzzle_of_the_day_recorded_at") or "").strip()
+    if not raw_recorded_at:
+        raise NoCalibrationData(
+            f"a sessão {session} não tem puzzle_of_the_day_recorded_at; nada para calibrar"
+        )
+    try:
+        recorded_at = datetime.fromisoformat(raw_recorded_at.replace("Z", "+00:00"))
+    except ValueError as error:
+        raise RuntimeError(f"puzzle_of_the_day_recorded_at inválido: {raw_recorded_at}") from error
+    if recorded_at.tzinfo is None:
+        recorded_at = recorded_at.replace(tzinfo=timezone.utc)
+
+    refs = session_game_refs(content_path)
+    session_start = session_start_utc_from_path(content_path, refs)
+    if session_start is None:
+        raise RuntimeError("não foi possível descobrir o início do vídeo da sessão")
+
+    raw_anchor = round((recorded_at.astimezone(timezone.utc) - session_start).total_seconds())
+    if raw_anchor < 0:
+        raise RuntimeError("puzzle_of_the_day_recorded_at ficou antes do início do vídeo")
+    return content_path, raw_anchor, configured_video_offset(extra), raw_recorded_at
+
+
+def prompt_observed_timestamp(message: str) -> int:
+    print(message)
+    print("Formato aceito: MM:SS ou H:MM:SS")
+
+    while True:
+        observed = input("Timestamp observado: ").strip()
+        observed_seconds = parse_timestamp(observed)
+        if observed_seconds is not None:
+            return observed_seconds
+        print("Timestamp inválido. Use, por exemplo, 28:42.")
+
+
+def apply_suggested_offset(content_path: Path, raw_anchor: int, observed_seconds: int, no_write: bool) -> None:
+    suggested = observed_seconds - raw_anchor
+    print()
+    print(f"Offset sugerido: {suggested:+d}s")
+    print(f"Com esse offset, a âncora ficaria em {format_timestamp(raw_anchor + suggested)}.")
+    if no_write:
+        print("Nenhum arquivo foi alterado.")
+        return
+    try:
+        previous = write_front_matter_offset(content_path, suggested)
+    except RuntimeError as error:
+        raise RuntimeError(str(error)) from error
+    if previous == suggested:
+        print(f"Offset já estava configurado em {suggested:+d}s.")
+    elif previous is None:
+        print(f"Offset gravado em {content_path.relative_to(ROOT)}: {suggested:+d}s.")
+    else:
+        print(f"Offset atualizado em {content_path.relative_to(ROOT)}: {previous:+d}s -> {suggested:+d}s.")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Sugere um offset comparando o início bruto da primeira partida com o relógio observado no vídeo."
+        description="Sugere um offset comparando uma âncora bruta da sessão com o timestamp observado no vídeo."
     )
     parser.add_argument("session", help="Número da sessão, por exemplo 0052")
+    parser.add_argument(
+        "--anchor",
+        choices=("first-game", "puzzle-of-the-day"),
+        default="first-game",
+        help="Âncora usada para calibrar: relógio da primeira partida ou clique no Puzzle do dia.",
+    )
     parser.add_argument(
         "--no-write",
         action="store_true",
@@ -207,7 +287,10 @@ def main() -> int:
     session = str(args.session).zfill(4)
 
     try:
-        content_path, raw_anchor, configured_offset, elapsed, white_clock = first_game_anchor(session)
+        if args.anchor == "puzzle-of-the-day":
+            content_path, raw_anchor, configured_offset, recorded_at = puzzle_of_the_day_anchor(session)
+        else:
+            content_path, raw_anchor, configured_offset, elapsed, white_clock = first_game_anchor(session)
     except NoCalibrationData as notice:
         print(str(notice))
         return args.exit_code_on_skip
@@ -215,42 +298,27 @@ def main() -> int:
         parser.error(str(error))
 
     print(f"Sessão {session}")
-    print(f"Tempo estimado após o segundo lance das brancas: +{elapsed}s")
-    print(f"Âncora bruta calculada para essa jogada: {format_timestamp(raw_anchor)}")
     if configured_offset:
         print(f"Offset atualmente configurado: {configured_offset:+d}s")
-    clock_parts = white_clock.split(":")
-    expected_clock = ":".join(clock_parts[-2:])
-    print(
-        "Informe o timestamp do vídeo em que as brancas finalizam o segundo movimento "
-        f"e o relógio branco mostra aproximadamente {expected_clock}."
-    )
-    print("Formato aceito: MM:SS ou H:MM:SS")
-
-    while True:
-        observed = input("Timestamp observado: ").strip()
-        observed_seconds = parse_timestamp(observed)
-        if observed_seconds is not None:
-            break
-        print("Timestamp inválido. Use, por exemplo, 28:42.")
-
-    suggested = observed_seconds - raw_anchor
-    print()
-    print(f"Offset sugerido: {suggested:+d}s")
-    print(f"Com esse offset, a âncora ficaria em {format_timestamp(raw_anchor + suggested)}.")
-    if args.no_write:
-        print("Nenhum arquivo foi alterado.")
-        return 0
+    if args.anchor == "puzzle-of-the-day":
+        print(f"Puzzle do dia registrado pelo userscript em: {recorded_at}")
+        print(f"Âncora bruta calculada para esse clique: {format_timestamp(raw_anchor)}")
+        observed_seconds = prompt_observed_timestamp(
+            "Informe o timestamp do vídeo em que aparece o clique/registro do Puzzle do dia."
+        )
+    else:
+        print(f"Tempo estimado após o segundo lance das brancas: +{elapsed}s")
+        print(f"Âncora bruta calculada para essa jogada: {format_timestamp(raw_anchor)}")
+        clock_parts = white_clock.split(":")
+        expected_clock = ":".join(clock_parts[-2:])
+        observed_seconds = prompt_observed_timestamp(
+            "Informe o timestamp do vídeo em que as brancas finalizam o segundo movimento "
+            f"e o relógio branco mostra aproximadamente {expected_clock}."
+        )
     try:
-        previous = write_front_matter_offset(content_path, suggested)
+        apply_suggested_offset(content_path, raw_anchor, observed_seconds, args.no_write)
     except RuntimeError as error:
         parser.error(str(error))
-    if previous == suggested:
-        print(f"Offset já estava configurado em {suggested:+d}s.")
-    elif previous is None:
-        print(f"Offset gravado em {content_path.relative_to(ROOT)}: {suggested:+d}s.")
-    else:
-        print(f"Offset atualizado em {content_path.relative_to(ROOT)}: {previous:+d}s -> {suggested:+d}s.")
     print(f"Para regenerar a timeline: just update-session-capivaradas {session}")
     return 0
 

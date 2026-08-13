@@ -432,7 +432,15 @@ def game_timeline_events(ref: GameRef, payload: dict[str, Any]) -> list[dict[str
     ]
 
 
-def practice_timeline_event(path: Path, session_start: datetime | None) -> dict[str, Any] | None:
+def session_video_offset(path: Path) -> int:
+    data = read_front_matter(path)
+    extra = data.get("extra")
+    if not isinstance(extra, dict):
+        return 0
+    return int_value(extra.get("lichess_video_offset_seconds"))
+
+
+def practice_timeline_event(path: Path, session_start: datetime | None, video_offset_seconds: int = 0) -> dict[str, Any] | None:
     if session_start is None:
         return None
     data = read_front_matter(path)
@@ -448,7 +456,7 @@ def practice_timeline_event(path: Path, session_start: datetime | None) -> dict[
         return None
     if recorded_at.tzinfo is None:
         recorded_at = recorded_at.replace(tzinfo=timezone.utc)
-    seconds = round((recorded_at.astimezone(timezone.utc) - session_start).total_seconds())
+    seconds = round((recorded_at.astimezone(timezone.utc) - session_start).total_seconds()) + video_offset_seconds
     if seconds < 0:
         return None
     return {
@@ -460,7 +468,7 @@ def practice_timeline_event(path: Path, session_start: datetime | None) -> dict[
     }
 
 
-def recorded_seconds(raw_timestamp: Any, session_start: datetime | None) -> int | None:
+def recorded_seconds(raw_timestamp: Any, session_start: datetime | None, video_offset_seconds: int = 0) -> int | None:
     if session_start is None:
         return None
     raw_value = str(raw_timestamp or "").strip()
@@ -472,11 +480,11 @@ def recorded_seconds(raw_timestamp: Any, session_start: datetime | None) -> int 
         return None
     if recorded_at.tzinfo is None:
         recorded_at = recorded_at.replace(tzinfo=timezone.utc)
-    seconds = round((recorded_at.astimezone(timezone.utc) - session_start).total_seconds())
+    seconds = round((recorded_at.astimezone(timezone.utc) - session_start).total_seconds()) + video_offset_seconds
     return seconds if seconds >= 0 else None
 
 
-def puzzle_of_the_day_timeline_event(path: Path, session_start: datetime | None) -> dict[str, Any] | None:
+def puzzle_of_the_day_timeline_event(path: Path, session_start: datetime | None, video_offset_seconds: int = 0) -> dict[str, Any] | None:
     if session_start is None:
         return None
     data = read_front_matter(path)
@@ -492,7 +500,7 @@ def puzzle_of_the_day_timeline_event(path: Path, session_start: datetime | None)
         return None
     if recorded_at.tzinfo is None:
         recorded_at = recorded_at.replace(tzinfo=timezone.utc)
-    seconds = round((recorded_at.astimezone(timezone.utc) - session_start).total_seconds())
+    seconds = round((recorded_at.astimezone(timezone.utc) - session_start).total_seconds()) + video_offset_seconds
     if seconds < 0:
         return None
     return {
@@ -505,7 +513,7 @@ def puzzle_of_the_day_timeline_event(path: Path, session_start: datetime | None)
     }
 
 
-def storm_timeline_events(path: Path, session_start: datetime | None) -> list[dict[str, Any]]:
+def storm_timeline_events(path: Path, session_start: datetime | None, video_offset_seconds: int = 0) -> list[dict[str, Any]]:
     if session_start is None:
         return []
     data = read_front_matter(path)
@@ -522,8 +530,8 @@ def storm_timeline_events(path: Path, session_start: datetime | None) -> list[di
             continue
         score = str(attempt.get("score") or "").strip()
         duration_seconds = attempt.get("duration_seconds")
-        started_seconds = recorded_seconds(attempt.get("started_at"), session_start)
-        finished_seconds = recorded_seconds(attempt.get("finished_at"), session_start)
+        started_seconds = recorded_seconds(attempt.get("started_at"), session_start, video_offset_seconds)
+        finished_seconds = recorded_seconds(attempt.get("finished_at"), session_start, video_offset_seconds)
         if started_seconds is not None:
             label = "Storm"
             if len(attempts) > 1:
@@ -688,6 +696,7 @@ def update_sessions(paths: list[Path], token: str, timeout: int) -> int:
         failures = []
         session_start = session_start_utc_from_path(path, refs)
         if session_start is not None:
+            video_offset_seconds = session_video_offset(path)
             timeline_events.append(
                 {
                     "time": "0:00",
@@ -697,13 +706,13 @@ def update_sessions(paths: list[Path], token: str, timeout: int) -> int:
                     "source": "youtube_release",
                 }
             )
-            practice_event = practice_timeline_event(path, session_start)
+            practice_event = practice_timeline_event(path, session_start, video_offset_seconds)
             if practice_event:
                 timeline_events.append(practice_event)
-            puzzle_event = puzzle_of_the_day_timeline_event(path, session_start)
+            puzzle_event = puzzle_of_the_day_timeline_event(path, session_start, video_offset_seconds)
             if puzzle_event:
                 timeline_events.append(puzzle_event)
-            timeline_events.extend(storm_timeline_events(path, session_start))
+            timeline_events.extend(storm_timeline_events(path, session_start, video_offset_seconds))
         for ref in refs:
             payload = cached_game_payload(ref.game_id)
             if payload is None:

@@ -126,7 +126,15 @@ def command_for(action: Action) -> list[str] | None:
         session = prompt("Sessao, ex. 0052")
         if not session:
             return None
-        return ["just", "calibrate-session-capivaradas", session]
+        anchor = prompt("Ancora: p=puzzle-of-the-day, f=first-game", "p").strip().lower()
+        anchor = {
+            "f": "first-game",
+            "p": "puzzle-of-the-day",
+        }.get(anchor, anchor)
+        command = ["just", "calibrate-session-capivaradas", session]
+        if anchor and anchor != "first-game":
+            command.extend(["--anchor", anchor])
+        return command
 
     if action.key == "faster-whisper":
         session = prompt("Sessao, ex. 0052")

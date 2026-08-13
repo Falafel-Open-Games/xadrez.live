@@ -1,36 +1,38 @@
 {
   "session_number": "0059",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "limit": 6,
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 888,
-      "end_seconds": 960,
-      "time": "14:48",
+      "start_seconds": 962,
+      "end_seconds": 1050,
+      "time": "16:02",
       "duration": "1:30",
-      "kind": "training",
-      "score": 4.5,
-      "summary": "Fugiu ali, eu venho pra cá. A torre dele vai estar aqui. Aí, muito cuidado nessa hora, né? Aí vem pra cá…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; treino ou puzzle streak; raciocínio em voz alta",
+      "kind": "review",
+      "score": 4.9,
+      "summary": "Fazer uma jogada corajosa e desentregar a dama ali. Coragem e a burrice, elas são muito próximas. Errado, tá bom. Ver solução. Hum, essa casa era importante mesmo…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
+        "interação com o chat",
         "review ou melhor lance",
-        "treino ou puzzle streak",
+        "plano ou estratégia",
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 4
+      "transcript_count": 5,
+      "lead_in": "que minha intuição está mandando"
     },
     {
-      "start_seconds": 3578,
+      "start_seconds": 3584,
       "end_seconds": 3660,
-      "time": "59:38",
+      "time": "59:44",
       "duration": "1:30",
       "kind": "review",
       "score": 4.75,
@@ -46,12 +48,13 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 1,
-      "transcript_count": 4
+      "transcript_count": 4,
+      "lead_in": "sido bem preciso também né"
     },
     {
-      "start_seconds": 3997,
+      "start_seconds": 3994,
       "end_seconds": 4080,
-      "time": "1:06:37",
+      "time": "1:06:34",
       "duration": "1:30",
       "kind": "opening",
       "score": 4.5,
@@ -66,12 +69,13 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 3,
+      "lead_in": "capivarada do Carlsen aqui ó"
     },
     {
-      "start_seconds": 4136,
+      "start_seconds": 4146,
       "end_seconds": 4230,
-      "time": "1:08:56",
+      "time": "1:09:06",
       "duration": "1:30",
       "kind": "opening",
       "score": 4.5,
@@ -86,34 +90,39 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 4
+      "transcript_count": 4,
+      "lead_in": "barra do que tomar com"
     },
     {
-      "start_seconds": 4920,
-      "end_seconds": 5010,
-      "time": "1:22:00",
+      "start_seconds": 4892,
+      "end_seconds": 4980,
+      "time": "1:21:32",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 5.8,
-      "summary": "Era entregar o cavalo pra fazer alguma outra coisa, ver a solução. Boa, ameaça a rainha, mas esse jogo continua com o peão comendo, né? Peão come, aí foge com o cavalo. Tá…",
-      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance; pressão no relógio",
+      "score": 7.05,
+      "summary": "Tá defendido pela dama. Mas ou aqui ou aqui teria sido melhor. Aqui pra ficar no centro. Acho que aqui teria sido melhor. Sério? O que que é? Aqui teria sido melhor, não…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
       "signals": [
-        "2 mensagem(ns) no chat",
+        "1 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
         "interação com o chat",
         "review ou melhor lance",
-        "pressão no relógio"
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo",
+        "raciocínio em voz alta"
       ],
-      "chat_count": 2,
-      "transcript_count": 4
+      "chat_count": 1,
+      "transcript_count": 6,
+      "lead_in": "Tomar aqui Acho que não"
     },
     {
-      "start_seconds": 5231,
+      "start_seconds": 5237,
       "end_seconds": 5310,
-      "time": "1:27:11",
+      "time": "1:27:17",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 5.45,
@@ -131,7 +140,8 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 1,
-      "transcript_count": 3
+      "transcript_count": 3,
+      "lead_in": "a live mas estamos começando"
     }
   ]
 }
