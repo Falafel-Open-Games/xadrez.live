@@ -347,6 +347,8 @@ def openai_options(context: dict[str, Any], count: int, model: str, api_key: str
     except urllib.error.URLError as error:
         print(f"warning: OpenAI summary generation failed: {error.reason}", file=sys.stderr)
         return []
+    except TimeoutError:
+        fail(f"OpenAI summary generation timed out after {timeout}s; retry when the API is responsive or increase --timeout")
     return parse_options(response_text(payload), count)
 
 

@@ -553,7 +553,10 @@ def run(command: list[str], dry_run: bool) -> None:
     print(f"$ {' '.join(command)}")
     if dry_run:
         return
-    subprocess.run(command, check=True)
+    try:
+        subprocess.run(command, check=True)
+    except subprocess.CalledProcessError as error:
+        fail(f"command failed with exit code {error.returncode}: {' '.join(command)}")
 
 
 def has_gum() -> bool:
@@ -646,6 +649,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("session", help="Session number, e.g. 0054")
     parser.add_argument("--toml-file", type=Path, help="TOML fragment from the userscript; defaults to data/fcz/wrap_inbox/NNNN.toml when present")
     parser.add_argument("--chat-json-file", type=Path, help="Restream chat JSON from the userscript; defaults to data/fcz/wrap_inbox/NNNN-chat.json when present")
+    parser.add_argument("--allow-missing-userscript-inputs", action="store_true", help="Allow wrapup to continue without both userscript exports")
     parser.add_argument("--dry-run", action="store_true", help="Persist raw inputs and print commands without applying changes")
     parser.add_argument("--skip-build", action="store_true")
     parser.add_argument("--skip-capivaradas", action="store_true")
@@ -678,6 +682,28 @@ def fresh_download_input(path: Path, max_age_hours: float) -> Path | None:
     return None
 
 
+def require_userscript_inputs(session: str, toml_file: Path | None, chat_json_file: Path | None) -> None:
+    missing = []
+    if toml_file is None:
+        missing.append(
+            "TOML do wrap: "
+            f"{INBOX_DIR / f'{session}.toml'} ou {DOWNLOADS_DIR / f'{session}.toml'}"
+        )
+    if chat_json_file is None:
+        missing.append(
+            "chat Restream JSON: "
+            f"{INBOX_DIR / f'{session}-chat.json'} ou {DOWNLOADS_DIR / f'{session}-chat.json'}"
+        )
+    if not missing:
+        return
+    fail(
+        "faltam export(s) do userscript antes do wrapup:\n"
+        + "\n".join(f"- {item}" for item in missing)
+        + "\n\nSalve os dois arquivos em Downloads/inbox ou passe --toml-file/--chat-json-file. "
+        "Use --allow-missing-userscript-inputs só para sessões fora da rotina."
+    )
+
+
 def main() -> int:
     args = parse_args()
     session = args.session.zfill(4)
@@ -691,6 +717,8 @@ def main() -> int:
         or existing_input([INBOX_DIR / f"{session}-chat.json"])
         or fresh_download_input(DOWNLOADS_DIR / f"{session}-chat.json", args.downloads_max_age_hours)
     )
+    if not args.allow_missing_userscript_inputs:
+        require_userscript_inputs(session, toml_file, chat_json_file)
     path, data, body = read_session(session)
     state: dict[str, Any] = {"session": session, "updated_at": datetime.now(timezone.utc).isoformat(), "inputs": {}}
 
