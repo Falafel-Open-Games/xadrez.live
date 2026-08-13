@@ -23,7 +23,7 @@
   {%- if page.extra.summary_title is defined and page.extra.summary_title -%}
     {%- set session_page_title = page.title ~ ": " ~ page.extra.summary_title -%}
   {%- endif -%}
-  {{ session_page_title }} | {{ config.title }}
+  {{ session_page_title | truncate(length=54) }} | {{ config.title }}
 {%- endblock title %}
 {% block description %}{{ page.extra.description | truncate(length=159) }}{% endblock description %}
 {% block social_meta %}
@@ -448,7 +448,7 @@
         <div class="replay-heading">
           <h2>Replay da sessão</h2>
           {% if show_blunder_replay %}
-            <img class="replay-capybara" src="/assets/doodles/capybara-alert.png" alt="" aria-hidden="true">
+            <img class="replay-capybara" src="/assets/doodles/capybara-alert.png" alt="Alerta visual para o replay de capivaradas">
           {% endif %}
         </div>
         {% if replay_source_count > 1 %}

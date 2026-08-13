@@ -3,4 +3,4 @@ title = "xadrez.live"
 template = "index.html"
 +++
 
-Diário pessoal de lives de xadrez, sessões de treino, puzzles e partidas rapid.
+Arquivo público de lives de xadrez: sessões de treino, puzzles, partidas rapid, capivaradas, chat, transcrições e estatísticas de progresso.
