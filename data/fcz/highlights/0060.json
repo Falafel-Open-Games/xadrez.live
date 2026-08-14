@@ -1,0 +1,136 @@
+{
+  "session_number": "0060",
+  "source": "heuristic",
+  "transcript_source": "openai-gpt-4o-mini-transcribe",
+  "transcript_label": "GPT-4o mini",
+  "limit": 6,
+  "window_seconds": 90,
+  "step_seconds": 30,
+  "highlights": [
+    {
+      "start_seconds": 144,
+      "end_seconds": 240,
+      "time": "2:24",
+      "duration": "1:30",
+      "kind": "training",
+      "score": 3.6,
+      "summary": "Problema do dia. Vamos lá. Qual é o melhor lance para as brancas? Melhor lance para as brancas. Calma, calma branca…",
+      "reason": "reação forte na fala; tema claro de xadrez; review ou melhor lance; treino ou puzzle streak; raciocínio em voz alta",
+      "signals": [
+        "reação forte na fala",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "treino ou puzzle streak",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 3565,
+      "end_seconds": 3660,
+      "time": "59:25",
+      "duration": "1:30",
+      "kind": "chat",
+      "score": 3.75,
+      "summary": "Amanhã eu como mais salada. Já tô meio estressado por causa desse mate de peças aí. Nossa Senhora, nada faz sentido. Não tem lógica, sabe? Não tem uma regra…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; interação com o chat; pressão no relógio; raciocínio em voz alta",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "tema claro de xadrez",
+        "interação com o chat",
+        "pressão no relógio",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 1,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 4735,
+      "end_seconds": 4830,
+      "time": "1:18:55",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 6.15,
+      "summary": "Me pareceu ter mais lógica do que isso que eu fiz hoje de tipo onde você tem que ir vendo meio que caso a caso e aí, tipo, se você faz um errado, você tem que começar tudo de…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; pressão no relógio; abertura ou repertório; raciocínio em voz alta",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "pressão no relógio",
+        "abertura ou repertório",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 1,
+      "transcript_count": 5
+    },
+    {
+      "start_seconds": 5002,
+      "end_seconds": 5100,
+      "time": "1:23:22",
+      "duration": "1:30",
+      "kind": "opening",
+      "score": 3.65,
+      "summary": "Nossa, não. Ah, aqui, ó. Isso aqui foi pre-move dele, não é possível, ó. Gastou zero segundos pra eu vim no fianchetto aqui…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; pressão no relógio; abertura ou repertório",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "tema claro de xadrez",
+        "pressão no relógio",
+        "abertura ou repertório"
+      ],
+      "chat_count": 1,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 5341,
+      "end_seconds": 5430,
+      "time": "1:29:01",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 5.65,
+      "summary": "Eu acho que teria catado a dama mesmo. Será que é o movimento do Stockfish? Provavelmente não, né? Provavelmente esse... Ah, ele fala o que que é o xeque-mate unavailable…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 1,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 5939,
+      "end_seconds": 6030,
+      "time": "1:38:59",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 3.7,
+      "summary": "Erro quatro de quatro. Eu vim com a torre aqui. Isso foi uma inaccuracy, sei lá o que foi isso aqui. Ou um erro, uma inaccuracy too. Tá parecendo que foi erro…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
+      "signals": [
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
+      "transcript_count": 4
+    }
+  ]
+}
