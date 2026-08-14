@@ -14,6 +14,7 @@ if str(SCRIPTS_DIR) not in sys.path:
     sys.path.insert(0, str(SCRIPTS_DIR))
 
 import update_youtube_chapters
+import update_youtube_live_latency
 import youtube_title_options
 
 
@@ -81,6 +82,84 @@ class YouTubeTitlePublishStateTest(unittest.TestCase):
                             self.assertEqual(youtube_title_options.main(), 0)
 
         publish.assert_not_called()
+
+
+class YouTubeLiveLatencyTest(unittest.TestCase):
+    def test_update_body_sets_ultralow_and_preserves_required_fields(self):
+        broadcast = {
+            "id": "abc123",
+            "snippet": {
+                "title": "Sessão #0061",
+                "description": "Treino diário",
+                "scheduledStartTime": "2026-08-15T11:00:00Z",
+            },
+            "contentDetails": {
+                "enableDvr": True,
+                "enableEmbed": True,
+                "enableLowLatency": False,
+                "monitorStream": {
+                    "enableMonitorStream": True,
+                    "broadcastStreamDelayMs": 0,
+                },
+            },
+        }
+
+        body = update_youtube_live_latency.update_body(broadcast, "ultraLow")
+
+        self.assertEqual(body["id"], "abc123")
+        self.assertEqual(body["snippet"]["title"], "Sessão #0061")
+        self.assertEqual(body["snippet"]["description"], "Treino diário")
+        self.assertEqual(body["snippet"]["scheduledStartTime"], "2026-08-15T11:00:00Z")
+        self.assertEqual(body["contentDetails"]["latencyPreference"], "ultraLow")
+        self.assertNotIn("enableLowLatency", body["contentDetails"])
+        self.assertTrue(body["contentDetails"]["enableDvr"])
+        self.assertTrue(body["contentDetails"]["monitorStream"]["enableMonitorStream"])
+        self.assertEqual(body["contentDetails"]["monitorStream"]["broadcastStreamDelayMs"], 0)
+
+    def test_set_latency_updates_live_broadcast_content_details(self):
+        broadcast = {
+            "id": "abc123",
+            "snippet": {"title": "Sessão #0061", "scheduledStartTime": "2026-08-15T11:00:00Z"},
+            "status": {"lifeCycleStatus": "ready"},
+            "contentDetails": {
+                "latencyPreference": "normal",
+                "monitorStream": {"enableMonitorStream": True, "broadcastStreamDelayMs": 0},
+            },
+        }
+
+        with mock.patch.object(update_youtube_live_latency, "fetch_broadcast", return_value=broadcast):
+            with mock.patch.object(update_youtube_live_latency, "api_request", return_value={}) as api_request:
+                with redirect_stdout(io.StringIO()):
+                    self.assertEqual(update_youtube_live_latency.set_latency("token", "abc123", "ultraLow", True), 0)
+
+        api_request.assert_called_once()
+        _, token = api_request.call_args.args
+        self.assertEqual(token, "token")
+        self.assertEqual(api_request.call_args.kwargs["method"], "PUT")
+        self.assertEqual(api_request.call_args.kwargs["query"], {"part": "snippet,contentDetails"})
+        self.assertEqual(api_request.call_args.kwargs["body"]["contentDetails"]["latencyPreference"], "ultraLow")
+
+    def test_live_chat_note_reports_replay_is_not_api_exposed_when_chat_is_present(self):
+        broadcast = {
+            "snippet": {"liveChatId": "Cg0KC2xpdmUtY2hhdA"},
+            "status": {"madeForKids": False},
+        }
+
+        self.assertEqual(
+            update_youtube_live_latency.live_chat_note(broadcast),
+            "live chat present; replay setting is not exposed by API",
+        )
+
+    def test_live_chat_note_warns_when_chat_id_is_missing(self):
+        broadcast = {
+            "snippet": {},
+            "status": {"madeForKids": False},
+        }
+
+        self.assertEqual(
+            update_youtube_live_latency.live_chat_note(broadcast),
+            "live chat id not returned; verify chat/replay in Studio",
+        )
 
 
 if __name__ == "__main__":

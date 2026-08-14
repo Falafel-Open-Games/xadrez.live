@@ -141,6 +141,12 @@ youtube-chapters-write-confirm SESSION="":
 youtube-chapters-authorize:
   @python3 scripts/update_youtube_chapters.py --authorize --write-env
 
+youtube-live-latency SESSION LATENCY="ultraLow":
+  @python3 scripts/update_youtube_live_latency.py {{SESSION}} --latency {{LATENCY}} --write
+
+youtube-live-latency-check SESSION LATENCY="ultraLow":
+  @python3 scripts/update_youtube_live_latency.py {{SESSION}} --latency {{LATENCY}}
+
 youtube-thumbnail SESSION:
   @python3 scripts/update_youtube_thumbnail.py {{SESSION}} --write
 

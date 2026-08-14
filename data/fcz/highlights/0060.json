@@ -1,35 +1,16 @@
 {
   "session_number": "0060",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "limit": 6,
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 144,
-      "end_seconds": 240,
-      "time": "2:24",
-      "duration": "1:30",
-      "kind": "training",
-      "score": 3.6,
-      "summary": "Problema do dia. Vamos lá. Qual é o melhor lance para as brancas? Melhor lance para as brancas. Calma, calma branca…",
-      "reason": "reação forte na fala; tema claro de xadrez; review ou melhor lance; treino ou puzzle streak; raciocínio em voz alta",
-      "signals": [
-        "reação forte na fala",
-        "tema claro de xadrez",
-        "review ou melhor lance",
-        "treino ou puzzle streak",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 3565,
+      "start_seconds": 3580,
       "end_seconds": 3660,
-      "time": "59:25",
+      "time": "59:40",
       "duration": "1:30",
       "kind": "chat",
       "score": 3.75,
@@ -45,16 +26,17 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 1,
-      "transcript_count": 4
+      "transcript_count": 4,
+      "lead_in": "É muito chato"
     },
     {
-      "start_seconds": 4735,
+      "start_seconds": 4761,
       "end_seconds": 4830,
-      "time": "1:18:55",
+      "time": "1:19:21",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 6.15,
-      "summary": "Me pareceu ter mais lógica do que isso que eu fiz hoje de tipo onde você tem que ir vendo meio que caso a caso e aí, tipo, se você faz um errado, você tem que começar tudo de…",
+      "summary": "Nessa jogada aqui eu recuei com o bispo. O que que poderia ter sido melhor? Eu pensei em fazer isso aqui, ó…",
       "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; pressão no relógio; abertura ou repertório; raciocínio em voz alta",
       "signals": [
         "1 mensagem(ns) no chat",
@@ -68,16 +50,17 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 1,
-      "transcript_count": 5
+      "transcript_count": 4,
+      "lead_in": "de novo coisas assim né"
     },
     {
-      "start_seconds": 5002,
+      "start_seconds": 5044,
       "end_seconds": 5100,
-      "time": "1:23:22",
+      "time": "1:24:04",
       "duration": "1:30",
       "kind": "opening",
       "score": 3.65,
-      "summary": "Nossa, não. Ah, aqui, ó. Isso aqui foi pre-move dele, não é possível, ó. Gastou zero segundos pra eu vim no fianchetto aqui…",
+      "summary": "Não é uma reação a nada meu, né? Eu só queria fazer isso. Deixa eu interromper um pouquinho os erros aqui pra eu aprender o nome dessa coisa aí. Owen Defense..…",
       "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; pressão no relógio; abertura ou repertório",
       "signals": [
         "1 mensagem(ns) no chat",
@@ -88,12 +71,13 @@
         "abertura ou repertório"
       ],
       "chat_count": 1,
-      "transcript_count": 4
+      "transcript_count": 4,
+      "lead_in": "ali esse fianchetto tanto faz"
     },
     {
-      "start_seconds": 5341,
+      "start_seconds": 5349,
       "end_seconds": 5430,
-      "time": "1:29:01",
+      "time": "1:29:09",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 5.65,
@@ -111,16 +95,38 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 1,
-      "transcript_count": 4
+      "transcript_count": 4,
+      "lead_in": "Não Cadê o xeque-mate aqui"
     },
     {
-      "start_seconds": 5939,
-      "end_seconds": 6030,
-      "time": "1:38:59",
+      "start_seconds": 5593,
+      "end_seconds": 5670,
+      "time": "1:33:13",
+      "duration": "1:30",
+      "kind": "opening",
+      "score": 4.4,
+      "summary": "Porque abertura normalmente, idealmente, leva em consideração a resposta que o seu adversário tá fazendo, né? Esse cara ignorou qualquer coisa que eu fizesse, ele ia fazer esses…",
+      "reason": "erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; abertura ou repertório; raciocínio em voz alta",
+      "signals": [
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "abertura ou repertório",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
+      "transcript_count": 3,
+      "lead_in": "eu enrolasse menos abertura né"
+    },
+    {
+      "start_seconds": 5884,
+      "end_seconds": 5970,
+      "time": "1:38:04",
       "duration": "1:30",
       "kind": "review",
       "score": 3.7,
-      "summary": "Erro quatro de quatro. Eu vim com a torre aqui. Isso foi uma inaccuracy, sei lá o que foi isso aqui. Ou um erro, uma inaccuracy too. Tá parecendo que foi erro…",
+      "summary": "Então não, tá, pera aí. Mas tudo bem, eu entendi que essa é uma boa jogada, porque me traz muitas coisas boas. Incluindo, né, e aí..…",
       "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
@@ -130,7 +136,8 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 4
+      "transcript_count": 4,
+      "lead_in": "já é mate Não ainda"
     }
   ]
 }

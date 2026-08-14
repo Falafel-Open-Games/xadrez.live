@@ -657,6 +657,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--skip-youtube-title", action="store_true")
     parser.add_argument("--skip-next-session", action="store_true", help="Do not offer to create/update the next scheduled session")
     parser.add_argument("--skip-next-pre-thumb", action="store_true", help="Do not generate/upload the next session pre-live thumbnail")
+    parser.add_argument("--skip-next-youtube-latency", action="store_true", help="Do not set the next YouTube live to ultra-low latency")
     parser.add_argument("--next-session", help="Next session number, e.g. 0056")
     parser.add_argument("--next-date", help="Next session date in YYYY-MM-DD")
     parser.add_argument("--next-time", help="Next session local time in HH:MM")
@@ -780,6 +781,8 @@ def main() -> int:
         if next_session_command:
             command, next_session, next_time = next_session_command
             run(command, args.dry_run)
+            if not args.skip_next_youtube_latency:
+                run(["just", "youtube-live-latency", next_session], args.dry_run)
             if not args.skip_next_pre_thumb:
                 run(["just", "pre-thumb", next_session, next_time], args.dry_run)
         if not args.skip_build:
