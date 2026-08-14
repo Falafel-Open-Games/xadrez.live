@@ -367,6 +367,15 @@ def token_request(client_id: str, client_secret: str, data: dict[str, str]) -> d
             return json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as error:
         detail = error.read().decode("utf-8", errors="replace")
+        try:
+            payload = json.loads(detail)
+        except json.JSONDecodeError:
+            payload = {}
+        if payload.get("error") == "invalid_grant":
+            detail += (
+                "\n\nYOUTUBE_REFRESH_TOKEN expired or was revoked. "
+                "Run `just youtube-chapters-authorize`, then rerun the wrapup step."
+            )
         raise RuntimeError(f"Google token request failed with HTTP {error.code}: {detail}") from error
 
 

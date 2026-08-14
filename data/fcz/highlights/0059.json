@@ -8,6 +8,26 @@
   "step_seconds": 30,
   "highlights": [
     {
+      "start_seconds": 11,
+      "end_seconds": 90,
+      "time": "0:11",
+      "duration": "1:30",
+      "kind": "mistake",
+      "score": 4.65,
+      "summary": "Muito bom dia! Vamos testar a nossa transmissão para não ter surpresas. 13 de agosto. Ih, será que eu liguei o Low Latency? Sempre esqueço dessa coisa. Ah, YouTube, YouTube…",
+      "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; interação com o chat; plano ou estratégia",
+      "signals": [
+        "3 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "interação com o chat",
+        "plano ou estratégia"
+      ],
+      "chat_count": 3,
+      "transcript_count": 4
+    },
+    {
       "start_seconds": 962,
       "end_seconds": 1050,
       "time": "16:02",
@@ -71,27 +91,6 @@
       "chat_count": 0,
       "transcript_count": 3,
       "lead_in": "capivarada do Carlsen aqui ó"
-    },
-    {
-      "start_seconds": 4146,
-      "end_seconds": 4230,
-      "time": "1:09:06",
-      "duration": "1:30",
-      "kind": "opening",
-      "score": 4.5,
-      "summary": "Olha aí, Nicolete. Stockfish tá doidão ou o quê? Ele prefere tomar de peão aqui? Eu, hein. Acho que nenhum ser humano na face da Terra não tomaria de dama aqui…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; abertura ou repertório; raciocínio em voz alta",
-      "signals": [
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "review ou melhor lance",
-        "abertura ou repertório",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 4,
-      "lead_in": "barra do que tomar com"
     },
     {
       "start_seconds": 4892,

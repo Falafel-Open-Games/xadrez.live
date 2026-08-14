@@ -157,6 +157,12 @@ def selected_choice(session: str, kind: str) -> str:
     return str(item.get("selected") or "") if isinstance(item, dict) else ""
 
 
+def published_choice(session: str, kind: str) -> str:
+    data = read_choices()
+    item = data.get("sessions", {}).get(session, {}).get(cache_key(kind), {})
+    return str(item.get("published_to_youtube") or "") if isinstance(item, dict) else ""
+
+
 def remember_options(session: str, kind: str, options: list[str]) -> None:
     data = read_choices()
     sessions = data.setdefault("sessions", {})
@@ -166,7 +172,7 @@ def remember_options(session: str, kind: str, options: list[str]) -> None:
     write_choices(data)
 
 
-def remember_selected(session: str, kind: str, value: str) -> None:
+def remember_selected(session: str, kind: str, value: str, *, published_to_youtube: bool = False) -> None:
     data = read_choices()
     sessions = data.setdefault("sessions", {})
     session_data = sessions.setdefault(session, {})
@@ -174,6 +180,8 @@ def remember_selected(session: str, kind: str, value: str) -> None:
     if value and value not in item.get("options", []):
         item["options"] = [value, *(item.get("options") or [])]
     item["selected"] = value
+    if published_to_youtube:
+        item["published_to_youtube"] = value
     write_choices(data)
 
 
@@ -520,13 +528,20 @@ def main() -> int:
 
     if args.title:
         title = complete_hook(args.title) if args.kind == "hook" else complete_title(args.title, session)
-        remember_selected(session, args.kind, title)
         if args.write:
             if args.kind == "hook":
+                remember_selected(session, args.kind, title)
                 print(f"saved description hook for {session}: {title}")
                 return 0
-            return publish_title_if_changed(context, title, args.yes)
+            if published_choice(session, args.kind) == title:
+                print(f"title already published for {session}: {title}")
+                return 0
+            status = publish_title_if_changed(context, title, args.yes)
+            if status == 0:
+                remember_selected(session, args.kind, title, published_to_youtube=True)
+            return status
         else:
+            remember_selected(session, args.kind, title)
             print(title)
         return 0
 
@@ -552,19 +567,23 @@ def main() -> int:
         print("No option selected.")
         return 1
     print(title)
-    remember_selected(session, args.kind, title)
 
     if args.write:
         if args.kind == "hook":
+            remember_selected(session, args.kind, title)
             if previous and title == previous:
                 print(f"description hook already selected for {session}: {title}")
                 return 0
             print(f"saved description hook for {session}: {title}")
             return 0
-        if previous and title == previous:
+        if previous and title == previous and published_choice(session, args.kind) == title:
             print(f"title selection unchanged for {session}; skipping YouTube title update.")
             return 0
-        return publish_title_if_changed(context, title, args.yes)
+        status = publish_title_if_changed(context, title, args.yes)
+        if status == 0:
+            remember_selected(session, args.kind, title, published_to_youtube=True)
+        return status
+    remember_selected(session, args.kind, title)
     return 0
 
 
