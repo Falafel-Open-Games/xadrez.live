@@ -31,10 +31,18 @@ ROOT = Path(__file__).resolve().parents[1]
 CONTENT_DIR = ROOT / "content" / "fcz"
 MAX_BULLETS = 3
 MAX_BULLET_LENGTH = 28
+EXIT_OPTION_LABEL = "nenhuma delas, sair"
 FORBIDDEN_BULLET_RE = re.compile(
     r"\bpts?\b|^\d+\s*pontos?$|\bstorm\b|\bstreak\b|\bpuzzles?\b|\bpuzzle\b|\btreino\b|\bprática\b",
     re.I,
 )
+RAW_MOVE_WITH_LANCE_RE = re.compile(
+    r"^(?:[KQRBN]?[a-h]?[1-8]?x?[a-h][1-8](?:=[QRBN])?[+#]?|O-O(?:-O)?)\s+(?:no\s+)?lance\s+\d+\b",
+    re.I,
+)
+RAW_LANCE_BULLET_RE = re.compile(r"^lance\s+\d+\b|\blance\s+\d+\s*$", re.I)
+RAW_CLOCK_RE = re.compile(r"\brel[óo]gio\s+\d+\s+\d+\b", re.I)
+MOVE_TOKEN_RE = re.compile(r"\b(?:[KQRBN]?[a-h]?[1-8]?x?[a-h][1-8](?:=[QRBN])?[+#]?|O-O(?:-O)?)\b")
 
 
 def fail(message: str) -> None:
@@ -54,9 +62,23 @@ def valid_bullet(value: str) -> bool:
         return False
     if FORBIDDEN_BULLET_RE.search(value):
         return False
+    if RAW_MOVE_WITH_LANCE_RE.search(value):
+        return False
+    if RAW_LANCE_BULLET_RE.search(value):
+        return False
+    if RAW_CLOCK_RE.search(value):
+        return False
     if re.fullmatch(r"[\d\s:/+-]+", value):
         return False
     return True
+
+
+def raw_coordinate_bullet(value: str) -> bool:
+    if RAW_MOVE_WITH_LANCE_RE.search(value) or RAW_LANCE_BULLET_RE.search(value):
+        return True
+    tokens = re.findall(r"\w+", value)
+    move_tokens = MOVE_TOKEN_RE.findall(value)
+    return bool(move_tokens) and len(tokens) <= 3
 
 
 def clean_bullet_set(values: list[Any]) -> list[str]:
@@ -242,6 +264,8 @@ def prompt_for_model(context: dict[str, Any], count: int) -> str:
         "- Use apenas a segunda metade da live: partidas rapid, abertura, erros, mate, relógio, decisões e capivaradas.\n"
         "- Não use Puzzle do dia, Puzzle Storm, Puzzle Streak, treino, prática ou estatísticas de puzzles.\n"
         "- Não use abreviações como pts, placares crus ou bullets como 'Storm 4 6 pts'.\n"
+        "- Não use coordenadas cruas como 'Bh4 lance 8', 'Nfd2 lance 8' ou 'relógio 8 52'.\n"
+        "- Se mencionar um lance, explique o tema em linguagem humana, como 'peça pendurada', 'rei exposto' ou 'relógio apertou'.\n"
         "- Pelo menos 2 bullets devem ser momentos concretos de xadrez quando houver dados suficientes.\n"
         "- Evite frases genéricas, coach motivational, ou resumo longo.\n"
         "- Não use hashtags, emojis, pontuação final ou número da sessão.\n"
@@ -272,6 +296,8 @@ def unique_bullet_sets(values: list[list[str]], count: int) -> list[list[str]]:
     for bullets in values:
         cleaned = clean_bullet_set(bullets)
         if len(cleaned) != MAX_BULLETS:
+            continue
+        if sum(1 for bullet in cleaned if raw_coordinate_bullet(bullet)) > 1:
             continue
         key = tuple(bullet.casefold() for bullet in cleaned)
         if not cleaned or key in seen:
@@ -322,8 +348,10 @@ def choose_with_gum(options: list[list[str]], default: list[str]) -> list[str]:
     command = ["gum", "choose", "--header", "Escolha os bullets do thumbnail"]
     if default:
         command.extend(["--selected", label_option(default)])
-    result = subprocess.run([*command, *labels], text=True, stdout=subprocess.PIPE, check=False)
+    result = subprocess.run([*command, *labels, EXIT_OPTION_LABEL], text=True, stdout=subprocess.PIPE, check=False)
     selected = result.stdout.strip() if result.returncode == 0 else ""
+    if selected == EXIT_OPTION_LABEL:
+        return []
     for option in options:
         if label_option(option) == selected:
             return option
@@ -337,6 +365,8 @@ def choose_with_prompt(options: list[list[str]], default: list[str]) -> list[str
         if option == default:
             default_index = index
         print(f"{index}. {label_option(option)}{selected}")
+    exit_index = len(options) + 1
+    print(f"{exit_index}. {EXIT_OPTION_LABEL}")
     suffix = f" [{default_index}]" if default_index else ""
     raw = input(f"\nEscolha o número para os bullets do thumbnail{suffix}: ").strip()
     if not raw and default_index:
@@ -344,6 +374,8 @@ def choose_with_prompt(options: list[list[str]], default: list[str]) -> list[str
     if not raw.isdigit():
         return []
     index = int(raw)
+    if index == exit_index:
+        return []
     if not 1 <= index <= len(options):
         return []
     return options[index - 1]
@@ -392,7 +424,7 @@ def main() -> int:
             fail("OPENAI_API_KEY is required for thumbnail bullet suggestions; pass --no-ai to use deterministic fallback options")
         options = openai_options(context, args.count, args.model, api_key, args.timeout)
         if len(options) < args.count:
-            fail(f"OpenAI returned {len(options)} valid thumbnail bullet option(s), expected {args.count}; retry or adjust the prompt")
+            print(f"warning: OpenAI returned {len(options)} valid thumbnail bullet option(s), expected {args.count}; showing fewer options")
     if not options:
         fail("no thumbnail bullet options generated")
     if not (args.no_ai and not args.choose and not args.write):
