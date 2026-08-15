@@ -1,0 +1,138 @@
+{
+  "session_number": "0061",
+  "source": "heuristic",
+  "transcript_source": "openai-gpt-4o-mini-transcribe",
+  "transcript_label": "GPT-4o mini",
+  "limit": 6,
+  "window_seconds": 90,
+  "step_seconds": 30,
+  "highlights": [
+    {
+      "start_seconds": 1001,
+      "end_seconds": 1080,
+      "time": "16:41",
+      "duration": "1:30",
+      "kind": "training",
+      "score": 5.05,
+      "summary": "Acho que ele não vai fazer isso. Pode ser respondido com o cheque do lado dele, né? Acho que a gente tem que analisar aqui uma coisa…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "plano ou estratégia",
+        "treino ou puzzle streak",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 1,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 2179,
+      "end_seconds": 2250,
+      "time": "36:19",
+      "duration": "1:30",
+      "kind": "research",
+      "score": 3.95,
+      "summary": "De um jogo de 1931. Ah não, não foi de um jogo, não. Isso aqui foi uma composição de final, feita por Goldberg em 19- Oh, existe um xeque-mate em quatro movimentos aqui…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; tema claro de xadrez; plano ou estratégia; raciocínio em voz alta; pesquisa ou contexto externo",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "tema claro de xadrez",
+        "plano ou estratégia",
+        "raciocínio em voz alta",
+        "pesquisa ou contexto externo"
+      ],
+      "chat_count": 1,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 2296,
+      "end_seconds": 2370,
+      "time": "38:16",
+      "duration": "1:30",
+      "kind": "training",
+      "score": 5.05,
+      "summary": "Não sei se eu quero isso também. Hum. Pro rei... Hum. Tá falando... Rei A6, besta. Não sei se eu entendi bem sua sugestão. Aqui eu não posso, né? Olha que interessante…",
+      "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; treino ou puzzle streak; raciocínio em voz alta",
+      "signals": [
+        "3 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "treino ou puzzle streak",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 3,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 2392,
+      "end_seconds": 2490,
+      "time": "39:52",
+      "duration": "1:30",
+      "kind": "mistake",
+      "score": 4.6,
+      "summary": "Isso aqui é para quê? A gente força ele isso, tá? Ele, o bispo dele quer sair daqui, mas o cavalo tá na frente…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; raciocínio em voz alta",
+      "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "plano ou estratégia",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 2,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 2986,
+      "end_seconds": 3060,
+      "time": "49:46",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 5.25,
+      "summary": "Porque o tempo é... Pressão do tempo é real, então... para sair esse rock aqui pra algum lado, ó. Esse bispo já tá sem casa pra vim aqui. Ele também só tá apreciando o rock dele…",
+      "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
+      "signals": [
+        "3 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 3,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 4028,
+      "end_seconds": 4110,
+      "time": "1:07:08",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 4.7,
+      "summary": "Que que era melhor que isso? Aqui, retoma e fica, dá um mate com par de bispos. Que que era melhor? Hum. Agora eu vou ter que dar mate de dama e bispo. Ah, perdi. Perdi, galera…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório",
+      "signals": [
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo",
+        "abertura ou repertório"
+      ],
+      "chat_count": 0,
+      "transcript_count": 3
+    }
+  ]
+}

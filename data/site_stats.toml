@@ -32,10 +32,10 @@ latest_rapid = 923
 latest_rapid_label = "923"
 latest_puzzles = 1583
 latest_puzzles_label = "1.583"
-transcript_session_count = 60
-transcript_session_count_label = "60"
-transcript_word_count = 390430
-transcript_word_count_label = "390.430"
+transcript_session_count = 61
+transcript_session_count_label = "61"
+transcript_word_count = 398673
+transcript_word_count_label = "398.673"
 chat_message_count = 1707
 chat_message_count_label = "1.707"
 average_chat_messages = 27.98
@@ -1991,3 +1991,8 @@ words = 8831
 session_number = "0060"
 source = "openai-gpt-4o-mini-transcribe-aligned-to-faster-whisper"
 words = 9127
+
+[[transcripts]]
+session_number = "0061"
+source = "openai-gpt-4o-mini-transcribe"
+words = 8243
