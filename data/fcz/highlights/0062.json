@@ -1,16 +1,16 @@
 {
   "session_number": "0062",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "limit": 6,
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 485,
+      "start_seconds": 514,
       "end_seconds": 570,
-      "time": "8:05",
+      "time": "8:34",
       "duration": "1:30",
       "kind": "training",
       "score": 6.25,
@@ -28,33 +28,34 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 1,
-      "transcript_count": 3
+      "transcript_count": 3,
+      "lead_in": "hora uma hora e meia"
     },
     {
-      "start_seconds": 592,
+      "start_seconds": 626,
       "end_seconds": 690,
-      "time": "9:52",
+      "time": "10:26",
       "duration": "1:30",
       "kind": "training",
-      "score": 4.95,
-      "summary": "torre em cima, coitada. Ah, vamos lá. Bom, se não é o bispo ali, vamos para os movimentos forçados aqui…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; review ou melhor lance; plano ou estratégia; treino ou puzzle streak",
+      "score": 4.15,
+      "summary": "Aqui, para depois dar um review, check com ameaça do bispo e terminar com a torre. É difícil de achar, não estava…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; tema claro de xadrez; review ou melhor lance; plano ou estratégia; treino ou puzzle streak",
       "signals": [
         "1 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
-        "reação forte na fala",
         "tema claro de xadrez",
         "review ou melhor lance",
         "plano ou estratégia",
         "treino ou puzzle streak"
       ],
       "chat_count": 1,
-      "transcript_count": 4
+      "transcript_count": 3,
+      "lead_in": "Ah era ali ó Aqui"
     },
     {
-      "start_seconds": 718,
+      "start_seconds": 734,
       "end_seconds": 810,
-      "time": "11:58",
+      "time": "12:14",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 6.25,
@@ -72,17 +73,18 @@
         "treino ou puzzle streak"
       ],
       "chat_count": 1,
-      "transcript_count": 4
+      "transcript_count": 4,
+      "lead_in": "o registro dessas sessões diárias"
     },
     {
-      "start_seconds": 1540,
-      "end_seconds": 1620,
-      "time": "25:40",
+      "start_seconds": 1512,
+      "end_seconds": 1590,
+      "time": "25:12",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 5.5,
-      "summary": "E se a gente for levar um pouquinho mais pra frente com os movimentos da engine, esse jogo pode ir um pouquinho mais longe. Mas o adversário do Alequini já não..…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
+      "score": 6.3,
+      "summary": "Essa partida que originalmente acabou no lance 15, nós estamos fazendo uma linha, o que que está aumentando aqui? Está indo para o 16 e tal, né? Não, então essa partida…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; raciocínio em voz alta",
       "signals": [
         "reação forte na fala",
         "erro ou momento perdido",
@@ -91,35 +93,38 @@
         "plano ou estratégia",
         "pressão no relógio",
         "plano sob pressão de tempo",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 3183,
-      "end_seconds": 3270,
-      "time": "53:03",
-      "duration": "1:30",
-      "kind": "opening",
-      "score": 4.5,
-      "summary": "É, essa era a boa jogada, né? Não, nem é a solução. Qual que é a solução? Ah, tá. Entendi. Tá, peraí. Recuo do cavalo teria sido a solução…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; abertura ou repertório; raciocínio em voz alta",
-      "signals": [
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "review ou melhor lance",
         "abertura ou repertório",
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 4
+      "transcript_count": 4,
+      "lead_in": "que levar pra frente né"
     },
     {
-      "start_seconds": 3699,
-      "end_seconds": 3780,
-      "time": "1:01:39",
+      "start_seconds": 2501,
+      "end_seconds": 2550,
+      "time": "41:41",
+      "duration": "1:30",
+      "kind": "opening",
+      "score": 4.0,
+      "summary": "Se eu fugir pra cá, isso também teria covardia, né? Fugir pra cá. Fugir pra cá não parece ruim…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; abertura ou repertório; raciocínio em voz alta",
+      "signals": [
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "plano ou estratégia",
+        "abertura ou repertório",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
+      "transcript_count": 3,
+      "lead_in": "tem o bispo dele lá"
+    },
+    {
+      "start_seconds": 3692,
+      "end_seconds": 3750,
+      "time": "1:01:32",
       "duration": "1:30",
       "kind": "review",
       "score": 4.5,
@@ -134,7 +139,8 @@
         "plano ou estratégia"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 3,
+      "lead_in": "pressure on the printed piece"
     }
   ]
 }

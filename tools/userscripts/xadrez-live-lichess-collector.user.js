@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         xadrez.live Session Collector
 // @namespace    https://xadrez.live/
-// @version      0.26.1
+// @version      0.27.0
 // @description  Collect chess puzzle, game, notes, and Restream chat usernames during a xadrez.live session.
 // @author       fcz
 // @match        https://lichess.org/*
@@ -19,7 +19,7 @@
 
   const STORAGE_KEY = "xadrez-live-lichess-collector:v1";
   const PANEL_ID = "xadrez-live-collector";
-  const SCRIPT_VERSION = "0.26.1";
+  const SCRIPT_VERSION = "0.27.0";
   const LICHESS_SELF_USERNAMES = new Set(["fcz"]);
   const SELF_SUPPORTERS = {
     YouTube: new Set(["fczuardi"]),
@@ -31,6 +31,7 @@
   const DEFAULT_STATE = {
     active: false,
     collapsed: false,
+    sessionNumber: "",
     puzzleOfTheDayUrl: "",
     puzzleOfTheDayRecordedAt: "",
     duration: "",
@@ -391,6 +392,11 @@
   function promptValue(label, fallback = "") {
     const value = window.prompt(label, fallback);
     return value === null ? fallback : value.trim();
+  }
+
+  function normalizeSessionNumber(value) {
+    const digits = String(value || "").trim().match(/\d+/)?.[0] || "";
+    return digits ? digits.padStart(4, "0") : "";
   }
 
   function promptTextareaValue(label, fallback = "") {
@@ -1403,20 +1409,22 @@ puzzles = "${quote(state.puzzles)}"`);
     window.alert(`Downloaded ${filename}.`);
   }
 
-  function promptSessionNumber() {
-    const value = window.prompt("Session number, e.g. 0054:", "");
-    const trimmed = String(value || "").trim();
-    if (!trimmed) {
+  function promptSessionNumber(fallback = "") {
+    const normalizedFallback = normalizeSessionNumber(fallback);
+    const value = window.prompt("Session number, e.g. 0054:", normalizedFallback);
+    if (value === null) {
       return "";
     }
-    return trimmed.padStart(4, "0");
+    return normalizeSessionNumber(value);
   }
 
   async function saveTomlFile(state) {
-    const sessionNumber = promptSessionNumber();
+    const sessionNumber = state.sessionNumber || promptSessionNumber(state.sessionNumber);
     if (!sessionNumber) {
       return;
     }
+    state.sessionNumber = sessionNumber;
+    saveState(state);
     const generated = buildToml(state);
     await saveTextFile(`${sessionNumber}.toml`, currentPanelToml(generated), "application/toml");
   }
@@ -1882,10 +1890,13 @@ puzzles = "${quote(state.puzzles)}"`);
   }
 
   async function saveRestreamReplayJson() {
-    const sessionNumber = promptSessionNumber();
+    const state = loadState();
+    const sessionNumber = state.sessionNumber || promptSessionNumber(state.sessionNumber);
     if (!sessionNumber) {
       return;
     }
+    state.sessionNumber = sessionNumber;
+    saveState(state);
     const text = restreamReplayJsonText();
     if (text) {
       await saveTextFile(`${sessionNumber}-chat.json`, text, "application/json");
@@ -1935,7 +1946,12 @@ puzzles = "${quote(state.puzzles)}"`);
       return state;
     }
 
-    const next = { ...DEFAULT_STATE, active: true };
+    const sessionNumber = promptSessionNumber(state.sessionNumber);
+    if (!sessionNumber) {
+      return state;
+    }
+
+    const next = { ...DEFAULT_STATE, active: true, sessionNumber };
     saveState(next);
     return next;
   }
@@ -2118,6 +2134,9 @@ puzzles = "${quote(state.puzzles)}"`);
       <div class="xlc-full">
         <div class="xlc-controls">
           <h2>xadrez.live</h2>
+          <p class="xlc-meta">
+            Session: ${state.sessionNumber ? `#${escapeHtml(state.sessionNumber)}` : "not set"}
+          </p>
           <p class="xlc-meta">
             Attempts: ${state.attempts.length}
             · current: ${state.currentPuzzles.length} puzzle(s)
