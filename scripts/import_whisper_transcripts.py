@@ -22,6 +22,8 @@ CONTENT_DIR = ROOT / "content" / "fcz"
 DEFAULT_AUDIO_CACHE_DIR = Path("/tmp/xadrez-whisper-audio")
 DEFAULT_WHISPER_CACHE_DIR = Path("/tmp/xadrez-whisper-transcripts")
 DEFAULT_OUTPUT_DIR = ROOT / "data" / "fcz" / "transcripts"
+WRAP_INBOX_DIR = ROOT / "data" / "fcz" / "wrap_inbox"
+DOWNLOADS_DIR = Path.home() / "Downloads"
 DEFAULT_LOCAL_RECORDING_DIR = Path(os.environ.get("XADREZ_LOCAL_RECORDING_DIR", "/home/fcz/Videos/xadrez-live"))
 DEFAULT_LOCAL_RECORDING_MAX_AGE_HOURS = int(os.environ.get("XADREZ_LOCAL_RECORDING_MAX_AGE_HOURS", "12"))
 LOCAL_TZ = ZoneInfo(os.environ.get("XADREZ_LOCAL_TIMEZONE", "America/Sao_Paulo"))
@@ -80,10 +82,15 @@ def session_youtube_ids() -> list[tuple[str, str, Path]]:
         status = str(extra.get("status") or "").strip().lower()
         status_tone = str(extra.get("status_tone") or "").strip().lower()
         is_ended = status == "encerrada" or status_tone in {"ended", "completed"}
-        if youtube_id and youtube_id != "REPLACE_WITH_YOUTUBE_VIDEO_ID" and is_ended:
+        is_wrap_ready = wrap_toml_exists(path.stem)
+        if youtube_id and youtube_id != "REPLACE_WITH_YOUTUBE_VIDEO_ID" and (is_ended or is_wrap_ready):
             sessions.append((youtube_id, path.stem, path))
 
     return sessions
+
+
+def wrap_toml_exists(session_number: str) -> bool:
+    return (WRAP_INBOX_DIR / f"{session_number}.toml").exists() or (DOWNLOADS_DIR / f"{session_number}.toml").exists()
 
 
 def selected_sessions(

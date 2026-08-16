@@ -1,0 +1,92 @@
+{
+  "session_number": "0062",
+  "source": "lichess",
+  "event_count": 1,
+  "events": [
+    {
+      "time": "39:36",
+      "seconds": 2376,
+      "source": "lichess",
+      "platform": "Lichess",
+      "kind": "blunder",
+      "label": "Capivarada",
+      "session_number": "0062",
+      "game_index": 1,
+      "game_id": "BzX5FCvN",
+      "game_url": "https://lichess.org/BzX5FCvN/white",
+      "video_offset_seconds": 18,
+      "ply": 7,
+      "move_number": 4,
+      "color": "white",
+      "player": "fcz",
+      "opponent": "MettKadser",
+      "is_self": true,
+      "move": "Nd5",
+      "clock": "9:32",
+      "eval_change": "-0.44 → -2.43",
+      "best": "Nb1",
+      "text": "fcz jogou Nd5 no lance 4, com 9:32 no relógio."
+    }
+  ],
+  "timeline": [
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "kind": "session_start",
+      "label": "Início",
+      "source": "youtube_release"
+    },
+    {
+      "time": "11:54",
+      "seconds": 714,
+      "kind": "puzzle_of_the_day",
+      "label": "Puzzle do dia",
+      "source": "userscript",
+      "url": "https://lichess.org/training/ivKOl"
+    },
+    {
+      "time": "38:55",
+      "seconds": 2335,
+      "kind": "game_start",
+      "label": "Partida 1",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "BzX5FCvN",
+      "game_url": "https://lichess.org/BzX5FCvN/white"
+    },
+    {
+      "time": "39:36",
+      "seconds": 2376,
+      "source": "lichess",
+      "platform": "Lichess",
+      "kind": "blunder",
+      "label": "Capivarada",
+      "session_number": "0062",
+      "game_index": 1,
+      "game_id": "BzX5FCvN",
+      "game_url": "https://lichess.org/BzX5FCvN/white",
+      "video_offset_seconds": 18,
+      "ply": 7,
+      "move_number": 4,
+      "color": "white",
+      "player": "fcz",
+      "opponent": "MettKadser",
+      "is_self": true,
+      "move": "Nd5",
+      "clock": "9:32",
+      "eval_change": "-0.44 → -2.43",
+      "best": "Nb1",
+      "text": "fcz jogou Nd5 no lance 4, com 9:32 no relógio."
+    },
+    {
+      "time": "51:50",
+      "seconds": 3110,
+      "kind": "game_end",
+      "label": "Fim de Partida",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "BzX5FCvN",
+      "game_url": "https://lichess.org/BzX5FCvN/white"
+    }
+  ]
+}
