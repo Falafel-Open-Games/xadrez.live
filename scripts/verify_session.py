@@ -205,7 +205,11 @@ def verify(session: str, require_published_thumbnail: bool) -> list[Check]:
         else:
             checks.append(Check("ok", "Stats pós-live preenchidos"))
 
-    if extra.get("puzzle_of_the_day_url") and not extra.get("puzzle_of_the_day_recorded_at"):
+    puzzle_of_the_day_url = str(extra.get("puzzle_of_the_day_url") or "").strip()
+    expects_puzzle_of_the_day = ended and extra.get("puzzle_of_the_day_event") == "puzzle_of_the_day"
+    if expects_puzzle_of_the_day and not puzzle_of_the_day_url:
+        checks.append(Check("error", "Puzzle do dia esperado, mas puzzle_of_the_day_url está ausente"))
+    elif puzzle_of_the_day_url and not extra.get("puzzle_of_the_day_recorded_at"):
         checks.append(Check("error", "Puzzle do dia tem URL, mas não tem puzzle_of_the_day_recorded_at"))
     elif extra.get("puzzle_of_the_day_recorded_at"):
         checks.append(Check("ok", "Puzzle do dia tem timestamp"))

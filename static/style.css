@@ -1178,12 +1178,18 @@ iframe {
 }
 
 .practice-summary h4,
+.practice-summary h5,
 .practice-note {
   margin: 0;
 }
 
 .practice-summary h4 {
   color: var(--muted);
+  font-size: 0.9rem;
+}
+
+.practice-summary h5 {
+  color: var(--ink);
   font-size: 0.9rem;
 }
 
