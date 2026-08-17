@@ -6,6 +6,7 @@ import json
 import os
 import re
 import shutil
+import subprocess
 import sys
 import tomllib
 import urllib.error
@@ -22,6 +23,8 @@ CHOICES_PATH = ROOT / "data" / "fcz" / "session_editorial_choices.json"
 ENV_PATH = ROOT / ".env"
 OPENAI_RESPONSES_URL = "https://api.openai.com/v1/responses"
 MAX_SUMMARY_LENGTH = 64
+RETRY_CHOICE = "__retry_with_guidance__"
+RETRY_LABEL = "Nenhuma opção serve; orientar nova tentativa"
 GENERIC_SUMMARY_PATTERNS = [
     r"^puzzles?\s+e\s+rapid$",
     r"^puzzle\s+do\s+dia\s+seguido\s+de\s+partida\s+rapid$",
@@ -225,7 +228,7 @@ def fallback_options(context: dict[str, Any], count: int) -> list[str]:
     return filter_summary_options([complete_summary(hook) for hook in hooks], count)
 
 
-def prompt_for_model(context: dict[str, Any], count: int) -> str:
+def prompt_for_model(context: dict[str, Any], count: int, guidance: str = "") -> str:
     compact = {
         "session": context["session"],
         "current_summary_title": context["current_summary_title"],
@@ -277,6 +280,13 @@ def prompt_for_model(context: dict[str, Any], count: int) -> str:
             if isinstance(item, dict)
         ],
     }
+    guidance_block = ""
+    if guidance:
+        guidance_block = (
+            "\n\nOrientação humana para esta nova tentativa:\n"
+            f"{guidance}\n"
+            "Use essa orientação para escolher o enfoque editorial, mas ainda respeite os dados da sessão."
+        )
     return (
         "Gere subtítulos editoriais curtos em português para a página de arquivo de uma sessão pessoal de xadrez.\n"
         "O texto escolhido aparece como subtítulo da sessão no site, logo abaixo de 'Sessão #NNNN'.\n"
@@ -290,6 +300,7 @@ def prompt_for_model(context: dict[str, Any], count: int) -> str:
         "- Seja concreto e fiel: abertura, erro recorrente, virada, mate, tempo, puzzle ou tema de estudo.\n"
         "- Responda apenas com uma lista JSON de strings.\n\n"
         f"Dados da sessão:\n{json.dumps(compact, ensure_ascii=False, indent=2)}"
+        f"{guidance_block}"
     )
 
 
@@ -324,8 +335,8 @@ def parse_options(text: str, count: int) -> list[str]:
     return filter_summary_options([complete_summary(option) for option in options], count)
 
 
-def openai_options(context: dict[str, Any], count: int, model: str, api_key: str, timeout: int) -> list[str]:
-    body = {"model": model, "store": False, "input": prompt_for_model(context, count)}
+def openai_options(context: dict[str, Any], count: int, model: str, api_key: str, timeout: int, guidance: str = "") -> list[str]:
+    body = {"model": model, "store": False, "input": prompt_for_model(context, count, guidance)}
     request = urllib.request.Request(
         OPENAI_RESPONSES_URL,
         data=json.dumps(body).encode("utf-8"),
@@ -358,28 +369,34 @@ def options_with_default(options: list[str], default: str) -> list[str]:
     return unique_options([default, *options], len(options) + 1)
 
 
-def choose_with_gum(options: list[str], default: str) -> str:
+def choose_with_gum(options: list[str], default: str, allow_retry: bool) -> str:
     command = ["gum", "choose", "--header", "Escolha o subtítulo da página"]
     if default:
         command.extend(["--selected", default])
-    result = subprocess_run([*command, *options])
+    choices = [*options]
+    if allow_retry:
+        choices.append(RETRY_LABEL)
+    result = subprocess_run([*command, *choices])
+    if result.strip() == RETRY_LABEL:
+        return RETRY_CHOICE
     return result.strip()
 
 
 def subprocess_run(command: list[str]) -> str:
-    import subprocess
-
     result = subprocess.run(command, text=True, stdout=subprocess.PIPE, check=False)
     return result.stdout if result.returncode == 0 else ""
 
 
-def choose_with_prompt(options: list[str], default: str) -> str:
+def choose_with_prompt(options: list[str], default: str, allow_retry: bool) -> str:
     default_index = 0
     for index, option in enumerate(options, start=1):
         selected = " [atual]" if option == default else ""
         if option == default:
             default_index = index
         print(f"{index}. {option}{selected}")
+    retry_index = len(options) + 1
+    if allow_retry:
+        print(f"{retry_index}. {RETRY_LABEL}")
     suffix = f" [{default_index}]" if default_index else ""
     raw = input(f"\nEscolha o número para o subtítulo da página{suffix}: ").strip()
     if not raw and default_index:
@@ -387,16 +404,34 @@ def choose_with_prompt(options: list[str], default: str) -> str:
     if not raw.isdigit():
         return ""
     index = int(raw)
+    if allow_retry and index == retry_index:
+        return RETRY_CHOICE
     if not 1 <= index <= len(options):
         return ""
     return options[index - 1]
 
 
-def choose_option(options: list[str], default: str = "") -> str:
+def choose_option(options: list[str], default: str = "", allow_retry: bool = False) -> str:
     options = options_with_default(options, default)
     if shutil.which("gum"):
-        return choose_with_gum(options, default)
-    return choose_with_prompt(options, default)
+        return choose_with_gum(options, default, allow_retry)
+    return choose_with_prompt(options, default, allow_retry)
+
+
+def prompt_retry_guidance() -> str:
+    if shutil.which("gum"):
+        result = subprocess_run(
+            [
+                "gum",
+                "input",
+                "--prompt",
+                "O que faltou nas opções? ",
+                "--placeholder",
+                "Ex.: enfatizar que eu ignorei a dama cravada",
+            ]
+        )
+        return result.strip()
+    return input("O que faltou nas opções? ").strip()
 
 
 def parse_args() -> argparse.Namespace:
@@ -444,7 +479,26 @@ def main() -> int:
     previous = selected_choice(session) or complete_summary(str(context.get("current_summary_title") or ""))
     if is_generic_summary(previous):
         previous = ""
-    title = choose_option(options, previous)
+    title = ""
+    for _ in range(3):
+        title = choose_option(options, previous, allow_retry=bool(api_key and not args.no_ai))
+        if title != RETRY_CHOICE:
+            break
+        guidance = prompt_retry_guidance()
+        if not guidance:
+            print("No guidance provided.")
+            return 1
+        refreshed = openai_options(context, args.count, args.model, api_key, args.timeout, guidance)
+        if len(refreshed) < args.count:
+            refreshed = filter_summary_options(refreshed + fallback_options(context, args.count), args.count)
+        if not refreshed:
+            print("No replacement options generated.")
+            return 1
+        options = refreshed
+        remember_options(session, options)
+    if title == RETRY_CHOICE:
+        print("No option selected after retry attempts.")
+        return 1
     if not title:
         print("No option selected.")
         return 1
