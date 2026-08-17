@@ -21,6 +21,10 @@
 - For auxiliary scripts not used by Zola, prefer focused checks such as `just thumbnail-prompt 0010 post` or `python3 -m py_compile scripts/thumbnail_prompt.py`; do not run `just build` just for those.
 - For `justfile` edits, run the affected recipe and `just --list` when recipe discovery matters.
 
+## Investigation Discipline
+
+- When the user is asking what went wrong, questioning a regression, or trying to understand unexpected data, investigate and explain before editing. Separate confirmed facts, hypotheses, and missing evidence. Do not start changing content, scripts, generated data, or workflow behavior until the user explicitly asks for a fix or approves a proposed change.
+
 ## Content Notes
 
 - Session front matter uses TOML between `+++` markers; optional empty extras are hidden by `templates/session.html`.

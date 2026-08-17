@@ -240,6 +240,111 @@ def load_wrap_toml(path: Path) -> dict[str, Any]:
         fail(f"invalid wrap TOML in {path}: {error}")
 
 
+def wrap_extra_list(wrap: dict[str, Any], key: str) -> list[dict[str, Any]]:
+    extra = wrap.get("extra")
+    if not isinstance(extra, dict):
+        return []
+    value = extra.get(key)
+    if not isinstance(value, list):
+        return []
+    return [item for item in value if isinstance(item, dict)]
+
+
+def summarize_wrap_toml(session: str, wrap: dict[str, Any], path: Path) -> str:
+    lines = [
+        "",
+        f"Resumo do TOML importado para a sessão {session}",
+        f"Fonte: {path}",
+        "",
+    ]
+
+    puzzle_url = str(wrap.get("puzzle_of_the_day_url") or "").strip()
+    recorded_at = str(wrap.get("puzzle_of_the_day_recorded_at") or "").strip()
+    lines.append("Puzzle do dia:")
+    lines.append(f"- {puzzle_url}" if puzzle_url else "- ausente")
+    if recorded_at:
+        lines.append(f"- registrado em {recorded_at}")
+
+    practice_sets = wrap_extra_list(wrap, "practice_sets")
+    lines.append("")
+    lines.append(f"Práticas: {len(practice_sets)} bloco(s)")
+    for index, practice_set in enumerate(practice_sets, start=1):
+        title = str(practice_set.get("title") or "sem título").strip()
+        exercises = practice_set.get("exercises")
+        exercise_count = len(exercises) if isinstance(exercises, list) else 0
+        url = str(practice_set.get("url") or "").strip()
+        lines.append(f"{index}. {title} ({exercise_count} exercício(s))")
+        if url:
+            lines.append(f"   {url}")
+
+    games = wrap_extra_list(wrap, "games")
+    lines.append("")
+    lines.append(f"Partidas: {len(games)}")
+    for index, game in enumerate(games, start=1):
+        game_id = str(game.get("game_id") or "").strip()
+        result = str(game.get("result") or "sem resultado").strip()
+        color = str(game.get("color") or "sem cor").strip()
+        opening = str(game.get("opening") or "").strip()
+        game_url = str(game.get("game_url") or game.get("lichess_game_url") or "").strip()
+        heading = f"{index}. {result}, {color}"
+        if game_id:
+            heading += f", {game_id}"
+        lines.append(heading)
+        if opening:
+            lines.append(f"   abertura: {opening}")
+        if game_url:
+            lines.append(f"   {game_url}")
+
+    streak_attempts = wrap_extra_list(wrap, "streak_attempts")
+    lines.append("")
+    lines.append(f"Puzzle Streak: {len(streak_attempts)} tentativa(s)")
+    for index, attempt in enumerate(streak_attempts, start=1):
+        puzzles = attempt.get("puzzles")
+        puzzle_count = len(puzzles) if isinstance(puzzles, list) else 0
+        solved = attempt.get("solved")
+        detail = f"{index}. {puzzle_count} puzzle(s)"
+        if solved not in (None, ""):
+            detail += f", {solved} resolvido(s)"
+        lines.append(detail)
+
+    storm_attempts = wrap_extra_list(wrap, "storm_attempts")
+    lines.append("")
+    lines.append(f"Puzzle Storm: {len(storm_attempts)} tentativa(s)")
+    for index, attempt in enumerate(storm_attempts, start=1):
+        puzzles = attempt.get("puzzles")
+        puzzle_count = len(puzzles) if isinstance(puzzles, list) else 0
+        score = attempt.get("score")
+        detail = f"{index}. {puzzle_count} puzzle(s)"
+        if score not in (None, ""):
+            detail += f", {score} ponto(s)"
+        lines.append(detail)
+
+    supporters = wrap_extra_list(wrap, "supporters")
+    if supporters:
+        lines.append("")
+        lines.append(f"Apoiadores no TOML: {len(supporters)}")
+
+    scalar_keys = ["duration", "rapid", "puzzles", "practice_notes"]
+    scalars = [f"{key}={wrap[key]}" for key in scalar_keys if str(wrap.get(key) or "").strip()]
+    if scalars:
+        lines.append("")
+        lines.append("Outros campos: " + ", ".join(scalars))
+
+    return "\n".join(lines)
+
+
+def confirm_wrap_toml(session: str, wrap: dict[str, Any], path: Path, assume_yes: bool) -> None:
+    print(summarize_wrap_toml(session, wrap, path))
+    print("")
+    if assume_yes:
+        print(f"{session}: confirmação do TOML pulada por --yes")
+        return
+    if not sys.stdin.isatty():
+        fail("confirmação interativa indisponível; rode em um terminal ou passe --yes")
+    if not confirm(f"Aplicar este TOML à sessão {session}?"):
+        fail("wrap cancelado antes de aplicar o TOML")
+
+
 def apply_wrap_toml(session: str, data: dict[str, Any], wrap: dict[str, Any]) -> dict[str, Any]:
     extra = data.setdefault("extra", {})
     if not isinstance(extra, dict):
@@ -651,6 +756,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--chat-json-file", type=Path, help="Restream chat JSON from the userscript; defaults to data/fcz/wrap_inbox/NNNN-chat.json when present")
     parser.add_argument("--allow-missing-userscript-inputs", action="store_true", help="Allow wrapup to continue without both userscript exports")
     parser.add_argument("--dry-run", action="store_true", help="Persist raw inputs and print commands without applying changes")
+    parser.add_argument("--yes", action="store_true", help="Skip the imported TOML confirmation checkpoint")
     parser.add_argument("--skip-build", action="store_true")
     parser.add_argument("--skip-capivaradas", action="store_true")
     parser.add_argument("--skip-youtube-finish", action="store_true")
@@ -725,12 +831,15 @@ def main() -> int:
 
     if toml_file:
         raw_toml = toml_file.read_text(encoding="utf-8")
+        wrap_toml = load_wrap_toml(toml_file)
+        confirm_wrap_toml(session, wrap_toml, toml_file, args.yes)
         state["inputs"]["toml_file"] = str(toml_file)
         state["inputs"]["toml"] = raw_toml
-        data = apply_wrap_toml(session, data, load_wrap_toml(toml_file))
+        data = apply_wrap_toml(session, data, wrap_toml)
         if not args.dry_run:
             write_session(path, data, body)
-        print(f"{session}: applied TOML to {path}")
+        action = "would apply" if args.dry_run else "applied"
+        print(f"{session}: {action} TOML to {path}")
     else:
         print(f"{session}: no TOML input found")
 
