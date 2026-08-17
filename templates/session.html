@@ -1,23 +1,5 @@
 {% extends "base.html" %}
 
-{% macro blunder_event_body(event) %}
-  <strong>
-    {{ event.label }}
-    <span class="chat-replay-platform">{{ event.platform }}</span>
-    {% if event.is_self %}<span class="chat-replay-platform">fcz</span>{% else %}<span class="chat-replay-platform">oponente</span>{% endif %}
-  </strong>
-  <p>{{ event.text }}</p>
-  {% if event.best is defined and event.best %}
-    <p class="blunder-best" data-pagefind-ignore>
-      Melhor teria sido
-      <button class="blunder-best-reveal" type="button" data-blunder-best aria-label="Revelar melhor lance">
-        <span class="blunder-best-mask" aria-hidden="true">####</span>
-        <span class="blunder-best-value">{{ event.best }}</span>
-      </button>
-    </p>
-  {% endif %}
-{% endmacro %}
-
 {% block title -%}
   {%- set session_page_title = page.title -%}
   {%- if page.extra.summary_title is defined and page.extra.summary_title -%}
@@ -85,7 +67,7 @@
       "description": {{ page.extra.description | json_encode | safe }},
       "url": {{ page.permalink | json_encode | safe }},
       "datePublished": "{{ page.date | date(format="%Y-%m-%d") }}",
-      "dateModified": "{{ page.updated | default(value=page.date) | date(format="%Y-%m-%d") }}",
+      "dateModified": "{{ (page.updated or page.date) | date(format="%Y-%m-%d") }}",
       "inLanguage": "pt-BR",
       "isPartOf": {
         "@type": "WebSite",
@@ -231,7 +213,7 @@
 {% set notes_heading = '<h2 id="notas">Notas automáticas</h2>' %}
 {% set session_notes_html = "" %}
 {% set remaining_content_html = page.content %}
-{% set has_session_notes = page.content and page.content is containing(notes_source_heading) %}
+{% set has_session_notes = page.content and (page.content | split(pat=notes_source_heading) | length) > 1 %}
 {% if has_session_notes %}
   {% set content_before_notes = page.content | split(pat=notes_source_heading) | first %}
   {% set content_after_notes = page.content | split(pat=notes_source_heading) | last %}
@@ -522,7 +504,7 @@
               <li class="replay-item replay-item-blunder" data-seconds="{{ event.seconds }}" data-order="0.5">
                 <a class="replay-time" href="{{ youtube_url }}&t={{ event.seconds }}s" rel="noopener noreferrer" aria-label="Abrir video em {{ event.time }}" data-pagefind-ignore>{{ event.time }}</a>
                 <div class="replay-body">
-                  {{ self::blunder_event_body(event=event) }}
+                  {{<blunder_event_body event={event} />}}
                 </div>
               </li>
             {% endfor %}
@@ -578,7 +560,7 @@
             <li class="replay-item replay-item-blunder" data-seconds="{{ event.seconds }}">
               <a class="replay-time" href="{{ youtube_url }}&t={{ event.seconds }}s" rel="noopener noreferrer" aria-label="Abrir video em {{ event.time }}" data-pagefind-ignore>{{ event.time }}</a>
               <div class="replay-body">
-                {{ self::blunder_event_body(event=event) }}
+                {{<blunder_event_body event={event} />}}
               </div>
             </li>
           {% endfor %}
@@ -1017,7 +999,8 @@
           {% set supporter_name = supporter.name | default(value="") %}
           {% set supporter_platform = supporter.platform | default(value="") %}
           {% set supporter_url = supporter.url | default(value="") %}
-          {% set is_self_supporter = supporter_name == "@sedentarismo" and (supporter_platform == "Twitch" or supporter_url is containing("twitch.tv/sedentarismo")) %}
+          {% set supporter_url_matches_self = (supporter_url | split(pat="twitch.tv/sedentarismo") | length) > 1 %}
+          {% set is_self_supporter = supporter_name == "@sedentarismo" and (supporter_platform == "Twitch" or supporter_url_matches_self) %}
           {% if supporter_name and not is_self_supporter %}
             <li>
               {% if supporter_platform %}{{ supporter_platform }}: {% endif %}

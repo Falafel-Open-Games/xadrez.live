@@ -1,30 +1,15 @@
 {% extends "base.html" %}
 
-{% macro month_label(date) %}
-  {% set month = date | date(format="%m") %}
-  {% set year = date | date(format="%Y") %}
-  {% if month == "01" %}Janeiro{% elif month == "02" %}Fevereiro{% elif month == "03" %}Março{% elif month == "04" %}Abril{% elif month == "05" %}Maio{% elif month == "06" %}Junho{% elif month == "07" %}Julho{% elif month == "08" %}Agosto{% elif month == "09" %}Setembro{% elif month == "10" %}Outubro{% elif month == "11" %}Novembro{% else %}Dezembro{% endif %} {{ year }}
-{% endmacro month_label %}
-
-{% macro month_heading(session) %}
-  <li class="session-month-heading">
-    <h3>{{ self::month_label(date=session.date) }}</h3>
-  </li>
-{% endmacro month_heading %}
-
-{% macro streamer_title(section) -%}
-  {%- set streamer_name = section.extra.display_name | default(value=section.title) -%}
-  {%- set streamer_handle = section.extra.handle | default(value=section.title) -%}
-  {{- streamer_name }} ({{ streamer_handle -}})
-{%- endmacro streamer_title %}
-
-{% block title %}{{ self::streamer_title(section=section) }} | {{ config.title }}{% endblock title %}
+{% block title %}{% set streamer_name = section.extra.display_name | default(value=section.title) %}{% set streamer_handle = section.extra.handle | default(value=section.title) %}{{ streamer_name }} ({{ streamer_handle }}) | {{ config.title }}{% endblock title %}
 {% block description %}{{ section.extra.description | default(value=config.description) | truncate(length=159) }}{% endblock description %}
 
 {% block social_meta %}
+  {% set streamer_name = section.extra.display_name | default(value=section.title) %}
+  {% set streamer_handle = section.extra.handle | default(value=section.title) %}
+  {% set streamer_title = streamer_name ~ " (" ~ streamer_handle ~ ")" %}
   <meta property="og:site_name" content="{{ config.title }}">
   <meta property="og:type" content="profile">
-  <meta property="og:title" content="{{ self::streamer_title(section=section) }} | {{ config.title }}">
+  <meta property="og:title" content="{{ streamer_title }} | {{ config.title }}">
   <meta property="og:description" content="{{ section.extra.description | default(value=config.description) | truncate(length=159) }}">
   {% if section.extra.avatar is defined and section.extra.avatar %}
     <meta property="og:image" content="{{ get_url(path=section.extra.avatar) }}">
@@ -33,14 +18,17 @@
 {% endblock social_meta %}
 
 {% block content %}
+{% set streamer_name = section.extra.display_name | default(value=section.title) %}
+{% set streamer_handle = section.extra.handle | default(value=section.title) %}
+{% set streamer_title = streamer_name ~ " (" ~ streamer_handle ~ ")" %}
 <article class="streamer-page">
   <header class="streamer-hero">
     <div class="streamer-hero-copy">
       <div class="session-kicker">streamer</div>
-      <h1>{{ self::streamer_title(section=section) }}</h1>
+      <h1>{{ streamer_title }}</h1>
       <p class="tagline">{{ section.extra.tagline }}</p>
 
-      <nav class="home-links" aria-label="Links de {{ self::streamer_title(section=section) }}">
+      <nav class="home-links" aria-label="Links de {{ streamer_title }}">
         {% if section.extra.lichess_url is defined and section.extra.lichess_url %}
           <a href="{{ section.extra.lichess_url }}" rel="noopener noreferrer">Lichess</a>
         {% endif %}
@@ -59,7 +47,7 @@
     {% if section.extra.avatar is defined and section.extra.avatar %}
       <figure class="streamer-avatar-card">
         <span class="streamer-avatar-photo">
-          <img src="{{ section.extra.avatar }}" alt="{{ section.extra.avatar_alt | default(value=self::streamer_title(section=section)) }}">
+          <img src="{{ section.extra.avatar }}" alt="{{ section.extra.avatar_alt | default(value=streamer_title) }}">
         </span>
         <figcaption>{{ section.extra.handle | default(value=section.title) }}</figcaption>
       </figure>
@@ -80,7 +68,7 @@
       {% endif %}
     {% endif %}
   {% endfor %}
-  <section class="streamer-stats" aria-label="Resumo de {{ self::streamer_title(section=section) }}">
+  <section class="streamer-stats" aria-label="Resumo de {{ streamer_title }}">
     <div>
       <strong>{{ published_session_count }}</strong>
       <span>sessões publicadas</span>
@@ -102,7 +90,7 @@
         {% if not session.draft and session.extra.session_number is defined %}
           {% set month_key = session.date | date(format="%Y-%m") %}
           {% if month_key != current_month %}
-            {{ self::month_heading(session=session) }}
+            {{<streamer_month_heading session={session} />}}
             {% set_global current_month = month_key %}
           {% endif %}
           {% set summary_title = session.extra.summary_title | default(value="") %}

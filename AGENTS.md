@@ -38,7 +38,7 @@
 
 ## Deployment
 
-- GitHub Pages deploys on pushes to `main` via `.github/workflows/pages.yml` using Zola `v0.22.0` and copies `CNAME` into `public/CNAME` during CI.
+- GitHub Pages deploys on pushes to `main` via `.github/workflows/pages.yml` using Zola `v0.23.3` and copies `CNAME` into `public/CNAME` during CI.
 
 ## Version Control
 
