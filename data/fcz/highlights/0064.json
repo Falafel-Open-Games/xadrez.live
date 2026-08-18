@@ -1,46 +1,69 @@
 {
   "session_number": "0064",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "limit": 6,
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 4248,
-      "end_seconds": 4320,
-      "time": "1:10:48",
+      "start_seconds": 4105,
+      "end_seconds": 4170,
+      "time": "1:08:25",
       "duration": "1:30",
-      "kind": "opening",
-      "score": 7.0,
-      "summary": "Inaccuracy, mas eu acho que é uma inaccuracy documentada essa aqui. Deixa eu ver. Essa inaccuracy tem nome. Essa inaccuracy se chama Alekhine Defense. Defesa Alekhine…",
-      "reason": "4 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance; plano ou estratégia; abertura ou repertório; raciocínio em voz alta",
+      "kind": "time-pressure",
+      "score": 5.7,
+      "summary": "Todo dia é derrota, é derrota por tempo, é empate. Ah, finalmente uma vitória. Mas fiz cagada, hein? Três capivaradas. Não foi uma precisão... Bonita, mas o resultado veio…",
+      "reason": "4 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; interação com o chat; plano ou estratégia; pressão no relógio; plano sob pressão de tempo",
       "signals": [
         "4 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
         "erro ou momento perdido",
         "tema claro de xadrez",
         "interação com o chat",
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo"
+      ],
+      "chat_count": 4,
+      "transcript_count": 3,
+      "lead_in": "Finalmente uma vitória gravada hein"
+    },
+    {
+      "start_seconds": 4257,
+      "end_seconds": 4320,
+      "time": "1:10:57",
+      "duration": "1:30",
+      "kind": "opening",
+      "score": 5.45,
+      "summary": "Inaccuracy, mas eu acho que é uma inaccuracy documentada essa aqui. Deixa eu ver. Essa inaccuracy tem nome. Essa inaccuracy se chama Alekhine Defense. Defesa Alekhine…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; abertura ou repertório; raciocínio em voz alta",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
         "review ou melhor lance",
         "plano ou estratégia",
         "abertura ou repertório",
         "raciocínio em voz alta"
       ],
-      "chat_count": 4,
-      "transcript_count": 3
+      "chat_count": 1,
+      "transcript_count": 3,
+      "lead_in": "teve uma inaccuracy na abertura"
     },
     {
-      "start_seconds": 4364,
+      "start_seconds": 4368,
       "end_seconds": 4440,
-      "time": "1:12:44",
+      "time": "1:12:48",
       "duration": "1:30",
       "kind": "review",
-      "score": 5.1,
+      "score": 5.45,
       "summary": "Vamos ver como que esse jogo progride. Se eu botar só as melhores jogadas do Stockfish aqui, ó. Se o jogo progride, ó. Isso aqui eu achei estranho…",
-      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
+      "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
       "signals": [
-        "2 mensagem(ns) no chat",
+        "3 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
@@ -48,20 +71,21 @@
         "review ou melhor lance",
         "raciocínio em voz alta"
       ],
-      "chat_count": 2,
-      "transcript_count": 3
+      "chat_count": 3,
+      "transcript_count": 3,
+      "lead_in": "3 contra 2 ali né"
     },
     {
-      "start_seconds": 4576,
+      "start_seconds": 4569,
       "end_seconds": 4650,
-      "time": "1:16:16",
+      "time": "1:16:09",
       "duration": "1:30",
       "kind": "opening",
-      "score": 5.0,
+      "score": 5.35,
       "summary": "O bispo aqui é muito ruim. A barra vai embora, né? É ruim. É, essa questão de abertura aqui, acho que não tem muita resposta certa, não…",
-      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; review ou melhor lance; abertura ou repertório; raciocínio em voz alta",
+      "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; review ou melhor lance; abertura ou repertório; raciocínio em voz alta",
       "signals": [
-        "2 mensagem(ns) no chat",
+        "3 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
         "reação forte na fala",
         "tema claro de xadrez",
@@ -69,20 +93,21 @@
         "abertura ou repertório",
         "raciocínio em voz alta"
       ],
-      "chat_count": 2,
-      "transcript_count": 3
+      "chat_count": 3,
+      "transcript_count": 3,
+      "lead_in": "Ah o bispo aqui ó"
     },
     {
-      "start_seconds": 4903,
-      "end_seconds": 4980,
-      "time": "1:21:43",
+      "start_seconds": 4890,
+      "end_seconds": 4950,
+      "time": "1:21:30",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 6.1,
+      "score": 5.75,
       "summary": "O cara não é invencível, não. Eu sei, mas é na brincadeira, né? O cara é... o cara é o melhor do mundo, né? Há algum tempo, né? Há uns 15 anos. Então vamos lá. Ah lá pra Base…",
-      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
       "signals": [
-        "2 mensagem(ns) no chat",
+        "1 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
         "erro ou momento perdido",
         "tema claro de xadrez",
@@ -92,18 +117,19 @@
         "plano sob pressão de tempo",
         "raciocínio em voz alta"
       ],
-      "chat_count": 2,
-      "transcript_count": 3
+      "chat_count": 1,
+      "transcript_count": 3,
+      "lead_in": "ganha direto do Carlsen né"
     },
     {
-      "start_seconds": 5016,
-      "end_seconds": 5100,
-      "time": "1:23:36",
+      "start_seconds": 5719,
+      "end_seconds": 5790,
+      "time": "1:35:19",
       "duration": "1:30",
       "kind": "review",
-      "score": 5.45,
-      "summary": "Ah não, não tá pendurado, não. Tá defendido pelo rei. Pera aí. Cadê? Ah, trocar. Isso teria sido boa jogada. Às vezes o Stockfish quer iniciativa da gente…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
+      "score": 4.75,
+      "summary": "Stockfish é o mesmo preço, Stockfish, promover para dama ou bispo. Stockfish recomendação do Stockfish promover para bispo aqui, tá bom. Alright, alright…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
       "signals": [
         "1 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
@@ -111,33 +137,11 @@
         "erro ou momento perdido",
         "tema claro de xadrez",
         "review ou melhor lance",
-        "plano ou estratégia",
         "raciocínio em voz alta"
       ],
       "chat_count": 1,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 5547,
-      "end_seconds": 5640,
-      "time": "1:32:27",
-      "duration": "1:30",
-      "kind": "time-pressure",
-      "score": 6.0,
-      "summary": "Quais foram meus erros mesmo? A abertura, né? Minha abertura eu podia ter... O meio jogo foi ruim, na verdade, né? Minhas capivaradas…",
-      "reason": "reação forte na fala; erro ou momento perdido; interação com o chat; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório",
-      "signals": [
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "interação com o chat",
-        "review ou melhor lance",
-        "plano ou estratégia",
-        "pressão no relógio",
-        "plano sob pressão de tempo",
-        "abertura ou repertório"
-      ],
-      "chat_count": 0,
-      "transcript_count": 4
+      "transcript_count": 4,
+      "lead_in": "Vou promover para bispo"
     }
   ]
 }

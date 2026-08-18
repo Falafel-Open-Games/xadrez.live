@@ -60,6 +60,9 @@ EXTRA_SCALAR_ORDER = [
     "practice_notes_recorded_at",
     "practice_notes_event",
 ]
+TABLE_FIELD_ORDER = {
+    "extra.supporters": ["platform", "name", "url"],
+}
 PLACEHOLDER_DESCRIPTION = "Treino de puzzles e uma partida rapid."
 PLACEHOLDER_SUMMARY_TITLE = "Puzzles e rapid"
 
@@ -124,6 +127,7 @@ def render_table(
     preferred: list[str] | None = None,
     emit_header: bool = True,
 ) -> None:
+    preferred = TABLE_FIELD_ORDER.get(path, preferred)
     scalar_keys = []
     nested_dict_keys = []
     array_table_keys = []

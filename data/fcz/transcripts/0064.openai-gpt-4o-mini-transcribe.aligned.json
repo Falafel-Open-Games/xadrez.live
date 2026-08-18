@@ -1,0 +1,1576 @@
+{
+  "session_number": "0064",
+  "youtube_video_id": "lWsScKWuZeA",
+  "language": "pt",
+  "source": "openai-api",
+  "source_id": "openai-gpt-4o-mini-transcribe-aligned-to-faster-whisper",
+  "model": "gpt-4o-mini-transcribe",
+  "response_format": "json",
+  "timestamp_source": "aligned_to_faster_whisper",
+  "timestamp_chunk_seconds": 300,
+  "initial_prompt": "Transcrição em português brasileiro de uma live de xadrez. Vocabulário esperado: Lichess, lichess.org, Chess.com, Stockfish, YouTube, Twitch, Restream, GoatCounter, roque, fianchetto, Sicilian Defense, Scandinavian Defense, Puzzle do dia, Puzzle Streak, Puzzle Storm, Puzzle Racer, blunder, rating, mate, xeque, xeque-mate, blitz, rapid, en passant. Frases comuns: puzzle do dia, resposta com a dama, a resposta é, qual é a resposta. Peão é a peça de xadrez; em frases como esse peão, um peão, peão passado, peão pendurado, peão de e4 ou tomar o peão, não transcreva como espião. Em xadrez, peça pendurada significa hanging piece: se a fala soar como hanging, hang, reng, heng, renguem, hanging bishop ou hang em bishop perto de peça, bispo, cavalo, torre, dama ou peão, prefira peça pendurada ou a peça específica pendurada, como bispo pendurado. Em frases como bispo hanging, bispo hang ou hanging bishop, transcreva como bispo pendurado. Quando for o lance ou ameaça ao rei em uma frase em português, prefira xeque; mantenha check em nomes ou frases em inglês, como Force Online Check e checkmate patterns. Quando for o fim da partida, mate no rei, ou ideia de mate em frase em português, prefira xeque-mate; mantenha checkmate apenas em títulos, nomes de exercícios ou frases em inglês, como Checkmate Patterns. En passant é o nome do lance especial de peão; não transcreva como empassant, impassant ou em passando. Quando a fala se referir ao site ou plataforma de xadrez, transcreva como Lichess, não como lixar, lixares, lixés ou outras aproximações fonéticas. Restream é o nome da plataforma de transmissão, não transcreva como restring.",
+  "block_count": 221,
+  "audio_seconds": 6329.1,
+  "elapsed_seconds": 158.981,
+  "estimated_cost_usd": 0.159878,
+  "raw_usage": [
+    {
+      "type": "tokens",
+      "total_tokens": 3962,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 535
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4001,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 574
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 3878,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 451
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 3797,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 370
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 3611,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 184
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 3977,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 550
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4209,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 782
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4248,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 821
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 3987,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 560
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 3854,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 427
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4183,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 756
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4218,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 791
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4111,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 684
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4191,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 764
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4356,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 929
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4369,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 942
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4274,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 847
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4154,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 727
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4012,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 585
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4107,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 680
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 4184,
+      "input_tokens": 3427,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 2999
+      },
+      "output_tokens": 757
+    },
+    {
+      "type": "tokens",
+      "total_tokens": 807,
+      "input_tokens": 719,
+      "input_token_details": {
+        "text_tokens": 428,
+        "audio_tokens": 291
+      },
+      "output_tokens": 88
+    }
+  ],
+  "blocks": [
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "text": "Bora lá, let's go, lx.org, xadrez.live, sessão de número 64, teste de áudio, testando áudio, não estou me ouvindo. Opa, agora estou ouvindo. Estava meio longe do microfone, é isso? Beleza, beleza, estamos no ar.",
+      "timestamp": "0:00"
+    },
+    {
+      "time": "0:48",
+      "seconds": 48,
+      "text": "Estamos no ar. Lixês, ontem eu tive aquela suspeita de que o puzzle do dia era o... o problema do dia era o mesmo de um que eu já tinha feito e era.",
+      "timestamp": "0:48"
+    },
+    {
+      "time": "1:09",
+      "seconds": 69,
+      "text": "Depois eu conferi, eu conferi que a sessão 63 leva a este puzzle do dia, que é igual ao da sessão 62. Algo aconteceu, não sei se cache de browser ou o que, mas ó, exatamente o mesmo problema.",
+      "timestamp": "1:09"
+    },
+    {
+      "time": "1:32",
+      "seconds": 92,
+      "text": "Eu sabia, eu falei, eu acho que já fiz esse puzzle e já tinha feito mesmo. O de hoje, só para garantir, é meia CKC3. Dá um refresh, ver se não muda com shift e refresh. Não, é isso mesmo.",
+      "timestamp": "1:32"
+    },
+    {
+      "time": "1:59",
+      "seconds": 119,
+      "text": "Então tá, novo dia, nova sessão, limpa tudo. Hoje estamos na sessão meia 4. Sessão de número 64 do xadrez, praticando xadrez depois dos 40. Vamos lá, bom dia, boa terça.",
+      "timestamp": "1:59"
+    },
+    {
+      "time": "2:17",
+      "seconds": 137,
+      "text": "Vamos levar, vamos levar esse caminhão para frente. Bom dia, bom dia. Pronto, dá aquele bom dia no chat e fazer o puzzle do dia. Encontre o melhor lance para as brancas. Para as brancas.",
+      "timestamp": "2:17"
+    },
+    {
+      "time": "2:48",
+      "seconds": 168,
+      "text": "Qual que é o melhor lance para as brancas aqui? Puzzle do dia. Qual que é a situação? As duas damas estão no tabuleiro. As pretas têm uma torre a mais e um cavalo a mais. Branco está perdendo no material. CCT checks.",
+      "timestamp": "2:48"
+    },
+    {
+      "time": "3:19",
+      "seconds": 199,
+      "text": "Não tem check aqui. Aqui é check. Pela diagonal não tem check. Tá, checks, captures and threats. Esse é um check com capture. Parece óbvio, né? Ninguém defende esse cavalo. Torre não defende, dama não defende.",
+      "timestamp": "3:19"
+    },
+    {
+      "time": "3:50",
+      "seconds": 230,
+      "text": "Primeiro passo desse puzzle parece ser um capture com um check aqui. No que a resposta do meu oponente talvez seja isso. A partir daí, aí eu acho que entra em cena essa torre. E ninguém pode fazer nada contra a torre.",
+      "timestamp": "3:50"
+    },
+    {
+      "time": "4:26",
+      "seconds": 266,
+      "text": "Que vai ter uma dama cobrindo essas rotas de fuga. Eu acho que é isso. Se for isso muito fácil o puzzle do dia hoje, hein? Correto? Ah, tá. A reação não foi vim com a torre, foi vim com o rei.",
+      "timestamp": "4:26"
+    },
+    {
+      "time": "4:50",
+      "seconds": 290,
+      "text": "Ah, acho que não muda o plano, né? Isso aqui é...",
+      "timestamp": "4:50"
+    },
+    {
+      "time": "4:56",
+      "seconds": 296,
+      "text": "Bom, problema que dá uma possibilidade do rei fugir pra cá. Rei fugindo pra cá, eu tomo essa torre e ele volta pra cá e mata minha dama, né? Não. Tá, uma vez, então. Talvez eu possa querer fazer isso.",
+      "timestamp": "4:56"
+    },
+    {
+      "time": "5:21",
+      "seconds": 321,
+      "text": "Não é check, mas é capture. E é talvez um threat de alguma coisa. Ah, tá, que se não for movimento forçado, perco essa torre aqui. Tá bom, então vamos pensar mais. Esse check aqui tá óbvio.",
+      "timestamp": "5:21"
+    },
+    {
+      "time": "5:47",
+      "seconds": 347,
+      "text": "E o fato de que o rei pode fugir pra cá também tá óbvio. Rei fugindo pra lá. Rei fugindo pra lá, aí eu venho com a dama aqui, né? Acho que... Bom, ah tá, tem um detalhe importante aqui, ó.",
+      "timestamp": "5:47"
+    },
+    {
+      "time": "6:14",
+      "seconds": 374,
+      "text": "Que é esse peão tá fazendo essas duas casas, né? Então o rei fugindo pra cá, posso continuar esse check voltando com a torre, não me parece muito bom. Porque eu perdi uma torre.",
+      "timestamp": "6:14"
+    },
+    {
+      "time": "6:41",
+      "seconds": 401,
+      "text": "Ele perdeu uma torre, mas parei de encurralar aqui, ó, né? A gente quer construir um xeque-mate. Tem esse check aqui também. Check aqui, check em H8. Quem que pode defender isso aqui? Essa torre?",
+      "timestamp": "6:41"
+    },
+    {
+      "time": "7:07",
+      "seconds": 427,
+      "text": "Tudo bem, ganha uma torre. Que outra possibilidade pode acontecer? Ah, 8h40, 7 minutos de live. Ah, o rei ainda pode vim pra cá do mesmo jeito, né? Nessa, eu trago minha dama pra cá. Então tá bom. Acho que é aqui, ó.",
+      "timestamp": "7:07"
+    },
+    {
+      "time": "7:37",
+      "seconds": 457,
+      "text": "Isso aqui tá parecendo bem interessante. Continuar com check aqui. Errado. Continuar só no check aqui mesmo. Ele foge pra onde a gente imaginou que ele fugisse. E o que acontece? Eu sacrifico a dama, troco do quê, né?",
+      "timestamp": "7:37"
+    },
+    {
+      "time": "8:11",
+      "seconds": 491,
+      "text": "Como continua daqui? Aqui, né? Ah, não tinha visto esse. Certo. Agora, como continua daqui? Aqui de novo, né? Errado. Errado. Aqui agora? Errado também. Ah, tá. Aqui pra ele ir lá e eu ganhar essa?",
+      "timestamp": "8:11"
+    },
+    {
+      "time": "8:45",
+      "seconds": 525,
+      "text": "Sacrifico esse tipo de torre. É errado. O que que é o certo aqui? Versão do céu. Toma. Ah, tá protegido pelo peão. A gente já tinha passado por isso. Tá certo, esse foi o Puzzle do dia do Lichess.",
+      "timestamp": "8:45"
+    },
+    {
+      "time": "9:14",
+      "seconds": 554,
+      "text": "Recapitulando, esse puzzle começou aqui. Então aqui, branca com material a menos, pode através de movimentos forçados. Uou! Espera, não foi isso que eu fiz no puzzle. Isso era certo.",
+      "timestamp": "9:14"
+    },
+    {
+      "time": "9:34",
+      "seconds": 574,
+      "text": "A seta do Stockfish diz que o rei vai pra cá. Mas eu acho que o que aconteceu na partida foi o rei vim pra cá. E nessa situação, a seta do Stockfish dá a resposta.",
+      "timestamp": "9:34"
+    },
+    {
+      "time": "9:54",
+      "seconds": 594,
+      "text": "Beleza, foi exatamente isso que aconteceu, todos os melhores movimentos possíveis.",
+      "timestamp": "9:54"
+    },
+    {
+      "time": "10:01",
+      "seconds": 601,
+      "text": "Mas engraçado que no puzzle, se a gente for fazer o puzzle do dia, a reação das pretas ao meu lance 37 aqui, é um movimento que o Stockfish não faria. O Stockfish não faria isso aqui.",
+      "timestamp": "10:01"
+    },
+    {
+      "time": "10:22",
+      "seconds": 622,
+      "text": "Melhor movimento aqui para as pretas. Bom, vou terminar o puzzle aqui só para mostrar. Então fica com esse lance 37 aí na cabeça.",
+      "timestamp": "10:22"
+    },
+    {
+      "time": "10:37",
+      "seconds": 637,
+      "text": "Do ponto de vista do Stockfish com setas, a reação para o rei ao ter esse cavalo tomado é vir para o canto. Quem estava jogando de pretas aqui, um usuário peruano, não fez o melhor movimento da máquina, ele veio aqui.",
+      "timestamp": "10:37"
+    },
+    {
+      "time": "11:00",
+      "seconds": 660,
+      "text": "Foi isso que aconteceu nesse jogo. Lance 37 do que aconteceu na vida real, vamos ver. Lance 36, 37 por parte das brancas foi isso. Ah, no jogo, o jogador fez o lance do Stockfishing.",
+      "timestamp": "11:00"
+    },
+    {
+      "time": "11:24",
+      "seconds": 684,
+      "text": "Estranho, tá dando uma diferença entre o que aconteceu no jogo. Só para títulos de puzzles, Stockfishing... Não, aí não é Stockfishing, aí são editores do Lichess que escolheram fazer assim, né?",
+      "timestamp": "11:24"
+    },
+    {
+      "time": "11:45",
+      "seconds": 705,
+      "text": "Aí já não é mais culpa do Stockfishing, né? Aqui foi uma escolha dos editores do Lichess fazer o rei vir para E8 ao invés de G8. No jogo aconteceu G8. No puzzle, esse puzzle interessante. Aqui, a IA sabe responder?",
+      "timestamp": "11:45"
+    },
+    {
+      "time": "12:26",
+      "seconds": 746,
+      "text": "Are Lichess puzzles edited or exactly what happened in the game? Será que a IA sabe responder isso aqui? A IA diz que não são editados ou compostos artificialmente, são extraídos de jogos reais. Deu diferente, hein?",
+      "timestamp": "12:26"
+    },
+    {
+      "time": "13:17",
+      "seconds": 797,
+      "text": "Deu diferente aqui, o lance 37 no jogo foi... Do parte das pretas foi Rei G8, no puzzle Rei E8. Como que o Lichess explica isso? Tem fórum aqui? Fórum. Lichess Feedback. Criar novo tópico. Pode ser, criar novo tópico.",
+      "timestamp": "13:17"
+    },
+    {
+      "time": "13:56",
+      "seconds": 836,
+      "text": "Importante para denunciar... Puzzle of the day slightly different than the game. Ah... Ah, só vou girar a tocasa, né? Today's puzzle of the day.",
+      "timestamp": "13:56"
+    },
+    {
+      "time": "14:32",
+      "seconds": 872,
+      "text": "Were extracted from this game. É isso, né? Puzzle of the Day. Vou até abrir em outra aba, porque eu posso precisar do screenshot, pode ser que não aconteça de novo o bug. Esse aqui, Puzzle of the Day, problema.",
+      "timestamp": "14:32"
+    },
+    {
+      "time": "15:40",
+      "seconds": 940,
+      "text": "Puzzle of the Day. Puzzle of the Day. Tem como botar link aqui? Preview. Ctrl-K normalmente? Não. Puzzle of the Day. Vou botar 1, 2 aqui. 1. From this game. 2. 1. 2. 6K, não sei o quê. Do jogo. Jogado, oculto.",
+      "timestamp": "15:40"
+    },
+    {
+      "time": "16:38",
+      "seconds": 998,
+      "text": "Ó, o lance é o 37 no jogo veio pra cá. 37. Clicar aqui. Esse. Aí o jogo apareceu aqui. Blitz, tá. Veio desse jogo aqui. Qual? Esse foi o jogo. Where the black pieces... Black pieces move 37, was he... No jogo. No jogo.",
+      "timestamp": "16:38"
+    },
+    {
+      "time": "17:38",
+      "seconds": 1058,
+      "text": "Caramba, lance 37, esse jogo foi longe, hein. No jogo. No lance 37 das pretas, Rei G8. KG8. And the puzzle, the move was King E8, né? Essa é a diferença. No puzzle, esse é o jogo. Esse é o puzzle.",
+      "timestamp": "17:38"
+    },
+    {
+      "time": "18:57",
+      "seconds": 1137,
+      "text": "No puzzle, o movimento 37 deste rei das pretas. Ah, já passamos. É esse aqui, né? Rei E8. Ah, e é engraçado que isso nem é o top engine move, né? Top engine move teria sido... Vou até mostrar as variantes aqui.",
+      "timestamp": "18:57"
+    },
+    {
+      "time": "19:23",
+      "seconds": 1163,
+      "text": "Mostrar as setas de variações. Só tem essa seta. Liga e desliga aqui. Como que faz pra rodar esse Stockfish de novo? 18. 85 mega. 18. 18, 85 mega. 18, 185.",
+      "timestamp": "19:23"
+    },
+    {
+      "time": "9:29",
+      "seconds": 569,
+      "text": "O que deveria atribuir essa pequena diferença? Eu pensei, talvez, no puzzle, poderia estar usando movimentos de motor, mas essa não é uma boa teoria. Porque o motor era o que estava jogado na partida e não no puzzle.",
+      "timestamp": "9:29"
+    },
+    {
+      "time": "21:51",
+      "seconds": 1311,
+      "text": "De qualquer forma, apenas uma pequena questão que despertou a minha curiosidade. E porque, presumo, não há edição manual dos movimentos no puzzle. Anexe screenshots. Hoje, 18 de agosto, dois dias. Botão PSK.",
+      "timestamp": "21:51"
+    },
+    {
+      "time": "22:58",
+      "seconds": 1378,
+      "text": "PS, eu posso anexar screenshots, se necessário. Eu não fiz isso para diminuir as chances de estragar alguma coisa no puzzle para os outros. Tá bom. Capture. Mate em um. Para quem? Para as brancas?",
+      "timestamp": "22:58"
+    },
+    {
+      "time": "24:12",
+      "seconds": 1452,
+      "text": "As brancas dão mate em um lance. Tá bom. Brancas, mate em um. Cheque mate. Criar tópico. Foda-se. Puzzle of the day.",
+      "timestamp": "24:12"
+    },
+    {
+      "time": "25:24",
+      "seconds": 1524,
+      "text": "Beleza, olha lá, hoje fizemos algo diferente. Abrimos uma discussão sem sentido no fórum. Beleza, 25 minutos de live. Vamos praticar xadrez. Vamos praticar interferência. Continuar a prática de ontem.",
+      "timestamp": "25:24"
+    },
+    {
+      "time": "26:01",
+      "seconds": 1561,
+      "text": "Interferência número 5. Ontem a gente fez até o 4, né? Cadê a sessão de ontem aqui? Ontem foi a 63, né? Hoje é a meia 4. Beleza. 63 ontem, prática do dia, interferência 3 e 4 a gente fez ontem.",
+      "timestamp": "26:01"
+    },
+    {
+      "time": "26:27",
+      "seconds": 1587,
+      "text": "Então hoje fecha esse jogo. Deixa esse... Ah, tem que deixar pelo menos duas abas aqui. Esse é o jogo, né? 37 das pretas está aqui. Problemas de interferência está aqui. Esse é o puzzle. 37 das pretas está aqui.",
+      "timestamp": "26:27"
+    },
+    {
+      "time": "26:48",
+      "seconds": 1608,
+      "text": "Então tá. Essas são as screenshots, se precisar pra esse aqui. Deixa isso aberto aqui. Acho que eu já vou tirar as screenshots aqui, porque vai que eu fecho a aba depois. Então, esse é um. Salva. Onde que salva aqui?",
+      "timestamp": "26:48"
+    },
+    {
+      "time": "27:15",
+      "seconds": 1635,
+      "text": "Salva. Salvei? Meio ruim, não fala se salvou ou não. Deixa eu botar minhas arquivos aqui. Tá bom. Ai que estranho, tá tudo pegando. Pick a default annotation. Sei lá, save and continue. Ah, tá aqui.",
+      "timestamp": "27:15"
+    },
+    {
+      "time": "27:34",
+      "seconds": 1654,
+      "text": "Agora eu abri o negócio. Ah, agora salvou. Beleza. Salvou um. Fecha a janela. Esse é o fórum. Esse é o um, esse é o dois. Bug report. Hoje nossa sessão teve até bug report. Vamos salvar outro screenshot aqui, save.",
+      "timestamp": "27:34"
+    },
+    {
+      "time": "28:05",
+      "seconds": 1685,
+      "text": "Pronto. Posso até fechar as abas, se precisar. Vamos praticar interferência. Introdução aqui, pra quem não assistiu as lives passadas. Interferência é quando você quer atacar uma peça que está sendo defendida por outra.",
+      "timestamp": "28:05"
+    },
+    {
+      "time": "28:35",
+      "seconds": 1715,
+      "text": "Aí, antes de fazer isso, você quer bloquear essa defesa colocando uma outra peça no caminho, né? Esse aqui é um exemplo básico da interferência.",
+      "timestamp": "28:35"
+    },
+    {
+      "time": "28:52",
+      "seconds": 1732,
+      "text": "Ainda não bloqueou, porém, agora você pode se livrar da peça que estava defendendo a outra. Essa é a interferência número um. A gente vai fazer interferência número cinco. Isso veio de um jogo de 2008.",
+      "timestamp": "28:52"
+    },
+    {
+      "time": "29:16",
+      "seconds": 1756,
+      "text": "Entre Vishwanathan Anand, Anand World Champion, contra Levon Aronian.",
+      "timestamp": "29:16"
+    },
+    {
+      "time": "29:22",
+      "seconds": 1762,
+      "text": "Quem quiser assistir um documentário norueguês sobre Magnus Carlsen, tem na Prime Video e mostra a partida do jovem Magnus Carlsen contra o Vishwanathan Anand. Não vou me arriscar a dizer o primeiro nome do Anand.",
+      "timestamp": "29:22"
+    },
+    {
+      "time": "29:47",
+      "seconds": 1787,
+      "text": "Vish... Só vou falar Vish. Tá bom.",
+      "timestamp": "29:47"
+    },
+    {
+      "time": "29:56",
+      "seconds": 1796,
+      "text": "Interferência. O que que está no caminho do xeque-mate aqui? Não tem xeque-mate, porém, em dois movimentos tem um winning position. Winning position para as pretas em dois movimentos. Está tudo certo aqui, né? O chat está meio paradinho hoje. Deixa eu ver se eu estou transmitindo.",
+      "timestamp": "29:56"
+    },
+    {
+      "time": "30:29",
+      "seconds": 1829,
+      "text": "Ah, tá live no YouTube. O pessoal está ou está dormindo ou está com vergonha ou o YouTube parou de mostrar. Não, tem uma pessoa assistindo aqui. Tudo bem, não sou eu mesmo, não, né? Essa não é a sessão de hoje, tá bom. OK."
+    },
+    {
+      "time": "29:32",
+      "seconds": 1772,
+      "text": "Pra você que está no YouTube, se quiser dar um bom dia no chat, não é obrigatório, mas a gente gosta de conversar no chat. Deixa um like, pelo menos. Sacanagem, faz só o que o que você quiser. Ninguém é obrigado a nada aqui. Ah, vamos lá. Pretas, tema da interferência.",
+      "timestamp": "29:32"
+    },
+    {
+      "time": "31:19",
+      "seconds": 1879,
+      "text": "O que que está no caminho das pretas aqui? Rei está aqui. Esse bispo é de casa branca, não está podendo ajudar nesse momento. Está tapando essa rota de fuga aqui, né? Um check aqui. Ah tá, a interferência eu acho que é no caminho de uma captura, né? Talvez.",
+      "timestamp": "31:19"
+    },
+    {
+      "time": "31:48",
+      "seconds": 1908,
+      "text": "Então, por exemplo, eu não posso capturar esse cavalo porque tem uma dama o protegendo. Então, se eu botar uma torre na frente, antes eu perco a torre e não fui, não me adiantou de nada, né? E essa torre, bom, ele não vai fazer isso. Opa, porque tem um peão aqui. Interessante.",
+      "timestamp": "31:48"
+    },
+    {
+      "time": "32:18",
+      "seconds": 1938,
+      "text": "Então, talvez o tema aqui da interferência número 5 seja eu botar uma interpose aqui, uma interposição, porém isso pode estar sendo defendido pelo peão também. Mas tudo bem, se for peão, eu pego o cavalo. Mas por que que eu gostaria de pegar esse cavalo? Isso que eu ainda não entendi.",
+      "timestamp": "32:18"
+    },
+    {
+      "time": "32:46",
+      "seconds": 1966,
+      "text": "Só pra fazer esse X aqui. Ah, bom, aí depois eu tenho um... Se a minha dama estivesse aqui, isso aqui é uma ameaça de xeque-mate, né? Se não for um xeque-mate, né? Deixa eu ver. Ele ainda pode vim pra cá. Mas aí vem pra cá e aí xeque-mate, né? Tá.",
+      "timestamp": "32:46"
+    },
+    {
+      "time": "33:09",
+      "seconds": 1989,
+      "text": "Então tá, eu acho que a ideia aqui é ajudar minha dama diminuindo os defensores desse cavalo. Bom dia, Nicoletti. Bom dia. Como é que tá aí na Twitch? Ah, ontem eu não achei nenhuma raid boa pra mandar vocês. Pequeno resumo do que aconteceu nesses 33 minutos de live. Pra quem chegou agora.",
+      "timestamp": "33:09"
+    },
+    {
+      "time": "33:36",
+      "seconds": 2016,
+      "text": "Um, ontem realmente o puzzle do dia que eu fiz foi repetido, mas eu acho que aí foi culpa minha, caixa de browser, alguma coisa. Eu não sei quando que é o horário que muda o puzzle do dia no Lichess, né? As minhas transmissões começam tipo 8 horas, 8 e meia da manhã, 9 horas.",
+      "timestamp": "33:36"
+    },
+    {
+      "time": "34:01",
+      "seconds": 2041,
+      "text": "Isso deve ser o TC Time. Deve ser tipo meio-dia, né? É, esse 12 aqui é de meio-dia ou de meia-noite. Eu acho que é meio-dia, né? Ah, tá. Isso aqui, meia-noite seria zero, né? Eu acho. Tá bom. Então... Ah não, ó. Meio-dia às nove horas. Será que se... Ah, então eu tenho uma teoria aí, ó.",
+      "timestamp": "34:01"
+    },
+    {
+      "time": "34:31",
+      "seconds": 2071,
+      "text": "Se o puzzle do dia muda meio-dia, pode ser que ontem a gente começou a fazer oito e meia, que é tipo 11 e meia o TC e não tinha mudado ainda, né? Ou pode ser caixa do meu browser, pode ser muita coisa, né? Hum... Hoje, ó, se eu...",
+      "timestamp": "34:31"
+    },
+    {
+      "time": "34:59",
+      "seconds": 2099,
+      "text": "Então tá, eu abri para fazer o puzzle do dia hoje às 11h34, então 35 minutos atrás, mais ou menos. Se eu der um refresh nessa página, o problema é que tá como 6CKC3. Será que vai mudar o ID? 6CKC3, ainda tá o mesmo puzzle do dia, tudo bem. Enfim, mas não foi esse o bug.",
+      "timestamp": "34:59"
+    },
+    {
+      "time": "35:26",
+      "seconds": 2126,
+      "text": "O bug, então, tipo, só explicando, puzzle da sessão 63, hoje nós estamos na 64, puzzle da sessão 63, que foi ontem, e o da 62, por um erro, talvez meu, saiu o mesmo puzzle. Não porque eu registrei errado, é porque eu fiz o mesmo puzzle dois vezes, dois dias seguidos. Tudo bem.",
+      "timestamp": "35:26"
+    },
+    {
+      "time": "35:53",
+      "seconds": 2153,
+      "text": "Ah, mas isso é só um detalhe, burrice minha, tudo bem, vocês já estão acostumando. O problema que aconteceu hoje aqui foi no puzzle do dia, esse de hoje, 6CKC3, que lá pelas tantas, obviamente ele foi extraído de um jogo de blitz.",
+      "timestamp": "35:53"
+    },
+    {
+      "time": "36:12",
+      "seconds": 2172,
+      "text": "Que se depois que você resolver o puzzle do dia aqui, você for ver o jogo, né, por algum motivo eu tive curiosidade de ir lá ver o jogo onde, de onde foi extraído esse puzzle. E o lance 37 das pretas tá dando diferença. Cadê o 37 aqui? Ainda não rolou o 37.",
+      "timestamp": "36:12"
+    },
+    {
+      "time": "36:37",
+      "seconds": 2197,
+      "text": "No puzzle, o 37 das pretas é Rei E8, no jogo, o lance 37 das pretas é Rei G8. Então, não sei, eu fiquei curioso para saber por que que deu essa diferença, abri um post lá no fórum do Lichess, sei lá se alguém vai dar alguma pelota sobre essa mínima curiosidade aí. É isso aí que aconteceu, Nicole.",
+      "timestamp": "36:37"
+    },
+    {
+      "time": "37:07",
+      "seconds": 2227,
+      "text": "Vamos lá, a gente tá agora praticando interferência. Eu acho que eu quero cortar a defesa desse cavalo, botando minha torre ali, e espero que seja a resposta certa desse tema aqui. Vou ter minha torre tomada por um peão, mas eu vou estar num caminho melhor para montar o meu mate de dama e bispo, eu acho.",
+      "timestamp": "37:07"
+    },
+    {
+      "time": "37:35",
+      "seconds": 2255,
+      "text": "É isso aí. Torre C3, torre C3 do que que estamos falando aqui, vamos ver. Torre C3, dama não pode tomar, segue dama, toma C, não tem como evitar mate. É, mate é unavoidable. Ó, o in position em um movimento.",
+      "timestamp": "37:35"
+    },
+    {
+      "time": "37:57",
+      "seconds": 2277,
+      "text": "Eu, inicialmente eu tinha pensado só tomar o cavalo, que foi o plano original dessa interferência, mas Nicole está falando que tem uma outra coisa boa aqui, torre C3. Não sei não, vamos ver. Torre C3, eu estou tampando alguma defesa de alguém para eu perder essa torre aqui?",
+      "timestamp": "37:57"
+    },
+    {
+      "time": "38:12",
+      "seconds": 2292,
+      "text": "Engraçado que a opção do cara não foi tomar minha torre, né? A máquina sabe que... Será que isso aconteceu no jogo também? Depois eu quero ver. No jogo, é um jogo do nosso campeão, World Champion Vish, Vishanand ali, né? Tá bom. Talvez você quis dizer torre F3?",
+      "timestamp": "38:12"
+    },
+    {
+      "time": "38:36",
+      "seconds": 2316,
+      "text": "Não, mas eu acho que a melhor coisa aqui deve ser continuar no caminho do xeque-mate aqui, né? Porque aqui ainda não tem nada, né? Eu faria... Eu tomaria esse cavalo aqui. Ah, não, está defendido pela dama. Agora eu vi o que você está falando. Tá, tá, tá, tá, tá, tá.",
+      "timestamp": "38:36"
+    },
+    {
+      "time": "38:58",
+      "seconds": 2338,
+      "text": "Então, interferi na defesa aqui, ele jogou a defesa lá. Beleza, tem mais interferências para fazer, então. Poderia botar aqui, né? E2, para interferir de novo, mas aí eu... Aí não valeu a pena, né? Porque aí continua a defesa e eu ainda perdi uma torre, né? Então, o que que tem de bom para mim aqui?",
+      "timestamp": "38:58"
+    },
+    {
+      "time": "39:37",
+      "seconds": 2377,
+      "text": "Ah, essa casa está super defendida, não faz nem sentido pensar nela. Então, dama toma cavalo. Eu pensei no dama toma cavalo.",
+      "timestamp": "39:37"
+    },
+    {
+      "time": "39:48",
+      "seconds": 2388,
+      "text": "Isso vai gerar dama toma dama. E aí eu progredi, aí torre toma dama. Tá, se ele quiser retomar, eu tomo de torre, né? E aí tô numa posição melhor, winning position. Deve ser isso, tá bom. É isso.",
+      "timestamp": "39:48"
+    },
+    {
+      "time": "40:10",
+      "seconds": 2410,
+      "text": "E aqui, winning position, winning position já era até antes da torre tomar, né? O resultado é esse aqui já. Não, pera aí, o resultado retornar à prática. Pera aí, vou fazer de novo aqui.",
+      "timestamp": "40:10"
+    },
+    {
+      "time": "40:28",
+      "seconds": 2428,
+      "text": "Não sei, essas interfaces do Lichess às vezes me pegam também. Então aqui, pra cá, aqui já é a resposta. Uou! Agora deu errado? Vocês estão de prova, né?",
+      "timestamp": "40:28"
+    },
+    {
+      "time": "40:45",
+      "seconds": 2445,
+      "text": "Tá gravado no vídeo, que a mesma coisa alegou resposta certa no outro, hein? Eu fiz mais coisa antes. Dá até vontade de dar back no browser aqui e não tem como, né? Nossa, gente.",
+      "timestamp": "40:45"
+    },
+    {
+      "time": "41:01",
+      "seconds": 2461,
+      "text": "Depois eu quero consultar essa gravação, porque esse aqui tá certo, winning position in one move. Ah, cada hora ele faz uma coisa diferente. Olha. É totalmente aleatório, porque não tem... Aqui a mesma coisa, ó. Ó.",
+      "timestamp": "41:01"
+    },
+    {
+      "time": "41:23",
+      "seconds": 2483,
+      "text": "Fica dando refresh nessa interferência 5, cada hora a resposta eu peço a torre é uma coisa, ó. Aqui a dama foi pra lá, se eu der o refresh... Aqui a dama foi pra lá.",
+      "timestamp": "41:23"
+    },
+    {
+      "time": "41:48",
+      "seconds": 2508,
+      "text": "Vou fazer cinco refresh, porque teve um que a dama tomou aqui. Ó. Acho que... 50% das vezes, né? Ó, foi 2x4. Vamos começar um experimento de novo aqui, ó. 1. 1x0 pra dama. Segunda tentativa. 2. 1x1 pra dama no fundão.",
+      "timestamp": "41:48"
+    },
+    {
+      "time": "42:14",
+      "seconds": 2534,
+      "text": "3. 2x1 pra... Eu acho que é 50% do tempo, né? 2x1 pra dama toma. 4. Não, agora 3x1 pra dama toma. Ah, acho que eu tenho que esperar o Stockfish calcular mais coisa. Toma. Agora a dama tá sempre tomando. Ah lá, não.",
+      "timestamp": "42:14"
+    },
+    {
+      "time": "42:49",
+      "seconds": 2569,
+      "text": "Que coisa. Não é... É não determinístico isso aqui, meu. O que que é isso? Tudo bem. Interferência número 5. Nossa, será que... Copy. Cadê? Tá. Mais um tema pra eu abrir tópico lá no fórum.",
+      "timestamp": "42:49"
+    },
+    {
+      "time": "42:42",
+      "seconds": 2562,
+      "text": "Another unrelated report that should probably be its own topic. Was the machine move on practice interference number 5. Pô, essas coisas aqui não ser determinístico é foda. Interference number 5. Tá bom. É isso, né?",
+      "timestamp": "42:42"
+    },
+    {
+      "time": "43:00",
+      "seconds": 2580,
+      "text": "Advanced tactics. Cadê a interferência 5 aqui? Ah, Qd1, 31 versus Qd1...",
+      "timestamp": "43:00"
+    },
+    {
+      "time": "44:58",
+      "seconds": 2698,
+      "text": "QD1. É, parece que depende da profundidade, né? Q toma E3 foi nesse aqui. Deixa eu tirar esse screenshot. Q toma E3 versus QD1, né? Onde que tá o meu forum post? Aqui.",
+      "timestamp": "44:58"
+    },
+    {
+      "time": "45:44",
+      "seconds": 2744,
+      "text": "That's a very smooth movement, xx, from QD1 and Q toma E3. QxE3, depending on how many refreshes you do on the browser. Esse aqui, talvez, se for essa questão de profundidade, o screenshot vai dizer, né?",
+      "timestamp": "45:44"
+    },
+    {
+      "time": "45:28",
+      "seconds": 2728,
+      "text": "Profundidade 30 cloud, 31 movimento ali. Então... movements 31. Depends on whites, of whites, from QD1, and Q toma E3 depending on how many refreshes you do on the browser. Tá. Então aqui, aqui foi dama toma.",
+      "timestamp": "45:28"
+    },
+    {
+      "time": "46:58",
+      "seconds": 2818,
+      "text": "Vou tirar esse screenshot aqui, que eu não salvei. Dama toma. Cabeça de QA, né? Eu devia estar praticando e não reportando o bug. Tá bom, esse aqui foi um. E se eu der o refresh, ele já vai fazer outro aqui, né?",
+      "timestamp": "46:58"
+    },
+    {
+      "time": "47:31",
+      "seconds": 2851,
+      "text": "Profundidade 40, ah, profundidade... Ah, não, aqui virou 30 cloud. Eu acho que a profundidade, na hora que eu movimenta a torre, né? Porque no momento depois, pelo menos, ele reporta a profundidade 30.",
+      "timestamp": "47:31"
+    },
+    {
+      "time": "47:49",
+      "seconds": 2869,
+      "text": "Mas no momento anterior a esse, eu li 40 ali. Então vamos ver, ó. Refresh. Carregando, profundidade 40 cloud. 40 cloud vai pra D1. Refresh. Profundidade 40 cloud vai pra D1. Refresh. Profundidade 40 cloud...",
+      "timestamp": "47:49"
+    },
+    {
+      "time": "48:06",
+      "seconds": 2886,
+      "text": "Ah lá, não sei se se explica por profundidade também, ó. Não sei. Não sei, não sei. Profundidade 30 cloud. Really not sure. Parece que não, né?",
+      "timestamp": "48:06"
+    },
+    {
+      "time": "49:25",
+      "seconds": 2965,
+      "text": "I am not sure if this can be affected by the deepness of the analysis, but apparently, in both cases, it is that 40 before the move and 30 after. Sei lá, mais um bug report aqui."
+    },
+    {
+      "time": "49:45",
+      "seconds": 2985,
+      "text": "hum, ok. Ah, Capture. As brancas dão mate em um lance. Capture aqui, né? xeque-mate. Muito bem. Parece que não. Tudo bem. Então fizemos o Interferência 5 e aí eu acho que nos dois casos, nos dois casos é diferente, né?",
+      "timestamp": "49:45"
+    },
+    {
+      "time": "50:09",
+      "seconds": 3009,
+      "text": "Então se a dama toma, aí eu não sei se eu já quero tomar esse cavalo, né? Se a dama toma, eu acho que eu tenho que fazer outra coisa. Tomar a dama direto aqui, né? Por que que eu recusaria uma dama? Se a dama toma, toma dama é a resposta, winning position.",
+      "timestamp": "50:09"
+    },
+    {
+      "time": "50:41",
+      "seconds": 3041,
+      "text": "Se a dama vai para o fundo, aí toma cavalo. Esse aqui já fizemos, aqui toma dama. Se a dama vai para o fundo, aí toma cavalo, né? Ei, errado. Eita. Vixi, agora eu estou com dificuldades para conseguir achar o winning position, mas aí é diferente, tá?",
+      "timestamp": "50:41"
+    },
+    {
+      "time": "51:05",
+      "seconds": 3065,
+      "text": "Então, nesse cenário onde a dama vai para o D1, eu acho que eu tenho que... É, eu acho que sempre pensar na interferência, né? A dama tá defendendo o cavalo, então eu ponho a minha interposição aqui, né? Acho que é isso, né? Porque aí toma, toma não, acho que não.",
+      "timestamp": "51:05"
+    },
+    {
+      "time": "51:33",
+      "seconds": 3093,
+      "text": "Ah, aí eu acho que é aquele caso que o Nicolete falou de tomar um peão em C3. C3 tocou aquilo até agora na minha cabeça aqui, não sei se faz sentido. No caso de dama no fundo, qual que é o winning position aqui?",
+      "timestamp": "51:33"
+    },
+    {
+      "time": "51:58",
+      "seconds": 3118,
+      "text": "Só me falta se isso e ele tá não determinístico pra falar se a resposta certa e errada, né? Aí, aí, confiança no Chess vai ser abalada, né? Putz, eu não sei. Vamos meter a dica, porque eu tô... Melhor lance. Torre toma cavalo. Então tá.",
+      "timestamp": "51:58"
+    },
+    {
+      "time": "52:31",
+      "seconds": 3151,
+      "text": "Caramba, não sabia que eu poderia tirar tanto suco de uma mera prática de interferência. Quando... Quando a dama toma, ele me entregou uma dama. Quando... a dama toma, já sabemos isso aqui. Quando a dama vai pro fundo, aí torre toma. Essa é o winning position. Beleza, beleza. 53 minutos.",
+      "timestamp": "52:31"
+    },
+    {
+      "time": "53:08",
+      "seconds": 3188,
+      "text": "Putz, a prática foi um. Eu vou parar por aqui a prática, porque... O dia precisa caminhar, o dia precisa caminhar. Mas hoje foi uma sessão de bug reports. Practice sets, exercícios, dane. Beleza. Beleza, vamos jogar uma amistosa, né? Poderia até jogar uma blitz hoje, viu?",
+      "timestamp": "53:08"
+    },
+    {
+      "time": "53:29",
+      "seconds": 3209,
+      "text": "Pra gastar menos tempo. Eu tô... eu comecei a jogar um pouquinho mais de blitz, mas ainda... Vocês veem o tanto que eu peno pra contra o tempo na rápida. Vou de rápida mesmo. Mas o blitz, eu acho que jogar mais blitz vai me dar uma... um senso de urgência maior do que jogar as rápidas.",
+      "timestamp": "53:29"
+    },
+    {
+      "time": "54:02",
+      "seconds": 3242,
+      "text": "E aí depois eu volto pra rápidas com o senso de urgência que eu ganhei na blitz. Talvez eu fique melhor. Vamos ver. Desligar o chat aqui. Concentração máxima. Vamos de rápida, né? Então fora da live eu tenho jogado mais blitz pra... tentar melhorar o meu senso de urgência.",
+      "timestamp": "54:02"
+    },
+    {
+      "time": "54:18",
+      "seconds": 3258,
+      "text": "Ah, puta aqui, vamos ver o que que vai acontecer. Hoje não tá no modo Zen. Tô vendo que o meu adversário é lá da casa dos 930, 940. Então acho que eu tô jogando com alguém mais ou menos do mesmo nível. Se ele fizer o primeiro lance dele.",
+      "timestamp": "54:18"
+    },
+    {
+      "time": "54:41",
+      "seconds": 3281,
+      "text": "Se essa pessoa sem bandeira, só tem classificação de rápidas. Opa, fez o movimento. Certo.",
+      "timestamp": "54:41"
+    },
+    {
+      "time": "54:55",
+      "seconds": 3295,
+      "text": "Certo, cavalo. Aí, aí, né, tem que fazer um jogo um pouquinho mais piano. Ah... Certo. Que que foi aquilo ali, né? Ah, acho que tá na hora de eu levar o meu outro cavalo. Faça o seu desenvolvimento. Se aqui toma... Opa, que que tá acontecendo aqui? Ok, ele já... Ixe agora, hein?",
+      "timestamp": "54:55"
+    },
+    {
+      "time": "55:25",
+      "seconds": 3325,
+      "text": "Agora esse bispo eu vou tirar pra onde? Pra cá? Só quero fazer meu rock, gente. Vamos pra cá, então. Ontem eu vi uma... Uma speedrun, Sleep Run do Krikor lá, que o adversário dele botou o bispo aqui e ele criticou. Ele falou, que que é isso?",
+      "timestamp": "55:25"
+    },
+    {
+      "time": "55:52",
+      "seconds": 3352,
+      "text": "Por que que as pessoas põem o bispo aqui? Sei lá, não sei se era a mesma situação. Eu gosto desse bispo em B5, mas infelizmente hoje não deu, né. Cadê? Que que tem pra mim aqui? Que que ele vai fazer? Se ele vier copiar um... Pô, veio de dama. Pô... Eu gosto do meu...",
+      "timestamp": "55:52"
+    },
+    {
+      "time": "56:22",
+      "seconds": 3382,
+      "text": "Já tive uma situação que o bispo tava aqui quando a dama veio, hein. Tá, o que que essa dama tá ameaçando aqui? No momento, nada. Tá lá só enchendo o saco. Devo encher o saco dela de volta ou fazer meu rock? Isso aqui é uma ameaça de alguma coisa?",
+      "timestamp": "56:22"
+    },
+    {
+      "time": "56:44",
+      "seconds": 3404,
+      "text": "Até essa dama chegar aqui não aconteceu nada, né? Tem algo mais agressivo do que rock pra eu fazer? Expulsar a dama aqui, mas aí... Aí é vazio, né. Ninguém protege esse peão ali. Meter esse peão aqui... Faz nada, né. Acho que o melhor que eu tenho pra mim é meu rock ou...",
+      "timestamp": "56:44"
+    },
+    {
+      "time": "57:07",
+      "seconds": 3427,
+      "text": "Continuar aqui liberando meu centro, né. Que que isso vai me dar? Tira uma proteção do cavalo, ainda tem outra. Mas dois são boas. Rock ou peão... Sei lá, vamos rock. Mais fácil, não quero pensar muito, não quero gastar tempo. Ah, ok. Esse aqui agora... Me ferrei, né.",
+      "timestamp": "57:07"
+    },
+    {
+      "time": "57:48",
+      "seconds": 3468,
+      "text": "Não, tá defendido aqui. Tá bom. Tá, porque ele tem cavalo e dama, né. Então esse cavalo... Cavalo, dama e acabou pra mim, né. Tá. Esse é meio descartável. Um bispo por... Não, isso aqui não tá valendo a pena. Acho que eu vou vim pra cá, então. Que que eu tenho pra fazer aqui?"
+    },
+    {
+      "time": "58:14",
+      "seconds": 3494,
+      "text": "Acho que agora encher o saco da dama, né. Mas ali é vazio, né. Tem como eu... Ah, tomar de cavalo. Aí cavalo por cavalo, por bispo. Nada aqui, né. Não tenho o que fazer aqui. Vou voltar como covarde com o rabinho entre as pernas. Pra frente ou pra trás.",
+      "timestamp": "58:14"
+    },
+    {
+      "time": "58:31",
+      "seconds": 3511,
+      "text": "Aí, no meu cavalo, eu pego com outro cavalo, tá safe, tá bom. Pra pegar aqui se ele vier com o peão. É, tenho que botar em prática o meu plano, né. Isso aqui me deu alguma coisa? Acho que não. Tô pendurando peça, gente. Vocês estão muito decepcionados comigo hoje? Vamos ver.",
+      "timestamp": "58:31"
+    },
+    {
+      "time": "59:13",
+      "seconds": 3553,
+      "text": "Eu tô decepcionado com o meu tempo. Tô gastando muito tempo. Esse aqui... Olha que casa boa pra dama que é essa aqui, né. Tem sempre, tá sempre defendendo a saída de outras pessoas ali, né. Tá bom. Que que esse peão aqui também ameaçando nada. Deixa ele quieto aí."
+    },
+    {
+      "time": "59:32",
+      "seconds": 3572,
+      "text": "Vou seguir meu jogo pra cá. Liberar esse aqui, ó. Uma boa. Essa peça quer sair de casa. Ok. Agora sim, né. Ele mesmo fez uma interferência ali. Agora é safe eu tomar esse bispo.",
+      "timestamp": "59:32"
+    },
+    {
+      "time": "59:48",
+      "seconds": 3588,
+      "text": "Tenho a impressão que isso foi blunder do lado dele, a não ser que seja uma armadilha que eu não estou vendo. Como que eu estou gastando muito tempo? Estou dois minutos atrás no relógio, não vai dar tempo, gente.",
+      "timestamp": "59:48"
+    },
+    {
+      "time": "1:00:11",
+      "seconds": 3611,
+      "text": "Ah, todo dia essa história de não dar tempo. Vamos lá, o que tem aqui? Esse aqui é o próximo. Então, aqui é cavalo, toma, sei lá, eu já estava querendo sair com esse cara mesmo. Tá, agora é minha hora de... Agora é minha hora de nada.",
+      "timestamp": "1:00:11"
+    },
+    {
+      "time": "1:00:37",
+      "seconds": 3637,
+      "text": "É hora de dar o presente grego aqui não, né? Tá bom, vamos ver aqui. Por que que eu fiz isso? Tomar o que ele quer, né? Tomar o que ele quer mesmo? Deixa eu ver. Ninguém defende aqui. Aqui é péssimo. Tem que vim cavalo aqui.",
+      "timestamp": "1:00:37"
+    },
+    {
+      "time": "1:01:21",
+      "seconds": 3681,
+      "text": "Nossa, que joguinho truncado. Ah, beleza. Me tirou uma dúvida a menos aqui. Pera aí, então. Aí acho que é melhor eu vim aqui primeiro, né? Se eu vier aqui e ele vier ali, eu venho aqui e o jogo continua truncado."
+    },
+    {
+      "time": "1:01:41",
+      "seconds": 3701,
+      "text": "Ah, mas se eu vier aqui, ah, já não tem mais rei pra eu cravar lá. Aqui vem, vai. Estou dois minutos atrás no relógio, preciso jogar mais rápido. Não, ele precisa jogar mais devagar. Eu estou na minha velocidade.",
+      "timestamp": "1:01:41"
+    },
+    {
+      "time": "1:01:50",
+      "seconds": 3710,
+      "text": "Mas tudo bem, se ele tomar meu peão, eu venho com o cavalo pra cá. Por que que eu faria isso? Pra tentar retomar mais tarde? Ah, não tomou, beleza. Agora acho que não tem problema eu tomar o cavalo aqui, né? Tá defendido pelo meu bispo.",
+      "timestamp": "1:01:50"
+    },
+    {
+      "time": "1:00:37",
+      "seconds": 3637,
+      "text": "Fazer ele pensar. Tem que fazer ele pensar. Se ele tomar de bispo aqui, aí nós vamos pro troca-troca, né? Nossa, não quero dar isso. Que que eu quero fazer aqui? Que que eu quero fazer aqui? Muito discreto. Aqui, aqui. Aqui não, né?",
+      "timestamp": "1:00:37"
+    },
+    {
+      "time": "1:03:09",
+      "seconds": 3789,
+      "text": "Então, ou aqui ou ali. É algo que eu tenho que fazer, né? Ninguém toma isso aqui. Tomou aqui, ou aqui, ou aqui, ou aqui. Aqui, tá bom. Vamos jogar igual o... Qual que chama? Krank, sei lá. Bom, aí depois se ele... Aqui eu quero isso."
+    },
+    {
+      "time": "1:03:24",
+      "seconds": 3804,
+      "text": "Aqui eu quero isso. Tem muita coisa que eu quero aqui. Tá. Acho que eu quero isso. Ou tem coisa mais agressiva pra eu fazer aqui. Check, não. Check não? Check sim. Check sim. Por quê, né? Aqui. CCT, CCT agindo. Se foi blunder, não sei, mas...",
+      "timestamp": "1:03:24"
+    },
+    {
+      "time": "1:03:53",
+      "seconds": 3833,
+      "text": "Continua agora quase três minutos atrás no relógio. Melhor nas peças. Boa. Boa, o que que tem pra esse cavalo agora? Se eu guardar, chega alguém aqui, né? O que que tem aqui? O que que tem aqui? Oferecer uma troca de dama aqui. Ah, não.",
+      "timestamp": "1:03:53"
+    },
+    {
+      "time": "1:04:29",
+      "seconds": 3869,
+      "text": "Usar minha dama pra meter pressão. Meter pressão. Cadê? Se eu vier pra cá... Abri um file aqui. É, tá bom. Cavalo aqui é uma opção. Três minutos e quarenta. Torre aqui é uma opção. Não, torre aqui ainda não.",
+      "timestamp": "1:04:29"
+    },
+    {
+      "time": "1:05:00",
+      "seconds": 3900,
+      "text": "Ai, tô com poucas opções aqui e peão aqui é uma opção. Quero sair com essa torre pra algum lugar. E aí, ninguém enche o saco dessa dama dele? Eu acho que cheque aqui deve estar errado, mas tudo bem. Vai me liberar um file aqui, uma coluna."
+    },
+    {
+      "time": "1:05:16",
+      "seconds": 3916,
+      "text": "Depois eu vejo o que eu faço com isso. Ah, me liberou desse lado. Hum, ajudei ele no desenvolvimento dessa torre. Não sei não. Esse F7 é sempre importante. É mais importante quando... né, tudo bem, vamos parar de pensar. Ganhar. O que que eu vou ganhar aqui?",
+      "timestamp": "1:05:16"
+    },
+    {
+      "time": "1:05:54",
+      "seconds": 3954,
+      "text": "Hum, abrir outro file aqui, né? Talvez ele queira tomar pra cá. Tá bom. Como ele tá no direito dele. E assim como eu tô no meu direito de torre na sétimo, né? Hum, não pode ser tão ruim torre na sétimo. Hum, hum, hum. E agora? O jogo equilibrou, né?",
+      "timestamp": "1:05:54"
+    },
+    {
+      "time": "1:06:17",
+      "seconds": 3977,
+      "text": "Tu já teve mais 4 pro meu lado, mas eu justifico o meu sacrifício do cavalo como uma jogada posicional. Cadê, cadê, cadê? Hum, vamos lá. Joguinho meloso, né? Joguinho meloso. Por que que eu não per... Ah, tá. Hum, eu preciso trazer essa torre pro jogo, né?",
+      "timestamp": "1:06:17"
+    },
+    {
+      "time": "1:06:46",
+      "seconds": 4006,
+      "text": "Tá bom, se quiser... Ah... Se quiser... Se quiser que venha, pô. Cadê? Trazer uma ameaça de xeque-mate aqui. Não é, né? Aqui seria isso. Aqui é uma ameaça. Threats, threats, threats, threats. Né? Tô ameaçando um... Ameaçando um threat aqui. Qual que é?",
+      "timestamp": "1:06:46"
+    },
+    {
+      "time": "1:07:16",
+      "seconds": 4036,
+      "text": "Ah, checks, threats. Pega aí. Pega o bispo ali, ó. Pega que eu sou... Eu tenho um threat na sua cabeça. Você tem que lidar com esse threat. É isso, né? É isso. xeque-mate! Uh, valeu o tempo. Yes! Yes, chat! Vitória, finalmente uma vitória nesse canal. Pelo amor de Deus.",
+      "timestamp": "1:07:16"
+    },
+    {
+      "time": "1:07:58",
+      "seconds": 4078,
+      "text": "Cadê, chat? With chat. Uh! Sacrifício do meu cavalo não foi em vão. Olha como é... Olha como são as coisas, não? Muito bem. Parabéns ao meu oponente. Lutou bravamente, mas hoje... Ah, hoje foi... Finalmente uma vitória gravada, hein?",
+      "timestamp": "1:07:58"
+    },
+    {
+      "time": "1:08:19",
+      "seconds": 4099,
+      "text": "Todo dia é derrota, é derrota por tempo, é empate. Ah, finalmente uma vitória. Mas fiz cagada, hein? Três capivaradas. Não foi uma precisão... Bonita, mas o resultado veio. Principalmente no final, né?",
+      "timestamp": "1:08:19"
+    },
+    {
+      "time": "1:08:35",
+      "seconds": 4115,
+      "text": "Aquela hora que eu tava com vantagem de 4, eu já tinha perdido vantagem, né? Aqui eu tava com vantagem de 4, mas ó... Essa vantagem já foi de 8. Tudo bem. Caguei no meio do jogo, mas foi por um... Por um lance 21. Se ele fosse um pouco melhor, tinha ganho sua torre.",
+      "timestamp": "1:08:35"
+    },
+    {
+      "time": "1:09:07",
+      "seconds": 4147,
+      "text": "Aproveitei do erro dele. Vamos ver esse lance 21 direto, ó. Cadê? Lance 21. É, deve ser esse blunder aqui, né? Ah, o meu blunder. Ah, é isso aqui. Ixe, deixa eu apagar essas setas aqui, senão eu vou levar um spoiler na cabeça toda hora. Ah, ah, ah. Tá certo.",
+      "timestamp": "1:09:07"
+    },
+    {
+      "time": "1:09:32",
+      "seconds": 4172,
+      "text": "É, isso foi um blunder, né? Com que ele poderia ter pego minha torre aqui. E já um spoiler aqui, ó. Dama F1 teria sido melhor. Dama aqui teria melhor, né? Porque aí, né? Ver o que que ele quer fazer com esse peão.",
+      "timestamp": "1:09:32"
+    },
+    {
+      "time": "1:09:53",
+      "seconds": 4193,
+      "text": "Tá, esse foi um dos meus três blunders. Não deveria ter saído com a torre daqui. Eu não tinha motivo nenhum pra sair com essa torre daqui, né? Tinha? Por que que eu levei? Ah, tá, aqui eu estava em dúvida, quatro minutos atrás do relógio. Eu meio que levei uma máxima de que torre na sétimo é bom, mas sem base nenhuma, né?",
+      "timestamp": "1:09:53"
+    },
+    {
+      "time": "1:10:21",
+      "seconds": 4221,
+      "text": "Então, isso aqui já tinha sido blunder, ok? Isso foi imprecisão, sacrifício do cavalo na hora. Tá. Mas até aqui, até aqui a precisão estava boa, né? Esse blunder foi do lado dele. Esse blunder foi do lado dele. Isso foi uma imprecisão do lado dele também. Tá. Do meu lado teve uma inaccuracy na abertura.",
+      "timestamp": "1:10:21"
+    },
+    {
+      "time": "1:10:50",
+      "seconds": 4250,
+      "text": "Inaccuracy, mas eu acho que é uma inaccuracy documentada essa aqui. Deixa eu ver. Essa inaccuracy tem nome. Essa inaccuracy se chama Alekhine Defense. Defesa Alekhine. Não, a defesa Alekhine é do lado dele. Isso tem nome, né? O meu é só uma inaccuracy mesmo. Tá bom. Foi o que gerou o mate no final. Então funcionou, né, Probraise?",
+      "timestamp": "1:10:50"
+    },
+    {
+      "time": "1:11:15",
+      "seconds": 4275,
+      "text": "Ô, Probraise. Olha o meio jogo que eu deixei escapar aqui, meu. Até aqui estava tudo bem, né? Olha essa vantagem de mais 4. Até aqui eu tinha que ter deixado quieto, né? A obrigação de tomar iniciativa aqui é dele, né? Quem está em maus lençóis aqui é ele. Eu não tinha que sair desesperado, né? Não era o momento, né?",
+      "timestamp": "1:11:15"
+    },
+    {
+      "time": "1:11:51",
+      "seconds": 4311,
+      "text": "Tem um pouquinho mais de paciência aqui. E aqui até dava pra ter paciência. Tinha 4 minutos. O que seria uma boa jogada aqui, por exemplo? Deixa eu ver. Tomar aqui não seria bom, não. O que seria uma boa jogada aqui? Duplicar aqui? Fazer uma bateria? Isso aqui teria sido blunder. Porque aqui, né? Aí fica 1, 2, 3, né?",
+      "timestamp": "1:11:51"
+    },
+    {
+      "time": "1:12:19",
+      "seconds": 4339,
+      "text": "Brigar pelo E5 ali, né? 3 contra 2, né? É, isso aqui não teria sido ruim, não. Pra depois sair pra catar isso aqui e fazer tudo acontecer, né? Tá. Essa teria sido uma jogada melhor do que o meu sacrifício sem sentido. O meu sacrifício para de hora do cavalo, né? Trocas damas, mas é ok, né? É, né? 3 contra 2 ali, né?",
+      "timestamp": "1:12:19"
+    },
+    {
+      "time": "1:12:48",
+      "seconds": 4368,
+      "text": "Vamos ver como que esse jogo progride. Se eu botar só as melhores jogadas do Stockfish aqui, ó. Se o jogo progride, ó. Isso aqui eu achei estranho. Apesar do A5 ser uma casa boa pra dama, ele simplesmente largou a dama dele em A5 o jogo inteiro, né? Essa dama depois que caiu em A5 ali, não saiu mais em nenhum momento, né?",
+      "timestamp": "1:12:48"
+    },
+    {
+      "time": "1:13:21",
+      "seconds": 4401,
+      "text": "Desde do lance 4, ó. Até o fim do jogo, essa dama ficou paradinha lá. Você acredita, cara? Se jogar, tipo, no lance 23, ele não mexeu a dama, cara. O seu único movimento foi meter essa dama em A5 e deixar ela estacionada lá. Isso aqui tá errado, né? Do meu oponente fazer isso.",
+      "timestamp": "1:13:21"
+    },
+    {
+      "time": "1:13:42",
+      "seconds": 4422,
+      "text": "Ele largou, ele esqueceu que ele tinha uma dama pra jogar. 25 partidas com essa dama estacionada em A5 ali, sem fazer nada. Eu acho que, eu acho que é errado isso aí. Eu estaria sempre cogitando jogadas com a dama ali, né? Típico de iniciante. Ah, eu você... Sorte que você não expulsou. Não, isso.",
+      "timestamp": "1:13:42"
+    },
+    {
+      "time": "1:14:10",
+      "seconds": 4450,
+      "text": "Eu tava pensando em voz alta se eu deveria expulsar a dama de lá ou não, né? Porque é incômoda. Ninguém pode falar que não é incômoda você ter uma peça que... Bem no limite das duas metades, né? O tempo todo olhando pra tudo que tá saindo do lado dele, tudo que tá entrando do seu lado. Essa dama daqui é bem incômoda.",
+      "timestamp": "1:14:10"
+    },
+    {
+      "time": "1:14:41",
+      "seconds": 4481,
+      "text": "Então a vontade de meter um... Uma jogada errada, tipo isso aqui, é... Passa pela cabeça, né? A vontade... Só que aqui, por sorte, eu vi que aqui era errado, né? Isso aqui, né? Sem nenhuma defesa e tal.",
+      "timestamp": "1:14:41"
+    },
+    {
+      "time": "1:14:59",
+      "seconds": 4499,
+      "text": "Isso aqui tá considerado cravado por conta da torre. Tipo, pensei em fazer isso aqui também em algum momento. Não ameaça nada a dama, né? Então seria só uma perda de tempo do meu lado. Ainda bem que eu não fiz nenhuma dessas duas coisas. Mas, então, até minha precisão na abertura, eu considero boa pro meu nível 85.",
+      "timestamp": "1:14:59"
+    },
+    {
+      "time": "1:15:24",
+      "seconds": 4524,
+      "text": "Só que já começou com uma inaccuracy, né? Fora essa inaccuracy, o que que era melhor que essa inaccuracy aqui? Defender com esse peãozinho aqui? Teria sido melhor, né? Já abre o espaço pro bispo, isso aí. É, tá bom. Tá bom. É que eu tô tão focado em tirar os cavalos que aqui, né? Isso aqui só normal.",
+      "timestamp": "1:15:24"
+    },
+    {
+      "time": "1:15:45",
+      "seconds": 4545,
+      "text": "Ah, mas o equilíbrio vai pra lá, hein? Como que eu mantenho essa barra do lado da branca aqui? O que eu fiz destrói minha barra também, né? Ah, isso ou isso destrói a barra igual. Tá. O que que seria melhor, então? Deixar quieto? E se ele vier, eu faço alguma coisa? Sai com o bispo primeiro. Ah, o bispo aqui, ó.",
+      "timestamp": "1:15:45"
+    },
+    {
+      "time": "1:16:09",
+      "seconds": 4569,
+      "text": "O bispo aqui é muito ruim. A barra vai embora, né? É ruim. É, essa questão de abertura aqui, acho que não tem muita resposta certa, não. Essa aqui é uma das piores, né? Que eu tô desprotegendo meu rei. Isso aqui a barra deve ir lá embaixo, né? Cadê? Cadê o que ele fez? Isso aqui nunca, né? É, isso aqui é ruim pra barra.",
+      "timestamp": "1:16:09"
+    },
+    {
+      "time": "1:16:35",
+      "seconds": 4595,
+      "text": "Isso equilibra. O que eu fiz equilibra igual. É, acho que não... Eu justifico que isso aqui é um inaccuracy A3. A3. É aqui? A barra não, né? A3 não sei em que momento que você tá falando pra base. Deixa eu ver. Tá, eu não sei o que que seria aqui em termos de abertura melhor do que eu fiz. Ah, esse aqui, ó.",
+      "timestamp": "1:16:35"
+    },
+    {
+      "time": "1:17:07",
+      "seconds": 4627,
+      "text": "Esse aqui, pelo menos não. É ruim também. É, eu acho que o que eu fiz não é ruim não. Inaccuracy aqui, eu consigo justificar minha inaccuracy. CC3 é o melhor. Vamos ver. Ah é, podia ter ligado. Ah aqui ó, tá mostrando o que que é o melhor, né? As setas do Stockfish estão ligadas, né? O E5 é o melhor, segundo o Stockfish.",
+      "timestamp": "1:17:07"
+    },
+    {
+      "time": "1:17:43",
+      "seconds": 4663,
+      "text": "Mas quem que faz esse E5 aqui ó? Os grandes mestres fazem? Deixa eu ver. Masters Database aqui. Cadê o livro? Masters Database. Já rolou esse E5 ali, hein? Caramba, Caruana contra Magnus. Rolou isso aqui, hein? Caramba, 2020, Magnus e Caruana. Começou assim a partida deles. Olha que coisa. Quem que era o branco aqui? Caruana.",
+      "timestamp": "1:17:43"
+    },
+    {
+      "time": "1:18:10",
+      "seconds": 4690,
+      "text": "Fabiano Caruana. Sabe fazer esse movimento da máquina aqui, hein? Carlsen e Nakamura, 2016. Ganhou as brancas. Ganhou Carlsen. Carlsen já fez isso contra Nakamura em 2016. Olha que legal. Porra, acho que não vai acontecer esse alequinho defense de novo contra mim. Mas, olha, isso aqui é muito contra as regras, né?",
+      "timestamp": "1:18:10"
+    },
+    {
+      "time": "1:18:40",
+      "seconds": 4720,
+      "text": "Não mexa duas peças durante a abertura. Ah, mexe, porra. Aí, ó. Vai lá, ó. Carlsen mexe. Caruana mexe. Por que que eu não vou mexer, né? Olha lá. Muito bom isso aqui. Carlsen ganhou do Nakamura. Caruana empatou com Magnus. Ó, empatar com Magnus é vitória, porra. Que que é isso? Ah... Carlsen... Perdeu?",
+      "timestamp": "1:18:40"
+    },
+    {
+      "time": "1:19:11",
+      "seconds": 4751,
+      "text": "Será que Carlsen perdeu aqui? Carlsen... Perde de pretas. Perdeu pra quem fez isso, hein? Olha. Esse aqui é o caminho pra você ganhar do Carlsen, cara. Vai lá. Brancas desistiram. Ah, não. Carlsen ganhou. Esquece tudo que eu falei. Beleza. Ah, esse movimento é pra GM, hein, Nicole? Não faça isso, você iniciante.",
+      "timestamp": "1:19:11"
+    },
+    {
+      "time": "1:19:36",
+      "seconds": 4776,
+      "text": "Deixa isso aqui pros GMs fazerem. Tá bom. Então, tudo bem. Eu não sendo um GM, eu fiz uma inaccuracy que eu acho que é totalmente justificável numa abertura dessa aqui. Jogando com um...",
+      "timestamp": "1:19:36"
+    },
+    {
+      "time": "1:20:00",
+      "seconds": 4800,
+      "text": "Uma truncada é uma abertura meio bizarra aqui, né? Essa Alechina, a partir daqui, é não documentada, né? Até aqui ainda é passível de defender. Aqui já... Ah não, nenhuma partida com o meu bispo aqui. Mas o meu bispo aqui não tem nada de Necrux também. Está tudo certo do lado das brancas aqui."
+    },
+    {
+      "time": "1:20:03",
+      "seconds": 4803,
+      "text": "Encrux foi esse. O melhor movimento da máquina é o cavalo toma, que foi o que eu fiz. Beleza. Aí, mistake do lado dele. Eu respondi com um mistake do meu lado. Então, vamos deixar de tomar spoiler aqui e revisar só meus erros, só pra fechar essa live que está com uma hora e vinte já.",
+      "timestamp": "1:20:03"
+    },
+    {
+      "time": "1:20:32",
+      "seconds": 4832,
+      "text": "Vamos resumir aqui. Aprenda com os meus erros. Essa é pra vocês, aprenderem com os meus erros. John Carlos. Bom dia, John Carlos. Sim, claro que é muita gente já ganhou do Carlsen, né? O cara não é invencível. Sim, sim, sim, claro, claro, claro, claro.",
+      "timestamp": "1:20:32"
+    },
+    {
+      "time": "1:20:53",
+      "seconds": 4853,
+      "text": "Ih, pô, eu assisti o Sup ganhando do Carlsen ao vivo lá no... Não, acho que não era title Tuesday, mas era um dia à noite ali. Ah, acho que era naqueles... Ah, não, não foi nem ao vivo, foi vídeo gravado, né? Mas foi bem recente. O Sup empata e ganha direto do Carlsen, né?",
+      "timestamp": "1:20:53"
+    },
+    {
+      "time": "1:21:22",
+      "seconds": 4882,
+      "text": "O cara não é invencível, não. Eu sei, mas é na brincadeira, né? O cara é... o cara é o melhor do mundo, né? Há algum tempo, né? Há uns 15 anos. Então vamos lá. Ah lá pra Base. Eu e você estamos invicto ainda, hein? Eu também, nunca perdi pro Carlsen, cara. Essa aí vai ser a minha nova frase.",
+      "timestamp": "1:21:22"
+    },
+    {
+      "time": "1:21:46",
+      "seconds": 4906,
+      "text": "Essa é bom xadrez, ó. Nunca perdi pro Carlsen. Começa por aí. Vamos lá. Então tá ótimo. Essas piadas de vocês fazem o meu dia, meu. Ah, vamos lá. Aprenda com os meus erros. No lance 9, D3 foi jogado. D3 foi jogado no lance 9. Qual que era o bom? Qual que era...",
+      "timestamp": "1:21:46"
+    },
+    {
+      "time": "1:22:15",
+      "seconds": 4935,
+      "text": "Qual que era uma coisa melhor que D3? Em minha defesa, eu queria abrir o caminho desse bispo aqui pra fazer qualquer coisa, né? Mas tudo bem. Em minha defesa... Trocar bispo por cavalo e ter uma dama centralizada ali. Não sei se isso era boa jogada, não. Deixa eu ver.",
+      "timestamp": "1:22:15"
+    },
+    {
+      "time": "1:22:45",
+      "seconds": 4965,
+      "text": "Qual que era a boa jogada ao invés do que eu joguei? D3. Avançar com o cavalo? O cavalo defende cavalo pra chegar onde, né? Avançar com qual cavalo também, né? Isso aqui me dá alguma coisa. Aqui, né? Olha, tem um peãozinho pendurado ali, né? Ganhar um peãozinho aqui teria sido a melhor jogada.",
+      "timestamp": "1:22:45"
+    },
+    {
+      "time": "1:23:22",
+      "seconds": 5002,
+      "text": "Ah não, não tá pendurado, não. Tá defendido pelo rei. Pera aí. Cadê? Ah, trocar. Isso teria sido boa jogada. Às vezes o Stockfish quer iniciativa da gente. Essa não teria sido a boa jogada. Então eu desisto. Solução. Desenvolver a dama. É, um passo... Ah, tá, porque aí, né?",
+      "timestamp": "1:23:22"
+    },
+    {
+      "time": "1:23:48",
+      "seconds": 5028,
+      "text": "Aí fica 2 contra 1 nessa casa aqui, né? Tá bom. Seria realmente uma jogada melhor do que eu fiz. Aprenda com os meus erros. Erro 2 de 5. Erro 2 de 5. Essa aqui tava óbvio que o que eu fiz não foi a melhor jogada, mas eu tava sem ideia.",
+      "timestamp": "1:23:48"
+    },
+    {
+      "time": "1:24:21",
+      "seconds": 5061,
+      "text": "Então eu acho que a melhor jogada aqui teria sido montar uma bateria aqui, né? Errado. Melhor jogada aqui. Tem outro lugar pra esse cavalo? Cavalo aqui... Não vejo qual que é o plano por trás disso. Torre... Dama... Dama pra frente em algum lugar?",
+      "timestamp": "1:24:21"
+    },
+    {
+      "time": "1:24:56",
+      "seconds": 5096,
+      "text": "E toma aqui, deixa eu ver. Toma aqui, toma, retoma. Toma, retoma. Aí eu posso... Quem que retomar foi o cavalo, tá? Subir com essa dama pra algum lugar. Tomar teria sido bom. Não me parece bom, porque ele tem duas peças defendendo aqui e eu só tenho uma.",
+      "timestamp": "1:24:56"
+    },
+    {
+      "time": "1:25:22",
+      "seconds": 5122,
+      "text": "Olha, Stockfish diz que tomar de peão ali é uma boa jogada. Como isso continua nas melhores jogadas da engine. Cavalo toma. Agora é dúvida, né? Não é torre retoma, com certeza. Esse aqui, tá, torre anda um pouquito. É, eu não teria pensado nisso, de forma alguma.",
+      "timestamp": "1:25:22"
+    },
+    {
+      "time": "1:25:48",
+      "seconds": 5148,
+      "text": "Protege minha dama. É, não teria pensado em nada disso. Aí só depois, lá uns quatro movimentos pra frente, faz a bateria, beleza. Prenda com meus erros, erro 3 de 5. Minha ideia por trás disso aqui foi abrir uma casa aqui. Foi outro sacrifício.",
+      "timestamp": "1:25:48"
+    },
+    {
+      "time": "1:26:21",
+      "seconds": 5181,
+      "text": "Eu tô entregando peça demais, né? Sacrifício é um negócio que tem que ser feito cirurgicamente, não a torto e a direito, né? Melhor jogada aqui. Tomar de peão de novo? Tomar de peão teria sido melhor na visão de Stockfish. E esse jogo continua com o cavalo bateria, tá.",
+      "timestamp": "1:26:21"
+    },
+    {
+      "time": "1:26:50",
+      "seconds": 5210,
+      "text": "Toma, troca, a ameaça continua lá. Esse jogo aqui tá melhor pras brancas, mas dá trabalho enxergar lá, né? Tá bom. Prenda com meus erros, 4 de 5. Aqui tinha uma resposta mais fácil, né? Avançar com o pião, avançar com a dama, avançar com a torre.",
+      "timestamp": "1:26:50"
+    },
+    {
+      "time": "1:27:14",
+      "seconds": 5234,
+      "text": "Algumas opções aqui, né? Avançar com a torre seria bom? Acho que não, né? Toda vez que eu venho com a torre mais pelo meio, eu me arrependo depois. Só fazer a bateria, também não. Avançar com o pião. Não, vixe aqui. Então deve ter uma coisa muito matadora aqui.",
+      "timestamp": "1:27:14"
+    },
+    {
+      "time": "1:27:48",
+      "seconds": 5268,
+      "text": "Deixa eu ver. Não, aqui eu tô convidando o perigo pra dentro de casa. Aqui, né? Essa era. É, tá certo, tá certo. Esse aqui. Beleza, esses foram meus erros. Finalmente uma vitória na live. Sai zica, né? Sai zica. Vou cadastrar esse jogo aqui.",
+      "timestamp": "1:27:48"
+    },
+    {
+      "time": "1:28:10",
+      "seconds": 5290,
+      "text": "Joguei contra a defesa Alekine. É uma boa defesa essa Alekine. Cadê? Carlos Caruana. Não, Fabiano Caruana. Alekine defense. Ah, é bem popular. Can lead to some wild positions. White can very quickly put a lot of pawns in the center with tempo.",
+      "timestamp": "1:28:10"
+    },
+    {
+      "time": "1:28:44",
+      "seconds": 5324,
+      "text": "It's unclear how useful this big pawn... Ah, aqui ó, finalmente uma sessão pra trás lá que eu falei que eu joguei contra o meu sobrinho. Ele começou de cavalo. Será que foi essa Alekine defense? Ele tava de pretas? Eu acho que ele tava de pretas.",
+      "timestamp": "1:28:44"
+    },
+    {
+      "time": "1:29:07",
+      "seconds": 5347,
+      "text": "Eu acho que eu já joguei contra isso contra uma criança antes. Meu sobrinho fez isso contra mim. É claro que ele cometeu erros, mas outros erros. Inclusive aqui no cavalete ele deu tanta sopa com essa... Nossa, nem quero lembrar, coitado. Vamos lá. Mas Alekine defense.",
+      "timestamp": "1:29:07"
+    },
+    {
+      "time": "1:29:32",
+      "seconds": 5372,
+      "text": "É unclear. It's unclear how useful this big pawn center really is. Tá, se a resposta do branco for sair desembestado pra encher o centro de peão, ainda é...",
+      "timestamp": "1:29:32"
+    },
+    {
+      "time": "1:29:49",
+      "seconds": 5389,
+      "text": "Ainda não é indecidido aí se isso é uma boa estratégia ou não. Ah, essa abertura foi jogada pela primeira vez pelo Alekine em 1921.",
+      "timestamp": "1:29:49"
+    },
+    {
+      "time": "1:30:11",
+      "seconds": 5411,
+      "text": "Foi considerada incrivelmente incomum para a época, porque a expectativa era que todo mundo queria estabelecer peões no centro. Parecia loucura mover o cavalo no começo, gastar tempo movendo o mesmo cavalo muitas vezes, né?",
+      "timestamp": "1:30:11"
+    },
+    {
+      "time": "1:30:45",
+      "seconds": 5445,
+      "text": "Então a ideia aqui de uma defesa impopular como Alekine, né? Ficar movendo esse cavalo ainda é incerto desde 1921. Tem gente que experimenta com ela. Muitos grandmasters fortes usam isso.",
+      "timestamp": "1:30:45"
+    },
+    {
+      "time": "1:31:18",
+      "seconds": 5478,
+      "text": "É popular entre os grandmasters, aqui Carlsen, Fischer, Nakamura, Alekine. Tem gente que joga isso a sério, como vimos, e lá no high level dos grandmasters, a resposta é isso. É esse C5.",
+      "timestamp": "1:31:18"
+    },
+    {
+      "time": "1:31:36",
+      "seconds": 5496,
+      "text": "Como que esse jogo anda daqui é bem complicado. Wild positions, ó, anda touro no centro de peão. Wild positions. Beleza, beleza, beleza. Apaga essa branch aqui que eu não gosto dela. Excluir a partir daqui. Pronto, delete.",
+      "timestamp": "1:31:36"
+    },
+    {
+      "time": "1:32:03",
+      "seconds": 5523,
+      "text": "Vixi, eu abri um monte de branch aqui. Sai, sai, sai. Ah, não tem pra que deixar tudo limpinho também, né? Isso aqui é... tá bom, inaccuracy. Beleza, o que que temos a falar sobre esse jogo, só pra deixar registrado. Notas.",
+      "timestamp": "1:32:03"
+    },
+    {
+      "time": "1:32:38",
+      "seconds": 5558,
+      "text": "Quais foram meus erros mesmo? A abertura, né? Minha abertura eu podia ter... O meio jogo foi ruim, na verdade, né? Minhas capivaradas. Vamos só nas capivaradas, né? Quais foram minhas capivaradas? Tentei atacar cedo, né?",
+      "timestamp": "1:32:38"
+    },
+    {
+      "time": "1:33:11",
+      "seconds": 5591,
+      "text": "Tive um pouco de pressa para ir ao ataque, sendo que eu estava bem melhor no material, né? Poderia ter montado um ataque um pouquinho mais indefensável, né? No material. Poderia ter gasto mais lances preparando com calma.",
+      "timestamp": "1:33:11"
+    },
+    {
+      "time": "1:33:49",
+      "seconds": 5629,
+      "text": "É, xadrez é um balanço que se você tem muita calma, perde no tempo. Se você tá preocupado com o tempo, comete blunders. Como que... como que o meu oponente poderia se beneficiar desse meu blunder aqui?",
+      "timestamp": "1:33:49"
+    },
+    {
+      "time": "1:34:10",
+      "seconds": 5650,
+      "text": "Alguém falou no chat que tinha como o meu oponente ganhar uma peça, né? Vamos ver. Não é provavelmente com os movimentos do Stockfish, né? Se alguém jogar certo, esse blunder não tem...",
+      "timestamp": "1:34:10"
+    },
+    {
+      "time": "1:34:26",
+      "seconds": 5666,
+      "text": "Nossa, mas esse blunder chega um peão que não deveria estar lá perto da promoção, né? Olha. E aqui ele teria que desestacionar essa dama dele que ficou partida toda lá. Nossa senhora. Sangue frio, né?",
+      "timestamp": "1:34:26"
+    },
+    {
+      "time": "1:34:45",
+      "seconds": 5685,
+      "text": "De deixar um peãozinho ali. Ah, não. Olha o Stockfish tá pensando entre...",
+      "timestamp": "1:34:45"
+    },
+    {
+      "time": "1:34:53",
+      "seconds": 5693,
+      "text": "promover para bispo e dama aqui. Quando o Stockfish quer promover para bispo aqui, pra quê? Pra que alguém promoveria para bispo? Só pra tipo... Vai ser descartável essa peça? Vou promover para bispo. Beleza.",
+      "timestamp": "1:34:53"
+    },
+    {
+      "time": "1:35:11",
+      "seconds": 5711,
+      "text": "Stockfish é o mesmo preço, Stockfish, promover para dama ou bispo. Stockfish recomendação do Stockfish promover para bispo aqui, tá bom. Alright, alright. E o jogo tá melhor para as pretas. Olha ali. Então tá.",
+      "timestamp": "1:35:11"
+    },
+    {
+      "time": "1:35:31",
+      "seconds": 5731,
+      "text": "Então independente de se tinha peça para ser ganha ou não, meu blunder da torre ali dá um winning position para as pretas aqui, ó. Aqui estava equilibrado. Esse foi blunder. Tá, tá. Então esse blunder eu acho que tá coberto por esse parágrafo aqui.",
+      "timestamp": "1:35:31"
+    },
+    {
+      "time": "1:35:49",
+      "seconds": 5749,
+      "text": "O que mais que teve de blunder no jogo? Hum... Esse foi já quase no desespero, né? E nem é tomar, né? Chegar com a dama para cá o movimento da máquina. É, vou deixar ligado porque aqui já passei pelas coisas. Ah...",
+      "timestamp": "1:35:49"
+    },
+    {
+      "time": "1:36:03",
+      "seconds": 5763,
+      "text": "Ah, que que tem pra eu aprender nesse aqui? Foi um certo afobamento também de querer de querer meter pressão, né? Então acho que esse aqui passa. Esse aqui foi errado, né? Como que volta aqui? Ah, eu tinha visto aí ganhar com check sua torre.",
+      "timestamp": "1:36:03"
+    },
+    {
+      "time": "1:36:45",
+      "seconds": 5805,
+      "text": "Vamos lá, então, ProBase você tinha visto ganhar com check a minha torre aqui, né? Check, troca. Não, espera aí. Que check que você está falando? Ganhar a minha torre com check. Existe isso? Acho que não existe isso.",
+      "timestamp": "1:36:45"
+    },
+    {
+      "time": "1:37:00",
+      "seconds": 5820,
+      "text": "Em qual check que você está falando? No 21. 21. O que aconteceu no 21 no jogo? 19, 20, 21. 21. No lance 21. Ah, nesse aqui. Tá, tá, tá, tá. Nesse aqui tinha check. Se ele comesse o peão tinha check. Não, espera aí. Isso não é check. Ah, o check aqui.",
+      "timestamp": "1:37:00"
+    },
+    {
+      "time": "1:37:35",
+      "seconds": 5855,
+      "text": "É o que a máquina está recomendando. Tá. É o check aqui. Foge ali, ganhou uma torre. Isso ProBase viu durante a partida. Ah, nossa. Era o winning position mesmo, hein? Aqui um pouco. Aqui mais ainda, né? Porra, eu estava com o jogo perdido.",
+      "timestamp": "1:37:35"
+    },
+    {
+      "time": "1:37:53",
+      "seconds": 5873,
+      "text": "Olha o gráfico aqui, ó. Eu saí de um mais 7 para menos 7. Então esse aqui, ó. Entre os lances 17 e 21 foi só ladeira abaixo pra mim, ó. Consecutivos erros. Um erro e duas capivaradas. A todas as minhas capivaradas foi nesse período do jogo.",
+      "timestamp": "1:37:53"
+    },
+    {
+      "time": "1:38:15",
+      "seconds": 5895,
+      "text": "Então entre os lances 17 e 21 eu fui ladeira abaixo, tá? Estas más decisões podem ser vistas entre os lances 17 e 21, onde eu praticamente só errei. Deveria ter perdido, mas por sorte meu oponente não soube aproveitar.",
+      "timestamp": "1:38:15"
+    },
+    {
+      "time": "1:39:32",
+      "seconds": 5972,
+      "text": "É disso que você está falando, né? E aí, então tá. Todas as minhas capivaradas foi nessa ladeira abaixo aqui, ó. Que eu ferrei meu meio jogo, ó. Abertura 85%, meio jogo 37. Ferrei meu meio jogo com uma série de erros.",
+      "timestamp": "1:39:32"
+    },
+    {
+      "time": "1:39:52",
+      "seconds": 5992,
+      "text": "E aí, a incapacidade do meu oponente de desestacionar essa dama dele, tipo, ele esqueceu que ele tinha dama.",
+      "timestamp": "1:39:52"
+    },
+    {
+      "time": "1:40:00",
+      "seconds": 6000,
+      "text": "Se o meu oponente tivesse lembrado que ele tava jogando com uma dama no tabuleiro, já era aqui ó, unavoidable xeque-mate, não tem xeque-mates não, unavoidable ali no 21. Não, aqui ainda seria, não, cadê ó, eu dei...",
+      "timestamp": "1:40:00"
+    },
+    {
+      "time": "1:40:20",
+      "seconds": 6020,
+      "text": "Ah tá, o xeque-mate unavoidble foi o meu no caso aqui, tá vendo? A partir daqui unavoidble pro lado dele, né, ele se ferrou, tá bom. Deveria ter perdido, mas por sorte meu oponente não soube aproveitar. É isso, tá registrada a partida do dia. Endgame.",
+      "timestamp": "1:40:20"
+    },
+    {
+      "time": "1:40:38",
+      "seconds": 6038,
+      "text": "Ah, eu não fiz o fim da prática, mas tudo bem. Ixe, aqui tá, saiu errado a detecção aqui. Deixa eu botar isso aqui pra detectar mais certinho. Eu tenho que botar no livrinho, né. É isso, defesa Alekine, não tem muito o que falar. Defesa Alekine foi o que eu joguei contra.",
+      "timestamp": "1:40:38"
+    },
+    {
+      "time": "1:41:05",
+      "seconds": 6065,
+      "text": "Os Grandmasters usam, mas você abaixo de mil, talvez não seja uma boa ideia usar. Endgame. Alekine, defesa Alekine. Tá tudo registrado. Valeu galera, não sei se tem alguém ainda na Twitch, mas tá todo dia muito difícil de achar alguém pra dar raid depois, porque...",
+      "timestamp": "1:41:05"
+    },
+    {
+      "time": "1:41:28",
+      "seconds": 6088,
+      "text": "Não sei, as recomendações da Twitch são horríveis, eles não mostram a gente fazendo live em português. Cadê ó, tem um viewer, é o Probase? Ô Probase. O PiglyChess é legal. Tá, se não... Se não der nada, eu mando lá no PiglyChess. É que eu queria conhecer gente nova também.",
+      "timestamp": "1:41:28"
+    },
+    {
+      "time": "1:41:50",
+      "seconds": 6110,
+      "text": "Quero o Chess, e esse cachorrinho aqui ó. Oito viewers, ah não é em inglês. Road to 2300? Uau, Robert Brats. 71 viewers, deve ser bom. Tudo em inglês, deixa eu ver. Não, não é inglês não. Beast Journal Veed. Bob, não sei de que país que ele é não.",
+      "timestamp": "1:41:50"
+    },
+    {
+      "time": "1:42:13",
+      "seconds": 6133,
+      "text": "Tá, tem o brother do narguilê aqui, PiglyChess. Seis viewers. Ele é engraçado, ele é bem humorado. Ele não tá com o narguilê hoje? Ah, tá com o cigarro eletrônico. Esse cara é uma figura. Tá, vamos ver. Vamos conhecer outras figuras do xadrez aqui. 12.",
+      "timestamp": "1:42:13"
+    },
+    {
+      "time": "1:42:30",
+      "seconds": 6150,
+      "text": "Isso aqui é outra língua, não sei. Um pouquinho mais difícil de comunicação. Húngaro? Que que é isso aqui? Everyone, let's go. Chat room. Don't falar em inglês. É um campeonato, um aberto de Caniza. Caniza? Isso é na Índia? Onde que é isso? Caniza.",
+      "timestamp": "1:42:30"
+    },
+    {
+      "time": "1:43:39",
+      "seconds": 6219,
+      "text": "Não tá rolando partida, eu tô só comentando um campeonato que ainda não tá rolando. Próximo RAID aqui. Chess. Três viewers, não é em inglês. Tá difícil a linguagem aqui. Road to Grandmaster no Lichess. Vamos ver esse aqui. Quatro viewers. Alto TDRTDH.",
+      "timestamp": "1:43:39"
+    },
+    {
+      "time": "1:44:08",
+      "seconds": 6248,
+      "text": "Probase tinha que vir com um aviso no começo da transmissão, né? Atenção, essa live contém altas quantidades de falta de foco e de assuntos paralelos. Road to Grandmaster. Vamos ver se esse gatinho... Esse gatinho tá falando inglês ou não? Acho que não, né?",
+      "timestamp": "1:44:08"
+    },
+    {
+      "time": "1:44:41",
+      "seconds": 6281,
+      "text": "Road to Grandmaster. Pô, fala alguma coisa aí. O que que é isso? Ele tá acompanhando dois botes jogar? Ele tá analisando, né?",
+      "timestamp": "1:44:41"
+    },
+    {
+      "time": "1:44:57",
+      "seconds": 6297,
+      "text": "Tá analisando. Eu acho que falou This is crazy, né? Tá aí, alright, we're going back to our game. Ah, boa, eu vou mandar a raid pra esse cara aqui. Fiquem com o gatinho aí, galera. Até amanhã. Muito obrigado aí, puta live longa, uma hora e 45. Dois viewers to raid. Vamos a raid. Até amanhã, gente. Obrigado.",
+      "timestamp": "1:44:57"
+    }
+  ],
+  "timestamp_reference_source_id": "faster-whisper",
+  "timestamp_alignment": {
+    "method": "partial_text_similarity_windows_with_token_time_interpolation",
+    "threshold": 0.36,
+    "max_window_blocks": 3,
+    "max_candidates": 10,
+    "max_time_penalty": 0.12,
+    "seek_preroll_seconds": 8,
+    "include_block_metadata": false,
+    "aligned_blocks": 213,
+    "unaligned_blocks": 8,
+    "block_count": 221,
+    "alignment_rate": 0.9638,
+    "mean_score": 0.7544,
+    "min_delta_seconds": -631,
+    "max_delta_seconds": 33,
+    "mean_abs_delta_seconds": 18.31
+  }
+}

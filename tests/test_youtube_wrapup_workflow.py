@@ -164,6 +164,30 @@ class YouTubeLiveLatencyTest(unittest.TestCase):
 
 
 class WrapSessionNextSessionCacheTest(unittest.TestCase):
+    def test_render_front_matter_keeps_supporter_field_order_consistent_with_userscript(self):
+        rendered = wrap_session.render_front_matter(
+            {
+                "title": "Sessão #0064",
+                "date": "2026-08-18",
+                "template": "session.html",
+                "draft": False,
+                "extra": {
+                    "supporters": [
+                        {
+                            "name": "@nicolich41",
+                            "platform": "Twitch",
+                            "url": "https://www.twitch.tv/nicolich41",
+                        }
+                    ]
+                },
+            }
+        )
+
+        self.assertIn(
+            '\n[[extra.supporters]]\nplatform = "Twitch"\nname = "@nicolich41"\nurl = "https://www.twitch.tv/nicolich41"\n',
+            rendered + "\n",
+        )
+
     def test_schedule_next_session_uses_cached_answers_as_prompt_defaults(self):
         args = mock.Mock(
             skip_next_session=False,
