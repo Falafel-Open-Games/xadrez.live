@@ -181,30 +181,49 @@ thumbnail-bullets-choose SESSION:
   @python3 scripts/thumbnail_bullet_options.py {{SESSION}} --choose --write --generate
 
 youtube-finish-session SESSION:
+  @echo '$ just youtube-finish-session-no-build {{SESSION}}'
   @just youtube-finish-session-no-build {{SESSION}}
+  @echo '$ just build'
   @just build
 
 youtube-finish-session-no-build SESSION:
+  @echo '$ just verify-session {{SESSION}}'
   @just verify-session {{SESSION}}
+  @echo '$ just page-summary-choose {{SESSION}}'
   @just page-summary-choose {{SESSION}}
+  @echo '$ just youtube-title-choose {{SESSION}}'
   @just youtube-title-choose {{SESSION}}
+  @echo '$ just youtube-hook-choose {{SESSION}}'
   @just youtube-hook-choose {{SESSION}}
+  @echo '$ just thumbnail-bullets-choose {{SESSION}}'
   @just thumbnail-bullets-choose {{SESSION}}
+  @echo '$ just youtube-chapters-write-confirm {{SESSION}}'
   @just youtube-chapters-write-confirm {{SESSION}}
+  @echo '$ just youtube-thumbnail {{SESSION}}'
   @just youtube-thumbnail {{SESSION}}
+  @echo '$ just verify-session {{SESSION}} --require-published-thumbnail'
   @just verify-session {{SESSION}} --require-published-thumbnail
 
 youtube-finish-session-skip-title SESSION:
+  @echo '$ just youtube-finish-session-skip-title-no-build {{SESSION}}'
   @just youtube-finish-session-skip-title-no-build {{SESSION}}
+  @echo '$ just build'
   @just build
 
 youtube-finish-session-skip-title-no-build SESSION:
+  @echo '$ just verify-session {{SESSION}}'
   @just verify-session {{SESSION}}
+  @echo '$ just page-summary-choose {{SESSION}}'
   @just page-summary-choose {{SESSION}}
+  @echo '$ just youtube-hook-choose {{SESSION}}'
   @just youtube-hook-choose {{SESSION}}
+  @echo '$ just thumbnail-bullets-choose {{SESSION}}'
   @just thumbnail-bullets-choose {{SESSION}}
+  @echo '$ just youtube-chapters-write-confirm {{SESSION}}'
   @just youtube-chapters-write-confirm {{SESSION}}
+  @echo '$ just youtube-thumbnail {{SESSION}}'
   @just youtube-thumbnail {{SESSION}}
+  @echo '$ just verify-session {{SESSION}} --require-published-thumbnail'
   @just verify-session {{SESSION}} --require-published-thumbnail
 
 import-youtube-chat-replays CACHE_DIR="/tmp/xadrez-chat" EXTRA="":
@@ -340,10 +359,13 @@ pre-thumb-local SESSION TIME="":
   @python3 scripts/prelive_thumbnail.py {{SESSION}} {{TIME}}
 
 pre-thumb SESSION TIME="":
+  @echo '$ just pre-thumb-local {{SESSION}} {{TIME}}'
   @just pre-thumb-local {{SESSION}} {{TIME}}
+  @echo '$ just youtube-thumbnail {{SESSION}}'
   @just youtube-thumbnail {{SESSION}}
 
 pre-thumb-youtube SESSION TIME="":
+  @echo '$ just pre-thumb {{SESSION}} {{TIME}}'
   @just pre-thumb {{SESSION}} {{TIME}}
 
 post-thumb SESSION:

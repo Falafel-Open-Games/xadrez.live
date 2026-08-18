@@ -23,6 +23,7 @@ WRAP_DIR = DATA_DIR / "wrap_sessions"
 RESTREAM_DIR = DATA_DIR / "restream_chat_replays"
 INBOX_DIR = DATA_DIR / "wrap_inbox"
 DOWNLOADS_DIR = Path.home() / "Downloads"
+NEXT_SESSION_CACHE_KEY = "next_session_answers"
 SESSION_EDITORIAL_CHOICES_PATH = DATA_DIR / "session_editorial_choices.json"
 YOUTUBE_EDITORIAL_CHOICES_PATH = DATA_DIR / "youtube_editorial_choices.json"
 LOCAL_TZ = ZoneInfo("America/Sao_Paulo")
@@ -654,6 +655,16 @@ def save_json(path: Path, data: dict[str, Any]) -> None:
     path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def load_json(path: Path) -> dict[str, Any]:
+    if not path.exists():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
 def run(command: list[str], dry_run: bool) -> None:
     print(f"$ {' '.join(command)}")
     if dry_run:
@@ -712,11 +723,15 @@ def has_scheduled_session(session: str) -> bool:
     return tone in {"scheduled", "live"} and bool(video_id) and video_id != "REPLACE_WITH_YOUTUBE_VIDEO_ID"
 
 
-def schedule_next_session(args: argparse.Namespace, session: str) -> tuple[list[str], str, str] | None:
+def schedule_next_session(args: argparse.Namespace, session: str, state: dict[str, Any]) -> tuple[list[str], str, str] | None:
     has_explicit_next = any([args.next_session, args.next_date, args.next_time, args.next_youtube])
     if args.skip_next_session:
         return None
-    default_next_session = next_session_number(session)
+    cached_next = state.get(NEXT_SESSION_CACHE_KEY)
+    if not isinstance(cached_next, dict):
+        cached_next = {}
+
+    default_next_session = str(cached_next.get("session") or next_session_number(session))
     if not has_explicit_next and has_scheduled_session(default_next_session):
         print(f"{session}: next session {default_next_session} already scheduled; skipping next-session prompt")
         return None
@@ -725,12 +740,24 @@ def schedule_next_session(args: argparse.Namespace, session: str) -> tuple[list[
     if not has_explicit_next and not confirm("Agendar a próxima sessão agora?"):
         return None
 
+    default_next_date = str(cached_next.get("date") or (date.today() + timedelta(days=1)).isoformat())
+    default_next_time = str(cached_next.get("time") or "08:30")
+    default_next_youtube = str(cached_next.get("youtube") or "")
+
     next_session = args.next_session or prompt("Próxima sessão", default_next_session)
-    next_date = args.next_date or prompt("Data da próxima live YYYY-MM-DD", (date.today() + timedelta(days=1)).isoformat())
-    next_time = args.next_time or prompt("Horário BRT HH:MM", "08:30")
-    next_youtube = args.next_youtube or prompt("YouTube URL ou ID")
+    next_date = args.next_date or prompt("Data da próxima live YYYY-MM-DD", default_next_date)
+    next_time = args.next_time or prompt("Horário BRT HH:MM", default_next_time)
+    next_youtube = args.next_youtube or prompt("YouTube URL ou ID", default_next_youtube)
     if not next_session or not next_date or not next_time or not next_youtube:
         fail("próxima sessão precisa de número, data, horário e YouTube URL/ID")
+
+    state[NEXT_SESSION_CACHE_KEY] = {
+        "session": next_session,
+        "date": next_date,
+        "time": next_time,
+        "youtube": next_youtube,
+        "updated_at": datetime.now(timezone.utc).isoformat(),
+    }
 
     return (
         [
@@ -827,7 +854,11 @@ def main() -> int:
     if not args.allow_missing_userscript_inputs:
         require_userscript_inputs(session, toml_file, chat_json_file)
     path, data, body = read_session(session)
+    previous_state = load_json(WRAP_DIR / f"{session}.json")
     state: dict[str, Any] = {"session": session, "updated_at": datetime.now(timezone.utc).isoformat(), "inputs": {}}
+    cached_next = previous_state.get(NEXT_SESSION_CACHE_KEY)
+    if isinstance(cached_next, dict):
+        state[NEXT_SESSION_CACHE_KEY] = cached_next
 
     if toml_file:
         raw_toml = toml_file.read_text(encoding="utf-8")
@@ -886,9 +917,10 @@ def main() -> int:
                 print(f"{session}: applied selected editorial choices to page ({', '.join(editorial_updates)})")
         else:
             run(["just", "verify-session", session], args.dry_run)
-        next_session_command = schedule_next_session(args, session)
+        next_session_command = schedule_next_session(args, session, state)
         if next_session_command:
             command, next_session, next_time = next_session_command
+            save_json(WRAP_DIR / f"{session}.json", state)
             run(command, args.dry_run)
             if not args.skip_next_youtube_latency:
                 run(["just", "youtube-live-latency", next_session], args.dry_run)

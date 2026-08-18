@@ -15,6 +15,7 @@ if str(SCRIPTS_DIR) not in sys.path:
 
 import update_youtube_chapters
 import update_youtube_live_latency
+import wrap_session
 import youtube_title_options
 
 
@@ -160,6 +161,57 @@ class YouTubeLiveLatencyTest(unittest.TestCase):
             update_youtube_live_latency.live_chat_note(broadcast),
             "live chat id not returned; verify chat/replay in Studio",
         )
+
+
+class WrapSessionNextSessionCacheTest(unittest.TestCase):
+    def test_schedule_next_session_uses_cached_answers_as_prompt_defaults(self):
+        args = mock.Mock(
+            skip_next_session=False,
+            next_session=None,
+            next_date=None,
+            next_time=None,
+            next_youtube=None,
+        )
+        state = {
+            wrap_session.NEXT_SESSION_CACHE_KEY: {
+                "session": "0065",
+                "date": "2026-08-19",
+                "time": "09:15",
+                "youtube": "https://www.youtube.com/live/cachedVideo",
+            }
+        }
+        seen_defaults = []
+
+        def fake_prompt(_label, default=""):
+            seen_defaults.append(default)
+            return default
+
+        with mock.patch.object(wrap_session, "has_scheduled_session", return_value=False):
+            with mock.patch.object(wrap_session.sys.stdin, "isatty", return_value=True):
+                with mock.patch.object(wrap_session, "confirm", return_value=True):
+                    with mock.patch.object(wrap_session, "prompt", side_effect=fake_prompt):
+                        result = wrap_session.schedule_next_session(args, "0064", state)
+
+        self.assertEqual(seen_defaults, ["0065", "2026-08-19", "09:15", "https://www.youtube.com/live/cachedVideo"])
+        self.assertIsNotNone(result)
+        command, next_session, next_time = result
+        self.assertEqual(next_session, "0065")
+        self.assertEqual(next_time, "09:15")
+        self.assertEqual(
+            command,
+            [
+                "just",
+                "schedule-next-session",
+                "0065",
+                "--date",
+                "2026-08-19",
+                "--time",
+                "09:15",
+                "--youtube",
+                "https://www.youtube.com/live/cachedVideo",
+            ],
+        )
+        self.assertEqual(state[wrap_session.NEXT_SESSION_CACHE_KEY]["session"], "0065")
 
 
 if __name__ == "__main__":
