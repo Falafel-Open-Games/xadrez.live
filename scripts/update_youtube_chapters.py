@@ -366,7 +366,10 @@ def token_request(client_id: str, client_secret: str, data: dict[str, str]) -> d
         with urllib.request.urlopen(request, timeout=30) as response:
             return json.loads(response.read().decode("utf-8"))
     except urllib.error.HTTPError as error:
-        detail = error.read().decode("utf-8", errors="replace")
+        try:
+            detail = error.read().decode("utf-8", errors="replace")
+        finally:
+            error.close()
         try:
             payload = json.loads(detail)
         except json.JSONDecodeError:
