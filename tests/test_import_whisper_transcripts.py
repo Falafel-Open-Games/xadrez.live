@@ -77,6 +77,15 @@ class ImportWhisperSessionSelectionTest(unittest.TestCase):
 
         self.assertEqual(import_whisper_transcripts.session_youtube_ids(), [("abc123def45", "0062", path)])
 
+    def test_selected_sessions_accepts_unpadded_session_number(self):
+        path = self.write_session("0065", status="encerrada", status_tone="ended")
+        sessions = import_whisper_transcripts.session_youtube_ids()
+
+        self.assertEqual(
+            import_whisper_transcripts.selected_sessions(sessions, {"65"}, None),
+            [("abc123def45", "0065", path)],
+        )
+
 
 if __name__ == "__main__":
     unittest.main()

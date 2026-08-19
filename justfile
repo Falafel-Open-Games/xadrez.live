@@ -153,32 +153,32 @@ youtube-thumbnail SESSION:
 youtube-thumbnail-check SESSION:
   @python3 scripts/update_youtube_thumbnail.py {{SESSION}}
 
-youtube-title-options SESSION:
-  @python3 scripts/youtube_title_options.py {{SESSION}}
+youtube-title-options SESSION *ARGS:
+  @python3 scripts/youtube_title_options.py {{SESSION}} {{ARGS}}
 
-youtube-title-choose SESSION:
-  @python3 scripts/youtube_title_options.py {{SESSION}} --choose --write
+youtube-title-choose SESSION *ARGS:
+  @python3 scripts/youtube_title_options.py {{SESSION}} --choose --write {{ARGS}}
 
 youtube-title-write SESSION TITLE:
   @python3 scripts/youtube_title_options.py {{SESSION}} --title "{{TITLE}}" --write
 
-youtube-hook-options SESSION:
-  @python3 scripts/youtube_title_options.py {{SESSION}} --kind hook
+youtube-hook-options SESSION *ARGS:
+  @python3 scripts/youtube_title_options.py {{SESSION}} --kind hook {{ARGS}}
 
-youtube-hook-choose SESSION:
-  @python3 scripts/youtube_title_options.py {{SESSION}} --kind hook --choose --write
+youtube-hook-choose SESSION *ARGS:
+  @python3 scripts/youtube_title_options.py {{SESSION}} --kind hook --choose --write {{ARGS}}
 
-page-summary-options SESSION:
-  @python3 scripts/session_summary_options.py {{SESSION}}
+page-summary-options SESSION *ARGS:
+  @python3 scripts/session_summary_options.py {{SESSION}} {{ARGS}}
 
-page-summary-choose SESSION:
-  @python3 scripts/session_summary_options.py {{SESSION}} --choose --write
+page-summary-choose SESSION *ARGS:
+  @python3 scripts/session_summary_options.py {{SESSION}} --choose --write {{ARGS}}
 
-thumbnail-bullets SESSION:
-  @python3 scripts/thumbnail_bullet_options.py {{SESSION}}
+thumbnail-bullets SESSION *ARGS:
+  @python3 scripts/thumbnail_bullet_options.py {{SESSION}} {{ARGS}}
 
-thumbnail-bullets-choose SESSION:
-  @python3 scripts/thumbnail_bullet_options.py {{SESSION}} --choose --write --generate
+thumbnail-bullets-choose SESSION *ARGS:
+  @python3 scripts/thumbnail_bullet_options.py {{SESSION}} --choose --write --generate {{ARGS}}
 
 youtube-finish-session SESSION:
   @echo '$ just youtube-finish-session-no-build {{SESSION}}'

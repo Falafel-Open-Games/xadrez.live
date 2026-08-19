@@ -93,11 +93,19 @@ def wrap_toml_exists(session_number: str) -> bool:
     return (WRAP_INBOX_DIR / f"{session_number}.toml").exists() or (DOWNLOADS_DIR / f"{session_number}.toml").exists()
 
 
+def normalize_session_number(value: str) -> str:
+    value = value.strip()
+    if value.isdigit() and len(value) <= 4:
+        return value.zfill(4)
+    return value
+
+
 def selected_sessions(
     all_sessions: list[tuple[str, str, Path]], numbers: set[str] | None, latest: int | None
 ) -> list[tuple[str, str, Path]]:
     sessions = all_sessions
     if numbers is not None:
+        numbers = {normalize_session_number(number) for number in numbers}
         sessions = [session for session in sessions if session[1] in numbers]
     elif latest is not None and latest > 0:
         sessions = sessions[-latest:]
@@ -568,7 +576,7 @@ def import_whisper_transcripts(
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Generate session transcripts with a local Whisper CLI fallback.")
-    parser.add_argument("sessions", nargs="*", help="Optional session numbers, e.g. 0046")
+    parser.add_argument("sessions", nargs="*", help="Optional session numbers, e.g. 0046 or 46")
     parser.add_argument("--latest", type=int, help="Only process the latest N ended sessions.")
     parser.add_argument("--audio-cache-dir", type=Path, default=DEFAULT_AUDIO_CACHE_DIR)
     parser.add_argument("--local-recording-dir", type=Path, default=DEFAULT_LOCAL_RECORDING_DIR)
