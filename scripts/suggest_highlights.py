@@ -32,6 +32,15 @@ TRANSCRIPT_SOURCES = [
     ("faster-whisper", "Faster Whisper CLI"),
     ("whisper-cli", "Whisper CLI"),
 ]
+
+
+def normalize_session_number(value: str) -> str:
+    value = value.strip()
+    if value.isdigit() and len(value) <= 4:
+        return value.zfill(4)
+    return value
+
+
 REACTION_RE = re.compile(r"\b(nossa|caramba|uau|eita|ixi|opa|não acredito|que isso|pera[ií]|calma|errei|errado)\b", re.I)
 MISTAKE_RE = re.compile(
     r"\b(blunder|capivarada|moscada|pendur|perdi|derrota|imprecis|erro|errei|errado|cagada|"
@@ -496,7 +505,7 @@ def output_is_current(session: str, output_path: Path, args: argparse.Namespace)
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Suggest candidate session highlights from chat and transcript data.")
-    parser.add_argument("sessions", nargs="*", help="Session number(s), e.g. 0047")
+    parser.add_argument("sessions", nargs="*", help="Session number(s), e.g. 0047 or 47")
     parser.add_argument("--all", action="store_true", help="Process every session with local chat or transcript data.")
     parser.add_argument("--latest", type=int, help="Only process the latest N sessions with local chat or transcript data.")
     parser.add_argument("--output-dir", type=Path, default=OUTPUT_DIR)
@@ -504,7 +513,9 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--window-seconds", type=int, default=90)
     parser.add_argument("--step-seconds", type=int, default=30)
     parser.add_argument("--force", action="store_true", help="Recompute even when the highlight output is current.")
-    return parser.parse_args()
+    args = parser.parse_args()
+    args.sessions = [normalize_session_number(session) for session in args.sessions]
+    return args
 
 
 def main() -> int:

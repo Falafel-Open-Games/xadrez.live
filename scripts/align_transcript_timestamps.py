@@ -20,6 +20,13 @@ def fail(message: str) -> None:
     raise SystemExit(1)
 
 
+def normalize_session_number(value: str) -> str:
+    value = value.strip()
+    if value.isdigit() and len(value) <= 4:
+        return value.zfill(4)
+    return value
+
+
 def format_time(total_seconds: int) -> str:
     total_seconds = max(0, total_seconds)
     hours, remainder = divmod(total_seconds, 3600)
@@ -299,7 +306,7 @@ def output_is_current(output_path: Path, source_path: Path, reference_path: Path
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Align estimated transcript timestamps to a timed reference transcript.")
-    parser.add_argument("sessions", nargs="*", help="Session numbers, e.g. 0047")
+    parser.add_argument("sessions", nargs="*", help="Session numbers, e.g. 0047 or 47")
     parser.add_argument("--transcript-dir", type=Path, default=DEFAULT_TRANSCRIPT_DIR)
     parser.add_argument("--source-suffix", default="openai-gpt-4o-mini-transcribe")
     parser.add_argument("--reference-suffix", default="faster-whisper")
@@ -314,6 +321,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--latest", type=int, help="Only align the latest N matching sessions.")
     parser.add_argument("--force", action="store_true", help="Recompute even when the aligned transcript output is current.")
     args = parser.parse_args()
+    args.sessions = [normalize_session_number(session) for session in args.sessions]
     if not args.sessions and not args.all_existing and args.latest is None:
         parser.error("provide at least one session or use --all-existing/--latest")
     return args
