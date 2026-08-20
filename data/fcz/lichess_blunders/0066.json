@@ -1,0 +1,92 @@
+{
+  "session_number": "0066",
+  "source": "lichess",
+  "event_count": 1,
+  "events": [
+    {
+      "time": "1:12:31",
+      "seconds": 4351,
+      "source": "lichess",
+      "platform": "Lichess",
+      "kind": "blunder",
+      "label": "Capivarada",
+      "session_number": "0066",
+      "game_index": 1,
+      "game_id": "wDxPQ5T3",
+      "game_url": "https://lichess.org/wDxPQ5T3/black",
+      "video_offset_seconds": 9,
+      "ply": 10,
+      "move_number": 5,
+      "color": "black",
+      "player": "fcz",
+      "opponent": "Ifndef_hirad",
+      "is_self": true,
+      "move": "Nc6",
+      "clock": "8:36",
+      "eval_change": "0.52 → 2.36",
+      "best": "e5",
+      "text": "fcz jogou Nc6 no lance 5, com 8:36 no relógio."
+    }
+  ],
+  "timeline": [
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "kind": "session_start",
+      "label": "Início",
+      "source": "youtube_release"
+    },
+    {
+      "time": "16:28",
+      "seconds": 988,
+      "kind": "puzzle_of_the_day",
+      "label": "Puzzle do dia",
+      "source": "userscript",
+      "url": "https://lichess.org/training/7GcJK"
+    },
+    {
+      "time": "1:10:24",
+      "seconds": 4224,
+      "kind": "game_start",
+      "label": "Partida 1",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "wDxPQ5T3",
+      "game_url": "https://lichess.org/wDxPQ5T3/black"
+    },
+    {
+      "time": "1:12:31",
+      "seconds": 4351,
+      "source": "lichess",
+      "platform": "Lichess",
+      "kind": "blunder",
+      "label": "Capivarada",
+      "session_number": "0066",
+      "game_index": 1,
+      "game_id": "wDxPQ5T3",
+      "game_url": "https://lichess.org/wDxPQ5T3/black",
+      "video_offset_seconds": 9,
+      "ply": 10,
+      "move_number": 5,
+      "color": "black",
+      "player": "fcz",
+      "opponent": "Ifndef_hirad",
+      "is_self": true,
+      "move": "Nc6",
+      "clock": "8:36",
+      "eval_change": "0.52 → 2.36",
+      "best": "e5",
+      "text": "fcz jogou Nc6 no lance 5, com 8:36 no relógio."
+    },
+    {
+      "time": "1:12:31",
+      "seconds": 4351,
+      "kind": "game_end",
+      "label": "Fim de Partida",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "wDxPQ5T3",
+      "game_url": "https://lichess.org/wDxPQ5T3/black"
+    }
+  ]
+}
