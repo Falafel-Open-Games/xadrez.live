@@ -3,7 +3,7 @@ import sys
 import tempfile
 import unittest
 import urllib.error
-from contextlib import redirect_stdout
+from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 from unittest import mock
 
@@ -15,6 +15,7 @@ if str(SCRIPTS_DIR) not in sys.path:
 
 import update_youtube_chapters
 import update_youtube_live_latency
+import update_lichess_rating_history
 import wrap_session
 import youtube_title_options
 
@@ -164,6 +165,34 @@ class YouTubeLiveLatencyTest(unittest.TestCase):
 
 
 class WrapSessionNextSessionCacheTest(unittest.TestCase):
+    def test_empty_lichess_rating_history_is_not_accepted_as_complete(self):
+        content = update_lichess_rating_history.render("fcz", [])
+
+        self.assertFalse(update_lichess_rating_history.has_required_series(content))
+
+    def test_latest_lichess_ratings_prefers_current_user_endpoint(self):
+        with mock.patch.object(
+            wrap_session,
+            "current_lichess_ratings",
+            return_value={"rapid": "935", "puzzles": "1451"},
+        ):
+            with mock.patch.object(
+                wrap_session,
+                "cached_lichess_ratings",
+                return_value={"rapid": "928", "puzzles": "1568"},
+            ):
+                self.assertEqual(wrap_session.latest_lichess_ratings(), {"rapid": "935", "puzzles": "1451"})
+
+    def test_latest_lichess_ratings_falls_back_to_cache(self):
+        with mock.patch.object(wrap_session, "current_lichess_ratings", return_value={}):
+            with mock.patch.object(
+                wrap_session,
+                "cached_lichess_ratings",
+                return_value={"rapid": "928", "puzzles": "1568"},
+            ):
+                with redirect_stderr(io.StringIO()):
+                    self.assertEqual(wrap_session.latest_lichess_ratings(), {"rapid": "928", "puzzles": "1568"})
+
     def test_render_front_matter_keeps_supporter_field_order_consistent_with_userscript(self):
         rendered = wrap_session.render_front_matter(
             {

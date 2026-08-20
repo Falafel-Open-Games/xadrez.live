@@ -30,6 +30,7 @@ SERIES = {
         "url": "https://lichess.org/@/fcz/perf/puzzle",
     },
 }
+REQUIRED_SERIES_KEYS = {"rapid", "puzzles"}
 CHART_WIDTH = 720
 CHART_HEIGHT = 260
 PLOT_LEFT = 46
@@ -324,6 +325,22 @@ def render(username: str, payload: list[dict[str, Any]]) -> str:
     return "\n".join(lines).rstrip() + "\n"
 
 
+def has_required_series(content: str) -> bool:
+    try:
+        data = tomllib.loads(content)
+    except tomllib.TOMLDecodeError:
+        return False
+
+    found = set()
+    for series in data.get("series") or []:
+        if not isinstance(series, dict):
+            continue
+        key = str(series.get("key") or "")
+        if key in REQUIRED_SERIES_KEYS and series.get("latest_rating") is not None:
+            found.add(key)
+    return found == REQUIRED_SERIES_KEYS
+
+
 def semantic_cache(data: dict[str, Any]) -> dict[str, Any]:
     cleaned = dict(data)
     cleaned.pop("updated_at", None)
@@ -359,7 +376,23 @@ def main() -> int:
         print(f"Lichess rating history unavailable and no cache exists: {error}", file=sys.stderr)
         return 1
 
-    if write_cache_if_changed(OUTPUT, render(args.username, payload)):
+    content = render(args.username, payload)
+    if not has_required_series(content):
+        cached_content = OUTPUT.read_text(encoding="utf-8") if OUTPUT.exists() else ""
+        if cached_content and has_required_series(cached_content):
+            print(
+                f"Warning: keeping existing {OUTPUT.relative_to(ROOT)}; "
+                "Lichess rating-history returned no rapid/puzzles series.",
+                file=sys.stderr,
+            )
+            return 0
+        print(
+            "Lichess rating-history returned no rapid/puzzles series and no valid cache exists.",
+            file=sys.stderr,
+        )
+        return 1
+
+    if write_cache_if_changed(OUTPUT, content):
         print(f"Updated {OUTPUT.relative_to(ROOT)}")
     else:
         print(f"Unchanged {OUTPUT.relative_to(ROOT)}")

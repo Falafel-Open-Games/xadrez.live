@@ -13,6 +13,8 @@ from datetime import date, datetime, time, timedelta, timezone
 from pathlib import Path
 from typing import Any
 from urllib.parse import quote
+from urllib.error import HTTPError, URLError
+from urllib.request import Request, urlopen
 from zoneinfo import ZoneInfo
 
 
@@ -27,6 +29,7 @@ NEXT_SESSION_CACHE_KEY = "next_session_answers"
 SESSION_EDITORIAL_CHOICES_PATH = DATA_DIR / "session_editorial_choices.json"
 YOUTUBE_EDITORIAL_CHOICES_PATH = DATA_DIR / "youtube_editorial_choices.json"
 LOCAL_TZ = ZoneInfo("America/Sao_Paulo")
+LICHESS_USERNAME = "fcz"
 ARRAY_REPLACE_KEYS = {"streak_attempts", "storm_attempts", "practice_sets", "games", "supporters"}
 SELF_SUPPORTERS = {
     ("youtube", "fczuardi"),
@@ -535,7 +538,47 @@ def format_duration_field(duration_seconds: int) -> str:
     return str(remainder)
 
 
-def latest_lichess_ratings() -> dict[str, str]:
+def rating_text(value: Any) -> str | None:
+    if isinstance(value, bool) or value is None:
+        return None
+    try:
+        return str(round(float(value)))
+    except (TypeError, ValueError):
+        return None
+
+
+def current_lichess_ratings(username: str = LICHESS_USERNAME, timeout: int = 20) -> dict[str, str]:
+    url = f"https://lichess.org/api/user/{username}"
+    request = Request(
+        url,
+        headers={
+            "Accept": "application/json",
+            "User-Agent": "xadrez.live session wrap (https://xadrez.live)",
+        },
+    )
+    try:
+        with urlopen(request, timeout=timeout) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+    except (HTTPError, URLError, TimeoutError, json.JSONDecodeError) as error:
+        print(f"Warning: could not fetch current Lichess ratings from {url}: {error}", file=sys.stderr)
+        return {}
+
+    perfs = payload.get("perfs") if isinstance(payload, dict) else {}
+    if not isinstance(perfs, dict):
+        return {}
+
+    ratings = {}
+    for key, perf_key in (("rapid", "rapid"), ("puzzles", "puzzle")):
+        perf = perfs.get(perf_key)
+        if not isinstance(perf, dict):
+            continue
+        value = rating_text(perf.get("rating"))
+        if value:
+            ratings[key] = value
+    return ratings
+
+
+def cached_lichess_ratings() -> dict[str, str]:
     path = DATA_DIR / "lichess_rating_history.toml"
     if not path.exists():
         return {}
@@ -552,6 +595,21 @@ def latest_lichess_ratings() -> dict[str, str]:
         if key in {"rapid", "puzzles"} and latest is not None:
             ratings[key] = str(latest)
     return ratings
+
+
+def latest_lichess_ratings() -> dict[str, str]:
+    ratings = current_lichess_ratings()
+    if {"rapid", "puzzles"} <= set(ratings):
+        return ratings
+
+    cached = cached_lichess_ratings()
+    missing = sorted({"rapid", "puzzles"} - set(ratings))
+    if cached and missing:
+        print(
+            f"Warning: falling back to cached Lichess rating history for {', '.join(missing)}",
+            file=sys.stderr,
+        )
+    return {**cached, **ratings}
 
 
 def auto_fill_post_stats(session: str, data: dict[str, Any]) -> list[str]:

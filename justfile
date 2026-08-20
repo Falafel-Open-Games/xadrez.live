@@ -12,7 +12,9 @@ test:
 serve: build-search
   zola serve
 
-build: validate-session-games update-supporters update-site-stats update-lichess-rating-history export-session-pgns
+build: validate-session-games update-supporters export-session-pgns
+  @if ! python3 scripts/update_lichess_rating_history.py; then echo "Warning: Lichess rating history unavailable; continuing build with existing rating data."; fi
+  @just update-site-stats
   zola build
   python3 scripts/update_sitemap_lastmod.py
 
