@@ -1,8 +1,8 @@
 {
   "session_number": "0066",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "limit": 6,
   "window_seconds": 90,
   "step_seconds": 30,
@@ -29,35 +29,82 @@
       "transcript_count": 4
     },
     {
-      "start_seconds": 999,
-      "end_seconds": 1080,
-      "time": "16:39",
+      "start_seconds": 2268,
+      "end_seconds": 2340,
+      "time": "37:48",
       "duration": "1:30",
-      "kind": "time-pressure",
-      "score": 4.6,
-      "summary": "Melhor lance para as brancas. Melhor lance para as brancas. Vamos lá. Comecei a pensar os 16 minutos de live. Não vamos gastar muito tempo com esse puzzle do dia, não…",
-      "reason": "tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; treino ou puzzle streak; raciocínio em voz alta",
+      "kind": "review",
+      "score": 4.65,
+      "summary": "O que que tem pra mim aqui? Bom, pra cá ele já não vai vim. Ah, entendi. Porque as adjacentes cortou aqui. Tá bom. Acho que eu fiz certo isso aqui…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
       "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "erro ou momento perdido",
         "tema claro de xadrez",
         "review ou melhor lance",
         "plano ou estratégia",
-        "pressão no relógio",
-        "plano sob pressão de tempo",
-        "treino ou puzzle streak",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 3
+      "chat_count": 1,
+      "transcript_count": 5,
+      "lead_in": "Diagonais adjacentes bispos no centro"
     },
     {
-      "start_seconds": 1349,
-      "end_seconds": 1440,
-      "time": "22:29",
+      "start_seconds": 3833,
+      "end_seconds": 3900,
+      "time": "1:03:53",
       "duration": "1:30",
-      "kind": "training",
+      "kind": "review",
       "score": 4.85,
-      "summary": "Não estava difícil o puzzle do dia, hein? Não estava difícil. Eu fui pela preguiça. Ah, AzailiBotrim. Que que é isso? Tem um bot…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; treino ou puzzle streak; raciocínio em voz alta",
+      "summary": "Porque eu não tenho todo o tempo do mundo. Esse que é o problema. Meu dia tem que começar. Então... Um pouquinho por dia. Amanhã tem mais…",
+      "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; tema claro de xadrez; interação com o chat; review ou melhor lance; pressão no relógio; raciocínio em voz alta",
+      "signals": [
+        "3 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "tema claro de xadrez",
+        "interação com o chat",
+        "review ou melhor lance",
+        "pressão no relógio",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 3,
+      "transcript_count": 5,
+      "lead_in": "o Giló durante a live"
+    },
+    {
+      "start_seconds": 4249,
+      "end_seconds": 4320,
+      "time": "1:10:49",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 6.15,
+      "summary": "Não, o Geraldo tá ajudando demais, cara, que isso. Vou desligar aqui só por conta do jogo. Hum, beleza, isso aqui... deixa eu passar por isso. Eu quero... é um gambito…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; pressão no relógio; abertura ou repertório; raciocínio em voz alta",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "pressão no relógio",
+        "abertura ou repertório",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 1,
+      "transcript_count": 4,
+      "lead_in": "live até das coisas chatas"
+    },
+    {
+      "start_seconds": 4427,
+      "end_seconds": 4500,
+      "time": "1:13:47",
+      "duration": "1:30",
+      "kind": "opening",
+      "score": 4.85,
+      "summary": "Vou bisoliar o profile dele enquanto ele tá quase desconectando lá. Membro desde maio. Ele mais ou menos entrou na mesma época que eu no Lichess. Ifndef…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; abertura ou repertório; raciocínio em voz alta",
       "signals": [
         "1 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
@@ -65,76 +112,33 @@
         "erro ou momento perdido",
         "tema claro de xadrez",
         "interação com o chat",
-        "treino ou puzzle streak",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 1,
-      "transcript_count": 4
-    },
-    {
-      "start_seconds": 3121,
-      "end_seconds": 3210,
-      "time": "52:01",
-      "duration": "1:30",
-      "kind": "review",
-      "score": 4.9,
-      "summary": "Nossa, essa peça não mexeu, né? Essa peça só tá fazendo esse fronteiro aqui e não precisou mexer até agora. Chegou a vez dela mexer…",
-      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
-      "signals": [
-        "2 mensagem(ns) no chat",
-        "chat e fala no mesmo trecho",
-        "reação forte na fala",
-        "tema claro de xadrez",
-        "review ou melhor lance",
-        "plano ou estratégia",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 2,
-      "transcript_count": 4
-    },
-    {
-      "start_seconds": 4306,
-      "end_seconds": 4380,
-      "time": "1:11:46",
-      "duration": "1:30",
-      "kind": "time-pressure",
-      "score": 5.75,
-      "summary": "Essa casa aqui é meio boa, não tem ninguém na diagonal, né? Tá bom. Ah, isso deve ser errado. Provavelmente o certo é voltar…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; pressão no relógio; abertura ou repertório",
-      "signals": [
-        "1 mensagem(ns) no chat",
-        "chat e fala no mesmo trecho",
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "review ou melhor lance",
-        "pressão no relógio",
-        "abertura ou repertório"
-      ],
-      "chat_count": 1,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 5634,
-      "end_seconds": 5730,
-      "time": "1:33:54",
-      "duration": "1:30",
-      "kind": "opening",
-      "score": 6.3,
-      "summary": "Estou há zero dias sem capivarar nos primeiros cinco movimentos. Capivarei por não saber lidar muito bem com o gambito da dama. Pula-se bom do turno 5…",
-      "reason": "4 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; review ou melhor lance; pressão no relógio; abertura ou repertório; raciocínio em voz alta",
-      "signals": [
-        "4 mensagem(ns) no chat",
-        "chat e fala no mesmo trecho",
-        "reação forte na fala",
-        "tema claro de xadrez",
-        "review ou melhor lance",
-        "pressão no relógio",
         "abertura ou repertório",
         "raciocínio em voz alta"
       ],
-      "chat_count": 4,
-      "transcript_count": 5
+      "chat_count": 1,
+      "transcript_count": 3,
+      "lead_in": "jogou 104 partidas de rápida"
+    },
+    {
+      "start_seconds": 4744,
+      "end_seconds": 4800,
+      "time": "1:19:04",
+      "duration": "1:30",
+      "kind": "research",
+      "score": 4.9,
+      "summary": "After this, o preto pode jogar o c6, que é o gambito Tann... Tann gambit. O que que é Tann de bronzeado? Gambito bronzeado? Quem é Tann? The Tann gambit…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; abertura ou repertório; raciocínio em voz alta; pesquisa ou contexto externo",
+      "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "erro ou momento perdido",
+        "abertura ou repertório",
+        "raciocínio em voz alta",
+        "pesquisa ou contexto externo"
+      ],
+      "chat_count": 2,
+      "transcript_count": 4,
+      "lead_in": "é a jogada questionável tá"
     }
   ]
 }
