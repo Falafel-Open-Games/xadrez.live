@@ -96,6 +96,19 @@ class ImportWhisperSessionSelectionTest(unittest.TestCase):
         self.assertIn("lixez", prompt)
         self.assertIn("aproximações fonéticas", prompt)
 
+    def test_default_prompt_biases_twitch_raid_spelling(self):
+        prompt = import_whisper_transcripts.DEFAULT_INITIAL_PROMPT
+
+        self.assertIn("Raid é a funcionalidade da Twitch", prompt)
+        self.assertIn("raid, não rage", prompt)
+
+    def test_default_prompt_biases_hobby_spelling(self):
+        prompt = import_whisper_transcripts.DEFAULT_INITIAL_PROMPT
+
+        self.assertIn("hobby, hobbista", prompt)
+        self.assertIn("transcreva com h", prompt)
+        self.assertIn("Robista", prompt)
+
 
 if __name__ == "__main__":
     unittest.main()

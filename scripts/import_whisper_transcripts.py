@@ -29,7 +29,8 @@ DEFAULT_LOCAL_RECORDING_MAX_AGE_HOURS = int(os.environ.get("XADREZ_LOCAL_RECORDI
 LOCAL_TZ = ZoneInfo(os.environ.get("XADREZ_LOCAL_TIMEZONE", "America/Sao_Paulo"))
 DEFAULT_INITIAL_PROMPT = (
     "Transcrição em português brasileiro de uma live de xadrez. "
-    "Vocabulário esperado: Lichess, lichess.org, Chess.com, Stockfish, YouTube, Twitch, Restream, GoatCounter, "
+    "Vocabulário esperado: Lichess, lichess.org, Chess.com, Stockfish, YouTube, Twitch, Restream, GoatCounter, raid, "
+    "hobby, hobbista, "
     "roque, fianchetto, Sicilian Defense, Scandinavian Defense, Puzzle do dia, Puzzle Streak, Puzzle Storm, "
     "Puzzle Racer, blunder, rating, mate, xeque, xeque-mate, blitz, rapid, en passant. "
     "Frases comuns: puzzle do dia, resposta com a dama, a resposta é, qual é a resposta. "
@@ -46,7 +47,9 @@ DEFAULT_INITIAL_PROMPT = (
     "En passant é o nome do lance especial de peão; não transcreva como empassant, impassant ou em passando. "
     "Quando a fala se referir ao site ou plataforma de xadrez, transcreva exatamente como Lichess ou lichess.org; "
     "não transcreva como lichez, lichez.org, lixez, lixes, lixés, lixar, lixares ou outras aproximações fonéticas. "
-    "Restream é o nome da plataforma de transmissão, não transcreva como restring."
+    "Restream é o nome da plataforma de transmissão, não transcreva como restring. "
+    "Raid é a funcionalidade da Twitch em que uma live envia público para outra; nesse contexto, transcreva como raid, não rage. "
+    "Hobby e hobbista são estrangeirismos usados em português; transcreva com h, não como Robista ou palavras com r."
 )
 AUDIO_EXTENSIONS = {".m4a", ".mp3", ".opus", ".ogg", ".webm", ".wav"}
 MEDIA_EXTENSIONS = AUDIO_EXTENSIONS | {".mp4", ".mkv", ".mov", ".m4v"}
