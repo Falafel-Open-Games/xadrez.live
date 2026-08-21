@@ -1,0 +1,43 @@
+{
+  "session_number": "0067",
+  "source": "lichess",
+  "event_count": 0,
+  "events": [],
+  "timeline": [
+    {
+      "time": "0:00",
+      "seconds": 0,
+      "kind": "session_start",
+      "label": "Início",
+      "source": "youtube_release"
+    },
+    {
+      "time": "6:12",
+      "seconds": 372,
+      "kind": "puzzle_of_the_day",
+      "label": "Puzzle do dia",
+      "source": "userscript",
+      "url": "https://lichess.org/training/NB58w"
+    },
+    {
+      "time": "56:59",
+      "seconds": 3419,
+      "kind": "game_start",
+      "label": "Partida 1",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "FOk1qybW",
+      "game_url": "https://lichess.org/FOk1qybW/white"
+    },
+    {
+      "time": "1:01:14",
+      "seconds": 3674,
+      "kind": "game_end",
+      "label": "Fim de Partida",
+      "source": "lichess_pgn",
+      "game_index": 1,
+      "game_id": "FOk1qybW",
+      "game_url": "https://lichess.org/FOk1qybW/white"
+    }
+  ]
+}

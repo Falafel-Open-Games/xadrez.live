@@ -413,9 +413,30 @@ def choose_with_prompt(options: list[str], default: str, allow_retry: bool) -> s
 
 def choose_option(options: list[str], default: str = "", allow_retry: bool = False) -> str:
     options = options_with_default(options, default)
-    if shutil.which("gum"):
+    if shutil.which("gum") and sys.stdin.isatty():
         return choose_with_gum(options, default, allow_retry)
     return choose_with_prompt(options, default, allow_retry)
+
+
+def edit_selected_choice(value: str) -> str:
+    if shutil.which("gum") and sys.stdin.isatty():
+        result = subprocess_run(
+            [
+                "gum",
+                "input",
+                "--header",
+                "Edite o subtítulo escolhido e pressione Enter.",
+                "--value",
+                value,
+                "--char-limit",
+                "0",
+            ]
+        )
+        return result.strip() or value
+    if not sys.stdin.isatty():
+        return value
+    edited = input(f"Edite o subtítulo escolhido [{value}]: ").strip()
+    return edited or value
 
 
 def prompt_retry_guidance() -> str:
@@ -499,6 +520,10 @@ def main() -> int:
     if title == RETRY_CHOICE:
         print("No option selected after retry attempts.")
         return 1
+    if not title:
+        print("No option selected.")
+        return 1
+    title = edit_selected_choice(title)
     if not title:
         print("No option selected.")
         return 1

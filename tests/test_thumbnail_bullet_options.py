@@ -55,6 +55,25 @@ class ThumbnailBulletOptionsTest(unittest.TestCase):
 
         self.assertEqual(selected, [])
 
+    def test_edit_selected_bullets_accepts_empty_input_as_unchanged(self):
+        selected = ["peça pendurada", "relógio apertou", "decisão crítica"]
+
+        with mock.patch.object(thumbnail_bullet_options.shutil, "which", return_value=None):
+            with mock.patch.object(thumbnail_bullet_options.sys.stdin, "isatty", return_value=True):
+                with mock.patch("builtins.input", return_value=""):
+                    self.assertEqual(thumbnail_bullet_options.edit_selected_bullets(selected), selected)
+
+    def test_edit_selected_bullets_accepts_pipe_separated_rewrite(self):
+        selected = ["peça pendurada", "relógio apertou", "decisão crítica"]
+
+        with mock.patch.object(thumbnail_bullet_options.shutil, "which", return_value=None):
+            with mock.patch.object(thumbnail_bullet_options.sys.stdin, "isatty", return_value=True):
+                with mock.patch("builtins.input", return_value="Dama sem troca | relógio apertou | final revisado"):
+                    self.assertEqual(
+                        thumbnail_bullet_options.edit_selected_bullets(selected),
+                        ["Dama sem troca", "relógio apertou", "final revisado"],
+                    )
+
     def test_main_accepts_fewer_openai_options_without_fallback(self):
         options = [
             ["peça pendurada", "relógio apertou", "decisão crítica"],

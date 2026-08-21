@@ -45,6 +45,14 @@ class GoogleTokenErrorTest(unittest.TestCase):
         self.assertIn("just youtube-chapters-authorize", message)
         self.assertIn("rerun the wrapup step", message)
 
+    def test_cli_main_prints_runtime_errors_without_traceback(self):
+        with mock.patch.object(update_youtube_chapters, "main", side_effect=RuntimeError("token expired")):
+            stderr = io.StringIO()
+            with redirect_stderr(stderr):
+                self.assertEqual(update_youtube_chapters.cli_main(), 1)
+
+        self.assertEqual(stderr.getvalue(), "error: token expired\n")
+
 
 class YouTubeTitlePublishStateTest(unittest.TestCase):
     def setUp(self):

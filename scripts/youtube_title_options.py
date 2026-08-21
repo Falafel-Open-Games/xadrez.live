@@ -431,9 +431,33 @@ def choose_with_prompt(options: list[str], kind: str, default: str) -> str:
 
 def choose_option(options: list[str], kind: str, default: str = "") -> str:
     options = options_with_default(options, default)
-    if shutil.which("gum"):
+    if shutil.which("gum") and sys.stdin.isatty():
         return choose_with_gum(options, kind, default)
     return choose_with_prompt(options, kind, default)
+
+
+def edit_selected_choice(value: str, kind: str) -> str:
+    if shutil.which("gum") and sys.stdin.isatty():
+        result = subprocess.run(
+            [
+                "gum",
+                "input",
+                "--header",
+                f"Edite {choice_label(kind)} escolhido e pressione Enter.",
+                "--value",
+                value,
+                "--char-limit",
+                "0",
+            ],
+            text=True,
+            stdout=subprocess.PIPE,
+            check=False,
+        )
+        return result.stdout.strip() if result.returncode == 0 else value
+    if not sys.stdin.isatty():
+        return value
+    edited = input(f"Edite {choice_label(kind)} escolhido [{value}]: ").strip()
+    return edited or value
 
 
 def confirm(message: str) -> bool:
@@ -563,6 +587,10 @@ def main() -> int:
 
     previous = selected_choice(session, args.kind)
     title = choose_option(options, args.kind, previous)
+    if not title:
+        print("No option selected.")
+        return 1
+    title = edit_selected_choice(title, args.kind)
     if not title:
         print("No option selected.")
         return 1

@@ -384,9 +384,40 @@ def choose_with_prompt(options: list[list[str]], default: list[str]) -> list[str
 def choose_option(options: list[list[str]], default: list[str]) -> list[str]:
     if default and default not in options:
         options = [default, *options]
-    if shutil.which("gum"):
+    if shutil.which("gum") and sys.stdin.isatty():
         return choose_with_gum(options, default)
     return choose_with_prompt(options, default)
+
+
+def edit_selected_bullets(selected: list[str]) -> list[str]:
+    value = label_option(selected)
+    if shutil.which("gum") and sys.stdin.isatty():
+        result = subprocess.run(
+            [
+                "gum",
+                "input",
+                "--header",
+                "Edite os bullets escolhidos. Separe com | e pressione Enter.",
+                "--value",
+                value,
+                "--char-limit",
+                "0",
+            ],
+            text=True,
+            stdout=subprocess.PIPE,
+            check=False,
+        )
+        raw = result.stdout.strip() if result.returncode == 0 else ""
+    else:
+        if not sys.stdin.isatty():
+            return selected
+        raw = input(f"Edite os bullets escolhidos, separados por | [{value}]: ").strip()
+    if not raw:
+        return selected
+    edited = clean_bullet_set(raw.split("|"))
+    if len(edited) != MAX_BULLETS:
+        fail(f"thumbnail requires exactly {MAX_BULLETS} valid bullets separated by |")
+    return edited
 
 
 def run(command: list[str]) -> None:
@@ -441,6 +472,7 @@ def main() -> int:
     if not selected:
         print("No option selected.")
         return 1
+    selected = edit_selected_bullets(selected)
     print(label_option(selected))
     old_selected = selected_bullets(session)
     selection_changed = selected != old_selected
