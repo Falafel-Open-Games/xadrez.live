@@ -86,6 +86,14 @@ class ImportWhisperSessionSelectionTest(unittest.TestCase):
             [("abc123def45", "0065", path)],
         )
 
+    def test_default_prompt_biases_lichess_spelling(self):
+        prompt = import_whisper_transcripts.DEFAULT_INITIAL_PROMPT
+
+        self.assertIn("Lichess", prompt)
+        self.assertIn("lichess.org", prompt)
+        self.assertIn("lixez", prompt)
+        self.assertIn("aproximações fonéticas", prompt)
+
 
 if __name__ == "__main__":
     unittest.main()
