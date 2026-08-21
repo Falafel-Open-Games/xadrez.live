@@ -45,7 +45,7 @@ DEFAULT_INITIAL_PROMPT = (
     "mantenha checkmate apenas em títulos, nomes de exercícios ou frases em inglês, como Checkmate Patterns. "
     "En passant é o nome do lance especial de peão; não transcreva como empassant, impassant ou em passando. "
     "Quando a fala se referir ao site ou plataforma de xadrez, transcreva exatamente como Lichess ou lichess.org; "
-    "não transcreva como lixez, lixes, lixés, lixar, lixares ou outras aproximações fonéticas. "
+    "não transcreva como lichez, lichez.org, lixez, lixes, lixés, lixar, lixares ou outras aproximações fonéticas. "
     "Restream é o nome da plataforma de transmissão, não transcreva como restring."
 )
 AUDIO_EXTENSIONS = {".m4a", ".mp3", ".opus", ".ogg", ".webm", ".wav"}

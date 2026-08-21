@@ -91,6 +91,8 @@ class ImportWhisperSessionSelectionTest(unittest.TestCase):
 
         self.assertIn("Lichess", prompt)
         self.assertIn("lichess.org", prompt)
+        self.assertIn("lichez", prompt)
+        self.assertIn("lichez.org", prompt)
         self.assertIn("lixez", prompt)
         self.assertIn("aproximações fonéticas", prompt)
 
