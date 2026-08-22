@@ -892,6 +892,9 @@
                           <ul class="puzzle-sequence">
                             {% for puzzle_item in attempt_puzzles %}
                               {% set puzzle_url = puzzle_item.url | default(value=puzzle_item) %}
+                              {% if "://" not in puzzle_url %}
+                                {% set puzzle_url = "https://lichess.org/training/" ~ puzzle_url %}
+                              {% endif %}
                               {% set puzzle_result = puzzle_item.result | default(value="") %}
                               <li>
                                 <a href="{{ puzzle_url }}" rel="noopener noreferrer">Puzzle {{ loop.index }}</a>
@@ -934,6 +937,9 @@
                           <ul class="puzzle-sequence">
                             {% for puzzle_item in attempt_puzzles %}
                               {% set puzzle_url = puzzle_item.url | default(value=puzzle_item) %}
+                              {% if "://" not in puzzle_url %}
+                                {% set puzzle_url = "https://lichess.org/training/" ~ puzzle_url %}
+                              {% endif %}
                               {% set puzzle_result = puzzle_item.result | default(value="") %}
                               {% set puzzle_seconds = puzzle_item.seconds | default(value="") %}
                               {% set puzzle_rating = puzzle_item.rating | default(value="") %}
