@@ -697,15 +697,6 @@ def update_sessions(paths: list[Path], token: str, timeout: int) -> int:
         session_start = session_start_utc_from_path(path, refs)
         if session_start is not None:
             video_offset_seconds = session_video_offset(path)
-            timeline_events.append(
-                {
-                    "time": "0:00",
-                    "seconds": 0,
-                    "kind": "session_start",
-                    "label": "Início",
-                    "source": "youtube_release",
-                }
-            )
             practice_event = practice_timeline_event(path, session_start, video_offset_seconds)
             if practice_event:
                 timeline_events.append(practice_event)

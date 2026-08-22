@@ -33,6 +33,7 @@ DEFAULT_REDIRECT_URI = "http://127.0.0.1:8765/youtube/oauth/callback"
 DEFAULT_SCOPE = "https://www.googleapis.com/auth/youtube.force-ssl"
 CHAPTERS_START = "[xadrez.live chapters:start]"
 CHAPTERS_END = "[xadrez.live chapters:end]"
+OPENING_CHAPTER_LABEL = "Live"
 SESSION_START = "[xadrez.live session:start]"
 SESSION_END = "[xadrez.live session:end]"
 CHANNEL_INTRO = (
@@ -156,6 +157,8 @@ def format_timestamp(seconds: int) -> str:
 
 
 def chapter_label(event: dict[str, Any]) -> str:
+    if event.get("kind") == "session_start":
+        return OPENING_CHAPTER_LABEL
     label = str(event.get("label") or "Evento").strip()
     if event.get("kind") == "blunder":
         color = {"white": "brancas", "black": "pretas"}.get(str(event.get("color") or ""), "")
@@ -221,7 +224,7 @@ def timeline_for_session(path: Path) -> tuple[Path, str, str, list[dict[str, Any
             continue
         chapters.append({"seconds": seconds, "label": label})
     if not chapters or chapters[0]["seconds"] != 0:
-        chapters.insert(0, {"seconds": 0, "label": "Início"})
+        chapters.insert(0, {"seconds": 0, "label": OPENING_CHAPTER_LABEL})
     return path, session_number, video_id, chapters
 
 

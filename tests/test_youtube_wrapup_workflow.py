@@ -172,6 +172,44 @@ class YouTubeLiveLatencyTest(unittest.TestCase):
         )
 
 
+class YouTubeChapterGenerationTest(unittest.TestCase):
+    def test_missing_zero_chapter_uses_opening_live_label(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            session_path = tmp / "0068.md"
+            timeline_dir = tmp / "timelines"
+            timeline_dir.mkdir()
+            session_path.write_text(
+                "+++\n"
+                'title = "Sessão #0068"\n'
+                "date = 2026-08-22\n"
+                'template = "session.html"\n'
+                "\n"
+                "[extra]\n"
+                'youtube_video_id = "dTV9vlyNp5k"\n'
+                "+++\n",
+                encoding="utf-8",
+            )
+            (timeline_dir / "0068.json").write_text(
+                '{"timeline":[{"time":"3:36","seconds":216,"kind":"puzzle_of_the_day","label":"Puzzle do dia"}]}',
+                encoding="utf-8",
+            )
+
+            with mock.patch.object(update_youtube_chapters, "TIMELINE_DIR", timeline_dir):
+                _path, session_number, video_id, chapters = update_youtube_chapters.timeline_for_session(session_path)
+
+        self.assertEqual(session_number, "0068")
+        self.assertEqual(video_id, "dTV9vlyNp5k")
+        self.assertEqual(chapters[0], {"seconds": 0, "label": "Live"})
+        self.assertEqual(chapters[1], {"seconds": 216, "label": "Puzzle do dia"})
+
+    def test_existing_session_start_event_uses_opening_live_label(self):
+        self.assertEqual(
+            update_youtube_chapters.chapter_label({"kind": "session_start", "label": "Início"}),
+            "Live",
+        )
+
+
 class WrapSessionNextSessionCacheTest(unittest.TestCase):
     def test_empty_lichess_rating_history_is_not_accepted_as_complete(self):
         content = update_lichess_rating_history.render("fcz", [])
