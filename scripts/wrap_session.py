@@ -31,6 +31,7 @@ YOUTUBE_EDITORIAL_CHOICES_PATH = DATA_DIR / "youtube_editorial_choices.json"
 LOCAL_TZ = ZoneInfo("America/Sao_Paulo")
 LICHESS_USERNAME = "fcz"
 ARRAY_REPLACE_KEYS = {"streak_attempts", "storm_attempts", "practice_sets", "games", "supporters"}
+TIMED_PUZZLE_ATTEMPT_KEYS = {"streak_attempts", "storm_attempts"}
 SELF_SUPPORTERS = {
     ("youtube", "fczuardi"),
     ("twitch", "sedentarismo"),
@@ -365,6 +366,9 @@ def apply_wrap_toml(session: str, data: dict[str, Any], wrap: dict[str, Any]) ->
         extra[key] = value
 
     if isinstance(incoming_extra, dict):
+        for key in TIMED_PUZZLE_ATTEMPT_KEYS:
+            if key not in incoming_extra and key in extra:
+                del extra[key]
         for key, value in incoming_extra.items():
             if key in ARRAY_REPLACE_KEYS:
                 extra[key] = value
@@ -382,6 +386,12 @@ def apply_wrap_toml(session: str, data: dict[str, Any], wrap: dict[str, Any]) ->
 
 def has_text_value(item: dict[str, Any], keys: tuple[str, ...]) -> bool:
     return any(str(item.get(key) or "").strip() for key in keys)
+
+
+def is_in_progress_puzzle_attempt(attempt: dict[str, Any]) -> bool:
+    note = str(attempt.get("note") or "").strip().casefold()
+    solved = str(attempt.get("solved") or "").strip()
+    return note == "attempt in progress" and not solved
 
 
 def clean_empty_generated_entries(extra: dict[str, Any]) -> bool:
@@ -420,6 +430,8 @@ def clean_empty_generated_entries(extra: dict[str, Any]) -> bool:
         cleaned_attempts = []
         for attempt in attempts:
             if not isinstance(attempt, dict):
+                continue
+            if is_in_progress_puzzle_attempt(attempt):
                 continue
             puzzles = attempt.get("puzzles")
             if has_text_value(attempt, ("solved", "note")) or (isinstance(puzzles, list) and len(puzzles) > 0):

@@ -225,6 +225,39 @@ class WrapSessionNextSessionCacheTest(unittest.TestCase):
             rendered + "\n",
         )
 
+    def test_wrap_toml_without_streak_attempts_removes_existing_streak_attempts(self):
+        data = {
+            "extra": {
+                "puzzle_of_the_day_url": "https://lichess.org/training/b82yB",
+                "streak_attempts": [
+                    {
+                        "note": "attempt in progress",
+                        "puzzles": ["https://lichess.org/training/b82yB"],
+                        "solved": "",
+                    }
+                ],
+            }
+        }
+        wrap = {"extra": {"practice_sets": []}}
+
+        wrap_session.apply_wrap_toml("0068", data, wrap)
+
+        self.assertNotIn("streak_attempts", data["extra"])
+
+    def test_in_progress_streak_attempt_is_cleaned_as_placeholder(self):
+        extra = {
+            "streak_attempts": [
+                {
+                    "note": "attempt in progress",
+                    "puzzles": ["https://lichess.org/training/b82yB"],
+                    "solved": "",
+                }
+            ]
+        }
+
+        self.assertTrue(wrap_session.clean_empty_generated_entries(extra))
+        self.assertNotIn("streak_attempts", extra)
+
     def test_schedule_next_session_uses_cached_answers_as_prompt_defaults(self):
         args = mock.Mock(
             skip_next_session=False,
