@@ -1,44 +1,47 @@
 {
   "session_number": "0069",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "limit": 6,
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 693,
-      "end_seconds": 780,
-      "time": "11:33",
+      "start_seconds": 3704,
+      "end_seconds": 3780,
+      "time": "1:01:44",
       "duration": "1:30",
-      "kind": "time-pressure",
-      "score": 4.0,
-      "summary": "Chats, ontem o chat teve umas 40 e tantas mensagens. Cadê ó? 40 mensagens…",
-      "reason": "reação forte na fala; erro ou momento perdido; interação com o chat; pressão no relógio; abertura ou repertório; raciocínio em voz alta",
-      "signals": [
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "interação com o chat",
-        "pressão no relógio",
-        "abertura ou repertório",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 4450,
-      "end_seconds": 4530,
-      "time": "1:14:10",
-      "duration": "1:30",
-      "kind": "review",
-      "score": 4.65,
-      "summary": "Não, mas é mais de branca, né? Que acontece esse tipo de frustração pra mim aqui. Vou seguir um joguinho qualquer aqui. Eu queria estar ameaçando a vida desse bispo…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
+      "kind": "mistake",
+      "score": 4.25,
+      "summary": "Esse precisaria ter um cavalo aqui, um cavalo aqui, um cavalo aqui. Não tem como o cavalo chegar nesses lugares…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; raciocínio em voz alta",
       "signals": [
         "1 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "plano ou estratégia",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 1,
+      "transcript_count": 4,
+      "lead_in": "não vai ter como brigar"
+    },
+    {
+      "start_seconds": 3884,
+      "end_seconds": 3960,
+      "time": "1:04:44",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 5.45,
+      "summary": "Ah, só vou trazer o rei para defender esse cavalo. Ou redirecionar esse cavalo para algum lugar mais útil. Tá, vou fazer um monte de jogada errada aqui, só pra tentar..…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
         "review ou melhor lance",
@@ -46,12 +49,35 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 1,
-      "transcript_count": 4
+      "transcript_count": 4,
+      "lead_in": "tudo o que eu falei"
     },
     {
-      "start_seconds": 4629,
+      "start_seconds": 4173,
+      "end_seconds": 4260,
+      "time": "1:09:33",
+      "duration": "1:30",
+      "kind": "training",
+      "score": 4.3,
+      "summary": "Se o Geraldo estivesse aqui, ele ia discordar de mim. Ou se o Ethereal Wave estivesse aqui, ele também ia discordar de mim, mas... Nossa Senhora, já estamos..…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; interação com o chat; treino ou puzzle streak; raciocínio em voz alta",
+      "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "tema claro de xadrez",
+        "interação com o chat",
+        "treino ou puzzle streak",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 2,
+      "transcript_count": 5,
+      "lead_in": "Acho que se o"
+    },
+    {
+      "start_seconds": 4628,
       "end_seconds": 4710,
-      "time": "1:17:09",
+      "time": "1:17:08",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 4.7,
@@ -67,69 +93,55 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 3,
+      "lead_in": "Trazer esse cara aqui"
     },
     {
-      "start_seconds": 4744,
-      "end_seconds": 4830,
-      "time": "1:19:04",
-      "duration": "1:30",
-      "kind": "review",
-      "score": 4.7,
-      "summary": "Bom, deixa eu já dar um resign aqui, só pra gente analisar melhor. Não deixar o cara esperando, coitado. Já ganhou, né? Só tô querendo..…",
-      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance",
-      "signals": [
-        "2 mensagem(ns) no chat",
-        "chat e fala no mesmo trecho",
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "review ou melhor lance"
-      ],
-      "chat_count": 2,
-      "transcript_count": 4
-    },
-    {
-      "start_seconds": 4892,
-      "end_seconds": 4980,
-      "time": "1:21:32",
+      "start_seconds": 4884,
+      "end_seconds": 4950,
+      "time": "1:21:24",
       "duration": "1:30",
       "kind": "research",
-      "score": 6.2,
+      "score": 7.75,
       "summary": "Uma ideia de noia, não conheço o sistema London. Mas deve ser. 2-2. É, o London é um que você vai colocando as peças debaixo de uma tendinha assim, né? Ah, vamos ver aqui…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; abertura ou repertório; pesquisa ou contexto externo",
-      "signals": [
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "review ou melhor lance",
-        "plano ou estratégia",
-        "abertura ou repertório",
-        "pesquisa ou contexto externo"
-      ],
-      "chat_count": 0,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 5089,
-      "end_seconds": 5160,
-      "time": "1:24:49",
-      "duration": "1:30",
-      "kind": "opening",
-      "score": 4.35,
-      "summary": "Antes de cuidar melhor. Então, da abertura, vamos falar assim. Ó, eu joguei certo até o rock, foi. A primeira imprecisão que eu fiz foi a capivara do rock…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; abertura ou repertório; raciocínio em voz alta",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance; plano ou estratégia; abertura ou repertório; pesquisa ou contexto externo",
       "signals": [
         "1 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
+        "interação com o chat",
+        "review ou melhor lance",
+        "plano ou estratégia",
         "abertura ou repertório",
-        "raciocínio em voz alta"
+        "pesquisa ou contexto externo"
       ],
       "chat_count": 1,
-      "transcript_count": 4
+      "transcript_count": 4,
+      "lead_in": "oponente jogando um sistema London"
+    },
+    {
+      "start_seconds": 5377,
+      "end_seconds": 5460,
+      "time": "1:29:37",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 5.4,
+      "summary": "Ah, e eu já esqueci qual que era a boa jogada aqui. Qual que era a boa jogada aqui. Qual, não era o cheque que eu fiz... Ah, era esquina. Isso. Aqui já..…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
+      "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 2,
+      "transcript_count": 5,
+      "lead_in": "jogada já passamos por ela"
     }
   ]
 }
