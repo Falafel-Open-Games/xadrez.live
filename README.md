@@ -2,112 +2,104 @@
 
 Site estático mínimo em Zola para o diário pessoal de lives de xadrez em [xadrez.live](https://xadrez.live/).
 
-## Instalar Zola
+Visão geral do sistema e da motivação: [Meu sistema de apoio a streamers de xadrez e como ele vem evoluindo](https://lichess.org/@/fcz/blog/meu-sistema-de-apoio-a-streamers-de-xadrez-e-como-ele-vem-evoluindo/OQJjy0BY).
 
-No macOS:
+## Fluxo rotineiro
+
+O ponto de entrada principal para manutenção diária é:
 
 ```sh
-brew install zola
+just menu
 ```
 
-No Arch Linux:
+O menu cobre quase todo o fluxo normal:
+
+- **Pre-wrap recente**: depois que o VOD termina, resgata chat do YouTube/Twitch/Restream, baixa transcrições, alinha timestamps, gera candidatos de highlights, atualiza apoiadores e reconstrói o site com busca.
+- **Wrapup da sessão**: aplica TOML e JSON exportados pelo userscript, importa chat, preenche duração/ratings, busca análise do Lichess, gera capivaradas, escolhe resumo/título/hook/bullets, publica metadados no YouTube, gera thumbnail, agenda a próxima sessão e faz build.
+- **Calibrar offset Lichess**: ajusta o offset entre vídeo e partidas/puzzles quando a timeline de capivaradas precisa ser refinada.
+- **Transcrever com Faster Whisper**: roda a transcrição local mais lenta para uma sessão específica.
+- **Realinhar e gerar highlights**: refaz alinhamento e candidatos de highlights depois de uma transcrição melhor.
+
+Os comandos diretos continuam disponíveis para automação ou para pular o menu:
 
 ```sh
+just pre-wrap 5
+just wrap-session 0070
+just calibrate-session-capivaradas 0069
+just import-faster-whisper-transcript 0069
+just realign-highlights 0069
+```
+
+## Desenvolvimento local
+
+Dependências principais:
+
+- Zola para o site estático.
+- `just` para os fluxos do projeto.
+- Python 3 para scripts de importação, wrapup e validação.
+- Node/npm ou `npx` para gerar o índice Pagefind.
+- ImageMagick para thumbnails.
+- `yt-dlp` para baixar chat/transcrições/áudio quando necessário.
+- `gum` é opcional, mas melhora menus e prompts interativos.
+
+Instalação do Zola:
+
+```sh
+# macOS
+brew install zola
+
+# Arch Linux
 sudo pacman -S zola
 ```
 
 Outras opções estão na documentação oficial do Zola: <https://www.getzola.org/documentation/getting-started/installation/>
 
-## Rodar localmente
-
-Para procurar erros de ortografia nos textos editoriais, instale o dicionário brasileiro do Hunspell e rode:
-
-```bash
-sudo pacman -S hunspell-en_us
-yay -S hunspell-pt-br
-just check-editorial-spelling
-```
-
-O comando não altera arquivos. Por padrão, agrupa ocorrências por palavra e lista alguns locais de exemplo; use `python3 scripts/check_editorial_spelling.py --all` para ver cada ocorrência. Nomes e termos específicos ficam em `data/editorial_spelling_ignore.txt`.
-
-Palavras aceitas exatamente pelo dicionário `en_US`, como `accepted` e `analytics`, são excluídas das suspeitas em português. Use `--no-english-filter` para desativar esse filtro.
-
-Para revisar as suspeitas interativamente, use `just review-editorial-spelling`. A ferramenta percorre primeiro as correções de acento e depois as demais; `s` ignora, `a` aprova a primeira sugestão, `aN` aprova a sugestão numerada `N`, `c` permite informar uma substituição customizada, `d` adiciona a palavra ao dicionário personalizado e `q` encerra. Aprovações ficam em `data/editorial_spelling_approvals.json`; o conteúdo original não é alterado.
-
-Para testar as aprovações sem alterar arquivos, rode `just apply-editorial-spelling`. O comando faz dry-run por padrão; depois de revisar a lista, use `just apply-editorial-spelling --write` para gravar as substituições.
-
-```sh
-zola serve
-```
-
-Depois abra o endereço mostrado no terminal. A sessão atual fica em:
-
-```text
-http://127.0.0.1:1111/fcz/0010/
-```
-
-Se tiver `just` instalado:
+Comandos úteis:
 
 ```sh
 just serve
+just build
+just build-search
+just test
 ```
 
-## Editar o video da sessão 0010
+`just serve` roda o build, gera o índice Pagefind e sobe o site local. `just build` é a verificação focada depois de mudanças em `content/`, `templates/`, `static/`, `config.toml` ou deploy.
 
-Abra `content/fcz/0010.md` e troque:
+## Sessões
 
-```toml
-youtube_video_id = "REPLACE_WITH_YOUTUBE_VIDEO_ID"
+As páginas ficam em `content/fcz/NNNN.md`. A criação/agendamento normal usa:
+
+```sh
+just schedule-next-session 0071 --date 2026-08-25 --time 09:00 --youtube YOUTUBE_VIDEO_ID
 ```
 
-pelo ID real do video ou live do YouTube.
+O atalho antigo ainda existe para criar uma sessão com valores padrão:
 
-Para publicar antes da live começar, deixe o badge como agendado:
+```sh
+just init-session 0071
+```
+
+Cada sessão usa front matter TOML. Campos vazios não aparecem na página. Os campos mais importantes são `youtube_video_id`, `time`, `status`, `status_tone`, `description`, `summary_title`, `games`, `practice_sets`, `thumbnail_notes` e `og_image`.
+
+Status comuns:
 
 ```toml
-status = "marcada para hoje às 11:00"
+status = "marcada para 09:00"
 status_tone = "scheduled"
-```
 
-Quando a live estiver começando, se quiser atualizar o site:
-
-```toml
 status = "ao vivo agora"
 status_tone = "live"
-```
 
-Depois da live:
-
-```toml
-status = "live encerrada"
+status = "encerrada"
 status_tone = "ended"
 ```
 
-Também é possível registrar o que aconteceu na sessão com campos opcionais:
-
-```toml
-lichess_game_url = "https://lichess.org/vjMTBtavUuFz"
-puzzle_of_the_day_url = "https://lichess.org/training/vdpRb"
-duration = "45 min"
-rapid = "1 partida"
-puzzles = "12"
-streak = "5"
-streak_goal = "5"
-streak_best_sequence = ["Ehn4s", "PaCcT", "V333B", "ggje9", "yCuNx"]
-result = "0-1"
-opening = "Defesa Siciliana"
-opening_url = "https://lichess.org/opening/Sicilian_Defense"
-color = "brancas"
-```
-
-Campos vazios não aparecem na página.
-
 ### Calibrar timestamps do replay
 
-Para obter uma sugestão de offset a partir do momento em que as brancas finalizam o segundo movimento na primeira partida:
+Quando a timeline de capivaradas fica deslocada em relação ao vídeo, use o menu ou rode diretamente:
 
 ```sh
-just calibrate-lichess-video-offset 0052
+just calibrate-session-capivaradas 0069
 ```
 
 O comando busca o PGN, informa qual relógio branco deve aparecer no quadro, pede o timestamp observado no vídeo, mostra a diferença em relação à âncora bruta calculada pelo Lichess e não altera nenhum arquivo. Revise a sugestão antes de registrá-la como `lichess_video_offset_seconds` no front matter.
@@ -130,38 +122,6 @@ just youtube-chapters-write
 
 O comando de escrita preserva a descrição existente e substitui somente o bloco entre `[xadrez.live chapters:start]` e `[xadrez.live chapters:end]`. Sem `--write`, ele sempre faz apenas dry-run.
 
-Use o corpo Markdown do arquivo para a agenda e notas livres da sessão:
-
-```md
-## Agenda
-
-- Puzzle of the Day: **fail**
-- Puzzle streak 5: **ok (8)**
-- Rapid 10min vs human: **win**
-
-## Perfil ao final da sessão
-
-- Rapid rating:
-- Puzzles:
-- Puzzle streak:
-```
-
-## Criar a próxima sessão
-
-Use o template em branco:
-
-```sh
-just init-session 0011
-```
-
-Ou copie manualmente:
-
-```sh
-cp content/fcz/_session-template.md content/fcz/0011.md
-```
-
-Depois edite `content/fcz/0011.md`, atualizando `title`, `session_number`, `youtube_video_id`, `date`, `status`, `status_tone`, `tagline` e `description`. Se copiar manualmente, troque também `draft = true` para `draft = false`.
-
 ### Proveniência editorial
 
 Blocos editoriais produzidos durante o wrapup podem registrar sua proveniência no front matter, em `[extra.editorial]` e `[[extra.editorial.provenance]]`. Cada entrada deve indicar o `field` afetado (`description`, `summary_title`, `agenda`, `notes` ou `thumbnail_notes`), as `sources` usadas, e os flags `ai_assisted` e `human_reviewed`.
@@ -170,29 +130,26 @@ Notas no campo `note` de uma partida devem registrar `note_author`, `note_origin
 
 Use fontes estáveis e separadas: `user_notes`, `game_notes`, `lichess_game_note`, `chat_context`, `chat_replay`, `transcript`, `lichess_analysis` e `lichess_practice`. Para sessões antigas cuja origem precisou ser reconstruída, use `provenance_status = "reconstructed"`; para sessões novas, prefira `verified` quando a trilha foi registrada durante o wrapup.
 
-O campo opcional `time` aparece ao lado da data na home:
-
-```toml
-time = "11:00"
-```
-
 ## Thumbnails
 
-Para gerar um prompt de preenchimento da thumbnail antes da live:
+O fluxo normal gera e registra thumbnails pelas receitas:
 
 ```sh
-just thumbnail-prompt 0010 pre
+just pre-thumb 0071
+just post-thumb 0070
+just youtube-thumbnail 0070
 ```
 
-Para gerar um prompt de preenchimento da thumbnail depois da sessão:
+`pre-thumb` cria a thumbnail pré-live local e envia para o YouTube. `post-thumb` cria a thumbnail pós-live a partir dos dados da sessão. `youtube-thumbnail` reenvia a imagem registrada em `og_image` quando necessário.
+
+Também existe um fluxo de prompt manual para usar com ChatGPT Web:
 
 ```sh
-just thumbnail-prompt 0010 post
+just thumbnail-prompt 0070 pre
+just thumbnail-prompt 0070 post
 ```
 
-O comando lê `content/fcz/0010.md`, extrai os dados do front matter e imprime um prompt limpo para copiar e colar no ChatGPT Web. Faça upload manual da imagem de template correspondente, cole o prompt gerado e use a imagem final como thumbnail da sessão.
-
-Antes de usar a imagem gerada como preview social/Twitter da sessão, gere uma versão leve para servir pelo site:
+Para otimizar uma imagem manual antes de usá-la como preview social/Twitter:
 
 ```sh
 just thumbnail-optimize static/fcz/thumbnails/20260616-pre-thumb.png static/fcz/thumbnails/20260616-pre-thumb.jpg
@@ -206,6 +163,18 @@ og_image = "/fcz/thumbnails/20260616-pre-thumb.jpg"
 
 O arquivo em `og_image` é usado só nas tags Open Graph/Twitter; ele não aparece no corpo da página.
 
+## Revisão editorial
+
+Para procurar erros de ortografia nos textos editoriais, instale o dicionário brasileiro do Hunspell e rode:
+
+```bash
+sudo pacman -S hunspell-en_us
+yay -S hunspell-pt-br
+just check-editorial-spelling
+```
+
+O comando não altera arquivos. Para revisar suspeitas interativamente, use `just review-editorial-spelling`. Aprovações ficam em `data/editorial_spelling_approvals.json`; para testar ou aplicar essas aprovações, use `just apply-editorial-spelling` ou `just apply-editorial-spelling --write`.
+
 ## Coletar dados da live no Lichess
 
 Durante a live, use o userscript local em `tools/userscripts/xadrez-live-lichess-collector.user.js` para reduzir copia/cola de URLs do Lichess, do Chess.com e do chat do Restream. Ele adiciona um painel flutuante em `lichess.org`, `chess.com` e `chat.restream.io` com botões para:
@@ -217,7 +186,7 @@ Durante a live, use o userscript local em `tools/userscripts/xadrez-live-lichess
 - registrar notas gerais e notas específicas da prática de puzzles antes da rapid, separadas no TOML do wrapup
 - extrair usernames do chat do Restream e incluir os apoiadores no mesmo TOML da sessão
 - copiar um JSON do replay de chat carregado no Restream para importar mais cedo no site
-- copiar um bloco TOML pronto para colar no front matter da sessão
+- salvar ou copiar um bloco TOML pronto para o wrapup da sessão
 
 Os dados ficam só no storage local do gerenciador de userscripts, compartilhado entre os domínios onde o script roda. Não há servidor, login externo nem envio de dados para fora.
 
@@ -272,3 +241,7 @@ O template da sessão renderiza essa metadata como `Agradecimentos`, e `scripts/
 O workflow em `.github/workflows/pages.yml` builda o site com Zola e publica o diretório `public`.
 
 No GitHub, abra as configurações do repositório e habilite Pages usando **GitHub Actions** como source.
+
+## Licença
+
+Este projeto é licenciado sob a GNU Affero General Public License v3.0. Veja [LICENSE](LICENSE).

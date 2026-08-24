@@ -10,4 +10,6 @@ O projeto começou com as sessões do fcz, mas o domínio foi pensado para poder
 
 O objetivo principal não é produzir conteúdo em massa para busca. É manter um registro útil para quem participou da live, para quem quer acompanhar a evolução de um jogador, e para quem gosta de ver o processo real de treino: erros repetidos, pequenas descobertas, puzzles difíceis, decisões ruins no relógio e conversas do chat que mudam a análise.
 
+Para entender melhor como o sistema de apoio a streamers foi crescendo, leia o post [Meu sistema de apoio a streamers de xadrez e como ele vem evoluindo](https://lichess.org/@/fcz/blog/meu-sistema-de-apoio-a-streamers-de-xadrez-e-como-ele-vem-evoluindo/OQJjy0BY), publicado no blog do Lichess.
+
 Se você faz lives de xadrez e quer aparecer nas listagens do xadrez.live, fale com fcz no Lichess.
