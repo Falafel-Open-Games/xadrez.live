@@ -1,56 +1,16 @@
 {
   "session_number": "0070",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "limit": 6,
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 292,
-      "end_seconds": 390,
-      "time": "4:52",
-      "duration": "1:30",
-      "kind": "time-pressure",
-      "score": 4.3,
-      "summary": "cinco minutos de pressão. Olha esse, os piores do meu parceiro. Dá vontade de comer esse peãozinho ali. Deve ser blunder. Pressão total. Ih, esse é o bispo que eu odeio…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
-      "signals": [
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "plano ou estratégia",
-        "pressão no relógio",
-        "plano sob pressão de tempo",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 4
-    },
-    {
-      "start_seconds": 767,
-      "end_seconds": 840,
-      "time": "12:47",
-      "duration": "1:30",
-      "kind": "chat",
-      "score": 2.8,
-      "summary": "Que que é isso, cara? Um cara veio com essa dama cedo aqui, achando que eu sou o quê, meu? Tá bom, eu sou iniciante, mas não tão iniciante assim, né? O cara vem encher o saco com…",
-      "reason": "reação forte na fala; tema claro de xadrez; interação com o chat; plano ou estratégia; raciocínio em voz alta",
-      "signals": [
-        "reação forte na fala",
-        "tema claro de xadrez",
-        "interação com o chat",
-        "plano ou estratégia",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 1169,
-      "end_seconds": 1260,
-      "time": "19:29",
+      "start_seconds": 1155,
+      "end_seconds": 1230,
+      "time": "19:15",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 4.7,
@@ -65,64 +25,117 @@
         "abertura ou repertório"
       ],
       "chat_count": 0,
-      "transcript_count": 4
+      "transcript_count": 3,
+      "lead_in": "Muita efetividade aqui"
     },
     {
-      "start_seconds": 3117,
+      "start_seconds": 3140,
       "end_seconds": 3210,
-      "time": "51:57",
+      "time": "52:20",
       "duration": "1:30",
       "kind": "opening",
-      "score": 3.0,
-      "summary": "Ficar nessa siciliana aqui que todo mundo já conhece não vai me levar a lugar nenhum, né? Ó! Ah, que legal! Ah, acho que eu entendi o que que é esse corte do ninja aí…",
-      "reason": "reação forte na fala; tema claro de xadrez; pressão no relógio; abertura ou repertório; raciocínio em voz alta",
+      "score": 5.1,
+      "summary": "É assim, quando a diferença é muito grande de rating, acho que o cara tem a opção de começar com menos tempo e valer mais ponto no campeonato…",
+      "reason": "4 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; pressão no relógio; abertura ou repertório; raciocínio em voz alta",
       "signals": [
+        "4 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "tema claro de xadrez",
         "pressão no relógio",
         "abertura ou repertório",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 4
+      "chat_count": 4,
+      "transcript_count": 3,
+      "lead_in": "esse corte do ninja aí"
     },
     {
-      "start_seconds": 3435,
-      "end_seconds": 3510,
-      "time": "57:15",
+      "start_seconds": 3524,
+      "end_seconds": 3600,
+      "time": "58:44",
       "duration": "1:30",
-      "kind": "chat",
-      "score": 2.8,
-      "summary": "Cavalo dele faz o que aqui? Tentar cravar esse cavalo. Acho que é o melhor que eu tenho para fazer. Alright, alright…",
-      "reason": "reação forte na fala; tema claro de xadrez; interação com o chat; plano ou estratégia; raciocínio em voz alta",
+      "kind": "time-pressure",
+      "score": 5.05,
+      "summary": "Ganhou a corrida, meu irmão. Tempo esgotado. Putz, loucura. Loucura para ver esse... Oh, até uma ideia apareceu hoje. Boa tarde…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; interação com o chat; plano ou estratégia; pressão no relógio; plano sob pressão de tempo",
       "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
-        "tema claro de xadrez",
+        "erro ou momento perdido",
         "interação com o chat",
         "plano ou estratégia",
-        "raciocínio em voz alta"
+        "pressão no relógio",
+        "plano sob pressão de tempo"
       ],
-      "chat_count": 0,
-      "transcript_count": 3
+      "chat_count": 1,
+      "transcript_count": 4,
+      "lead_in": "Parabéns para você"
     },
     {
-      "start_seconds": 4178,
-      "end_seconds": 4260,
-      "time": "1:09:38",
+      "start_seconds": 4205,
+      "end_seconds": 4290,
+      "time": "1:10:05",
       "duration": "1:30",
       "kind": "mistake",
-      "score": 3.0,
-      "summary": "Ah, esse jogo não tinha como ganhar. Não tem como, né? O que que ele tá podendo fazer aqui? Muitíssimas coisas. Vamos brincar aqui com um final perdido. Deodato, Deodato, Deodato…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; raciocínio em voz alta",
+      "score": 4.05,
+      "summary": "Vamos brincar aqui com um final perdido. Deodato, Deodato, Deodato. E aí, Deodato? Não tem um mate malucão aqui não, né? Não tem…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; raciocínio em voz alta",
       "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
         "interação com o chat",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 4
+      "chat_count": 1,
+      "transcript_count": 4,
+      "lead_in": "ele tá podendo fazer aqui"
+    },
+    {
+      "start_seconds": 4342,
+      "end_seconds": 4410,
+      "time": "1:12:22",
+      "duration": "1:30",
+      "kind": "opening",
+      "score": 5.2,
+      "summary": "Isso aqui é muita bosta. Cinco minutos, ó, cinco segundos. Mais uma, ué. Uma para dar de despedida aí. Pô, esse aí, deixa eu... A análise vai mostrar aqui o que que é isso…",
+      "reason": "4 mensagem(ns) no chat; chat e fala no mesmo trecho; tema claro de xadrez; review ou melhor lance; plano ou estratégia; abertura ou repertório",
+      "signals": [
+        "4 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "abertura ou repertório"
+      ],
+      "chat_count": 4,
+      "transcript_count": 4,
+      "lead_in": "sou pouca bosta não cara"
+    },
+    {
+      "start_seconds": 4635,
+      "end_seconds": 4710,
+      "time": "1:17:15",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 3.75,
+      "summary": "Aí, ó. Falar em pendurar a dama, né? Ah, que que eu posso fazer? Fazer essa torre aqui. Eu queria andar de cavalo mesmo, mas... Que que esse cara..…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 1,
+      "transcript_count": 3,
+      "lead_in": "eu vou vim pra cá"
     }
   ]
 }
