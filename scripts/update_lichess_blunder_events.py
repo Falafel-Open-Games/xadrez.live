@@ -324,6 +324,14 @@ def time_control(headers: dict[str, str]) -> tuple[int, int]:
     return 0, 0
 
 
+def color_time_control(headers: dict[str, str], color: str) -> tuple[int, int]:
+    initial, increment = time_control(headers)
+    berserk_key = "WhiteBerserk" if color == "white" else "BlackBerserk"
+    if str(headers.get(berserk_key) or "").strip().casefold() == "true":
+        return initial // 2, 0
+    return initial, increment
+
+
 def session_start_utc(ref: GameRef) -> datetime | None:
     if not ref.youtube_start_timestamp:
         return None
@@ -365,8 +373,7 @@ def event_text(player: str, move: str, move_number: int, clock: str, eval_change
 def pgn_elapsed_seconds(pgn: str) -> int:
     """Return the elapsed game time represented by the last PGN clock."""
     headers = pgn_headers(pgn)
-    initial, increment = time_control(headers)
-    if not initial:
+    if not time_control(headers)[0]:
         return 0
     consumed = {"white": 0, "black": 0}
     ply = 0
@@ -390,6 +397,7 @@ def pgn_elapsed_seconds(pgn: str) -> int:
         for comment in comments:
             clock_match = CLK_RE.search(comment)
             if clock_match:
+                initial, increment = color_time_control(headers, color)
                 moves_made = (ply + 1) // 2 if color == "white" else ply // 2
                 consumed[color] = max(0, initial + moves_made * increment - parse_clock(clock_match.group(1)))
         last_elapsed = consumed["white"] + consumed["black"]
@@ -553,7 +561,7 @@ def storm_timeline_events(path: Path, session_start: datetime | None, video_offs
 def blunder_events(ref: GameRef, payload: dict[str, Any]) -> list[dict[str, Any]]:
     pgn = str(payload.get("pgn") or "")
     headers = pgn_headers(pgn)
-    initial, increment = time_control(headers)
+    has_clock_time_control = bool(time_control(headers)[0])
     session_start = session_start_utc(ref)
     if session_start is None:
         print(
@@ -605,7 +613,8 @@ def blunder_events(ref: GameRef, payload: dict[str, Any]) -> list[dict[str, Any]
             if best_match:
                 best = best_match.group(1)
 
-        if clock_seconds is not None and initial:
+        if clock_seconds is not None and has_clock_time_control:
+            initial, increment = color_time_control(headers, color)
             moves_made = (ply + 1) // 2 if color == "white" else ply // 2
             consumed[color] = max(0, initial + moves_made * increment - clock_seconds)
         elapsed = consumed["white"] + consumed["black"]

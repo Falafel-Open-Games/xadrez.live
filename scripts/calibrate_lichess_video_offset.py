@@ -16,6 +16,8 @@ sys.path.insert(0, str(ROOT))
 from scripts.update_lichess_blunder_events import (
     CLK_RE,
     body_tokens,
+    cached_game_payload,
+    color_time_control,
     fetch_game,
     pgn_headers,
     session_start_utc_from_path,
@@ -105,8 +107,7 @@ def format_timestamp(seconds: int) -> str:
 
 def second_white_move_elapsed(pgn: str) -> tuple[int, str]:
     headers = pgn_headers(pgn)
-    initial, increment = time_control(headers)
-    if not initial:
+    if not time_control(headers)[0]:
         raise RuntimeError("time control da primeira partida não permite calcular o relógio")
 
     consumed = {"white": 0, "black": 0}
@@ -128,6 +129,7 @@ def second_white_move_elapsed(pgn: str) -> tuple[int, str]:
                 if clock_match:
                     if ply == 3 and color == "white":
                         white_clock = clock_match.group(1)
+                    initial, increment = color_time_control(headers, color)
                     moves_made = (ply + 1) // 2 if color == "white" else ply // 2
                     consumed[color] = max(0, initial + moves_made * increment - _clock_seconds(clock_match.group(1)))
             lookahead += 1
@@ -181,10 +183,12 @@ def first_game_anchor(session: str) -> tuple[Path, int, int, int, str]:
         raise RuntimeError(f"a timeline de {session} não tem início da primeira partida")
     generated_seconds = int(starts[0]["seconds"])
     raw_seconds = generated_seconds - configured_offset
-    try:
-        payload = fetch_game(refs[0].game_id, "", 20)
-    except OSError as error:
-        raise RuntimeError(f"não foi possível buscar o PGN de {refs[0].game_id}: {error}") from error
+    payload = cached_game_payload(refs[0].game_id)
+    if payload is None:
+        try:
+            payload = fetch_game(refs[0].game_id, "", 20)
+        except OSError as error:
+            raise RuntimeError(f"não foi possível buscar o PGN de {refs[0].game_id}: {error}") from error
     elapsed, white_clock = second_white_move_elapsed(str(payload.get("pgn") or ""))
     return content_path, raw_seconds + elapsed, configured_offset, elapsed, white_clock
 

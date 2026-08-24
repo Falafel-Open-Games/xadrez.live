@@ -114,6 +114,7 @@ update-session-capivaradas SESSION:
 
 update-session-capivaradas-data SESSION:
   @python3 scripts/update_lichess_game_analysis.py {{SESSION}} --fetch-missing-only --missing-only
+  @python3 scripts/sort_session_games_by_pgn_time.py {{SESSION}}
   @python3 scripts/update_lichess_blunder_events.py {{SESSION}}
 
 update-youtube-video-metadata EXTRA="":

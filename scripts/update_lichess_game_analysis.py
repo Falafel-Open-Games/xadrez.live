@@ -297,6 +297,47 @@ def existing_rows_by_key(path: Path) -> dict[tuple[str, int], dict[str, Any]]:
     return existing
 
 
+def existing_rows_by_game_id(path: Path) -> dict[str, dict[str, Any]]:
+    if not path.exists():
+        return {}
+    try:
+        data = tomllib.loads(path.read_text(encoding="utf-8"))
+    except tomllib.TOMLDecodeError:
+        return {}
+    rows = data.get("games")
+    if not isinstance(rows, list):
+        return {}
+    existing: dict[str, dict[str, Any]] = {}
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        game_id = str(row.get("game_id") or "").strip()
+        if game_id:
+            existing[game_id] = row
+    return existing
+
+
+def reindexed_existing_row(game: SessionGame, row: dict[str, Any]) -> dict[str, Any]:
+    updated = dict(row)
+    updated["session_number"] = game.session_number
+    updated["game_index"] = game.game_index
+    updated["game_id"] = game.game_id
+    updated["url"] = game.url
+    updated["color"] = game.color
+    return updated
+
+
+def matching_existing_row(
+    game: SessionGame,
+    existing_rows: dict[tuple[str, int], dict[str, Any]],
+    existing_by_game_id: dict[str, dict[str, Any]],
+) -> dict[str, Any] | None:
+    indexed = existing_rows.get((game.session_number, game.game_index))
+    if indexed and str(indexed.get("game_id") or "").strip() == game.game_id:
+        return indexed
+    return existing_by_game_id.get(game.game_id)
+
+
 def semantic_cache(data: dict[str, Any]) -> dict[str, Any]:
     summary = dict(data.get("summary") or {})
     summary.pop("updated_at", None)
@@ -336,18 +377,30 @@ def main() -> int:
     games = load_all_session_games()
     selected_numbers = set(args.sessions)
     existing_rows = existing_rows_by_key(OUTPUT)
+    existing_by_game_id = existing_rows_by_game_id(OUTPUT)
     games_to_fetch = selected_games(games, selected_numbers)
     if args.fetch_missing_only:
         games_to_fetch = [
             game
             for game in games_to_fetch
-            if not bool(existing_rows.get((game.session_number, game.game_index), {}).get("has_analysis"))
+            if not bool(
+                (
+                    matching_existing_row(game, existing_rows, existing_by_game_id)
+                    or {}
+                ).get("has_analysis")
+            )
         ]
     if args.missing_pgn_only:
         games_to_fetch = [
             game
             for game in games_to_fetch
-            if not str(existing_rows.get((game.session_number, game.game_index), {}).get("pgn") or "").strip()
+            if not str(
+                (
+                    matching_existing_row(game, existing_rows, existing_by_game_id)
+                    or {}
+                ).get("pgn")
+                or ""
+            ).strip()
         ]
     rows = []
     failures = []
@@ -360,8 +413,8 @@ def main() -> int:
     for game in games:
         key = (game.session_number, game.game_index)
         if key not in fetch_keys:
-            existing = existing_rows.get(key)
-            rows.append(dict(existing) if existing else build_row(game, None))
+            existing = matching_existing_row(game, existing_rows, existing_by_game_id)
+            rows.append(reindexed_existing_row(game, existing) if existing else build_row(game, None))
             continue
 
         fetched += 1
@@ -371,8 +424,9 @@ def main() -> int:
         except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as error:
             payload = None
             failures.append(f"{game.session_number} #{game.game_index} {game.url}: {error}")
-        if payload is None and key in existing_rows:
-            rows.append(dict(existing_rows[key]))
+        existing = matching_existing_row(game, existing_rows, existing_by_game_id)
+        if payload is None and existing:
+            rows.append(reindexed_existing_row(game, existing))
         else:
             rows.append(build_row(game, payload))
         if fetched < len(games_to_fetch) and args.sleep > 0:
