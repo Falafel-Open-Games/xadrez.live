@@ -749,6 +749,51 @@ def run(command: list[str], dry_run: bool) -> None:
         fail(f"command failed with exit code {error.returncode}: {' '.join(command)}")
 
 
+def has_configured_lichess_video_offset(data: dict[str, Any]) -> bool:
+    extra = data.get("extra")
+    return isinstance(extra, dict) and "lichess_video_offset_seconds" in extra
+
+
+def run_calibration(
+    session: str,
+    data: dict[str, Any],
+    anchor: str,
+    force: bool,
+    skip: bool,
+    dry_run: bool,
+) -> bool:
+    if skip:
+        print(f"{session}: calibration skipped by --skip-calibration")
+        return False
+    if has_configured_lichess_video_offset(data) and not force:
+        print(f"{session}: calibration skipped; lichess_video_offset_seconds already configured")
+        return False
+    if not sys.stdin.isatty() and not dry_run:
+        print(f"{session}: calibration skipped; interactive terminal unavailable")
+        return False
+
+    command = [
+        "python3",
+        "scripts/calibrate_lichess_video_offset.py",
+        session,
+        "--anchor",
+        anchor,
+        "--exit-code-on-skip",
+        "75",
+    ]
+    print(f"$ {' '.join(command)}")
+    if dry_run:
+        return False
+
+    result = subprocess.run(command, check=False)
+    if result.returncode == 75:
+        print(f"{session}: calibration skipped; anchor data unavailable")
+        return False
+    if result.returncode != 0:
+        fail(f"command failed with exit code {result.returncode}: {' '.join(command)}")
+    return True
+
+
 def has_gum() -> bool:
     return shutil.which("gum") is not None
 
@@ -860,6 +905,14 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--yes", action="store_true", help="Skip the imported TOML confirmation checkpoint")
     parser.add_argument("--skip-build", action="store_true")
     parser.add_argument("--skip-capivaradas", action="store_true")
+    parser.add_argument("--skip-calibration", action="store_true", help="Do not offer the Lichess video offset calibration checkpoint")
+    parser.add_argument("--force-calibration", action="store_true", help="Run calibration even when lichess_video_offset_seconds is already configured")
+    parser.add_argument(
+        "--calibration-anchor",
+        choices=("puzzle-of-the-day", "first-game"),
+        default="puzzle-of-the-day",
+        help="Anchor used by the wrapup calibration checkpoint",
+    )
     parser.add_argument("--skip-youtube-finish", action="store_true")
     parser.add_argument("--skip-youtube-title", action="store_true")
     parser.add_argument("--skip-next-session", action="store_true", help="Do not offer to create/update the next scheduled session")
@@ -980,6 +1033,16 @@ def main() -> int:
             print(f"{session}: removed empty generated entries")
         if chat_json_file:
             run(["python3", "scripts/merge_chat_replays.py", session], args.dry_run)
+        calibrated = run_calibration(
+            session,
+            data,
+            args.calibration_anchor,
+            args.force_calibration,
+            args.skip_calibration,
+            args.dry_run,
+        )
+        if calibrated:
+            path, data, body = read_session(session)
         if not args.skip_capivaradas:
             run(["just", "update-session-capivaradas-data", session], args.dry_run)
         if not args.skip_youtube_finish:

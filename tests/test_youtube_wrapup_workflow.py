@@ -282,6 +282,41 @@ class WrapSessionNextSessionCacheTest(unittest.TestCase):
 
         self.assertNotIn("streak_attempts", data["extra"])
 
+    def test_wrapup_calibration_skips_when_offset_is_already_configured(self):
+        data = {"extra": {"lichess_video_offset_seconds": 12}}
+
+        with mock.patch.object(wrap_session.subprocess, "run") as run:
+            with redirect_stdout(io.StringIO()):
+                calibrated = wrap_session.run_calibration(
+                    "0071",
+                    data,
+                    "puzzle-of-the-day",
+                    force=False,
+                    skip=False,
+                    dry_run=False,
+                )
+
+        self.assertFalse(calibrated)
+        run.assert_not_called()
+
+    def test_wrapup_calibration_treats_missing_anchor_as_clean_skip(self):
+        data = {"extra": {}}
+
+        with mock.patch.object(wrap_session.sys.stdin, "isatty", return_value=True):
+            with mock.patch.object(wrap_session.subprocess, "run", return_value=mock.Mock(returncode=75)) as run:
+                with redirect_stdout(io.StringIO()):
+                    calibrated = wrap_session.run_calibration(
+                        "0071",
+                        data,
+                        "puzzle-of-the-day",
+                        force=False,
+                        skip=False,
+                        dry_run=False,
+                    )
+
+        self.assertFalse(calibrated)
+        run.assert_called_once()
+
     def test_in_progress_streak_attempt_is_cleaned_as_placeholder(self):
         extra = {
             "streak_attempts": [
