@@ -243,6 +243,14 @@ def apply_selected_editorial_choices(session: str, data: dict[str, Any]) -> list
     return updated
 
 
+def apply_selected_editorial_choices_to_current_session(session: str) -> list[str]:
+    path, data, body = read_session(session)
+    updated = apply_selected_editorial_choices(session, data)
+    if updated:
+        write_session(path, data, body)
+    return updated
+
+
 def load_wrap_toml(path: Path) -> dict[str, Any]:
     try:
         return tomllib.loads(path.read_text(encoding="utf-8"))
@@ -1057,9 +1065,9 @@ def main() -> int:
             if not args.skip_youtube_finish:
                 recipe = "youtube-finish-session-skip-title-no-build" if args.skip_youtube_title else "youtube-finish-session-no-build"
                 run(["just", recipe, session], args.dry_run)
-                editorial_updates = apply_selected_editorial_choices(session, data)
+                editorial_updates = apply_selected_editorial_choices_to_current_session(session)
                 if editorial_updates:
-                    write_session(path, data, body)
+                    path, data, body = read_session(session)
                     print(f"{session}: applied selected editorial choices to page ({', '.join(editorial_updates)})")
             else:
                 run(["just", "verify-session", session], args.dry_run)

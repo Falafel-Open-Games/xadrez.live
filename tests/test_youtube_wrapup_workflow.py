@@ -1,4 +1,5 @@
 import io
+import json
 import sys
 import tempfile
 import unittest
@@ -281,6 +282,62 @@ class WrapSessionNextSessionCacheTest(unittest.TestCase):
         wrap_session.apply_wrap_toml("0068", data, wrap)
 
         self.assertNotIn("streak_attempts", data["extra"])
+
+    def test_selected_editorial_choices_reload_current_session_before_writing(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            content_dir = tmp / "content"
+            content_dir.mkdir()
+            youtube_choices_path = tmp / "youtube_editorial_choices.json"
+            session_choices_path = tmp / "session_editorial_choices.json"
+            session_path = content_dir / "0071.md"
+            session_path.write_text(
+                "+++\n"
+                'title = "Sessao #0071"\n'
+                "date = 2026-08-25\n"
+                'template = "session.html"\n'
+                "\n"
+                "[extra]\n"
+                'description = "Treino de puzzles e uma partida rapid."\n'
+                'summary_title = "Puzzles e rapid"\n'
+                'og_image = "/fcz/thumbnails/2026-08/20260825-post-thumb.jpg"\n'
+                'thumbnail_notes = ["Dama presa", "Blunder no final", "Mate escapou"]\n'
+                "+++\n"
+                "\n"
+                "Corpo da sessao.\n",
+                encoding="utf-8",
+            )
+            youtube_choices_path.write_text(
+                json.dumps(
+                    {
+                        "sessions": {
+                            "0071": {
+                                "description_hooks": {
+                                    "selected": "Comecei com treino do Knight & Bishop Mate e segui para uma rapid."
+                                }
+                            }
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+            session_choices_path.write_text(
+                json.dumps({"sessions": {"0071": {"summary_titles": {"selected": "Knight & Bishop antes da rapid"}}}}),
+                encoding="utf-8",
+            )
+
+            with mock.patch.object(wrap_session, "CONTENT_DIR", content_dir):
+                with mock.patch.object(wrap_session, "YOUTUBE_EDITORIAL_CHOICES_PATH", youtube_choices_path):
+                    with mock.patch.object(wrap_session, "SESSION_EDITORIAL_CHOICES_PATH", session_choices_path):
+                        updated = wrap_session.apply_selected_editorial_choices_to_current_session("0071")
+
+            self.assertEqual(updated, ["description", "summary_title"])
+            rendered = session_path.read_text(encoding="utf-8")
+            self.assertIn('description = "Comecei com treino do Knight & Bishop Mate e segui para uma rapid."', rendered)
+            self.assertIn('summary_title = "Knight & Bishop antes da rapid"', rendered)
+            self.assertIn('og_image = "/fcz/thumbnails/2026-08/20260825-post-thumb.jpg"', rendered)
+            self.assertIn('thumbnail_notes = ["Dama presa", "Blunder no final", "Mate escapou"]', rendered)
+            self.assertIn("Corpo da sessao.", rendered)
 
     def test_wrapup_calibration_skips_when_offset_is_already_configured(self):
         data = {"extra": {"lichess_video_offset_seconds": 12}}
