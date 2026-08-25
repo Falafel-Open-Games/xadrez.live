@@ -6,7 +6,6 @@ import json
 import os
 import shutil
 import subprocess
-import time as time_module
 import tomllib
 from dataclasses import dataclass
 from pathlib import Path
@@ -23,7 +22,6 @@ WRAP_SESSIONS_DIR = DATA_DIR / "wrap_sessions"
 TRANSCRIPTS_DIR = DATA_DIR / "transcripts"
 HIGHLIGHTS_DIR = DATA_DIR / "highlights"
 DOWNLOADS_DIR = Path.home() / "Downloads"
-RECENT_LEGACY_RUNNING_SECONDS = 6 * 60 * 60
 
 
 @dataclass(frozen=True)
@@ -159,17 +157,6 @@ def load_wrap_state(session: str) -> dict:
     return data if isinstance(data, dict) else {}
 
 
-def recent_legacy_wrap_state(session: str) -> bool:
-    path = wrap_state_path(session)
-    if not path.exists():
-        return False
-    try:
-        age_seconds = time_module.time() - path.stat().st_mtime
-    except OSError:
-        return False
-    return 0 <= age_seconds <= RECENT_LEGACY_RUNNING_SECONDS
-
-
 def transcript_path(session: str, suffix: str) -> Path:
     return TRANSCRIPTS_DIR / f"{session}.{suffix}.json"
 
@@ -210,10 +197,8 @@ def action_state(action: Action, session: str) -> ActionState:
             return ActionState(action, "ongoing", "wrapup state is running; wait for it to finish")
         if status == "completed":
             return ActionState(action, "done", "wrap state completed; rerun is allowed")
-        if wrap_state and "completed_at" not in wrap_state and recent_legacy_wrap_state(session):
-            return ActionState(action, "ongoing", "wrap state was written recently without completion marker")
         if wrap_state:
-            return ActionState(action, "done", "wrap state exists; rerun is allowed")
+            return ActionState(action, "done", "wrap state exists without completion marker; rerun is allowed")
         return ActionState(action, "ready", "userscript TOML/chat found")
 
     if action.key == "faster-whisper":
