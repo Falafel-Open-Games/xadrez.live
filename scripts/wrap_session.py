@@ -982,7 +982,13 @@ def main() -> int:
         require_userscript_inputs(session, toml_file, chat_json_file)
     path, data, body = read_session(session)
     previous_state = load_json(WRAP_DIR / f"{session}.json")
-    state: dict[str, Any] = {"session": session, "updated_at": datetime.now(timezone.utc).isoformat(), "inputs": {}}
+    state: dict[str, Any] = {
+        "session": session,
+        "status": "running",
+        "started_at": datetime.now(timezone.utc).isoformat(),
+        "updated_at": datetime.now(timezone.utc).isoformat(),
+        "inputs": {},
+    }
     cached_next = previous_state.get(NEXT_SESSION_CACHE_KEY)
     if isinstance(cached_next, dict):
         state[NEXT_SESSION_CACHE_KEY] = cached_next
@@ -1065,6 +1071,10 @@ def main() -> int:
                 run(["just", "pre-thumb", next_session, next_time], args.dry_run)
         if not args.skip_build:
             run(["just", "build"], args.dry_run)
+        state["status"] = "completed"
+        state["completed_at"] = datetime.now(timezone.utc).isoformat()
+        state["updated_at"] = state["completed_at"]
+        save_json(WRAP_DIR / f"{session}.json", state)
     else:
         print(f"{session}: dry run; no files written")
 

@@ -1,6 +1,7 @@
 import json
 import sys
 import tempfile
+import time
 import unittest
 from pathlib import Path
 from unittest import mock
@@ -77,6 +78,42 @@ class DailyMenuStateTest(unittest.TestCase):
         state = self.state_for("wrap-session", "0071")
 
         self.assertEqual(state.status, "ready")
+
+    def test_running_wrap_state_is_ongoing_and_not_selectable(self):
+        self.write_session("0071")
+        (self.wrap_inbox_dir / "0071.toml").write_text("duration = \"1:00\"\n", encoding="utf-8")
+        (self.wrap_inbox_dir / "0071-chat.json").write_text("{}\n", encoding="utf-8")
+        (self.wrap_sessions_dir / "0071.json").write_text('{"status": "running"}\n', encoding="utf-8")
+
+        state = self.state_for("wrap-session", "0071")
+
+        self.assertEqual(state.status, "ongoing")
+        self.assertFalse(state.selectable)
+
+    def test_completed_wrap_state_is_done_and_rerunnable(self):
+        self.write_session("0071")
+        (self.wrap_inbox_dir / "0071.toml").write_text("duration = \"1:00\"\n", encoding="utf-8")
+        (self.wrap_inbox_dir / "0071-chat.json").write_text("{}\n", encoding="utf-8")
+        (self.wrap_sessions_dir / "0071.json").write_text('{"status": "completed"}\n', encoding="utf-8")
+
+        state = self.state_for("wrap-session", "0071")
+
+        self.assertEqual(state.status, "done")
+        self.assertTrue(state.selectable)
+
+    def test_recent_legacy_wrap_state_without_completion_marker_is_ongoing(self):
+        self.write_session("0071")
+        (self.wrap_inbox_dir / "0071.toml").write_text("duration = \"1:00\"\n", encoding="utf-8")
+        (self.wrap_inbox_dir / "0071-chat.json").write_text("{}\n", encoding="utf-8")
+        path = self.wrap_sessions_dir / "0071.json"
+        path.write_text('{"session": "0071"}\n', encoding="utf-8")
+        now = time.time()
+        path.touch()
+        self.assertLess(now - path.stat().st_mtime, 1)
+
+        state = self.state_for("wrap-session", "0071")
+
+        self.assertEqual(state.status, "ongoing")
 
     def test_calibration_is_not_a_separate_menu_action(self):
         self.assertNotIn("calibrate-offset", [action.key for action in daily_menu.ACTIONS])

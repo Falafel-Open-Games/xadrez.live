@@ -6,6 +6,7 @@ import json
 import os
 import shutil
 import subprocess
+import time as time_module
 import tomllib
 from dataclasses import dataclass
 from pathlib import Path
@@ -22,6 +23,7 @@ WRAP_SESSIONS_DIR = DATA_DIR / "wrap_sessions"
 TRANSCRIPTS_DIR = DATA_DIR / "transcripts"
 HIGHLIGHTS_DIR = DATA_DIR / "highlights"
 DOWNLOADS_DIR = Path.home() / "Downloads"
+RECENT_LEGACY_RUNNING_SECONDS = 6 * 60 * 60
 
 
 @dataclass(frozen=True)
@@ -34,12 +36,12 @@ class Action:
 @dataclass(frozen=True)
 class ActionState:
     action: Action
-    status: Literal["ready", "done", "blocked"]
+    status: Literal["ready", "done", "ongoing", "blocked"]
     detail: str = ""
 
     @property
     def selectable(self) -> bool:
-        return self.status != "blocked"
+        return self.status not in {"blocked", "ongoing"}
 
 
 ACTIONS = [
@@ -142,6 +144,32 @@ def has_wrap_chat(session: str) -> bool:
     return has_wrap_input(session, "-chat.json")
 
 
+def wrap_state_path(session: str) -> Path:
+    return WRAP_SESSIONS_DIR / f"{session}.json"
+
+
+def load_wrap_state(session: str) -> dict:
+    path = wrap_state_path(session)
+    if not path.exists():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def recent_legacy_wrap_state(session: str) -> bool:
+    path = wrap_state_path(session)
+    if not path.exists():
+        return False
+    try:
+        age_seconds = time_module.time() - path.stat().st_mtime
+    except OSError:
+        return False
+    return 0 <= age_seconds <= RECENT_LEGACY_RUNNING_SECONDS
+
+
 def transcript_path(session: str, suffix: str) -> Path:
     return TRANSCRIPTS_DIR / f"{session}.{suffix}.json"
 
@@ -176,7 +204,15 @@ def action_state(action: Action, session: str) -> ActionState:
             return ActionState(action, "blocked", f"missing data/fcz/wrap_inbox/{session}.toml or ~/Downloads/{session}.toml")
         if not has_wrap_chat(session):
             return ActionState(action, "blocked", f"missing data/fcz/wrap_inbox/{session}-chat.json or ~/Downloads/{session}-chat.json")
-        if (WRAP_SESSIONS_DIR / f"{session}.json").exists():
+        wrap_state = load_wrap_state(session)
+        status = str(wrap_state.get("status") or "").strip().lower()
+        if status == "running":
+            return ActionState(action, "ongoing", "wrapup state is running; wait for it to finish")
+        if status == "completed":
+            return ActionState(action, "done", "wrap state completed; rerun is allowed")
+        if wrap_state and "completed_at" not in wrap_state and recent_legacy_wrap_state(session):
+            return ActionState(action, "ongoing", "wrap state was written recently without completion marker")
+        if wrap_state:
             return ActionState(action, "done", "wrap state exists; rerun is allowed")
         return ActionState(action, "ready", "userscript TOML/chat found")
 
@@ -331,7 +367,10 @@ def main() -> int:
         print("Nenhuma acao selecionada.")
         return 1
     if not state.selectable:
-        print(f"Acao bloqueada: {state.detail}")
+        if state.status == "ongoing":
+            print(f"Acao em andamento: {state.detail}")
+        else:
+            print(f"Acao bloqueada: {state.detail}")
         return 1
 
     command = command_for(state.action, session)
