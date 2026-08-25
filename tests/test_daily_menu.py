@@ -1,4 +1,5 @@
 import json
+import os
 import sys
 import tempfile
 import unittest
@@ -78,7 +79,21 @@ class DailyMenuStateTest(unittest.TestCase):
 
         self.assertEqual(state.status, "ready")
 
-    def test_running_wrap_state_is_ongoing_and_not_selectable(self):
+    def test_running_wrap_state_with_live_pid_is_ongoing_and_not_selectable(self):
+        self.write_session("0071")
+        (self.wrap_inbox_dir / "0071.toml").write_text("duration = \"1:00\"\n", encoding="utf-8")
+        (self.wrap_inbox_dir / "0071-chat.json").write_text("{}\n", encoding="utf-8")
+        (self.wrap_sessions_dir / "0071.json").write_text(
+            json.dumps({"status": "running", "pid": os.getpid()}) + "\n",
+            encoding="utf-8",
+        )
+
+        state = self.state_for("wrap-session", "0071")
+
+        self.assertEqual(state.status, "ongoing")
+        self.assertFalse(state.selectable)
+
+    def test_running_wrap_state_without_live_pid_is_done_and_rerunnable(self):
         self.write_session("0071")
         (self.wrap_inbox_dir / "0071.toml").write_text("duration = \"1:00\"\n", encoding="utf-8")
         (self.wrap_inbox_dir / "0071-chat.json").write_text("{}\n", encoding="utf-8")
@@ -86,8 +101,8 @@ class DailyMenuStateTest(unittest.TestCase):
 
         state = self.state_for("wrap-session", "0071")
 
-        self.assertEqual(state.status, "ongoing")
-        self.assertFalse(state.selectable)
+        self.assertEqual(state.status, "done")
+        self.assertTrue(state.selectable)
 
     def test_completed_wrap_state_is_done_and_rerunnable(self):
         self.write_session("0071")
@@ -114,6 +129,17 @@ class DailyMenuStateTest(unittest.TestCase):
 
     def test_calibration_is_not_a_separate_menu_action(self):
         self.assertNotIn("calibrate-offset", [action.key for action in daily_menu.ACTIONS])
+
+    def test_wrap_command_prompts_for_calibration_anchor(self):
+        action = next(action for action in daily_menu.ACTIONS if action.key == "wrap-session")
+
+        with mock.patch.object(daily_menu, "prompt", side_effect=["f", "--yes"]):
+            command = daily_menu.command_for(action, "0071")
+
+        self.assertEqual(
+            command,
+            ["just", "wrap-session", "0071", "--calibration-anchor", "first-game", "--yes"],
+        )
 
     def test_realign_blocks_until_faster_whisper_transcript_exists(self):
         self.write_session("0071", 'youtube_video_id = "abc123"\n')

@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import os
 import re
 import shutil
 import subprocess
@@ -984,6 +985,7 @@ def main() -> int:
     previous_state = load_json(WRAP_DIR / f"{session}.json")
     state: dict[str, Any] = {
         "session": session,
+        "pid": os.getpid(),
         "status": "running",
         "started_at": datetime.now(timezone.utc).isoformat(),
         "updated_at": datetime.now(timezone.utc).isoformat(),
@@ -993,90 +995,99 @@ def main() -> int:
     if isinstance(cached_next, dict):
         state[NEXT_SESSION_CACHE_KEY] = cached_next
 
-    if toml_file:
-        raw_toml = toml_file.read_text(encoding="utf-8")
-        wrap_toml = load_wrap_toml(toml_file)
-        confirm_wrap_toml(session, wrap_toml, toml_file, args.yes)
-        state["inputs"]["toml_file"] = str(toml_file)
-        state["inputs"]["toml"] = raw_toml
-        data = apply_wrap_toml(session, data, wrap_toml)
-        if not args.dry_run:
-            write_session(path, data, body)
-        action = "would apply" if args.dry_run else "applied"
-        print(f"{session}: {action} TOML to {path}")
-    else:
-        print(f"{session}: no TOML input found")
-
-    if chat_json_file:
-        raw_chat_text = chat_json_file.read_text(encoding="utf-8")
-        raw_chat = json.loads(raw_chat_text)
-        state["inputs"]["chat_json_file"] = str(chat_json_file)
-        state["inputs"]["chat_json"] = raw_chat
-        replay = normalize_chat(session, data, raw_chat)
-        added_supporters = merge_session_supporters(data, chat_supporters(replay["messages"]))
-        extra = data.get("extra") if isinstance(data.get("extra"), dict) else {}
-        cleaned_entries = clean_empty_generated_entries(extra)
-        if not args.dry_run:
-            save_json(RESTREAM_DIR / f"{session}.json", replay)
-            if added_supporters or cleaned_entries:
+    try:
+        if toml_file:
+            raw_toml = toml_file.read_text(encoding="utf-8")
+            wrap_toml = load_wrap_toml(toml_file)
+            confirm_wrap_toml(session, wrap_toml, toml_file, args.yes)
+            state["inputs"]["toml_file"] = str(toml_file)
+            state["inputs"]["toml"] = raw_toml
+            data = apply_wrap_toml(session, data, wrap_toml)
+            if not args.dry_run:
                 write_session(path, data, body)
-        print(f"{session}: imported {replay['message_count']} Restream chat message(s)")
-        print(f"{session}: added {added_supporters} supporter(s) from chat")
-    else:
-        print(f"{session}: no Restream chat input found")
-
-    if not args.dry_run:
-        save_json(WRAP_DIR / f"{session}.json", state)
-        refresh_automatic_stat_sources(session, args.dry_run)
-        updated_stats = auto_fill_post_stats(session, data)
-        extra = data.get("extra") if isinstance(data.get("extra"), dict) else {}
-        cleaned_entries = clean_empty_generated_entries(extra)
-        if updated_stats:
-            write_session(path, data, body)
-            print(f"{session}: auto-filled post stats ({', '.join(updated_stats)})")
-        elif cleaned_entries:
-            write_session(path, data, body)
-            print(f"{session}: removed empty generated entries")
-        if chat_json_file:
-            run(["python3", "scripts/merge_chat_replays.py", session], args.dry_run)
-        calibrated = run_calibration(
-            session,
-            data,
-            args.calibration_anchor,
-            args.force_calibration,
-            args.skip_calibration,
-            args.dry_run,
-        )
-        if calibrated:
-            path, data, body = read_session(session)
-        if not args.skip_capivaradas:
-            run(["just", "update-session-capivaradas-data", session], args.dry_run)
-        if not args.skip_youtube_finish:
-            recipe = "youtube-finish-session-skip-title-no-build" if args.skip_youtube_title else "youtube-finish-session-no-build"
-            run(["just", recipe, session], args.dry_run)
-            editorial_updates = apply_selected_editorial_choices(session, data)
-            if editorial_updates:
-                write_session(path, data, body)
-                print(f"{session}: applied selected editorial choices to page ({', '.join(editorial_updates)})")
+            action = "would apply" if args.dry_run else "applied"
+            print(f"{session}: {action} TOML to {path}")
         else:
-            run(["just", "verify-session", session], args.dry_run)
-        next_session_command = schedule_next_session(args, session, state)
-        if next_session_command:
-            command, next_session, next_time = next_session_command
+            print(f"{session}: no TOML input found")
+
+        if chat_json_file:
+            raw_chat_text = chat_json_file.read_text(encoding="utf-8")
+            raw_chat = json.loads(raw_chat_text)
+            state["inputs"]["chat_json_file"] = str(chat_json_file)
+            state["inputs"]["chat_json"] = raw_chat
+            replay = normalize_chat(session, data, raw_chat)
+            added_supporters = merge_session_supporters(data, chat_supporters(replay["messages"]))
+            extra = data.get("extra") if isinstance(data.get("extra"), dict) else {}
+            cleaned_entries = clean_empty_generated_entries(extra)
+            if not args.dry_run:
+                save_json(RESTREAM_DIR / f"{session}.json", replay)
+                if added_supporters or cleaned_entries:
+                    write_session(path, data, body)
+            print(f"{session}: imported {replay['message_count']} Restream chat message(s)")
+            print(f"{session}: added {added_supporters} supporter(s) from chat")
+        else:
+            print(f"{session}: no Restream chat input found")
+
+        if not args.dry_run:
             save_json(WRAP_DIR / f"{session}.json", state)
-            run(command, args.dry_run)
-            if not args.skip_next_youtube_latency:
-                run(["just", "youtube-live-latency", next_session], args.dry_run)
-            if not args.skip_next_pre_thumb:
-                run(["just", "pre-thumb", next_session, next_time], args.dry_run)
-        if not args.skip_build:
-            run(["just", "build"], args.dry_run)
-        state["status"] = "completed"
-        state["completed_at"] = datetime.now(timezone.utc).isoformat()
-        state["updated_at"] = state["completed_at"]
-        save_json(WRAP_DIR / f"{session}.json", state)
-    else:
-        print(f"{session}: dry run; no files written")
+            refresh_automatic_stat_sources(session, args.dry_run)
+            updated_stats = auto_fill_post_stats(session, data)
+            extra = data.get("extra") if isinstance(data.get("extra"), dict) else {}
+            cleaned_entries = clean_empty_generated_entries(extra)
+            if updated_stats:
+                write_session(path, data, body)
+                print(f"{session}: auto-filled post stats ({', '.join(updated_stats)})")
+            elif cleaned_entries:
+                write_session(path, data, body)
+                print(f"{session}: removed empty generated entries")
+            if chat_json_file:
+                run(["python3", "scripts/merge_chat_replays.py", session], args.dry_run)
+            calibrated = run_calibration(
+                session,
+                data,
+                args.calibration_anchor,
+                args.force_calibration,
+                args.skip_calibration,
+                args.dry_run,
+            )
+            if calibrated:
+                path, data, body = read_session(session)
+            if not args.skip_capivaradas:
+                run(["just", "update-session-capivaradas-data", session], args.dry_run)
+            if not args.skip_youtube_finish:
+                recipe = "youtube-finish-session-skip-title-no-build" if args.skip_youtube_title else "youtube-finish-session-no-build"
+                run(["just", recipe, session], args.dry_run)
+                editorial_updates = apply_selected_editorial_choices(session, data)
+                if editorial_updates:
+                    write_session(path, data, body)
+                    print(f"{session}: applied selected editorial choices to page ({', '.join(editorial_updates)})")
+            else:
+                run(["just", "verify-session", session], args.dry_run)
+            next_session_command = schedule_next_session(args, session, state)
+            if next_session_command:
+                command, next_session, next_time = next_session_command
+                save_json(WRAP_DIR / f"{session}.json", state)
+                run(command, args.dry_run)
+                if not args.skip_next_youtube_latency:
+                    run(["just", "youtube-live-latency", next_session], args.dry_run)
+                if not args.skip_next_pre_thumb:
+                    run(["just", "pre-thumb", next_session, next_time], args.dry_run)
+            if not args.skip_build:
+                run(["just", "build"], args.dry_run)
+            state["status"] = "completed"
+            state["completed_at"] = datetime.now(timezone.utc).isoformat()
+            state["updated_at"] = state["completed_at"]
+            save_json(WRAP_DIR / f"{session}.json", state)
+        else:
+            print(f"{session}: dry run; no files written")
+    except KeyboardInterrupt:
+        if not args.dry_run:
+            state["status"] = "interrupted"
+            state["interrupted_at"] = datetime.now(timezone.utc).isoformat()
+            state["updated_at"] = state["interrupted_at"]
+            save_json(WRAP_DIR / f"{session}.json", state)
+        print(f"\n{session}: wrapup interrupted; rerun wrap-session to continue")
+        raise
 
     return 0
 

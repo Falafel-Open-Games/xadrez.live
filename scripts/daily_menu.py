@@ -157,6 +157,22 @@ def load_wrap_state(session: str) -> dict:
     return data if isinstance(data, dict) else {}
 
 
+def wrap_pid_is_alive(wrap_state: dict) -> bool:
+    try:
+        pid = int(wrap_state.get("pid") or 0)
+    except (TypeError, ValueError):
+        return False
+    if pid <= 0:
+        return False
+    try:
+        os.kill(pid, 0)
+    except ProcessLookupError:
+        return False
+    except PermissionError:
+        return True
+    return True
+
+
 def transcript_path(session: str, suffix: str) -> Path:
     return TRANSCRIPTS_DIR / f"{session}.{suffix}.json"
 
@@ -194,9 +210,13 @@ def action_state(action: Action, session: str) -> ActionState:
         wrap_state = load_wrap_state(session)
         status = str(wrap_state.get("status") or "").strip().lower()
         if status == "running":
-            return ActionState(action, "ongoing", "wrapup state is running; wait for it to finish")
+            if wrap_pid_is_alive(wrap_state):
+                return ActionState(action, "ongoing", "wrapup process is running; wait for it to finish")
+            return ActionState(action, "done", "wrap state says running but no live process was found; rerun is allowed")
         if status == "completed":
             return ActionState(action, "done", "wrap state completed; rerun is allowed")
+        if status == "interrupted":
+            return ActionState(action, "done", "previous wrapup was interrupted; rerun is allowed")
         if wrap_state:
             return ActionState(action, "done", "wrap state exists without completion marker; rerun is allowed")
         return ActionState(action, "ready", "userscript TOML/chat found")
@@ -313,8 +333,17 @@ def command_for(action: Action, session: str) -> list[str] | None:
         return ["just", "pre-wrap", recent]
 
     if action.key == "wrap-session":
+        anchor = prompt("Ancora da calibracao: p=puzzle-of-the-day, f=first-game", "p").strip().lower()
+        anchor = {
+            "f": "first-game",
+            "p": "puzzle-of-the-day",
+        }.get(anchor, anchor)
         extra = prompt("Argumentos extras", "")
-        return ["just", "wrap-session", session, *extra.split()]
+        command = ["just", "wrap-session", session]
+        if anchor:
+            command.extend(["--calibration-anchor", anchor])
+        command.extend(extra.split())
+        return command
 
     if action.key == "faster-whisper":
         if not confirm("Faster Whisper e lento e pode levar dezenas de minutos. Iniciar agora?"):
