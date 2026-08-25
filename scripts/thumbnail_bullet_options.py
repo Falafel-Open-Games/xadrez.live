@@ -491,7 +491,10 @@ def main() -> int:
     missing_image = image_path is None or not image_path.exists()
     should_generate = args.force_generate or (args.generate and (image_content_changed or notes_changed or missing_image))
     if should_generate:
-        run(["just", "post-thumb", session])
+        command = ["just", "post-thumb", session]
+        if args.force_generate or image_content_changed or notes_changed:
+            command.append("--force")
+        run(command)
     elif args.generate:
         if selection_changed:
             print(f"{session}: remembered thumbnail bullet selection")

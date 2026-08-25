@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import argparse
 import base64
+import hashlib
 import json
 import mimetypes
 import os
@@ -11,6 +12,7 @@ import tomllib
 import urllib.error
 import urllib.request
 import uuid
+from datetime import datetime, timezone
 from pathlib import Path
 
 import thumbnail_prompt
@@ -19,6 +21,7 @@ import thumbnail_prompt
 ROOT = Path(__file__).resolve().parents[1]
 TEMPLATE = ROOT / "content/fcz/_thumbnail-templates/post-live-blank-template.png"
 OUTPUT_DIR = ROOT / "static/fcz/thumbnails"
+METADATA_DIR = ROOT / "data/fcz/thumbnail_generations"
 OPENAI_IMAGES_EDIT_URL = "https://api.openai.com/v1/images/edits"
 DEFAULT_MODEL = "gpt-image-2"
 DEFAULT_SIZE = "auto"
@@ -117,6 +120,67 @@ def update_session_og_image(path, text, body_start, site_path):
             return
 
     fail(f"could not find og_image in {path}")
+
+
+def sha256_bytes(data):
+    return hashlib.sha256(data).hexdigest()
+
+
+def sha256_path(path):
+    return sha256_bytes(path.read_bytes())
+
+
+def metadata_path(session):
+    return METADATA_DIR / f"{session.zfill(4)}-post-thumb.json"
+
+
+def expected_metadata(session, output, site_path, prompt, model, size, quality):
+    try:
+        output_path = str(output.relative_to(ROOT))
+    except ValueError:
+        output_path = str(output)
+    return {
+        "session": session.zfill(4),
+        "kind": "post-live-thumbnail",
+        "output": output_path,
+        "site_path": site_path,
+        "prompt_sha256": sha256_bytes(prompt.encode("utf-8")),
+        "template_sha256": sha256_path(TEMPLATE),
+        "model": model,
+        "size": size,
+        "quality": quality,
+    }
+
+
+def load_generation_metadata(session):
+    path = metadata_path(session)
+    if not path.exists():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def metadata_matches(actual, expected):
+    return all(actual.get(key) == value for key, value in expected.items())
+
+
+def write_generation_metadata(session, expected):
+    path = metadata_path(session)
+    path.parent.mkdir(parents=True, exist_ok=True)
+    data = {**expected, "generated_at": datetime.now(timezone.utc).isoformat()}
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+
+
+def should_skip_generation(session, output, site_path, extra, expected, force):
+    if force or not output.exists():
+        return False
+    metadata = load_generation_metadata(session)
+    if metadata:
+        return metadata_matches(metadata, expected)
+    return str(extra.get("og_image") or "").strip() == site_path
 
 
 def multipart_body(fields, files):
@@ -288,14 +352,16 @@ def main():
         action="store_true",
         help="do not update extra.og_image in the session front matter",
     )
+    parser.add_argument(
+        "--force",
+        action="store_true",
+        help="regenerate even when the existing thumbnail appears current",
+    )
     args = parser.parse_args()
     load_env_file(ROOT / ".env")
 
     if not TEMPLATE.exists():
         fail(f"template not found: {TEMPLATE}")
-
-    if not args.dry_run and shutil.which("magick") is None:
-        fail("ImageMagick 'magick' command not found")
 
     os.chdir(ROOT)
     path, text, _front_matter, body_start, data = load_session(args.session)
@@ -314,6 +380,8 @@ def main():
     if not site_path and not args.no_update_session:
         fail("output must be under static/ when updating og_image")
 
+    expected = expected_metadata(args.session, output, site_path, prompt, args.model, args.size, args.quality)
+
     if args.dry_run:
         print(f"session: {args.session}")
         print(f"template: {TEMPLATE.relative_to(ROOT)}")
@@ -324,6 +392,15 @@ def main():
         print()
         print(prompt)
         return
+
+    if should_skip_generation(args.session, output, site_path, extra, expected, args.force):
+        if not args.no_update_session and str(extra.get("og_image") or "").strip() != site_path:
+            update_session_og_image(path, text, body_start, site_path)
+        print(f"{output.relative_to(ROOT) if output.is_relative_to(ROOT) else output} unchanged; skipping generation")
+        return
+
+    if shutil.which("magick") is None:
+        fail("ImageMagick 'magick' command not found")
 
     image_bytes = request_image(
         prompt=prompt,
@@ -341,6 +418,7 @@ def main():
 
     if not args.no_update_session:
         update_session_og_image(path, text, body_start, site_path)
+    write_generation_metadata(args.session, expected)
 
     try:
         print(output.relative_to(ROOT))

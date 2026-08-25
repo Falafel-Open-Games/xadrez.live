@@ -371,8 +371,8 @@ pre-thumb-youtube SESSION TIME="":
   @echo '$ just pre-thumb {{SESSION}} {{TIME}}'
   @just pre-thumb {{SESSION}} {{TIME}}
 
-post-thumb SESSION:
-  @python3 scripts/postlive_thumbnail.py {{SESSION}}
+post-thumb SESSION *ARGS:
+  @python3 scripts/postlive_thumbnail.py {{SESSION}} {{ARGS}}
 
 thumbnail-optimize INPUT OUTPUT:
   @magick "{{INPUT}}" -strip -resize 1200x675 -quality 85 "{{OUTPUT}}"

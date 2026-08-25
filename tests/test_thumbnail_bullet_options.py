@@ -95,6 +95,27 @@ class ThumbnailBulletOptionsTest(unittest.TestCase):
         self.assertIn("warning: OpenAI returned 2 valid thumbnail bullet option(s)", output.getvalue())
         self.assertIn("peça pendurada | relógio apertou | decisão crítica", output.getvalue())
 
+    def test_changed_bullets_force_post_thumb_regeneration(self):
+        selected = ["peça pendurada", "relógio apertou", "decisão crítica"]
+
+        with mock.patch.object(sys, "argv", ["thumbnail_bullet_options.py", "0061", "--choose", "--write", "--generate"]):
+            with mock.patch.object(thumbnail_bullet_options, "load_env_file"):
+                with mock.patch.object(thumbnail_bullet_options, "session_context", return_value={"session": "0061"}):
+                    with mock.patch.object(thumbnail_bullet_options, "cached_options", return_value=[selected]):
+                        with mock.patch.object(thumbnail_bullet_options, "choose_option", return_value=selected):
+                            with mock.patch.object(thumbnail_bullet_options, "edit_selected_bullets", return_value=selected):
+                                with mock.patch.object(thumbnail_bullet_options, "current_thumbnail_notes", return_value=["old", "notes", "here"]):
+                                    with mock.patch.object(thumbnail_bullet_options, "selected_bullets", return_value=["old", "notes", "here"]):
+                                        with mock.patch.object(thumbnail_bullet_options, "remember_selected"):
+                                            with mock.patch.object(thumbnail_bullet_options, "write_thumbnail_notes", return_value=True):
+                                                with mock.patch.object(thumbnail_bullet_options, "og_image_path", return_value=Path("thumb.jpg")):
+                                                    with mock.patch.object(thumbnail_bullet_options.Path, "exists", return_value=True):
+                                                        with mock.patch.object(thumbnail_bullet_options, "run") as run:
+                                                            with redirect_stdout(io.StringIO()):
+                                                                self.assertEqual(thumbnail_bullet_options.main(), 0)
+
+        run.assert_called_once_with(["just", "post-thumb", "0061", "--force"])
+
 
 if __name__ == "__main__":
     unittest.main()
