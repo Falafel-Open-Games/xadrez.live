@@ -438,6 +438,7 @@ def choose_option(options: list[str], kind: str, default: str = "") -> str:
 
 def edit_selected_choice(value: str, kind: str) -> str:
     if shutil.which("gum") and sys.stdin.isatty():
+        char_limit = str(MAX_HOOK_LENGTH if kind == "hook" else MAX_TITLE_LENGTH)
         result = subprocess.run(
             [
                 "gum",
@@ -447,7 +448,7 @@ def edit_selected_choice(value: str, kind: str) -> str:
                 "--value",
                 value,
                 "--char-limit",
-                "0",
+                char_limit,
             ],
             text=True,
             stdout=subprocess.PIPE,
@@ -458,6 +459,23 @@ def edit_selected_choice(value: str, kind: str) -> str:
         return value
     edited = input(f"Edite {choice_label(kind)} escolhido [{value}]: ").strip()
     return edited or value
+
+
+def validate_edited_choice(value: str, kind: str) -> str:
+    if kind == "hook":
+        return complete_hook(value)
+    title = re.sub(r"\s+", " ", value).strip(" -|:;.\"'")
+    while len(title) > MAX_TITLE_LENGTH:
+        excess = len(title) - MAX_TITLE_LENGTH
+        print(
+            f"Título com {len(title)} caracteres; o limite do YouTube é {MAX_TITLE_LENGTH}. "
+            f"Remova pelo menos {excess} caractere(s)."
+        )
+        edited = edit_selected_choice(title, kind)
+        if not edited or edited == title:
+            return ""
+        title = re.sub(r"\s+", " ", edited).strip(" -|:;.\"'")
+    return title
 
 
 def confirm(message: str) -> bool:
@@ -593,6 +611,10 @@ def main() -> int:
     title = edit_selected_choice(title, args.kind)
     if not title:
         print("No option selected.")
+        return 1
+    title = validate_edited_choice(title, args.kind)
+    if not title:
+        print("No valid option selected.")
         return 1
     print(title)
 

@@ -45,6 +45,10 @@ RAW_CLOCK_RE = re.compile(r"\brel[óo]gio\s+\d+\s+\d+\b", re.I)
 MOVE_TOKEN_RE = re.compile(r"\b(?:[KQRBN]?[a-h]?[1-8]?x?[a-h][1-8](?:=[QRBN])?[+#]?|O-O(?:-O)?)\b")
 
 
+class OpenAITimeout(RuntimeError):
+    pass
+
+
 def fail(message: str) -> None:
     print(f"error: {message}", file=sys.stderr)
     raise SystemExit(1)
@@ -333,9 +337,11 @@ def openai_options(context: dict[str, Any], count: int, model: str, api_key: str
         detail = error.read().decode("utf-8", errors="replace")
         fail(f"OpenAI thumbnail bullet generation failed with HTTP {error.code}: {detail[:400]}")
     except urllib.error.URLError as error:
+        if isinstance(error.reason, TimeoutError):
+            raise OpenAITimeout(f"OpenAI thumbnail bullet generation timed out after {timeout}s")
         fail(f"OpenAI thumbnail bullet generation failed: {error.reason}")
     except TimeoutError:
-        fail(f"OpenAI thumbnail bullet generation timed out after {timeout}s; retry when the API is responsive or increase --timeout")
+        raise OpenAITimeout(f"OpenAI thumbnail bullet generation timed out after {timeout}s")
     return parse_options(response_text(payload), count)
 
 
@@ -425,12 +431,41 @@ def run(command: list[str]) -> None:
     subprocess.run(command, cwd=ROOT, check=True)
 
 
+def confirm(message: str) -> bool:
+    if shutil.which("gum") and sys.stdin.isatty():
+        return subprocess.run(["gum", "confirm", message], check=False).returncode == 0
+    if not sys.stdin.isatty():
+        return False
+    return input(f"{message} Digite SIM para confirmar: ").strip() == "SIM"
+
+
+def openai_options_with_retry(
+    context: dict[str, Any],
+    count: int,
+    model: str,
+    api_key: str,
+    timeout: int,
+    choose: bool,
+) -> list[list[str]]:
+    current_timeout = timeout
+    while True:
+        try:
+            return openai_options(context, count, model, api_key, current_timeout)
+        except OpenAITimeout as error:
+            if not choose:
+                fail(f"{error}; retry when the API is responsive or increase --timeout")
+            next_timeout = current_timeout * 2
+            if not confirm(f"{error}. Tentar novamente com --timeout {next_timeout}?"):
+                fail(f"{error}; retry when the API is responsive or increase --timeout")
+            current_timeout = next_timeout
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Generate, choose, and apply post thumbnail bullet options.")
     parser.add_argument("session", help="Session number, e.g. 0055")
     parser.add_argument("--count", type=int, default=6)
     parser.add_argument("--model", default=os.environ.get("OPENAI_TITLE_MODEL", "gpt-5-mini"))
-    parser.add_argument("--timeout", type=int, default=60)
+    parser.add_argument("--timeout", type=int, default=120)
     parser.add_argument("--no-ai", action="store_true", help="Use deterministic fallback options only.")
     parser.add_argument("--refresh", action="store_true", help="Ignore cached options and ask the model again.")
     parser.add_argument("--choose", action="store_true", help="Choose one option interactively.")
@@ -453,7 +488,14 @@ def main() -> int:
     elif not options:
         if not api_key:
             fail("OPENAI_API_KEY is required for thumbnail bullet suggestions; pass --no-ai to use deterministic fallback options")
-        options = openai_options(context, args.count, args.model, api_key, args.timeout)
+        options = openai_options_with_retry(
+            context,
+            args.count,
+            args.model,
+            api_key,
+            args.timeout,
+            args.choose,
+        )
         if len(options) < args.count:
             print(f"warning: OpenAI returned {len(options)} valid thumbnail bullet option(s), expected {args.count}; showing fewer options")
     if not options:
