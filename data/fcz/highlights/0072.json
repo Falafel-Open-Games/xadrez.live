@@ -1,64 +1,47 @@
 {
   "session_number": "0072",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "limit": 6,
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 286,
-      "end_seconds": 360,
-      "time": "4:46",
+      "start_seconds": 2385,
+      "end_seconds": 2460,
+      "time": "39:45",
       "duration": "1:30",
-      "kind": "training",
-      "score": 3.8,
-      "summary": "Se eu comer esse peão, você tá cravado. Ontem eu errei um puzzle justamente porque eu esqueci que eu podia ir para um lugar que tinha uma peça cravada. Hoje eu vi. Interessante…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; treino ou puzzle streak; raciocínio em voz alta",
+      "kind": "opening",
+      "score": 5.05,
+      "summary": "Cansando minha beleza. Certo. A4. Agora uma casa boa para a rainha, né? A gente já viu isso aí. Esse cara sabe jogar. Ah, não quero, não quero…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; abertura ou repertório; raciocínio em voz alta",
       "signals": [
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "interação com o chat",
-        "treino ou puzzle streak",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 4
-    },
-    {
-      "start_seconds": 2392,
-      "end_seconds": 2490,
-      "time": "39:52",
-      "duration": "1:30",
-      "kind": "time-pressure",
-      "score": 5.1,
-      "summary": "Agora uma casa boa para a rainha, né? A gente já viu isso aí. Esse cara sabe jogar. Ah, não quero, não quero. Vou continuar o meu desenvolvimento. Não quero…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; raciocínio em voz alta",
-      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
         "plano ou estratégia",
-        "pressão no relógio",
-        "plano sob pressão de tempo",
         "abertura ou repertório",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 4
+      "chat_count": 1,
+      "transcript_count": 4,
+      "lead_in": "siciliana já tá cansando minha"
     },
     {
-      "start_seconds": 3137,
+      "start_seconds": 3164,
       "end_seconds": 3210,
-      "time": "52:17",
+      "time": "52:44",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 5.5,
+      "score": 7.25,
       "summary": "Então, tudo bem. Eu aceito. Aceito essa vitória, independente do meu oponente potencialmente ser um beginner. Smith Morra Gambit. Hoje deu certo. D4…",
-      "reason": "erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; raciocínio em voz alta",
+      "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; raciocínio em voz alta",
       "signals": [
+        "3 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "erro ou momento perdido",
         "tema claro de xadrez",
         "review ou melhor lance",
@@ -68,13 +51,36 @@
         "abertura ou repertório",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 3
+      "chat_count": 3,
+      "transcript_count": 3,
+      "lead_in": "mais perdendo do que ganhando"
     },
     {
-      "start_seconds": 4242,
+      "start_seconds": 3261,
+      "end_seconds": 3330,
+      "time": "54:21",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 4.75,
+      "summary": "Eu acabei vindo aqui pra não ser afobado aqui. Mas eu acho que eu..…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 1,
+      "transcript_count": 3,
+      "lead_in": "vontade era romper aqui já"
+    },
+    {
+      "start_seconds": 4246,
       "end_seconds": 4320,
-      "time": "1:10:42",
+      "time": "1:10:46",
       "duration": "1:30",
       "kind": "research",
       "score": 3.7,
@@ -88,32 +94,37 @@
         "pesquisa ou contexto externo"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 3,
+      "lead_in": "de seta que tem aqui"
     },
     {
-      "start_seconds": 4398,
-      "end_seconds": 4470,
-      "time": "1:13:18",
+      "start_seconds": 4382,
+      "end_seconds": 4440,
+      "time": "1:13:02",
       "duration": "1:30",
-      "kind": "opening",
-      "score": 4.5,
-      "summary": "Por algum motivo, tem alguma linha ali na cabeça da Engine que mete o outro cavalo ali. E isso é como se fosse o best movement. Não quero pensar nisso. 90% da humanidade faz o B6…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; abertura ou repertório; raciocínio em voz alta",
+      "kind": "time-pressure",
+      "score": 6.15,
+      "summary": "Isso é visto ainda algumas vezes hoje. Mas permite o desenvolvimento das pretas com o tempo na rainha. Com... Olha aqui ó, cavalo C6, que é o movimento da máquina. Não é o..…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; pressão no relógio; abertura ou repertório; raciocínio em voz alta",
       "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
         "review ou melhor lance",
+        "pressão no relógio",
         "abertura ou repertório",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 3
+      "chat_count": 1,
+      "transcript_count": 3,
+      "lead_in": "This sometimes seems to be"
     },
     {
-      "start_seconds": 4601,
+      "start_seconds": 4606,
       "end_seconds": 4680,
-      "time": "1:16:41",
+      "time": "1:16:46",
       "duration": "1:30",
       "kind": "opening",
       "score": 4.5,
@@ -128,7 +139,8 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 3,
+      "lead_in": "para o meu oponente aqui"
     }
   ]
 }
