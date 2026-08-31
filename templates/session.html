@@ -211,6 +211,19 @@
 {% if show_chat_replay %}{% set replay_source_count = replay_source_count + 1 %}{% endif %}
 {% if show_transcript %}{% set replay_source_count = replay_source_count + 1 %}{% endif %}
 {% if show_blunder_replay %}{% set replay_source_count = replay_source_count + 1 %}{% endif %}
+{% set has_daily_puzzle = page.extra.puzzle_of_the_day_url is defined and page.extra.puzzle_of_the_day_url %}
+{% set has_streak_attempts = page.extra.streak_attempts is defined and page.extra.streak_attempts %}
+{% set has_storm_attempts = page.extra.storm_attempts is defined and page.extra.storm_attempts %}
+{% set has_practice_sets = page.extra.practice_sets is defined and page.extra.practice_sets %}
+{% set has_practice_summary = has_daily_puzzle or has_streak_attempts or has_storm_attempts or has_practice_sets %}
+{% set has_legacy_game = (
+  page.extra.lichess_game_url is defined and page.extra.lichess_game_url
+  or page.extra.result is defined and page.extra.result
+  or page.extra.opening is defined and page.extra.opening
+  or page.extra.color is defined and page.extra.color
+) %}
+{% set has_game_summary = page.extra.games is defined and page.extra.games or has_legacy_game %}
+{% set has_session_summary = has_game_summary or has_practice_summary %}
 {% set notes_source_heading = '<h2 id="notas">Notas</h2>' %}
 {% set notes_heading = '<h2 id="notas">Notas automáticas</h2>' %}
 {% set session_notes_html = "" %}
@@ -320,7 +333,9 @@
     {% if show_timeline %}
       <a href="#linha-do-tempo">linha do tempo</a>
     {% endif %}
-    <a href="#resumo">partidas e prática</a>
+    {% if has_session_summary %}
+      <a href="#resumo">partidas e prática</a>
+    {% endif %}
   </nav>
 
   <div class="session-main-flow">
@@ -599,17 +614,15 @@
     </div>
   {% endif %}
 
-  <section id="resumo" class="session-summary" data-pagefind-body>
+  {% if has_session_summary %}
+    <section id="resumo" class="session-summary" data-pagefind-body>
     {% set lichess_game_analysis = load_data(path="data/fcz/lichess_game_analysis.toml", required=false) %}
     {% set pgn_files = load_data(path="data/fcz/pgn_files.json", required=false) %}
-    {% set has_daily_puzzle = page.extra.puzzle_of_the_day_url is defined and page.extra.puzzle_of_the_day_url %}
-    {% set has_streak_attempts = page.extra.streak_attempts is defined and page.extra.streak_attempts %}
-    {% set has_storm_attempts = page.extra.storm_attempts is defined and page.extra.storm_attempts %}
-    {% set has_practice_sets = page.extra.practice_sets is defined and page.extra.practice_sets %}
     <h2>Resumo da sessão</h2>
     <div class="summary-groups">
-      <section class="summary-group">
-        {% if page.extra.games is defined and page.extra.games %}
+      {% if has_game_summary %}
+        <section class="summary-group">
+          {% if page.extra.games is defined and page.extra.games %}
           <h3>{% if page.extra.games | length > 1 %}Partidas{% else %}Partida{% endif %}</h3>
           <div class="game-list">
             {% for game in page.extra.games %}
@@ -760,7 +773,7 @@
               </section>
             {% endfor %}
           </div>
-        {% else %}
+          {% else %}
           {% set lichess_game_url = "" %}
           {% if page.extra.lichess_game_url is defined and page.extra.lichess_game_url %}
             {% set lichess_game_url = page.extra.lichess_game_url %}
@@ -862,9 +875,10 @@
               </div>
             {% endif %}
           </div>
-        {% endif %}
-      </section>
-      {% if has_daily_puzzle or has_streak_attempts or has_storm_attempts or has_practice_sets %}
+          {% endif %}
+        </section>
+      {% endif %}
+      {% if has_practice_summary %}
         <section class="summary-group">
           <h3>Prática</h3>
           <div class="practice-list">
@@ -1008,7 +1022,8 @@
         </section>
       {% endif %}
     </div>
-  </section>
+    </section>
+  {% endif %}
 
   {% if page.extra.supporters is defined and page.extra.supporters %}
     <section class="session-supporters" data-pagefind-ignore>

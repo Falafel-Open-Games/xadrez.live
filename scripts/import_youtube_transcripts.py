@@ -41,10 +41,11 @@ def session_youtube_ids() -> list[tuple[str, str, Path]]:
             continue
 
         youtube_id = str(extra.get("youtube_video_id") or "").strip()
+        skip_transcription = bool(extra.get("skip_transcription"))
         status = str(extra.get("status") or "").strip().lower()
         status_tone = str(extra.get("status_tone") or "").strip().lower()
         is_ended = status == "encerrada" or status_tone in {"ended", "completed"}
-        if youtube_id and youtube_id != "REPLACE_WITH_YOUTUBE_VIDEO_ID" and is_ended:
+        if youtube_id and youtube_id != "REPLACE_WITH_YOUTUBE_VIDEO_ID" and is_ended and not skip_transcription:
             sessions.append((youtube_id, path.stem, path))
 
     return sessions

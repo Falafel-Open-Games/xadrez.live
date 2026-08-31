@@ -82,11 +82,12 @@ def session_youtube_ids() -> list[tuple[str, str, Path]]:
             continue
 
         youtube_id = str(extra.get("youtube_video_id") or "").strip()
+        skip_transcription = bool(extra.get("skip_transcription"))
         status = str(extra.get("status") or "").strip().lower()
         status_tone = str(extra.get("status_tone") or "").strip().lower()
         is_ended = status == "encerrada" or status_tone in {"ended", "completed"}
         is_wrap_ready = wrap_toml_exists(path.stem)
-        if youtube_id and youtube_id != "REPLACE_WITH_YOUTUBE_VIDEO_ID" and (is_ended or is_wrap_ready):
+        if youtube_id and youtube_id != "REPLACE_WITH_YOUTUBE_VIDEO_ID" and (is_ended or is_wrap_ready) and not skip_transcription:
             sessions.append((youtube_id, path.stem, path))
 
     return sessions

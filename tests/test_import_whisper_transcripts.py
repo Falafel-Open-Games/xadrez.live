@@ -13,7 +13,15 @@ if str(SCRIPTS_DIR) not in sys.path:
 import import_whisper_transcripts
 
 
-def session_file(session: str, *, status: str, status_tone: str, youtube_id: str = "abc123def45") -> str:
+def session_file(
+    session: str,
+    *,
+    status: str,
+    status_tone: str,
+    youtube_id: str = "abc123def45",
+    skip_transcription: bool = False,
+) -> str:
+    skip_line = "skip_transcription = true\n" if skip_transcription else ""
     return f"""+++
 title = "Sessão #{session}"
 date = 2026-08-16
@@ -23,7 +31,7 @@ draft = false
 [extra]
 session_number = "{session}"
 youtube_video_id = "{youtube_id}"
-status = "{status}"
+{skip_line}status = "{status}"
 status_tone = "{status_tone}"
 +++
 """
@@ -50,9 +58,24 @@ class ImportWhisperSessionSelectionTest(unittest.TestCase):
             patch.start()
             self.addCleanup(patch.stop)
 
-    def write_session(self, session: str, *, status: str = "marcada para 09:30", status_tone: str = "scheduled") -> Path:
+    def write_session(
+        self,
+        session: str,
+        *,
+        status: str = "marcada para 09:30",
+        status_tone: str = "scheduled",
+        skip_transcription: bool = False,
+    ) -> Path:
         path = self.content_dir / f"{session}.md"
-        path.write_text(session_file(session, status=status, status_tone=status_tone), encoding="utf-8")
+        path.write_text(
+            session_file(
+                session,
+                status=status,
+                status_tone=status_tone,
+                skip_transcription=skip_transcription,
+            ),
+            encoding="utf-8",
+        )
         return path
 
     def test_scheduled_session_without_wrap_toml_is_not_selected(self):
@@ -76,6 +99,11 @@ class ImportWhisperSessionSelectionTest(unittest.TestCase):
         path = self.write_session("0062", status="encerrada", status_tone="ended")
 
         self.assertEqual(import_whisper_transcripts.session_youtube_ids(), [("abc123def45", "0062", path)])
+
+    def test_skip_transcription_session_is_not_selected(self):
+        self.write_session("0062", status="encerrada", status_tone="ended", skip_transcription=True)
+
+        self.assertEqual(import_whisper_transcripts.session_youtube_ids(), [])
 
     def test_selected_sessions_accepts_unpadded_session_number(self):
         path = self.write_session("0065", status="encerrada", status_tone="ended")
