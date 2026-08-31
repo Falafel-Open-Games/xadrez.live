@@ -72,7 +72,7 @@
             {% for session in sessions.pages | reverse %}
               {% if not session.draft and session.extra.session_number is defined %}
                 {% set tone = session.extra.status_tone | default(value="") %}
-                {% if tone == "scheduled" or tone == "live" %}
+                {% if (tone == "scheduled" or tone == "live") and upcoming_count == 0 %}
                   {% set_global upcoming_count = upcoming_count + 1 %}
                   {{<home_session_item session={session} />}}
                 {% endif %}
