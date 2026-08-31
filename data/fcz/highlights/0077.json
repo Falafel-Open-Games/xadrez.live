@@ -1,62 +1,48 @@
 {
   "session_number": "0077",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "limit": 6,
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 859,
-      "end_seconds": 930,
-      "time": "14:19",
-      "duration": "1:30",
-      "kind": "research",
-      "score": 3.9,
-      "summary": "Depois eu preciso ver com calma esse vídeo aqui. Ah, esse... Esqueci o... Esqueci o nome do meu... do adversário criança aqui. Acho que era Miguel. Era Miguel o nome dele…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; raciocínio em voz alta; pesquisa ou contexto externo",
-      "signals": [
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "raciocínio em voz alta",
-        "pesquisa ou contexto externo"
-      ],
-      "chat_count": 0,
-      "transcript_count": 4
-    },
-    {
-      "start_seconds": 2449,
-      "end_seconds": 2520,
-      "time": "40:49",
+      "start_seconds": 1085,
+      "end_seconds": 1170,
+      "time": "18:05",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 4.6,
-      "summary": "Isso, gasta tempo. Isso, vamos lá. Tirou outro bispo pra fora. Isso aqui... Acho que ainda não é bom, não. Agora não teria problema esse aqui e aqui, né? Ele toma..…",
-      "reason": "reação forte na fala; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
+      "score": 5.6,
+      "summary": "E finalmente traz a gente para a sessão de... Opa, The Discreet. Quer jogar uma no chess.com? Opa. Bom dia. Pode ser? Desafio lá…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "tema claro de xadrez",
-        "review ou melhor lance",
         "plano ou estratégia",
         "pressão no relógio",
         "plano sob pressão de tempo",
+        "treino ou puzzle streak",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 3
+      "chat_count": 2,
+      "transcript_count": 3,
+      "lead_in": "essa sessão acabou sem partida"
     },
     {
-      "start_seconds": 3346,
-      "end_seconds": 3420,
-      "time": "55:46",
+      "start_seconds": 3372,
+      "end_seconds": 3450,
+      "time": "56:12",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 6.3,
+      "score": 7.35,
       "summary": "Tem como eu ameaçar a dama dele também. Cinco segundos, não tem muito o que fazer não. Perde, perde a torre, foda-se. Acabou. É, acho que..…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; raciocínio em voz alta",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; raciocínio em voz alta",
       "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
@@ -67,13 +53,13 @@
         "abertura ou repertório",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 3
+      "chat_count": 1,
+      "transcript_count": 4
     },
     {
-      "start_seconds": 3622,
-      "end_seconds": 3720,
-      "time": "1:00:22",
+      "start_seconds": 3632,
+      "end_seconds": 3690,
+      "time": "1:00:32",
       "duration": "1:30",
       "kind": "training",
       "score": 4.4,
@@ -88,45 +74,73 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 4
+      "transcript_count": 4,
+      "lead_in": "foi que não ia fugir"
     },
     {
-      "start_seconds": 4112,
+      "start_seconds": 4116,
       "end_seconds": 4200,
-      "time": "1:08:32",
+      "time": "1:08:36",
       "duration": "1:30",
       "kind": "review",
-      "score": 3.7,
-      "summary": "Então, eu não sei muito bem justificar por que o que eu fiz foi um blunder. Porque, ó... Eu não estou entregando um cavalo, porque é uma casa que está defendida…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
+      "score": 4.75,
+      "summary": "Ao invés dessa imprecisão, o melhor para ele era roque curto ali. Mas se eu jogasse a boa jogada, aí o roque curto é a boa jogada do lado dele depois disso…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
       "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
         "review ou melhor lance",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 4
+      "chat_count": 1,
+      "transcript_count": 6,
+      "lead_in": "Aqui ele estava"
     },
     {
-      "start_seconds": 4299,
-      "end_seconds": 4380,
-      "time": "1:11:39",
+      "start_seconds": 4551,
+      "end_seconds": 4620,
+      "time": "1:15:51",
       "duration": "1:30",
-      "kind": "review",
-      "score": 3.7,
-      "summary": "E como que eu vou fazer pra pensar nisso? Calmar, né? Para, respira. Três minutos não é o fim do mundo. Respira e vai, né? Aí, erro 2 de 3. Erro 2 de 3…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
+      "kind": "opening",
+      "score": 4.65,
+      "summary": "Mas esse bispo não trouxe grandes problemas depois, mas é que ele me dá um frio na espinha esse bispo aqui por traumas passados…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; abertura ou repertório",
       "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
-        "review ou melhor lance",
-        "raciocínio em voz alta"
+        "plano ou estratégia",
+        "abertura ou repertório"
       ],
-      "chat_count": 0,
-      "transcript_count": 4
+      "chat_count": 1,
+      "transcript_count": 5,
+      "lead_in": "London acelerado é justamente aquele"
+    },
+    {
+      "start_seconds": 4729,
+      "end_seconds": 4740,
+      "time": "1:18:49",
+      "duration": "1:30",
+      "kind": "research",
+      "score": 4.15,
+      "summary": "Será que é o Sérgio que tá assistindo a gente? Eu vou dar um raid de uma pessoa pra alguém. Fifty BTA. Esse Fifty é o nosso amigo músico. Ele joga xadrez e faz música. Grinding…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; interação com o chat; abertura ou repertório; raciocínio em voz alta; pesquisa ou contexto externo",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "interação com o chat",
+        "abertura ou repertório",
+        "raciocínio em voz alta",
+        "pesquisa ou contexto externo"
+      ],
+      "chat_count": 1,
+      "transcript_count": 4,
+      "lead_in": "Twitch desde 2014 hein Sérgio"
     }
   ]
 }

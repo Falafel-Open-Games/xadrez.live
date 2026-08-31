@@ -932,6 +932,11 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--next-time", help="Next session local time in HH:MM")
     parser.add_argument("--next-youtube", help="Next YouTube video id or URL")
     parser.add_argument("--downloads-max-age-hours", type=float, default=12.0, help="Maximum age for implicit ~/Downloads fallback inputs")
+    parser.add_argument(
+        "--allow-stale-downloads",
+        action="store_true",
+        help="Allow implicit ~/Downloads fallback inputs older than --downloads-max-age-hours",
+    )
     return parser.parse_args()
 
 
@@ -942,11 +947,17 @@ def existing_input(candidates: list[Path]) -> Path | None:
     return max(existing, key=lambda path: path.stat().st_mtime)
 
 
-def fresh_download_input(path: Path, max_age_hours: float) -> Path | None:
+def fresh_download_input(path: Path, max_age_hours: float, allow_stale: bool = False) -> Path | None:
     if not path.exists():
         return None
     age_seconds = time_module.time() - path.stat().st_mtime
     if age_seconds <= max_age_hours * 3600:
+        return path
+    if allow_stale:
+        print(
+            f"warning: using stale Downloads input older than {max_age_hours:g}h "
+            f"because --allow-stale-downloads was passed: {path}"
+        )
         return path
     print(f"warning: ignoring stale Downloads input older than {max_age_hours:g}h: {path}")
     return None
@@ -970,6 +981,7 @@ def require_userscript_inputs(session: str, toml_file: Path | None, chat_json_fi
         "faltam export(s) do userscript antes do wrapup:\n"
         + "\n".join(f"- {item}" for item in missing)
         + "\n\nSalve os dois arquivos em Downloads/inbox ou passe --toml-file/--chat-json-file. "
+        "Para reaproveitar exports antigos de Downloads, passe --allow-stale-downloads. "
         "Use --allow-missing-userscript-inputs só para sessões fora da rotina."
     )
 
@@ -980,12 +992,16 @@ def main() -> int:
     toml_file = (
         args.toml_file
         or existing_input([INBOX_DIR / f"{session}.toml"])
-        or fresh_download_input(DOWNLOADS_DIR / f"{session}.toml", args.downloads_max_age_hours)
+        or fresh_download_input(DOWNLOADS_DIR / f"{session}.toml", args.downloads_max_age_hours, args.allow_stale_downloads)
     )
     chat_json_file = (
         args.chat_json_file
         or existing_input([INBOX_DIR / f"{session}-chat.json"])
-        or fresh_download_input(DOWNLOADS_DIR / f"{session}-chat.json", args.downloads_max_age_hours)
+        or fresh_download_input(
+            DOWNLOADS_DIR / f"{session}-chat.json",
+            args.downloads_max_age_hours,
+            args.allow_stale_downloads,
+        )
     )
     if not args.allow_missing_userscript_inputs:
         require_userscript_inputs(session, toml_file, chat_json_file)

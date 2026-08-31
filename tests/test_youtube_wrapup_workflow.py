@@ -214,6 +214,46 @@ class YouTubeLiveLatencyTest(unittest.TestCase):
         )
 
 
+class WrapSessionDownloadsInputTest(unittest.TestCase):
+    def test_fresh_download_input_accepts_recent_file(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "0074.toml"
+            path.write_text("[extra]\n", encoding="utf-8")
+            path.touch()
+            now = path.stat().st_mtime + 60
+
+            with mock.patch.object(wrap_session.time_module, "time", return_value=now):
+                with redirect_stdout(io.StringIO()) as output:
+                    self.assertEqual(wrap_session.fresh_download_input(path, 12.0), path)
+
+        self.assertEqual(output.getvalue(), "")
+
+    def test_fresh_download_input_rejects_stale_file_by_default(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "0074.toml"
+            path.write_text("[extra]\n", encoding="utf-8")
+            stale_now = path.stat().st_mtime + (13 * 3600)
+
+            with mock.patch.object(wrap_session.time_module, "time", return_value=stale_now):
+                with redirect_stdout(io.StringIO()) as output:
+                    self.assertIsNone(wrap_session.fresh_download_input(path, 12.0))
+
+        self.assertIn("ignoring stale Downloads input older than 12h", output.getvalue())
+
+    def test_fresh_download_input_allows_stale_file_when_requested(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            path = Path(tmpdir) / "0074.toml"
+            path.write_text("[extra]\n", encoding="utf-8")
+            stale_now = path.stat().st_mtime + (13 * 3600)
+
+            with mock.patch.object(wrap_session.time_module, "time", return_value=stale_now):
+                with redirect_stdout(io.StringIO()) as output:
+                    self.assertEqual(wrap_session.fresh_download_input(path, 12.0, allow_stale=True), path)
+
+        self.assertIn("using stale Downloads input older than 12h", output.getvalue())
+        self.assertIn("--allow-stale-downloads", output.getvalue())
+
+
 class YouTubeChapterGenerationTest(unittest.TestCase):
     def test_missing_zero_chapter_uses_opening_live_label(self):
         with tempfile.TemporaryDirectory() as tmpdir:
