@@ -150,6 +150,47 @@ class YouTubeLiveLatencyTest(unittest.TestCase):
         self.assertEqual(api_request.call_args.kwargs["query"], {"part": "snippet,contentDetails"})
         self.assertEqual(api_request.call_args.kwargs["body"]["contentDetails"]["latencyPreference"], "ultraLow")
 
+    def test_set_latency_skips_when_youtube_disallows_modification(self):
+        broadcast = {
+            "id": "abc123",
+            "snippet": {"title": "Sessão #0061", "scheduledStartTime": "2026-08-15T11:00:00Z"},
+            "status": {"lifeCycleStatus": "complete"},
+            "contentDetails": {
+                "latencyPreference": "normal",
+                "monitorStream": {"enableMonitorStream": True, "broadcastStreamDelayMs": 0},
+            },
+        }
+        error = RuntimeError(
+            'YouTube API request failed with HTTP 400: {"error": {"errors": [{"reason": "MODIFICATION_NOT_ALLOWED"}]}}'
+        )
+
+        with mock.patch.object(update_youtube_live_latency, "fetch_broadcast", return_value=broadcast):
+            with mock.patch.object(update_youtube_live_latency, "api_request", side_effect=error):
+                with redirect_stdout(io.StringIO()) as output:
+                    self.assertEqual(update_youtube_live_latency.set_latency("token", "abc123", "ultraLow", True), 0)
+
+        self.assertIn("live latency not changed", output.getvalue())
+        self.assertIn("YouTube does not allow modifying this broadcast now", output.getvalue())
+
+    def test_set_latency_reports_unexpected_api_error_without_traceback(self):
+        broadcast = {
+            "id": "abc123",
+            "snippet": {"title": "Sessão #0061", "scheduledStartTime": "2026-08-15T11:00:00Z"},
+            "status": {"lifeCycleStatus": "ready"},
+            "contentDetails": {
+                "latencyPreference": "normal",
+                "monitorStream": {"enableMonitorStream": True, "broadcastStreamDelayMs": 0},
+            },
+        }
+
+        with mock.patch.object(update_youtube_live_latency, "fetch_broadcast", return_value=broadcast):
+            with mock.patch.object(update_youtube_live_latency, "api_request", side_effect=RuntimeError("boom")):
+                with redirect_stderr(io.StringIO()) as error:
+                    with self.assertRaises(SystemExit):
+                        update_youtube_live_latency.set_latency("token", "abc123", "ultraLow", True)
+
+        self.assertIn("error: boom", error.getvalue())
+
     def test_live_chat_note_reports_replay_is_not_api_exposed_when_chat_is_present(self):
         broadcast = {
             "snippet": {"liveChatId": "Cg0KC2xpdmUtY2hhdA"},

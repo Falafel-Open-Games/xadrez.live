@@ -1,7 +1,7 @@
 import io
 import sys
 import unittest
-from contextlib import redirect_stdout
+from contextlib import redirect_stderr, redirect_stdout
 from pathlib import Path
 from unittest import mock
 
@@ -25,6 +25,7 @@ class ThumbnailBulletOptionsTest(unittest.TestCase):
         self.assertTrue(thumbnail_bullet_options.valid_bullet("peça pendurada"))
         self.assertTrue(thumbnail_bullet_options.valid_bullet("relógio apertou"))
         self.assertTrue(thumbnail_bullet_options.valid_bullet("decisão crítica"))
+        self.assertTrue(thumbnail_bullet_options.valid_bullet("puzzle"))
 
     def test_filters_sets_with_too_many_coordinate_only_bullets(self):
         options = thumbnail_bullet_options.unique_bullet_sets(
@@ -73,6 +74,43 @@ class ThumbnailBulletOptionsTest(unittest.TestCase):
                         thumbnail_bullet_options.edit_selected_bullets(selected),
                         ["Dama sem troca", "relógio apertou", "final revisado"],
                     )
+
+    def test_edit_selected_bullets_accepts_puzzle_session_rewrite(self):
+        selected = ["puzzle do dia", "mate teórico", "cansaço"]
+
+        with mock.patch.object(thumbnail_bullet_options.shutil, "which", return_value=None):
+            with mock.patch.object(thumbnail_bullet_options.sys.stdin, "isatty", return_value=True):
+                with mock.patch("builtins.input", return_value="puzzle | mate teórico | cansasso"):
+                    self.assertEqual(
+                        thumbnail_bullet_options.edit_selected_bullets(selected),
+                        ["puzzle", "mate teórico", "cansasso"],
+                    )
+
+    def test_edit_selected_bullets_accepts_simple_human_rewrite(self):
+        selected = ["peça pendurada", "relógio apertou", "decisão crítica"]
+
+        with mock.patch.object(thumbnail_bullet_options.shutil, "which", return_value=None):
+            with mock.patch.object(thumbnail_bullet_options.sys.stdin, "isatty", return_value=True):
+                with mock.patch("builtins.input", return_value="treino | lance 6 | mate"):
+                    self.assertEqual(
+                        thumbnail_bullet_options.edit_selected_bullets(selected),
+                        ["treino", "lance 6", "mate"],
+                    )
+
+    def test_edit_selected_bullets_explains_empty_and_duplicate_items(self):
+        selected = ["peça pendurada", "relógio apertou", "decisão crítica"]
+
+        with mock.patch.object(thumbnail_bullet_options.shutil, "which", return_value=None):
+            with mock.patch.object(thumbnail_bullet_options.sys.stdin, "isatty", return_value=True):
+                with mock.patch("builtins.input", return_value="mate | | mate"):
+                    with redirect_stderr(io.StringIO()) as error:
+                        with self.assertRaises(SystemExit):
+                            thumbnail_bullet_options.edit_selected_bullets(selected)
+
+        message = error.getvalue()
+        self.assertIn("got 1 bullet(s)", message)
+        self.assertIn("'<empty>': empty bullet", message)
+        self.assertIn("'mate': duplicate bullet", message)
 
     def test_main_accepts_fewer_openai_options_without_fallback(self):
         options = [

@@ -33,7 +33,7 @@ MAX_BULLETS = 3
 MAX_BULLET_LENGTH = 28
 EXIT_OPTION_LABEL = "nenhuma delas, sair"
 FORBIDDEN_BULLET_RE = re.compile(
-    r"\bpts?\b|^\d+\s*pontos?$|\bstorm\b|\bstreak\b|\bpuzzles?\b|\bpuzzle\b|\btreino\b|\bprática\b",
+    r"\bpts?\b|^\d+\s*pontos?$|\bstorm\b|\bstreak\b|\btreino\b|\bprática\b",
     re.I,
 )
 RAW_MOVE_WITH_LANCE_RE = re.compile(
@@ -62,19 +62,41 @@ def clean_bullet(value: str) -> str:
 
 
 def valid_bullet(value: str) -> bool:
+    return bullet_rejection_reason(value) == ""
+
+
+def bullet_rejection_reason(value: str) -> str:
     if not value:
-        return False
+        return "empty bullet"
     if FORBIDDEN_BULLET_RE.search(value):
-        return False
+        return "too generic for thumbnail copy"
     if RAW_MOVE_WITH_LANCE_RE.search(value):
-        return False
+        return "raw move plus lance number is too vague"
     if RAW_LANCE_BULLET_RE.search(value):
-        return False
+        return "lance number needs chess context"
     if RAW_CLOCK_RE.search(value):
-        return False
+        return "clock time needs chess context"
     if re.fullmatch(r"[\d\s:/+-]+", value):
-        return False
-    return True
+        return "only numbers or punctuation"
+    return ""
+
+
+def explain_bullet_edit(values: list[str]) -> tuple[list[str], list[str]]:
+    accepted = []
+    rejected = []
+    seen = set()
+    for raw in values:
+        bullet = clean_bullet(str(raw))
+        if not bullet:
+            rejected.append(f"{raw.strip() or '<empty>'!r}: empty bullet")
+            continue
+        key = bullet.casefold()
+        if key in seen:
+            rejected.append(f"{bullet!r}: duplicate bullet")
+            continue
+        seen.add(key)
+        accepted.append(bullet)
+    return accepted[:MAX_BULLETS], rejected
 
 
 def raw_coordinate_bullet(value: str) -> bool:
@@ -420,9 +442,15 @@ def edit_selected_bullets(selected: list[str]) -> list[str]:
         raw = input(f"Edite os bullets escolhidos, separados por | [{value}]: ").strip()
     if not raw:
         return selected
-    edited = clean_bullet_set(raw.split("|"))
+    edited, rejected = explain_bullet_edit(raw.split("|"))
     if len(edited) != MAX_BULLETS:
-        fail(f"thumbnail requires exactly {MAX_BULLETS} valid bullets separated by |")
+        detail = ""
+        if rejected:
+            detail = "\nRejected bullets:\n- " + "\n- ".join(rejected)
+        fail(
+            f"thumbnail requires exactly {MAX_BULLETS} edited bullets separated by |; "
+            f"got {len(edited)} bullet(s).{detail}"
+        )
     return edited
 
 

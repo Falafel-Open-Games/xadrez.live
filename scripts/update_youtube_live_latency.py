@@ -3,6 +3,8 @@ from __future__ import annotations
 
 import argparse
 import copy
+import json
+import re
 import sys
 import tomllib
 from pathlib import Path
@@ -123,6 +125,23 @@ def live_chat_note(broadcast: dict[str, Any]) -> str:
     return "live chat id not returned; verify chat/replay in Studio"
 
 
+def youtube_error_reason(error: RuntimeError) -> str:
+    match = re.search(r"YouTube API request failed with HTTP \d+:\s*(\{.*\})", str(error), re.S)
+    if not match:
+        return ""
+    try:
+        data = json.loads(match.group(1))
+    except json.JSONDecodeError:
+        return ""
+    errors = data.get("error", {}).get("errors", [])
+    if not isinstance(errors, list):
+        return ""
+    for item in errors:
+        if isinstance(item, dict) and item.get("reason"):
+            return str(item["reason"])
+    return ""
+
+
 def set_latency(token: str, video_id: str, latency: str, write: bool) -> int:
     broadcast = fetch_broadcast(token, video_id)
     current = str((broadcast.get("contentDetails") or {}).get("latencyPreference") or "")
@@ -137,13 +156,23 @@ def set_latency(token: str, video_id: str, latency: str, write: bool) -> int:
         print(f"{video_id}: would update live latency {current or 'unknown'} -> {latency} (status: {status}; {chat_note})")
         return 0
 
-    api_request(
-        "liveBroadcasts",
-        token,
-        method="PUT",
-        query={"part": "snippet,contentDetails"},
-        body=body,
-    )
+    try:
+        api_request(
+            "liveBroadcasts",
+            token,
+            method="PUT",
+            query={"part": "snippet,contentDetails"},
+            body=body,
+        )
+    except RuntimeError as error:
+        reason = youtube_error_reason(error)
+        if reason == "MODIFICATION_NOT_ALLOWED":
+            print(
+                f"{video_id}: live latency not changed; YouTube does not allow modifying this broadcast "
+                f"now (status: {status}; current: {current or 'unknown'}; wanted: {latency}; {chat_note})"
+            )
+            return 0
+        fail(str(error))
     print(f"{video_id}: updated live latency {current or 'unknown'} -> {latency} (status: {status}; {chat_note})")
     return 0
 
