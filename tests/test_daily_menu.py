@@ -26,6 +26,7 @@ class DailyMenuStateTest(unittest.TestCase):
         self.transcripts_dir = self.root / "transcripts"
         self.highlights_dir = self.root / "highlights"
         self.downloads_dir = self.root / "Downloads"
+        self.local_recording_dir = self.root / "Videos"
         for path in [
             self.content_dir,
             self.wrap_inbox_dir,
@@ -33,6 +34,7 @@ class DailyMenuStateTest(unittest.TestCase):
             self.transcripts_dir,
             self.highlights_dir,
             self.downloads_dir,
+            self.local_recording_dir,
         ]:
             path.mkdir()
         self.patches = [
@@ -42,6 +44,7 @@ class DailyMenuStateTest(unittest.TestCase):
             mock.patch.object(daily_menu, "TRANSCRIPTS_DIR", self.transcripts_dir),
             mock.patch.object(daily_menu, "HIGHLIGHTS_DIR", self.highlights_dir),
             mock.patch.object(daily_menu, "DOWNLOADS_DIR", self.downloads_dir),
+            mock.patch.object(daily_menu, "DEFAULT_LOCAL_RECORDING_DIR", self.local_recording_dir),
             mock.patch.object(daily_menu, "CACHE_PATH", self.root / "daily_menu.json"),
         ]
         for patch in self.patches:
@@ -150,6 +153,23 @@ class DailyMenuStateTest(unittest.TestCase):
         (self.transcripts_dir / "0071.faster-whisper.json").write_text("{}\n", encoding="utf-8")
         ready = self.state_for("realign-highlights", "0071")
         self.assertEqual(ready.status, "ready")
+
+    def test_faster_whisper_is_ready_with_local_recording_without_youtube_id(self):
+        self.write_session("0071", 'youtube_video_id = ""\n')
+        (self.local_recording_dir / "0071-local.mp4").write_text("recording", encoding="utf-8")
+
+        state = self.state_for("faster-whisper", "0071")
+
+        self.assertEqual(state.status, "ready")
+        self.assertEqual(state.detail, "local recording found")
+
+    def test_faster_whisper_blocks_without_local_recording_or_youtube_id(self):
+        self.write_session("0071", 'youtube_video_id = ""\n')
+
+        state = self.state_for("faster-whisper", "0071")
+
+        self.assertEqual(state.status, "blocked")
+        self.assertIn("missing local recording", state.detail)
 
     def test_cached_session_is_normalized_and_loaded(self):
         daily_menu.save_cached_session("71")

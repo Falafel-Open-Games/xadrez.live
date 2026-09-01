@@ -73,6 +73,24 @@ def extract_front_matter(text: str, path: Path) -> str:
     return text[3:end].strip()
 
 
+def session_is_transcription_ready(data: dict, session_number: str, youtube_id: str) -> bool:
+    if not youtube_id or youtube_id == "REPLACE_WITH_YOUTUBE_VIDEO_ID":
+        return False
+
+    extra = data.get("extra")
+    if not isinstance(extra, dict):
+        return False
+
+    if bool(extra.get("skip_transcription")):
+        return False
+
+    status = str(extra.get("status") or "").strip().lower()
+    status_tone = str(extra.get("status_tone") or "").strip().lower()
+    is_ended = status == "encerrada" or status_tone in {"ended", "completed"}
+    is_wrap_ready = wrap_toml_exists(session_number)
+    return is_ended or is_wrap_ready
+
+
 def session_youtube_ids() -> list[tuple[str, str, Path]]:
     sessions: list[tuple[str, str, Path]] = []
     for path in sorted(CONTENT_DIR.glob("[0-9][0-9][0-9][0-9].md")):
@@ -82,13 +100,35 @@ def session_youtube_ids() -> list[tuple[str, str, Path]]:
             continue
 
         youtube_id = str(extra.get("youtube_video_id") or "").strip()
-        skip_transcription = bool(extra.get("skip_transcription"))
-        status = str(extra.get("status") or "").strip().lower()
-        status_tone = str(extra.get("status_tone") or "").strip().lower()
-        is_ended = status == "encerrada" or status_tone in {"ended", "completed"}
-        is_wrap_ready = wrap_toml_exists(path.stem)
-        if youtube_id and youtube_id != "REPLACE_WITH_YOUTUBE_VIDEO_ID" and (is_ended or is_wrap_ready) and not skip_transcription:
+        if session_is_transcription_ready(data, path.stem, youtube_id):
             sessions.append((youtube_id, path.stem, path))
+
+    return sessions
+
+
+def explicit_session_candidates(
+    numbers: set[str],
+    local_recording_dir: Path,
+    local_recording_max_age_hours: int,
+) -> list[tuple[str, str, Path]]:
+    sessions: list[tuple[str, str, Path]] = []
+    for number in sorted(normalize_session_number(number) for number in numbers):
+        path = CONTENT_DIR / f"{number}.md"
+        if not path.exists():
+            continue
+
+        data = tomllib.loads(extract_front_matter(path.read_text(encoding="utf-8"), path))
+        extra = data.get("extra")
+        if not isinstance(extra, dict) or bool(extra.get("skip_transcription")):
+            continue
+
+        youtube_id = str(extra.get("youtube_video_id") or "").strip()
+        has_youtube_id = bool(youtube_id) and youtube_id != "REPLACE_WITH_YOUTUBE_VIDEO_ID"
+        has_local_recording = (
+            local_recording_path(number, path, local_recording_dir, local_recording_max_age_hours) is not None
+        )
+        if has_youtube_id or has_local_recording:
+            sessions.append((youtube_id if has_youtube_id else "", number, path))
 
     return sessions
 
@@ -507,7 +547,14 @@ def import_whisper_transcripts(
     local_recording_dir: Path,
     local_recording_max_age_hours: int,
 ) -> int:
-    sessions = selected_sessions(session_youtube_ids(), selected_numbers, latest)
+    if selected_numbers is not None:
+        sessions = explicit_session_candidates(
+            selected_numbers,
+            local_recording_dir,
+            local_recording_max_age_hours,
+        )
+    else:
+        sessions = selected_sessions(session_youtube_ids(), selected_numbers, latest)
     ensure_whisper_command(whisper_cmd)
     output_dir.mkdir(parents=True, exist_ok=True)
     updated = 0

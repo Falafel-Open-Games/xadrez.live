@@ -45,9 +45,11 @@ class ImportWhisperSessionSelectionTest(unittest.TestCase):
         self.content_dir = self.root / "content"
         self.wrap_inbox_dir = self.root / "wrap_inbox"
         self.downloads_dir = self.root / "Downloads"
+        self.local_recording_dir = self.root / "Videos"
         self.content_dir.mkdir()
         self.wrap_inbox_dir.mkdir()
         self.downloads_dir.mkdir()
+        self.local_recording_dir.mkdir()
 
         patches = [
             mock.patch.object(import_whisper_transcripts, "CONTENT_DIR", self.content_dir),
@@ -113,6 +115,30 @@ class ImportWhisperSessionSelectionTest(unittest.TestCase):
             import_whisper_transcripts.selected_sessions(sessions, {"65"}, None),
             [("abc123def45", "0065", path)],
         )
+
+    def test_explicit_scheduled_session_with_local_recording_is_selected(self):
+        path = self.write_session("0062")
+        recording = self.local_recording_dir / "0062-local.mp4"
+        recording.write_text("recording", encoding="utf-8")
+
+        with mock.patch.object(import_whisper_transcripts.time, "time", return_value=recording.stat().st_mtime + 60):
+            self.assertEqual(
+                import_whisper_transcripts.explicit_session_candidates({"62"}, self.local_recording_dir, 12),
+                [("abc123def45", "0062", path)],
+            )
+
+    def test_explicit_scheduled_session_without_youtube_id_uses_local_recording(self):
+        path = self.write_session("0062")
+        text = path.read_text(encoding="utf-8").replace('youtube_video_id = "abc123def45"', 'youtube_video_id = ""')
+        path.write_text(text, encoding="utf-8")
+        recording = self.local_recording_dir / "0062-local.mp4"
+        recording.write_text("recording", encoding="utf-8")
+
+        with mock.patch.object(import_whisper_transcripts.time, "time", return_value=recording.stat().st_mtime + 60):
+            self.assertEqual(
+                import_whisper_transcripts.explicit_session_candidates({"62"}, self.local_recording_dir, 12),
+                [("", "0062", path)],
+            )
 
     def test_default_prompt_biases_lichess_spelling(self):
         prompt = import_whisper_transcripts.DEFAULT_INITIAL_PROMPT

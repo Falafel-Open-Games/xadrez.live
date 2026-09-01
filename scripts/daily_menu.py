@@ -8,8 +8,10 @@ import shutil
 import subprocess
 import tomllib
 from dataclasses import dataclass
+from datetime import datetime
 from pathlib import Path
 from typing import Literal
+from zoneinfo import ZoneInfo
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -22,6 +24,10 @@ WRAP_SESSIONS_DIR = DATA_DIR / "wrap_sessions"
 TRANSCRIPTS_DIR = DATA_DIR / "transcripts"
 HIGHLIGHTS_DIR = DATA_DIR / "highlights"
 DOWNLOADS_DIR = Path.home() / "Downloads"
+DEFAULT_LOCAL_RECORDING_DIR = Path(os.environ.get("XADREZ_LOCAL_RECORDING_DIR", "/home/fcz/Videos/xadrez-live"))
+DEFAULT_LOCAL_RECORDING_MAX_AGE_HOURS = int(os.environ.get("XADREZ_LOCAL_RECORDING_MAX_AGE_HOURS", "12"))
+LOCAL_TZ = ZoneInfo(os.environ.get("XADREZ_LOCAL_TIMEZONE", "America/Sao_Paulo"))
+MEDIA_EXTENSIONS = {".m4a", ".mp3", ".opus", ".ogg", ".webm", ".wav", ".mp4", ".mkv", ".mov", ".m4v"}
 
 
 @dataclass(frozen=True)
@@ -130,6 +136,36 @@ def has_youtube_id(session: str) -> bool:
     return bool(youtube_id) and youtube_id != "REPLACE_WITH_YOUTUBE_VIDEO_ID"
 
 
+def session_date(session: str) -> str:
+    data = read_front_matter(session)
+    value = data.get("date")
+    return value.isoformat() if hasattr(value, "isoformat") else str(value or "").strip()
+
+
+def has_recent_local_recording(session: str) -> bool:
+    max_age_hours = DEFAULT_LOCAL_RECORDING_MAX_AGE_HOURS
+    if max_age_hours <= 0 or not DEFAULT_LOCAL_RECORDING_DIR.exists():
+        return False
+
+    expected_date = session_date(session)
+    now = datetime.now().timestamp()
+    max_age_seconds = max_age_hours * 60 * 60
+    for path in DEFAULT_LOCAL_RECORDING_DIR.iterdir():
+        if not path.is_file() or path.suffix.lower() not in MEDIA_EXTENSIONS:
+            continue
+
+        stat = path.stat()
+        age_seconds = now - stat.st_mtime
+        if age_seconds < 0 or age_seconds > max_age_seconds:
+            continue
+
+        modified_date = datetime.fromtimestamp(stat.st_mtime, LOCAL_TZ).date().isoformat()
+        if expected_date and modified_date != expected_date and session not in path.name:
+            continue
+        return True
+    return False
+
+
 def has_wrap_input(session: str, suffix: str) -> bool:
     return (WRAP_INBOX_DIR / f"{session}{suffix}").exists() or (DOWNLOADS_DIR / f"{session}{suffix}").exists()
 
@@ -222,11 +258,13 @@ def action_state(action: Action, session: str) -> ActionState:
         return ActionState(action, "ready", "userscript TOML/chat found")
 
     if action.key == "faster-whisper":
-        if not has_youtube_id(session):
-            return ActionState(action, "blocked", "missing usable youtube_video_id")
         if has_faster_whisper_transcript(session):
             return ActionState(action, "done", "Faster Whisper transcript exists; rerun requires confirmation")
-        return ActionState(action, "ready", "YouTube video id found")
+        if has_recent_local_recording(session):
+            return ActionState(action, "ready", "local recording found")
+        if has_youtube_id(session):
+            return ActionState(action, "ready", "YouTube video id found")
+        return ActionState(action, "blocked", "missing local recording or usable youtube_video_id")
 
     if action.key == "realign-highlights":
         if not has_faster_whisper_transcript(session):
