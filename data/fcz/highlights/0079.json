@@ -1,36 +1,16 @@
 {
   "session_number": "0079",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "limit": 6,
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 1018,
-      "end_seconds": 1110,
-      "time": "16:58",
-      "duration": "1:30",
-      "kind": "training",
-      "score": 4.0,
-      "summary": "tem um outro movimento forçado aqui, que é esse check, que aí ele se afasta. Aí ele... tem que vim para um desses quatro aqui. Ou voltar... não, voltar já não mais…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
-      "signals": [
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "plano ou estratégia",
-        "treino ou puzzle streak",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 4
-    },
-    {
-      "start_seconds": 1288,
-      "end_seconds": 1320,
-      "time": "21:28",
+      "start_seconds": 1268,
+      "end_seconds": 1290,
+      "time": "21:08",
       "duration": "1:30",
       "kind": "research",
       "score": 4.0,
@@ -44,12 +24,13 @@
         "consulta em fonte externa"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 3,
+      "lead_in": "Ator Chessplayer É isso mesmo"
     },
     {
-      "start_seconds": 1972,
+      "start_seconds": 1988,
       "end_seconds": 2040,
-      "time": "32:52",
+      "time": "33:08",
       "duration": "1:30",
       "kind": "review",
       "score": 4.4,
@@ -64,32 +45,13 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 3,
+      "lead_in": "Existe isso Vamos ver Dois"
     },
     {
-      "start_seconds": 2261,
-      "end_seconds": 2340,
-      "time": "37:41",
-      "duration": "1:30",
-      "kind": "training",
-      "score": 4.0,
-      "summary": "Ó, o cheque direto é errado também. Tomar é o certo, trocar dama é errado também…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
-      "signals": [
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "plano ou estratégia",
-        "treino ou puzzle streak",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 2669,
+      "start_seconds": 2685,
       "end_seconds": 2760,
-      "time": "44:29",
+      "time": "44:45",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 5.5,
@@ -106,27 +68,76 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 4
+      "transcript_count": 4,
+      "lead_in": "eu termino sem torre né"
     },
     {
-      "start_seconds": 2917,
-      "end_seconds": 3000,
-      "time": "48:37",
+      "start_seconds": 3734,
+      "end_seconds": 3810,
+      "time": "1:02:14",
       "duration": "1:30",
       "kind": "opening",
-      "score": 4.0,
-      "summary": "É, tem que ser memória muscular essa parte. Não, e ali também... Nem foi problema de não estar com a abertura afinada. Meu problema aqui, nessa partida, foi..…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; abertura ou repertório; raciocínio em voz alta",
+      "score": 4.85,
+      "summary": "O comentarista aqui só tá explicando, ah, se acontecesse isso no jogo, o cara teria uma oportunidade muito rara de fazer uma armadilha de tal tipo e não sei quê. Beleza…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; abertura ou repertório; raciocínio em voz alta",
       "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
-        "plano ou estratégia",
+        "interação com o chat",
         "abertura ou repertório",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 3
+      "chat_count": 1,
+      "transcript_count": 4,
+      "lead_in": "o que aconteceu no jogo"
+    },
+    {
+      "start_seconds": 4005,
+      "end_seconds": 4080,
+      "time": "1:06:45",
+      "duration": "1:30",
+      "kind": "opening",
+      "score": 5.15,
+      "summary": "É isso, então, a outra capivarada foi não ter, só vou falar então que a minha oportunidade desperdiçada foi não ter ameaçado com cheque, né? Que lá no final poderia até me dar um…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; plano ou estratégia; abertura ou repertório",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "interação com o chat",
+        "plano ou estratégia",
+        "abertura ou repertório"
+      ],
+      "chat_count": 1,
+      "transcript_count": 4,
+      "lead_in": "sair com um peão disso"
+    },
+    {
+      "start_seconds": 4226,
+      "end_seconds": 4290,
+      "time": "1:10:26",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 5.1,
+      "summary": "Então se eu for jogar de brancas contra uma defesa siciliana, não era para ser muito popular isso aqui, né? Acho que a galera tá aprendendo que isso aqui é errado e tá caindo de…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
+      "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 2,
+      "transcript_count": 3,
+      "lead_in": "o equilíbrio no lance 2"
     }
   ]
 }
