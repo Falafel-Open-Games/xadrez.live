@@ -1,41 +1,66 @@
 {
   "session_number": "0080",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "limit": 6,
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 2733,
-      "end_seconds": 2820,
-      "time": "45:33",
+      "start_seconds": 821,
+      "end_seconds": 900,
+      "time": "13:41",
       "duration": "1:30",
-      "kind": "opening",
-      "score": 3.3,
-      "summary": "Check. A coisa mais óbvia do espeto aqui é essa linha reta, mas não tem ninguém para botar realmente uma ameaça na ponta do espeto aqui. Eu não tô conseguindo enxergar nada…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; abertura ou repertório; raciocínio em voz alta",
+      "kind": "research",
+      "score": 6.5,
+      "summary": "Encontre a melhor jogada para as pretas. Então, este é o Puzzle of the Day. Puzzle of the Day, Lichess.org. Melhor jogada para as pretas. Olha essa coluna C aqui. Caramba…",
+      "reason": "4 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; treino ou puzzle streak; pesquisa ou contexto externo; consulta em fonte externa",
       "signals": [
+        "4 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
-        "erro ou momento perdido",
         "tema claro de xadrez",
-        "abertura ou repertório",
-        "raciocínio em voz alta"
+        "treino ou puzzle streak",
+        "pesquisa ou contexto externo",
+        "consulta em fonte externa"
       ],
-      "chat_count": 0,
-      "transcript_count": 3
+      "chat_count": 4,
+      "transcript_count": 4,
+      "lead_in": "Vamos lá sua vez"
     },
     {
-      "start_seconds": 2879,
-      "end_seconds": 2970,
-      "time": "47:59",
+      "start_seconds": 1987,
+      "end_seconds": 2070,
+      "time": "33:07",
+      "duration": "1:30",
+      "kind": "mistake",
+      "score": 5.1,
+      "summary": "Off-topic. General discussion. Tem algumas strings que não estão lá na plataforma, né? De tradução do Lixs. Então, se eu procurar por..…",
+      "reason": "8 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; plano ou estratégia",
+      "signals": [
+        "8 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "plano ou estratégia"
+      ],
+      "chat_count": 8,
+      "transcript_count": 4,
+      "lead_in": "Cadê"
+    },
+    {
+      "start_seconds": 2925,
+      "end_seconds": 3000,
+      "time": "48:45",
       "duration": "1:30",
       "kind": "review",
-      "score": 4.4,
-      "summary": "Essa torre não tá trabalhando também, né? Tirar esse cavalo daqui, tira ele da ameaça e libera uma certa diagonal que não vai me dar nada, né? Tirar ele pra trás, pra baixo…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
+      "score": 5.45,
+      "summary": "Eu não tô conseguindo enxergar nada aqui. Pra cá. Também capivarada. Deixa esse cavalo quietinho aí. O que que tem pra mim aqui? Trazer essa dama e espetar ela? Talvez... É isso…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
       "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
@@ -43,39 +68,22 @@
         "plano ou estratégia",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 3
+      "chat_count": 1,
+      "transcript_count": 3,
+      "lead_in": "Vira pra cá errada capivarada"
     },
     {
-      "start_seconds": 2992,
-      "end_seconds": 3060,
-      "time": "49:52",
-      "duration": "1:30",
-      "kind": "review",
-      "score": 3.7,
-      "summary": "Aí eu faço um espeto de dama e rei, hein? Aí é interessante, hein? É possível que seja isso? Não é. Bispo, vamos ver esse bispo aqui. Marco tá sugerindo isso aqui…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
-      "signals": [
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "review ou melhor lance",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 3
-    },
-    {
-      "start_seconds": 4462,
+      "start_seconds": 4492,
       "end_seconds": 4560,
-      "time": "1:14:22",
+      "time": "1:14:52",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 6.3,
-      "summary": "Essa foi a capivarada que o Cooper vai levar para a vida dele. Não viu, hein, Cooper? Ô, Cooper, não viu. Que isso. Caiu aqui em golpes táticos…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; raciocínio em voz alta",
+      "score": 6.9,
+      "summary": "Ah, vamos para as minhas capivaradas, então. Ah, essa parte eu tive dúvidas, né? Se era comer ou não ali na abertura, né? Fez um quadradinho muito... muito bonito aqui no centro…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; raciocínio em voz alta",
       "signals": [
-        "reação forte na fala",
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "erro ou momento perdido",
         "tema claro de xadrez",
         "review ou melhor lance",
@@ -85,19 +93,22 @@
         "abertura ou repertório",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 4
+      "chat_count": 2,
+      "transcript_count": 3,
+      "lead_in": "de 40 aqui de precisão"
     },
     {
-      "start_seconds": 4635,
+      "start_seconds": 4625,
       "end_seconds": 4710,
-      "time": "1:17:15",
+      "time": "1:17:05",
       "duration": "1:30",
       "kind": "opening",
-      "score": 4.8,
+      "score": 5.85,
       "summary": "Que isso? Dama toma D5. Não é possível, tá certo isso. Não. Bispo E6. Eu estava olhando em outro lugar. Bispo E6 era boa jogada. E6…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; abertura ou repertório",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; abertura ou repertório",
       "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
@@ -105,19 +116,22 @@
         "plano ou estratégia",
         "abertura ou repertório"
       ],
-      "chat_count": 0,
-      "transcript_count": 3
+      "chat_count": 1,
+      "transcript_count": 3,
+      "lead_in": "uma boa jogada hein Não"
     },
     {
-      "start_seconds": 5092,
-      "end_seconds": 5190,
-      "time": "1:24:52",
+      "start_seconds": 5096,
+      "end_seconds": 5160,
+      "time": "1:24:56",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 4.7,
-      "summary": "O oponente já flop saca, né? Aí... Aí aqui, mesmo ele estando quatro minutos na frente do relógio, quem que tem o psicológico para jogar isso, né? Tudo movimentos meio simples, eu…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; pressão no relógio; abertura ou repertório",
+      "score": 5.75,
+      "summary": "Perder a dama ali no meio do jogo, né? Quando isso aconteceu, a cabeça... O oponente já flop saca, né? Aí..…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; pressão no relógio; abertura ou repertório",
       "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
@@ -125,8 +139,9 @@
         "pressão no relógio",
         "abertura ou repertório"
       ],
-      "chat_count": 0,
-      "transcript_count": 4
+      "chat_count": 1,
+      "transcript_count": 5,
+      "lead_in": "afeta muito a moral né"
     }
   ]
 }
