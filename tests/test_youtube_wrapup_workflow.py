@@ -17,6 +17,7 @@ if str(SCRIPTS_DIR) not in sys.path:
 import update_youtube_chapters
 import update_youtube_live_latency
 import update_lichess_rating_history
+import verify_session
 import wrap_session
 import youtube_title_options
 
@@ -363,6 +364,151 @@ class WrapSessionNextSessionCacheTest(unittest.TestCase):
         wrap_session.apply_wrap_toml("0068", data, wrap)
 
         self.assertNotIn("streak_attempts", data["extra"])
+
+    def test_wrap_toml_missing_expected_daily_puzzle_requires_confirmation(self):
+        data = {"extra": {"puzzle_of_the_day_url": "", "puzzle_of_the_day_event": "puzzle_of_the_day"}}
+        wrap = {"extra": {"practice_sets": []}}
+
+        with mock.patch.object(wrap_session.sys.stdin, "isatty", return_value=True):
+            with mock.patch.object(wrap_session, "confirm", side_effect=[True, False]) as confirm:
+                with redirect_stdout(io.StringIO()) as output:
+                    with self.assertRaises(SystemExit):
+                        wrap_session.confirm_wrap_toml("0081", data, wrap, Path("/tmp/0081.toml"), assume_yes=False)
+
+        self.assertEqual(confirm.call_count, 2)
+        self.assertIn("Puzzle do dia:\n- ausente", output.getvalue())
+        self.assertNotIn("puzzle_of_the_day_event", wrap)
+
+    def test_wrap_toml_missing_expected_daily_puzzle_can_be_marked_as_skipped(self):
+        data = {"extra": {"puzzle_of_the_day_url": "", "puzzle_of_the_day_event": "puzzle_of_the_day"}}
+        wrap = {"extra": {"practice_sets": []}}
+
+        with mock.patch.object(wrap_session.sys.stdin, "isatty", return_value=True):
+            with mock.patch.object(wrap_session, "confirm", side_effect=[True, True]):
+                with redirect_stdout(io.StringIO()) as output:
+                    wrap_session.confirm_wrap_toml("0081", data, wrap, Path("/tmp/0081.toml"), assume_yes=False)
+
+        self.assertEqual(wrap["puzzle_of_the_day_event"], "")
+        self.assertIn('puzzle_of_the_day_event = ""', output.getvalue())
+
+    def test_wrap_toml_missing_expected_daily_puzzle_is_not_silenced_by_yes(self):
+        data = {"extra": {"puzzle_of_the_day_url": "", "puzzle_of_the_day_event": "puzzle_of_the_day"}}
+        wrap = {"extra": {"practice_sets": []}}
+
+        with redirect_stdout(io.StringIO()) as output:
+            with self.assertRaises(SystemExit):
+                wrap_session.confirm_wrap_toml("0081", data, wrap, Path("/tmp/0081.toml"), assume_yes=True)
+
+        self.assertIn("TOML sem puzzle do dia", output.getvalue())
+
+    def test_wrap_toml_untimed_daily_puzzle_can_be_kept_out_of_timeline(self):
+        data = {"extra": {"puzzle_of_the_day_url": "", "puzzle_of_the_day_event": "puzzle_of_the_day"}}
+        wrap = {
+            "puzzle_of_the_day_url": "https://lichess.org/training/ka9et",
+            "puzzle_of_the_day_event": "puzzle_of_the_day",
+            "extra": {"practice_sets": []},
+        }
+
+        with mock.patch.object(wrap_session.sys.stdin, "isatty", return_value=True):
+            with mock.patch.object(wrap_session, "confirm", side_effect=[True, True]):
+                with redirect_stdout(io.StringIO()) as output:
+                    wrap_session.confirm_wrap_toml("0081", data, wrap, Path("/tmp/0081.toml"), assume_yes=False)
+
+        self.assertEqual(wrap["puzzle_of_the_day_event"], "")
+        self.assertIn("puzzle do dia mantido sem evento de timeline", output.getvalue())
+
+    def test_wrap_toml_untimed_daily_puzzle_is_not_silenced_by_yes(self):
+        data = {"extra": {"puzzle_of_the_day_url": "", "puzzle_of_the_day_event": "puzzle_of_the_day"}}
+        wrap = {
+            "puzzle_of_the_day_url": "https://lichess.org/training/ka9et",
+            "puzzle_of_the_day_event": "puzzle_of_the_day",
+            "extra": {"practice_sets": []},
+        }
+
+        with redirect_stdout(io.StringIO()) as output:
+            with self.assertRaises(SystemExit):
+                wrap_session.confirm_wrap_toml("0081", data, wrap, Path("/tmp/0081.toml"), assume_yes=True)
+
+        self.assertIn("TOML registra puzzle do dia sem timestamp", output.getvalue())
+
+    def test_verify_session_allows_after_the_fact_daily_puzzle_without_timeline_event(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            content_dir = tmp / "content"
+            data_dir = tmp / "data"
+            content_dir.mkdir()
+            data_dir.mkdir()
+            (content_dir / "0081.md").write_text(
+                "+++\n"
+                'title = "Sessao #0081"\n'
+                "date = 2026-09-04\n"
+                'template = "session.html"\n'
+                "\n"
+                "[extra]\n"
+                'youtube_video_id = "4FFhdBs852o"\n'
+                'duration = "1:23"\n'
+                'rapid = "974"\n'
+                'puzzles = "1500"\n'
+                'status = "encerrada"\n'
+                'status_tone = "ended"\n'
+                'puzzle_of_the_day_url = "https://lichess.org/training/ka9et"\n'
+                'puzzle_of_the_day_recorded_at = ""\n'
+                'puzzle_of_the_day_event = ""\n'
+                "+++\n",
+                encoding="utf-8",
+            )
+
+            with mock.patch.object(verify_session, "CONTENT_DIR", content_dir):
+                with mock.patch.object(verify_session, "DATA_DIR", data_dir):
+                    checks = verify_session.verify("0081", require_published_thumbnail=False)
+
+        self.assertFalse(any(check.level == "error" for check in checks))
+        self.assertTrue(
+            any(
+                check.level == "warning"
+                and check.message == "Puzzle do dia registrado sem timestamp; não entrará na timeline"
+                for check in checks
+            )
+        )
+
+    def test_verify_session_errors_when_daily_puzzle_timeline_event_lacks_timestamp(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            tmp = Path(tmpdir)
+            content_dir = tmp / "content"
+            data_dir = tmp / "data"
+            content_dir.mkdir()
+            data_dir.mkdir()
+            (content_dir / "0081.md").write_text(
+                "+++\n"
+                'title = "Sessao #0081"\n'
+                "date = 2026-09-04\n"
+                'template = "session.html"\n'
+                "\n"
+                "[extra]\n"
+                'youtube_video_id = "4FFhdBs852o"\n'
+                'duration = "1:23"\n'
+                'rapid = "974"\n'
+                'puzzles = "1500"\n'
+                'status = "encerrada"\n'
+                'status_tone = "ended"\n'
+                'puzzle_of_the_day_url = "https://lichess.org/training/ka9et"\n'
+                'puzzle_of_the_day_recorded_at = ""\n'
+                'puzzle_of_the_day_event = "puzzle_of_the_day"\n'
+                "+++\n",
+                encoding="utf-8",
+            )
+
+            with mock.patch.object(verify_session, "CONTENT_DIR", content_dir):
+                with mock.patch.object(verify_session, "DATA_DIR", data_dir):
+                    checks = verify_session.verify("0081", require_published_thumbnail=False)
+
+        self.assertTrue(
+            any(
+                check.level == "error"
+                and "Puzzle do dia registrado sem timestamp" in check.message
+                for check in checks
+            )
+        )
 
     def test_selected_editorial_choices_reload_current_session_before_writing(self):
         with tempfile.TemporaryDirectory() as tmpdir:

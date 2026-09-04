@@ -351,9 +351,61 @@ def summarize_wrap_toml(session: str, wrap: dict[str, Any], path: Path) -> str:
     return "\n".join(lines)
 
 
-def confirm_wrap_toml(session: str, wrap: dict[str, Any], path: Path, assume_yes: bool) -> None:
+def wrap_value(wrap: dict[str, Any], key: str, default: Any = "") -> Any:
+    if key in wrap:
+        return wrap[key]
+    extra = wrap.get("extra")
+    if isinstance(extra, dict) and key in extra:
+        return extra[key]
+    return default
+
+
+def wrap_leaves_expected_daily_puzzle_missing(data: dict[str, Any], wrap: dict[str, Any]) -> bool:
+    extra = data.get("extra") if isinstance(data.get("extra"), dict) else {}
+    current_url = str(extra.get("puzzle_of_the_day_url") or "").strip()
+    current_event = extra.get("puzzle_of_the_day_event")
+    puzzle_url = str(wrap_value(wrap, "puzzle_of_the_day_url", current_url) or "").strip()
+    puzzle_event = wrap_value(wrap, "puzzle_of_the_day_event", current_event)
+    return not puzzle_url and puzzle_event == "puzzle_of_the_day"
+
+
+def wrap_leaves_expected_daily_puzzle_untimed(data: dict[str, Any], wrap: dict[str, Any]) -> bool:
+    extra = data.get("extra") if isinstance(data.get("extra"), dict) else {}
+    current_url = str(extra.get("puzzle_of_the_day_url") or "").strip()
+    current_recorded_at = str(extra.get("puzzle_of_the_day_recorded_at") or "").strip()
+    current_event = extra.get("puzzle_of_the_day_event")
+    puzzle_url = str(wrap_value(wrap, "puzzle_of_the_day_url", current_url) or "").strip()
+    recorded_at = str(wrap_value(wrap, "puzzle_of_the_day_recorded_at", current_recorded_at) or "").strip()
+    puzzle_event = wrap_value(wrap, "puzzle_of_the_day_event", current_event)
+    return bool(puzzle_url) and not recorded_at and puzzle_event == "puzzle_of_the_day"
+
+
+def mark_daily_puzzle_as_skipped(wrap: dict[str, Any]) -> None:
+    if "puzzle_of_the_day_event" in wrap:
+        wrap["puzzle_of_the_day_event"] = ""
+        return
+    extra = wrap.get("extra")
+    if isinstance(extra, dict) and "puzzle_of_the_day_event" in extra:
+        extra["puzzle_of_the_day_event"] = ""
+        return
+    wrap["puzzle_of_the_day_event"] = ""
+
+
+def confirm_wrap_toml(session: str, data: dict[str, Any], wrap: dict[str, Any], path: Path, assume_yes: bool) -> None:
     print(summarize_wrap_toml(session, wrap, path))
     print("")
+    missing_expected_puzzle = wrap_leaves_expected_daily_puzzle_missing(data, wrap)
+    untimed_expected_puzzle = wrap_leaves_expected_daily_puzzle_untimed(data, wrap)
+    if missing_expected_puzzle and assume_yes:
+        fail(
+            "TOML sem puzzle do dia, mas a sessão espera puzzle_of_the_day. "
+            'Preencha puzzle_of_the_day_url ou defina puzzle_of_the_day_event = "" no TOML.'
+        )
+    if untimed_expected_puzzle and assume_yes:
+        fail(
+            "TOML registra puzzle do dia sem timestamp, mas a sessão espera evento na timeline. "
+            'Preencha puzzle_of_the_day_recorded_at ou defina puzzle_of_the_day_event = "" no TOML.'
+        )
     if assume_yes:
         print(f"{session}: confirmação do TOML pulada por --yes")
         return
@@ -361,6 +413,16 @@ def confirm_wrap_toml(session: str, wrap: dict[str, Any], path: Path, assume_yes
         fail("confirmação interativa indisponível; rode em um terminal ou passe --yes")
     if not confirm(f"Aplicar este TOML à sessão {session}?"):
         fail("wrap cancelado antes de aplicar o TOML")
+    if missing_expected_puzzle:
+        if not confirm("O TOML não registra puzzle do dia. Esta foi uma sessão sem puzzle do dia?"):
+            fail("wrap cancelado: registre puzzle_of_the_day_url no TOML antes de continuar")
+        mark_daily_puzzle_as_skipped(wrap)
+        print(f'{session}: puzzle do dia marcado como ausente (puzzle_of_the_day_event = "")')
+    elif untimed_expected_puzzle:
+        if not confirm("O TOML registra puzzle do dia, mas sem timestamp. Ele foi adicionado depois da sessão e deve ficar fora da timeline?"):
+            fail("wrap cancelado: registre puzzle_of_the_day_recorded_at no TOML antes de continuar")
+        mark_daily_puzzle_as_skipped(wrap)
+        print(f'{session}: puzzle do dia mantido sem evento de timeline (puzzle_of_the_day_event = "")')
 
 
 def apply_wrap_toml(session: str, data: dict[str, Any], wrap: dict[str, Any]) -> dict[str, Any]:
@@ -1023,7 +1085,7 @@ def main() -> int:
         if toml_file:
             raw_toml = toml_file.read_text(encoding="utf-8")
             wrap_toml = load_wrap_toml(toml_file)
-            confirm_wrap_toml(session, wrap_toml, toml_file, args.yes)
+            confirm_wrap_toml(session, data, wrap_toml, toml_file, args.yes)
             state["inputs"]["toml_file"] = str(toml_file)
             state["inputs"]["toml"] = raw_toml
             data = apply_wrap_toml(session, data, wrap_toml)

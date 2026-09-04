@@ -499,6 +499,8 @@ def puzzle_of_the_day_timeline_event(path: Path, session_start: datetime | None,
     extra = data.get("extra")
     if not isinstance(extra, dict) or not extra.get("puzzle_of_the_day_url"):
         return None
+    if extra.get("puzzle_of_the_day_event") != "puzzle_of_the_day":
+        return None
     raw_timestamp = str(extra.get("puzzle_of_the_day_recorded_at") or "").strip()
     if not raw_timestamp:
         return None

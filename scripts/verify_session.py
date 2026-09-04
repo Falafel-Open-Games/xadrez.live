@@ -207,11 +207,28 @@ def verify(session: str, require_published_thumbnail: bool) -> list[Check]:
 
     puzzle_of_the_day_url = str(extra.get("puzzle_of_the_day_url") or "").strip()
     expects_puzzle_of_the_day = ended and extra.get("puzzle_of_the_day_event") == "puzzle_of_the_day"
+    puzzle_of_the_day_recorded_at = str(extra.get("puzzle_of_the_day_recorded_at") or "").strip()
     if expects_puzzle_of_the_day and not puzzle_of_the_day_url:
-        checks.append(Check("error", "Puzzle do dia esperado, mas puzzle_of_the_day_url está ausente"))
-    elif puzzle_of_the_day_url and not extra.get("puzzle_of_the_day_recorded_at"):
-        checks.append(Check("error", "Puzzle do dia tem URL, mas não tem puzzle_of_the_day_recorded_at"))
-    elif extra.get("puzzle_of_the_day_recorded_at"):
+        checks.append(
+            Check(
+                "error",
+                "Puzzle do dia não registrado: puzzle_of_the_day_event = "
+                '"puzzle_of_the_day" exige puzzle_of_the_day_url. Preencha a URL '
+                'do puzzle ou deixe puzzle_of_the_day_event = "" se a sessão não teve puzzle do dia.',
+            )
+        )
+    elif expects_puzzle_of_the_day and puzzle_of_the_day_url and not puzzle_of_the_day_recorded_at:
+        checks.append(
+            Check(
+                "error",
+                "Puzzle do dia registrado sem timestamp: puzzle_of_the_day_event = "
+                '"puzzle_of_the_day" exige puzzle_of_the_day_recorded_at para criar evento na timeline. '
+                'Preencha o timestamp ou deixe puzzle_of_the_day_event = "" se o puzzle foi registrado depois da sessão.',
+            )
+        )
+    elif puzzle_of_the_day_url and not puzzle_of_the_day_recorded_at:
+        checks.append(Check("warning", "Puzzle do dia registrado sem timestamp; não entrará na timeline"))
+    elif puzzle_of_the_day_recorded_at:
         checks.append(Check("ok", "Puzzle do dia tem timestamp"))
 
     practice_expected = ended and has_timed_practice(extra)
@@ -221,7 +238,7 @@ def verify(session: str, require_published_thumbnail: bool) -> list[Check]:
         checks.append(Check("ok", "Prática tem timestamp"))
 
     kinds = timeline_kinds(session)
-    if extra.get("puzzle_of_the_day_recorded_at") and "puzzle_of_the_day" not in kinds:
+    if expects_puzzle_of_the_day and puzzle_of_the_day_recorded_at and "puzzle_of_the_day" not in kinds:
         checks.append(Check("error", "Timeline não contém evento Puzzle do dia"))
     if extra.get("practice_notes_recorded_at") and "practice_end" not in kinds:
         checks.append(Check("error", "Timeline não contém evento Fim da prática"))
