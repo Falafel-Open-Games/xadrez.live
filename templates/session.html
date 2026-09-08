@@ -394,11 +394,13 @@
               {% elif event.kind == "blunder" and event.game_index is defined %}
                 <span>Partida {{ event.game_index }}</span>
               {% elif event.kind == "game_start" or event.kind == "game_end" %}
-                <span>Lichess</span>
+                <span>{{ event.platform | default(value="Lichess") }}</span>
               {% elif event.kind == "storm_end" and event.details is defined and event.details %}
                 <span>{{ event.details }}</span>
               {% elif event.kind == "storm_start" %}
                 <span>Lichess</span>
+              {% elif event.details is defined and event.details %}
+                <span>{{ event.details }}</span>
               {% endif %}
             </div>
           </li>

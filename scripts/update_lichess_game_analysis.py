@@ -108,6 +108,9 @@ def session_games(path: Path) -> list[SessionGame]:
         for index, game in enumerate(games, start=1):
             if not isinstance(game, dict):
                 continue
+            platform = str(game.get("platform") or "").strip().casefold()
+            if platform and platform not in {"lichess", "lichess.org"}:
+                continue
             explicit = explicit_lichess_game(game)
             if explicit:
                 game_id, color, url = explicit

@@ -145,6 +145,9 @@ def session_game_refs(path: Path) -> list[GameRef]:
         for index, game in enumerate(games, start=1):
             if not isinstance(game, dict):
                 continue
+            platform = str(game.get("platform") or "").strip().casefold()
+            if platform and platform not in {"lichess", "lichess.org"}:
+                continue
             url = str(game.get("game_url") or game.get("lichess_game_url") or "").strip()
             game_id = explicit_lichess_id(game) or lichess_id(url)
             if game_id and not url:
@@ -248,6 +251,12 @@ def pgn_headers(pgn: str) -> dict[str, str]:
         if match:
             headers[match.group("key")] = match.group("value")
     return headers
+
+
+def is_lichess_payload(payload: dict[str, Any]) -> bool:
+    headers = pgn_headers(str(payload.get("pgn") or ""))
+    site = str(headers.get("Site") or "").strip().casefold()
+    return site.startswith("https://lichess.org/")
 
 
 def strip_variations(text: str) -> str:
@@ -560,6 +569,48 @@ def storm_timeline_events(path: Path, session_start: datetime | None, video_offs
     return events
 
 
+def manual_timeline_events(path: Path) -> list[dict[str, Any]]:
+    data = read_front_matter(path)
+    extra = data.get("extra")
+    if not isinstance(extra, dict):
+        return []
+    rows = extra.get("timeline_events")
+    if not isinstance(rows, list):
+        return []
+
+    events: list[dict[str, Any]] = []
+    for row in rows:
+        if not isinstance(row, dict):
+            continue
+        label = str(row.get("label") or "").strip()
+        if not label:
+            continue
+        seconds = int_value(row.get("seconds"), -1)
+        if seconds < 0:
+            time_value = str(row.get("time") or "").strip()
+            if re.fullmatch(r"\d{1,2}:\d{2}(?::\d{2})?", time_value):
+                seconds = parse_clock(time_value)
+        if seconds < 0:
+            continue
+        event = {
+            "time": format_time(seconds),
+            "seconds": seconds,
+            "kind": str(row.get("kind") or "manual").strip() or "manual",
+            "label": label,
+            "source": str(row.get("source") or "manual").strip() or "manual",
+        }
+        for key in ("details", "platform", "color", "clock", "move", "best", "game_url"):
+            value = str(row.get(key) or "").strip()
+            if value:
+                event[key] = value
+        for key in ("game_index", "move_number", "ply"):
+            value = int_value(row.get(key), -1)
+            if value >= 0:
+                event[key] = value
+        events.append(event)
+    return events
+
+
 def blunder_events(ref: GameRef, payload: dict[str, Any]) -> list[dict[str, Any]]:
     pgn = str(payload.get("pgn") or "")
     headers = pgn_headers(pgn)
@@ -723,6 +774,9 @@ def update_sessions(paths: list[Path], token: str, timeout: int) -> int:
                 except (urllib.error.URLError, TimeoutError, json.JSONDecodeError) as error:
                     failures.append(f"{ref.url}: {error}")
                     continue
+            if not is_lichess_payload(payload):
+                print(f"{path.stem}: skipping {ref.game_id}; cached PGN is not from Lichess")
+                continue
             session_events.extend(blunder_events(ref, payload))
             timeline_events.extend(game_timeline_events(ref, payload))
         if failures:
@@ -742,6 +796,7 @@ def update_sessions(paths: list[Path], token: str, timeout: int) -> int:
                 )
         session_events.sort(key=lambda item: (int(item.get("seconds") or 0), int(item.get("game_index") or 0), int(item.get("ply") or 0)))
         timeline_events.extend(session_events)
+        timeline_events.extend(manual_timeline_events(path))
         timeline_events.sort(
             key=lambda item: (
                 int(item.get("seconds") or 0),
