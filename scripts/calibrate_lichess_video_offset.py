@@ -160,7 +160,7 @@ def first_game_anchor(session: str) -> tuple[Path, int, int, int, str]:
             f"a sessão {session} não tem partida Lichess registrada; nada para calibrar"
         )
     if not timeline_path.exists():
-        raise RuntimeError(f"timeline não encontrada: {timeline_path}")
+        raise NoCalibrationData(f"timeline não encontrada: {timeline_path}")
 
     front_matter = read_front_matter(content_path)
     extra = front_matter.get("extra")

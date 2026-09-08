@@ -380,6 +380,55 @@ def wrap_leaves_expected_daily_puzzle_untimed(data: dict[str, Any], wrap: dict[s
     return bool(puzzle_url) and not recorded_at and puzzle_event == "puzzle_of_the_day"
 
 
+def normalize_puzzle_url(value: Any) -> str:
+    if isinstance(value, dict):
+        value = value.get("url")
+    text = str(value or "").strip()
+    if not text:
+        return ""
+    if "://" not in text:
+        return f"https://lichess.org/training/{text}"
+    return text
+
+
+def single_recorded_puzzle_url(wrap: dict[str, Any]) -> str:
+    urls = []
+    extra = wrap.get("extra")
+    if not isinstance(extra, dict):
+        return ""
+    for key in TIMED_PUZZLE_ATTEMPT_KEYS:
+        attempts = extra.get(key)
+        if not isinstance(attempts, list):
+            continue
+        for attempt in attempts:
+            if not isinstance(attempt, dict):
+                continue
+            puzzles = attempt.get("puzzles")
+            if not isinstance(puzzles, list):
+                continue
+            urls.extend(url for url in (normalize_puzzle_url(item) for item in puzzles) if url)
+    return urls[0] if len(urls) == 1 else ""
+
+
+def remove_recorded_puzzle_url(wrap: dict[str, Any], puzzle_url: str) -> None:
+    extra = wrap.get("extra")
+    if not isinstance(extra, dict):
+        return
+    for key in TIMED_PUZZLE_ATTEMPT_KEYS:
+        attempts = extra.get(key)
+        if not isinstance(attempts, list):
+            continue
+        for attempt in attempts:
+            if not isinstance(attempt, dict):
+                continue
+            puzzles = attempt.get("puzzles")
+            if not isinstance(puzzles, list):
+                continue
+            attempt["puzzles"] = [
+                item for item in puzzles if normalize_puzzle_url(item) != puzzle_url
+            ]
+
+
 def mark_daily_puzzle_as_skipped(wrap: dict[str, Any]) -> None:
     if "puzzle_of_the_day_event" in wrap:
         wrap["puzzle_of_the_day_event"] = ""
@@ -391,20 +440,81 @@ def mark_daily_puzzle_as_skipped(wrap: dict[str, Any]) -> None:
     wrap["puzzle_of_the_day_event"] = ""
 
 
+def parse_video_timestamp(value: str) -> int | None:
+    parts = value.strip().split(":")
+    if len(parts) not in {2, 3}:
+        return None
+    try:
+        numbers = [int(part) for part in parts]
+    except ValueError:
+        return None
+    if any(number < 0 for number in numbers):
+        return None
+    if len(numbers) == 2:
+        minutes, seconds = numbers
+        hours = 0
+    else:
+        hours, minutes, seconds = numbers
+    if minutes >= 60 or seconds >= 60:
+        return None
+    return hours * 3600 + minutes * 60 + seconds
+
+
+def recorded_at_from_video_timestamp(data: dict[str, Any], session: str, timestamp: str) -> str:
+    seconds = parse_video_timestamp(timestamp)
+    if seconds is None:
+        fail("timestamp de vídeo inválido; use MM:SS ou H:MM:SS")
+    recorded_at = session_start(data, session) + timedelta(seconds=seconds)
+    return recorded_at.astimezone(timezone.utc).replace(microsecond=0).isoformat().replace("+00:00", "Z")
+
+
+def set_daily_puzzle_from_video_timestamp(
+    session: str,
+    data: dict[str, Any],
+    wrap: dict[str, Any],
+    puzzle_url: str,
+    timestamp: str,
+) -> None:
+    wrap["puzzle_of_the_day_url"] = puzzle_url
+    wrap["puzzle_of_the_day_recorded_at"] = recorded_at_from_video_timestamp(data, session, timestamp)
+    wrap["puzzle_of_the_day_event"] = "puzzle_of_the_day"
+
+
+def prompt_daily_puzzle_video_timestamp(session: str, data: dict[str, Any], wrap: dict[str, Any], puzzle_url: str) -> None:
+    while True:
+        timestamp = prompt("Minuto/segundo no vídeo do puzzle do dia (MM:SS ou H:MM:SS; vazio deixa fora da timeline)")
+        if not timestamp:
+            wrap["puzzle_of_the_day_url"] = puzzle_url
+            wrap["puzzle_of_the_day_recorded_at"] = ""
+            mark_daily_puzzle_as_skipped(wrap)
+            print(f'{session}: puzzle do dia mantido sem evento de timeline (puzzle_of_the_day_event = "")')
+            return
+        if parse_video_timestamp(timestamp) is None:
+            print("Timestamp inválido. Use, por exemplo, 28:42 ou 1:02:03.")
+            continue
+        set_daily_puzzle_from_video_timestamp(session, data, wrap, puzzle_url, timestamp)
+        print(f"{session}: timestamp do puzzle do dia definido a partir do vídeo ({timestamp})")
+        return
+
+
 def confirm_wrap_toml(session: str, data: dict[str, Any], wrap: dict[str, Any], path: Path, assume_yes: bool) -> None:
     print(summarize_wrap_toml(session, wrap, path))
     print("")
     missing_expected_puzzle = wrap_leaves_expected_daily_puzzle_missing(data, wrap)
     untimed_expected_puzzle = wrap_leaves_expected_daily_puzzle_untimed(data, wrap)
+    single_puzzle_url = single_recorded_puzzle_url(wrap) if missing_expected_puzzle else ""
     if missing_expected_puzzle and assume_yes:
-        fail(
-            "TOML sem puzzle do dia, mas a sessão espera puzzle_of_the_day. "
-            'Preencha puzzle_of_the_day_url ou defina puzzle_of_the_day_event = "" no TOML.'
+        hint = (
+            " Preencha puzzle_of_the_day_url e puzzle_of_the_day_recorded_at, "
+            'ou rode sem --yes para confirmar se o puzzle registrado é o do dia.'
+            if single_puzzle_url
+            else ' Preencha puzzle_of_the_day_url ou defina puzzle_of_the_day_event = "" no TOML.'
         )
+        fail("TOML sem puzzle do dia, mas a sessão espera puzzle_of_the_day." + hint)
     if untimed_expected_puzzle and assume_yes:
         fail(
             "TOML registra puzzle do dia sem timestamp, mas a sessão espera evento na timeline. "
-            'Preencha puzzle_of_the_day_recorded_at ou defina puzzle_of_the_day_event = "" no TOML.'
+            "Preencha puzzle_of_the_day_recorded_at ou rode sem --yes para informar MM:SS/H:MM:SS do vídeo."
         )
     if assume_yes:
         print(f"{session}: confirmação do TOML pulada por --yes")
@@ -414,15 +524,17 @@ def confirm_wrap_toml(session: str, data: dict[str, Any], wrap: dict[str, Any], 
     if not confirm(f"Aplicar este TOML à sessão {session}?"):
         fail("wrap cancelado antes de aplicar o TOML")
     if missing_expected_puzzle:
-        if not confirm("O TOML não registra puzzle do dia. Esta foi uma sessão sem puzzle do dia?"):
-            fail("wrap cancelado: registre puzzle_of_the_day_url no TOML antes de continuar")
-        mark_daily_puzzle_as_skipped(wrap)
-        print(f'{session}: puzzle do dia marcado como ausente (puzzle_of_the_day_event = "")')
+        if single_puzzle_url and confirm(f"O único puzzle registrado ({single_puzzle_url}) é o puzzle do dia?"):
+            prompt_daily_puzzle_video_timestamp(session, data, wrap, single_puzzle_url)
+            remove_recorded_puzzle_url(wrap, single_puzzle_url)
+        else:
+            if not confirm("O TOML não registra puzzle do dia. Esta foi uma sessão sem puzzle do dia?"):
+                fail("wrap cancelado: registre puzzle_of_the_day_url no TOML antes de continuar")
+            mark_daily_puzzle_as_skipped(wrap)
+            print(f'{session}: puzzle do dia marcado como ausente (puzzle_of_the_day_event = "")')
     elif untimed_expected_puzzle:
-        if not confirm("O TOML registra puzzle do dia, mas sem timestamp. Ele foi adicionado depois da sessão e deve ficar fora da timeline?"):
-            fail("wrap cancelado: registre puzzle_of_the_day_recorded_at no TOML antes de continuar")
-        mark_daily_puzzle_as_skipped(wrap)
-        print(f'{session}: puzzle do dia mantido sem evento de timeline (puzzle_of_the_day_event = "")')
+        puzzle_url = str(wrap_value(wrap, "puzzle_of_the_day_url") or "").strip()
+        prompt_daily_puzzle_video_timestamp(session, data, wrap, puzzle_url)
 
 
 def apply_wrap_toml(session: str, data: dict[str, Any], wrap: dict[str, Any]) -> dict[str, Any]:
@@ -865,13 +977,23 @@ def run_calibration(
     return True
 
 
+def needs_pre_calibration_capivaradas(data: dict[str, Any], anchor: str, skip_calibration: bool, skip_capivaradas: bool) -> bool:
+    if skip_calibration or skip_capivaradas or anchor != "first-game":
+        return False
+    if has_configured_lichess_video_offset(data):
+        return False
+    extra = data.get("extra")
+    games = extra.get("games") if isinstance(extra, dict) else None
+    return isinstance(games, list) and bool(games)
+
+
 def has_gum() -> bool:
     return shutil.which("gum") is not None
 
 
 def prompt(label: str, default: str = "") -> str:
     if has_gum():
-        command = ["gum", "input", "--prompt", f"{label}: "]
+        command = ["gum", "input", "--header", label, "--prompt", "> "]
         if default:
             command.extend(["--value", default])
         result = subprocess.run(command, text=True, stdout=subprocess.PIPE, check=False)
@@ -1128,6 +1250,16 @@ def main() -> int:
                 print(f"{session}: removed empty generated entries")
             if chat_json_file:
                 run(["python3", "scripts/merge_chat_replays.py", session], args.dry_run)
+            capivaradas_updated_before_calibration = False
+            if needs_pre_calibration_capivaradas(
+                data,
+                args.calibration_anchor,
+                args.skip_calibration,
+                args.skip_capivaradas,
+            ):
+                run(["just", "update-session-capivaradas-data", session], args.dry_run)
+                capivaradas_updated_before_calibration = True
+                path, data, body = read_session(session)
             calibrated = run_calibration(
                 session,
                 data,
@@ -1139,7 +1271,8 @@ def main() -> int:
             if calibrated:
                 path, data, body = read_session(session)
             if not args.skip_capivaradas:
-                run(["just", "update-session-capivaradas-data", session], args.dry_run)
+                if calibrated or not capivaradas_updated_before_calibration:
+                    run(["just", "update-session-capivaradas-data", session], args.dry_run)
             if not args.skip_youtube_finish:
                 recipe = "youtube-finish-session-skip-title-no-build" if args.skip_youtube_title else "youtube-finish-session-no-build"
                 run(["just", recipe, session], args.dry_run)

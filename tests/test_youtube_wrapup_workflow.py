@@ -20,6 +20,7 @@ import update_lichess_rating_history
 import verify_session
 import wrap_session
 import youtube_title_options
+import calibrate_lichess_video_offset
 
 
 class GoogleTokenErrorTest(unittest.TestCase):
@@ -401,7 +402,7 @@ class WrapSessionNextSessionCacheTest(unittest.TestCase):
 
         self.assertIn("TOML sem puzzle do dia", output.getvalue())
 
-    def test_wrap_toml_untimed_daily_puzzle_can_be_kept_out_of_timeline(self):
+    def test_wrap_toml_untimed_daily_puzzle_can_be_kept_out_of_timeline_with_blank_video_timestamp(self):
         data = {"extra": {"puzzle_of_the_day_url": "", "puzzle_of_the_day_event": "puzzle_of_the_day"}}
         wrap = {
             "puzzle_of_the_day_url": "https://lichess.org/training/ka9et",
@@ -410,12 +411,103 @@ class WrapSessionNextSessionCacheTest(unittest.TestCase):
         }
 
         with mock.patch.object(wrap_session.sys.stdin, "isatty", return_value=True):
-            with mock.patch.object(wrap_session, "confirm", side_effect=[True, True]):
-                with redirect_stdout(io.StringIO()) as output:
-                    wrap_session.confirm_wrap_toml("0081", data, wrap, Path("/tmp/0081.toml"), assume_yes=False)
+            with mock.patch.object(wrap_session, "confirm", return_value=True):
+                with mock.patch.object(wrap_session, "prompt", return_value=""):
+                    with redirect_stdout(io.StringIO()) as output:
+                        wrap_session.confirm_wrap_toml("0081", data, wrap, Path("/tmp/0081.toml"), assume_yes=False)
 
         self.assertEqual(wrap["puzzle_of_the_day_event"], "")
+        self.assertEqual(wrap["puzzle_of_the_day_url"], "https://lichess.org/training/ka9et")
+        self.assertEqual(wrap["puzzle_of_the_day_recorded_at"], "")
         self.assertIn("puzzle do dia mantido sem evento de timeline", output.getvalue())
+
+    def test_wrap_toml_untimed_daily_puzzle_accepts_video_timestamp(self):
+        data = {
+            "date": "2026-09-04",
+            "extra": {
+                "time": "08:45",
+                "puzzle_of_the_day_url": "",
+                "puzzle_of_the_day_event": "puzzle_of_the_day",
+            },
+        }
+        wrap = {
+            "puzzle_of_the_day_url": "https://lichess.org/training/ka9et",
+            "puzzle_of_the_day_event": "puzzle_of_the_day",
+            "extra": {"practice_sets": []},
+        }
+
+        with mock.patch.object(wrap_session.sys.stdin, "isatty", return_value=True):
+            with mock.patch.object(wrap_session, "confirm", return_value=True):
+                with mock.patch.object(wrap_session, "prompt", return_value="15:45"):
+                    with mock.patch.object(wrap_session, "read_metadata", return_value={}):
+                        with redirect_stdout(io.StringIO()):
+                            wrap_session.confirm_wrap_toml("0081", data, wrap, Path("/tmp/0081.toml"), assume_yes=False)
+
+        self.assertEqual(wrap["puzzle_of_the_day_event"], "puzzle_of_the_day")
+        self.assertEqual(wrap["puzzle_of_the_day_recorded_at"], "2026-09-04T12:00:45Z")
+
+    def test_wrap_toml_single_recorded_puzzle_can_be_promoted_to_daily_puzzle(self):
+        data = {
+            "date": "2026-09-04",
+            "extra": {
+                "time": "08:45",
+                "puzzle_of_the_day_url": "",
+                "puzzle_of_the_day_event": "puzzle_of_the_day",
+            },
+        }
+        wrap = {
+            "extra": {
+                "streak_attempts": [
+                    {
+                        "solved": "1",
+                        "puzzles": ["ka9et"],
+                    }
+                ]
+            }
+        }
+
+        with mock.patch.object(wrap_session.sys.stdin, "isatty", return_value=True):
+            with mock.patch.object(wrap_session, "confirm", side_effect=[True, True]):
+                with mock.patch.object(wrap_session, "prompt", return_value="15:45"):
+                    with mock.patch.object(wrap_session, "read_metadata", return_value={}):
+                        with redirect_stdout(io.StringIO()):
+                            wrap_session.confirm_wrap_toml("0081", data, wrap, Path("/tmp/0081.toml"), assume_yes=False)
+
+        self.assertEqual(wrap["puzzle_of_the_day_url"], "https://lichess.org/training/ka9et")
+        self.assertEqual(wrap["puzzle_of_the_day_recorded_at"], "2026-09-04T12:00:45Z")
+        self.assertEqual(wrap["puzzle_of_the_day_event"], "puzzle_of_the_day")
+        self.assertEqual(wrap["extra"]["streak_attempts"][0]["puzzles"], [])
+
+    def test_wrap_toml_single_recorded_daily_puzzle_can_stay_out_of_timeline(self):
+        data = {
+            "date": "2026-09-04",
+            "extra": {
+                "time": "08:45",
+                "puzzle_of_the_day_url": "",
+                "puzzle_of_the_day_event": "puzzle_of_the_day",
+            },
+        }
+        wrap = {
+            "extra": {
+                "streak_attempts": [
+                    {
+                        "solved": "1",
+                        "puzzles": ["ka9et"],
+                    }
+                ]
+            }
+        }
+
+        with mock.patch.object(wrap_session.sys.stdin, "isatty", return_value=True):
+            with mock.patch.object(wrap_session, "confirm", side_effect=[True, True]):
+                with mock.patch.object(wrap_session, "prompt", return_value=""):
+                    with redirect_stdout(io.StringIO()):
+                        wrap_session.confirm_wrap_toml("0081", data, wrap, Path("/tmp/0081.toml"), assume_yes=False)
+
+        self.assertEqual(wrap["puzzle_of_the_day_url"], "https://lichess.org/training/ka9et")
+        self.assertEqual(wrap["puzzle_of_the_day_recorded_at"], "")
+        self.assertEqual(wrap["puzzle_of_the_day_event"], "")
+        self.assertEqual(wrap["extra"]["streak_attempts"][0]["puzzles"], [])
 
     def test_wrap_toml_untimed_daily_puzzle_is_not_silenced_by_yes(self):
         data = {"extra": {"puzzle_of_the_day_url": "", "puzzle_of_the_day_event": "puzzle_of_the_day"}}
@@ -600,6 +692,62 @@ class WrapSessionNextSessionCacheTest(unittest.TestCase):
 
         self.assertFalse(calibrated)
         run.assert_called_once()
+
+    def test_first_game_calibration_with_games_needs_pre_calibration_capivaradas(self):
+        data = {"extra": {"games": [{"game_id": "cwab2F6a"}]}}
+
+        self.assertTrue(
+            wrap_session.needs_pre_calibration_capivaradas(
+                data,
+                anchor="first-game",
+                skip_calibration=False,
+                skip_capivaradas=False,
+            )
+        )
+
+    def test_first_game_calibration_pre_generation_skips_when_offset_exists(self):
+        data = {"extra": {"lichess_video_offset_seconds": 12, "games": [{"game_id": "cwab2F6a"}]}}
+
+        self.assertFalse(
+            wrap_session.needs_pre_calibration_capivaradas(
+                data,
+                anchor="first-game",
+                skip_calibration=False,
+                skip_capivaradas=False,
+            )
+        )
+
+    def test_missing_first_game_timeline_is_clean_calibration_skip(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            content_dir = Path(tmp) / "content"
+            timeline_dir = Path(tmp) / "timelines"
+            content_dir.mkdir()
+            session_path = content_dir / "0085.md"
+            session_path.write_text(
+                """+++
+title = "Sessão #0085"
+date = 2026-09-08
+draft = false
+
+[extra]
+session_number = "0085"
+youtube_video_id = "AF1AtXdw-Ss"
+youtube_release_timestamp = 1788861600
+status_tone = "ended"
+
+[[extra.games]]
+platform = "lichess"
+game_id = "cwab2F6a"
+game_url = "https://lichess.org/cwab2F6a/black"
++++
+""",
+                encoding="utf-8",
+            )
+
+            with mock.patch.object(calibrate_lichess_video_offset, "CONTENT_DIR", content_dir):
+                with mock.patch.object(calibrate_lichess_video_offset, "TIMELINE_DIR", timeline_dir):
+                    with self.assertRaises(calibrate_lichess_video_offset.NoCalibrationData):
+                        calibrate_lichess_video_offset.first_game_anchor("0085")
 
     def test_in_progress_streak_attempt_is_cleaned_as_placeholder(self):
         extra = {
