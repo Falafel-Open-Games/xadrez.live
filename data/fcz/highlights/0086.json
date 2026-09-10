@@ -1,16 +1,16 @@
 {
   "session_number": "0086",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "limit": 6,
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 997,
+      "start_seconds": 1012,
       "end_seconds": 1080,
-      "time": "16:37",
+      "time": "16:52",
       "duration": "1:30",
       "kind": "training",
       "score": 5.3,
@@ -26,50 +26,82 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 4,
+      "lead_in": "O que que eu gostaria"
     },
     {
-      "start_seconds": 1344,
-      "end_seconds": 1440,
-      "time": "22:24",
+      "start_seconds": 2705,
+      "end_seconds": 2760,
+      "time": "45:05",
       "duration": "1:30",
-      "kind": "training",
-      "score": 3.3,
-      "summary": "O Edson Mazmorra colocou umas as sábias palavras dele aqui sobre esse dilema entre ter uma rotina de estudos e melhorar, porque a gente tem nossos objetivos de melhora aí versus…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; treino ou puzzle streak; raciocínio em voz alta",
+      "kind": "opening",
+      "score": 4.35,
+      "summary": "Tá na hora disso, vamos com calma, seguindo os princípios do xadrez. Tá na hora disso também…",
+      "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; pressão no relógio; abertura ou repertório",
       "signals": [
+        "3 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "tema claro de xadrez",
+        "pressão no relógio",
+        "abertura ou repertório"
+      ],
+      "chat_count": 3,
+      "transcript_count": 3,
+      "lead_in": "Tá na hora do quê"
+    },
+    {
+      "start_seconds": 2913,
+      "end_seconds": 3000,
+      "time": "48:33",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 5.7,
+      "summary": "Vamos sair com essa dama. Pra onde? Pra cá. Pode ser, vai, sem perder tempo. Isso aqui... Tá. Deixa eu ter um plano. Deixa eu ter um plano…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
+      "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
-        "treino ou puzzle streak",
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 4
+      "chat_count": 2,
+      "transcript_count": 4,
+      "lead_in": "menos não quero fazer isso"
     },
     {
-      "start_seconds": 4169,
-      "end_seconds": 4260,
-      "time": "1:09:29",
+      "start_seconds": 3416,
+      "end_seconds": 3480,
+      "time": "56:56",
       "duration": "1:30",
-      "kind": "review",
-      "score": 3.6,
-      "summary": "Talvez por não ter um plano ou por não ver jogadas simples como a captura de peão no lance X aí, né? Foi aqui no... Aqui no 15. 15, 16, foi no 16, no lance 16, tá bom…",
-      "reason": "erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
+      "kind": "time-pressure",
+      "score": 5.7,
+      "summary": "Se quiser vim aqui, tá protegido. Bom, é isso. Eu vou perder por tempo, mas não vou perder por cagada, né? Vamos acordar essa torre aqui…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
       "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
-        "review ou melhor lance",
         "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 4
+      "chat_count": 2,
+      "transcript_count": 3,
+      "lead_in": "quiser vem aqui tá protegido"
     },
     {
-      "start_seconds": 4279,
-      "end_seconds": 4350,
-      "time": "1:11:19",
+      "start_seconds": 4297,
+      "end_seconds": 4380,
+      "time": "1:11:37",
       "duration": "1:30",
       "kind": "review",
       "score": 4.4,
@@ -84,51 +116,31 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 3,
+      "lead_in": "esse jogo anda para frente"
     },
     {
-      "start_seconds": 4451,
-      "end_seconds": 4530,
-      "time": "1:14:11",
+      "start_seconds": 4846,
+      "end_seconds": 4920,
+      "time": "1:20:46",
       "duration": "1:30",
-      "kind": "time-pressure",
-      "score": 4.7,
-      "summary": "Ah lá, ele não quer tomar essa torre aqui pra perder a dama, né? Tá bom. Ah, esse... Essa torre vindo na mira do peãozinho aqui é uma jogada já..…",
-      "reason": "erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
+      "kind": "review",
+      "score": 5.25,
+      "summary": "Já eu escrevi tudo o que tinha que escrever. Já cadastrei o game. Queen Games Declined. Valeu, gente. Muito obrigado. Saída de CCC6 não é a melhor casa. Ah, é, tá…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance; raciocínio em voz alta",
       "signals": [
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "review ou melhor lance",
-        "plano ou estratégia",
-        "pressão no relógio",
-        "plano sob pressão de tempo",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 4
-    },
-    {
-      "start_seconds": 4772,
-      "end_seconds": 4860,
-      "time": "1:19:32",
-      "duration": "1:30",
-      "kind": "time-pressure",
-      "score": 5.6,
-      "summary": "Estava pensando no meu desenvolvimento, né? Estava achando que eu tinha todo o tempo do mundo aqui também. Tá bom. Aí ele... Isso não é errado…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; raciocínio em voz alta",
-      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
         "interação com o chat",
-        "plano ou estratégia",
-        "pressão no relógio",
-        "plano sob pressão de tempo",
-        "abertura ou repertório",
+        "review ou melhor lance",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 4
+      "chat_count": 1,
+      "transcript_count": 3,
+      "lead_in": "Vamos lá"
     }
   ]
 }
