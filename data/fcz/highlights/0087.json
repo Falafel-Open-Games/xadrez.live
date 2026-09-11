@@ -1,0 +1,142 @@
+{
+  "session_number": "0087",
+  "source": "heuristic",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
+  "limit": 6,
+  "window_seconds": 90,
+  "step_seconds": 30,
+  "highlights": [
+    {
+      "start_seconds": 76,
+      "end_seconds": 90,
+      "time": "1:16",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 4.5,
+      "summary": "É 9.8 atrasado de novo, vamos lá, vamos lá. Xadrez live. Hoje é dia 11 de setembro, 9-11. 9-11. Como é que tá o áudio? Vamos ver aqui. Perfeito. Áudio funcionando. Chat, bom dia…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; tema claro de xadrez; interação com o chat; review ou melhor lance; pressão no relógio; raciocínio em voz alta",
+      "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "tema claro de xadrez",
+        "interação com o chat",
+        "review ou melhor lance",
+        "pressão no relógio",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 2,
+      "transcript_count": 4,
+      "lead_in": "peão ameaçando a dama aqui"
+    },
+    {
+      "start_seconds": 555,
+      "end_seconds": 630,
+      "time": "9:15",
+      "duration": "1:30",
+      "kind": "mistake",
+      "score": 3.55,
+      "summary": "Esse aqui, né? Não, né? Tá. Ah, dama aqui, algum aqui no G6. Dama ou bispo... Acho que bispo, né? Porque aí depois eu posso vir com dama... Pra cá não vai ser, né? Mas..…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; raciocínio em voz alta",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 1,
+      "transcript_count": 4,
+      "lead_in": "Ou"
+    },
+    {
+      "start_seconds": 1624,
+      "end_seconds": 1680,
+      "time": "27:04",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 4.75,
+      "summary": "Errado, olha a barra do das pretas como cai. Por que que é tão errado torre ali? Né, dama ali. Por que que isso é tão errado? Aqui, certo? Errado também…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 1,
+      "transcript_count": 2,
+      "lead_in": "que aqui seria esse check"
+    },
+    {
+      "start_seconds": 2052,
+      "end_seconds": 2130,
+      "time": "34:12",
+      "duration": "1:30",
+      "kind": "training",
+      "score": 5.2,
+      "summary": "Vai ficar... Puzzle do dia, vou adicionar fora do horário, fora de tudo. Eu só vou pegar o URL…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
+      "signals": [
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "treino ou puzzle streak",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
+      "transcript_count": 4,
+      "lead_in": "Puzzle do dia paciência"
+    },
+    {
+      "start_seconds": 3284,
+      "end_seconds": 3360,
+      "time": "54:44",
+      "duration": "1:30",
+      "kind": "opening",
+      "score": 5.05,
+      "summary": "Eu quase entreguei tudo na abertura, né? Esse foi meu erro, né. Minhas duas capivaradas e o erro. O erro foi quando? Foi tudo na abertura. Péssima precisão de abertura, 53%…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; abertura ou repertório",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "abertura ou repertório"
+      ],
+      "chat_count": 1,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 3991,
+      "end_seconds": 4080,
+      "time": "1:06:31",
+      "duration": "1:30",
+      "kind": "opening",
+      "score": 5.15,
+      "summary": "Tipo, quem tem a teoria joga de gambito e ganha, não tem problema. Mas aqui no nosso nível, né? Faixa perto do 1000, não sei não, hein…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; interação com o chat; plano ou estratégia; abertura ou repertório; raciocínio em voz alta",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "interação com o chat",
+        "plano ou estratégia",
+        "abertura ou repertório",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 1,
+      "transcript_count": 3,
+      "lead_in": "ele só faz gambito né"
+    }
+  ]
+}

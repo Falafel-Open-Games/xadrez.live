@@ -1204,6 +1204,9 @@ def main() -> int:
         state[NEXT_SESSION_CACHE_KEY] = cached_next
 
     try:
+        if not args.dry_run:
+            refresh_automatic_stat_sources(session, args.dry_run)
+
         if toml_file:
             raw_toml = toml_file.read_text(encoding="utf-8")
             wrap_toml = load_wrap_toml(toml_file)
@@ -1238,7 +1241,6 @@ def main() -> int:
 
         if not args.dry_run:
             save_json(WRAP_DIR / f"{session}.json", state)
-            refresh_automatic_stat_sources(session, args.dry_run)
             updated_stats = auto_fill_post_stats(session, data)
             extra = data.get("extra") if isinstance(data.get("extra"), dict) else {}
             cleaned_entries = clean_empty_generated_entries(extra)
