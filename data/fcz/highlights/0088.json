@@ -1,22 +1,24 @@
 {
   "session_number": "0088",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "limit": 6,
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 0,
+      "start_seconds": 5,
       "end_seconds": 90,
-      "time": "0:00",
+      "time": "0:05",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 4.4,
+      "score": 5.45,
       "summary": "Alô, alô, teste seis segundos. Estamos ao vivo. Waiting for Fabrício. Botei o link errado aqui, o que acontece? Bom dia. E tá, o chat está certo. Por que que o vídeo não..…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; pressão no relógio; treino ou puzzle streak; raciocínio em voz alta",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; pressão no relógio; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
@@ -25,19 +27,44 @@
         "treino ou puzzle streak",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
+      "chat_count": 1,
       "transcript_count": 3
     },
     {
-      "start_seconds": 2228,
+      "start_seconds": 1116,
+      "end_seconds": 1200,
+      "time": "18:36",
+      "duration": "1:30",
+      "kind": "training",
+      "score": 4.75,
+      "summary": "Essa aqui era uma possibilidade também. Deixa eu ver essa aqui, vai. Se errar, errou, tudo bem. Errou. Beleza. Certo era esse? Também errou. Hum…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; treino ou puzzle streak; raciocínio em voz alta",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "treino ou puzzle streak",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 1,
+      "transcript_count": 4,
+      "lead_in": "venho com torre pra cá"
+    },
+    {
+      "start_seconds": 2246,
       "end_seconds": 2250,
-      "time": "37:08",
+      "time": "37:26",
       "duration": "1:30",
       "kind": "research",
-      "score": 4.6,
+      "score": 7.15,
       "summary": "Deixa eu procurar seu nome aqui. Acho que você ainda não apareceu, né? Acho que é a primeira vez que você tá aparecendo. Legal, DG. Primeira vez, legal. Então eu...",
-      "reason": "erro ou momento perdido; tema claro de xadrez; interação com o chat; raciocínio em voz alta; pesquisa ou contexto externo; consulta em fonte externa",
+      "reason": "3 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; raciocínio em voz alta; pesquisa ou contexto externo; consulta em fonte externa",
       "signals": [
+        "3 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
         "interação com o chat",
@@ -45,21 +72,23 @@
         "pesquisa ou contexto externo",
         "consulta em fonte externa"
       ],
-      "chat_count": 0,
-      "transcript_count": 3
+      "chat_count": 3,
+      "transcript_count": 4,
+      "lead_in": "aqui que chama xadrez live"
     },
     {
-      "start_seconds": 2970,
-      "end_seconds": 3030,
-      "time": "49:30",
+      "start_seconds": 2971,
+      "end_seconds": 3060,
+      "time": "49:31",
       "duration": "1:30",
       "kind": "research",
-      "score": 6.9,
+      "score": 7.4,
       "summary": "Não dá pra saber. Queria saber se tinha sido blitz, clássico ou o quê, né? Depois tem que procurar no Google essa partida aqui de 2010. 29 de agosto de 2010…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; treino ou puzzle streak; raciocínio em voz alta; pesquisa ou contexto externo; consulta em fonte externa",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; review ou melhor lance; treino ou puzzle streak; raciocínio em voz alta; pesquisa ou contexto externo; consulta em fonte externa",
       "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
-        "erro ou momento perdido",
         "tema claro de xadrez",
         "review ou melhor lance",
         "treino ou puzzle streak",
@@ -67,38 +96,44 @@
         "pesquisa ou contexto externo",
         "consulta em fonte externa"
       ],
-      "chat_count": 0,
-      "transcript_count": 4
+      "chat_count": 2,
+      "transcript_count": 4,
+      "lead_in": "E foi uma"
     },
     {
-      "start_seconds": 3126,
-      "end_seconds": 3210,
-      "time": "52:06",
+      "start_seconds": 3113,
+      "end_seconds": 3180,
+      "time": "51:53",
       "duration": "1:30",
       "kind": "review",
-      "score": 3.7,
+      "score": 4.75,
       "summary": "É, não dá, não dá mais pras brancas ganhar aqui. Já era. E aí esses melhores movimentos é só de tipo uma derrota que demora mais…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
       "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
         "review ou melhor lance",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 3
+      "chat_count": 1,
+      "transcript_count": 3,
+      "lead_in": "xeque-mate daqui a pouco aqui"
     },
     {
-      "start_seconds": 3428,
+      "start_seconds": 3427,
       "end_seconds": 3510,
-      "time": "57:08",
+      "time": "57:07",
       "duration": "1:30",
       "kind": "time-pressure",
-      "score": 3.9,
+      "score": 4.95,
       "summary": "Vamos abrir uma amistosa aqui, 57 minutos de live. Tá certo que é sabadão, tenho todo o tempo do mundo hoje, mas eu quero fazer mais coisas no meu sábado…",
-      "reason": "tema claro de xadrez; interação com o chat; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; raciocínio em voz alta",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; tema claro de xadrez; interação com o chat; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; abertura ou repertório; raciocínio em voz alta",
       "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "tema claro de xadrez",
         "interação com o chat",
         "plano ou estratégia",
@@ -107,28 +142,9 @@
         "abertura ou repertório",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 4
-    },
-    {
-      "start_seconds": 4249,
-      "end_seconds": 4320,
-      "time": "1:10:49",
-      "duration": "1:30",
-      "kind": "opening",
-      "score": 4.2,
-      "summary": "Eu esqueci desse grande ditado do xadrez. To take is a mistake. Eu tinha que ter deixado quieto aqui, né? Avançado. Feito meu rock. Acho que até o rock seria uma boa jogada aqui…",
-      "reason": "erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance; abertura ou repertório; raciocínio em voz alta",
-      "signals": [
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "interação com o chat",
-        "review ou melhor lance",
-        "abertura ou repertório",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 3
+      "chat_count": 1,
+      "transcript_count": 4,
+      "lead_in": "certo tá certo vamos lá"
     }
   ]
 }
