@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import json
 import os
 import re
@@ -33,12 +34,15 @@ LOCAL_TZ = ZoneInfo("America/Sao_Paulo")
 LICHESS_USERNAME = "fcz"
 ARRAY_REPLACE_KEYS = {"streak_attempts", "storm_attempts", "practice_sets", "games", "supporters"}
 TIMED_PUZZLE_ATTEMPT_KEYS = {"streak_attempts", "storm_attempts"}
+INTERACTIVE_WRAP_KEY = "_wrap_session_interactive"
 SELF_SUPPORTERS = {
     ("youtube", "fczuardi"),
     ("twitch", "sedentarismo"),
 }
 SELF_HANDLES = {handle for _platform, handle in SELF_SUPPORTERS}
 AGGREGATOR_PLATFORMS = {"restream", "restream.io"}
+ANON_AUTHOR_RE = re.compile(r"^Person \d+$")
+UNKNOWN_AUTHORS = {"unknown", "@unknown", "anonymous", "@anonymous"}
 EXTRA_SCALAR_ORDER = [
     "puzzle_of_the_day_url",
     "puzzle_of_the_day_recorded_at",
@@ -360,6 +364,15 @@ def wrap_value(wrap: dict[str, Any], key: str, default: Any = "") -> Any:
     return default
 
 
+def explicit_wrap_value(wrap: dict[str, Any], key: str, default: Any = "") -> Any:
+    if key in wrap:
+        return wrap[key]
+    extra = wrap.get("extra")
+    if isinstance(extra, dict) and key in extra:
+        return extra[key]
+    return default
+
+
 def wrap_leaves_expected_daily_puzzle_missing(data: dict[str, Any], wrap: dict[str, Any]) -> bool:
     extra = data.get("extra") if isinstance(data.get("extra"), dict) else {}
     current_url = str(extra.get("puzzle_of_the_day_url") or "").strip()
@@ -378,6 +391,25 @@ def wrap_leaves_expected_daily_puzzle_untimed(data: dict[str, Any], wrap: dict[s
     recorded_at = str(wrap_value(wrap, "puzzle_of_the_day_recorded_at", current_recorded_at) or "").strip()
     puzzle_event = wrap_value(wrap, "puzzle_of_the_day_event", current_event)
     return bool(puzzle_url) and not recorded_at and puzzle_event == "puzzle_of_the_day"
+
+
+def carry_forward_existing_daily_puzzle_resolution(data: dict[str, Any], wrap: dict[str, Any]) -> list[str]:
+    incoming_url = str(explicit_wrap_value(wrap, "puzzle_of_the_day_url") or "").strip()
+    incoming_event = explicit_wrap_value(wrap, "puzzle_of_the_day_event", None)
+    if incoming_url or incoming_event not in {None, "puzzle_of_the_day"}:
+        return []
+    extra = data.get("extra") if isinstance(data.get("extra"), dict) else {}
+    puzzle_url = str(extra.get("puzzle_of_the_day_url") or "").strip()
+    recorded_at = str(extra.get("puzzle_of_the_day_recorded_at") or "").strip()
+    puzzle_event = extra.get("puzzle_of_the_day_event")
+    if not puzzle_url or not recorded_at or puzzle_event != "puzzle_of_the_day":
+        return []
+
+    wrap["puzzle_of_the_day_url"] = puzzle_url
+    wrap["puzzle_of_the_day_recorded_at"] = recorded_at
+    wrap["puzzle_of_the_day_event"] = "puzzle_of_the_day"
+    remove_recorded_puzzle_url(wrap, puzzle_url)
+    return [puzzle_url]
 
 
 def normalize_puzzle_url(value: Any) -> str:
@@ -478,6 +510,9 @@ def set_daily_puzzle_from_video_timestamp(
     wrap["puzzle_of_the_day_url"] = puzzle_url
     wrap["puzzle_of_the_day_recorded_at"] = recorded_at_from_video_timestamp(data, session, timestamp)
     wrap["puzzle_of_the_day_event"] = "puzzle_of_the_day"
+    interactive = wrap.setdefault(INTERACTIVE_WRAP_KEY, {})
+    if isinstance(interactive, dict):
+        interactive["puzzle_of_the_day_video_timestamp"] = timestamp
 
 
 def prompt_daily_puzzle_video_timestamp(session: str, data: dict[str, Any], wrap: dict[str, Any], puzzle_url: str) -> None:
@@ -544,7 +579,7 @@ def apply_wrap_toml(session: str, data: dict[str, Any], wrap: dict[str, Any]) ->
 
     incoming_extra = wrap.get("extra")
     for key, value in wrap.items():
-        if key == "extra":
+        if key == "extra" or key.startswith("_"):
             continue
         extra[key] = value
 
@@ -670,6 +705,8 @@ def chat_supporters(messages: list[dict[str, Any]]) -> list[dict[str, str]]:
             not platform
             or not author
             or author == "Host"
+            or author.lower() in UNKNOWN_AUTHORS
+            or ANON_AUTHOR_RE.fullmatch(author)
             or is_aggregator_platform(platform)
             or is_self_supporter(platform, author)
         ):
@@ -922,6 +959,50 @@ def load_json(path: Path) -> dict[str, Any]:
     return data if isinstance(data, dict) else {}
 
 
+def load_restream_api_chat(session: str) -> tuple[Path, dict[str, Any]] | None:
+    path = RESTREAM_DIR / f"{session}.json"
+    replay = load_json(path)
+    messages = replay.get("messages")
+    if not isinstance(messages, list) or not messages:
+        return None
+    return path, replay
+
+
+def json_safe(value: Any) -> Any:
+    if isinstance(value, dict):
+        return {str(key): json_safe(item) for key, item in value.items()}
+    if isinstance(value, list):
+        return [json_safe(item) for item in value]
+    if isinstance(value, (date, datetime)):
+        return value.isoformat()
+    return value
+
+
+def previous_resolved_wrap_toml(previous_state: dict[str, Any], raw_toml: str) -> dict[str, Any] | None:
+    inputs = previous_state.get("inputs")
+    if not isinstance(inputs, dict) or inputs.get("toml") != raw_toml:
+        return None
+    resolved = inputs.get("resolved_toml")
+    return copy.deepcopy(resolved) if isinstance(resolved, dict) else None
+
+
+def refresh_interactive_wrap_timestamps(session: str, data: dict[str, Any], wrap: dict[str, Any]) -> list[str]:
+    interactive = wrap.get(INTERACTIVE_WRAP_KEY)
+    if not isinstance(interactive, dict):
+        return []
+
+    updated = []
+    puzzle_timestamp = str(interactive.get("puzzle_of_the_day_video_timestamp") or "").strip()
+    puzzle_url = str(wrap_value(wrap, "puzzle_of_the_day_url") or "").strip()
+    if puzzle_timestamp and puzzle_url and wrap_value(wrap, "puzzle_of_the_day_event") == "puzzle_of_the_day":
+        recorded_at = recorded_at_from_video_timestamp(data, session, puzzle_timestamp)
+        if wrap.get("puzzle_of_the_day_recorded_at") != recorded_at:
+            wrap["puzzle_of_the_day_recorded_at"] = recorded_at
+            updated.append(f"puzzle_of_the_day_recorded_at={recorded_at}")
+
+    return updated
+
+
 def run(command: list[str], dry_run: bool) -> None:
     print(f"$ {' '.join(command)}")
     if dry_run:
@@ -1094,6 +1175,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--toml-file", type=Path, help="TOML fragment from the userscript; defaults to data/fcz/wrap_inbox/NNNN.toml when present")
     parser.add_argument("--chat-json-file", type=Path, help="Restream chat JSON from the userscript; defaults to data/fcz/wrap_inbox/NNNN-chat.json when present")
     parser.add_argument("--allow-missing-userscript-inputs", action="store_true", help="Allow wrapup to continue without both userscript exports")
+    parser.add_argument("--use-restream-api-chat-fallback", action="store_true", help="Use data/fcz/restream_chat_replays/NNNN.json when userscript chat JSON is missing")
     parser.add_argument("--dry-run", action="store_true", help="Persist raw inputs and print commands without applying changes")
     parser.add_argument("--yes", action="store_true", help="Skip the imported TOML confirmation checkpoint")
     parser.add_argument("--skip-build", action="store_true")
@@ -1147,27 +1229,52 @@ def fresh_download_input(path: Path, max_age_hours: float, allow_stale: bool = F
     return None
 
 
-def require_userscript_inputs(session: str, toml_file: Path | None, chat_json_file: Path | None) -> None:
+def require_userscript_inputs(
+    session: str,
+    toml_file: Path | None,
+    chat_json_file: Path | None,
+    restream_api_chat_file: Path | None,
+) -> None:
     missing = []
     if toml_file is None:
         missing.append(
             "TOML do wrap: "
             f"{INBOX_DIR / f'{session}.toml'} ou {DOWNLOADS_DIR / f'{session}.toml'}"
         )
-    if chat_json_file is None:
+    if chat_json_file is None and restream_api_chat_file is None:
         missing.append(
-            "chat Restream JSON: "
-            f"{INBOX_DIR / f'{session}-chat.json'} ou {DOWNLOADS_DIR / f'{session}-chat.json'}"
+            "chat Restream JSON/API: "
+            f"{INBOX_DIR / f'{session}-chat.json'}, {DOWNLOADS_DIR / f'{session}-chat.json'} "
+            f"ou {RESTREAM_DIR / f'{session}.json'}"
         )
     if not missing:
         return
     fail(
         "faltam export(s) do userscript antes do wrapup:\n"
         + "\n".join(f"- {item}" for item in missing)
-        + "\n\nSalve os dois arquivos em Downloads/inbox ou passe --toml-file/--chat-json-file. "
+        + "\n\nSalve os exports em Downloads/inbox, passe --toml-file/--chat-json-file, "
+        "ou rode `just import-restream-chat-replays ...` para criar o fallback da API. "
         "Para reaproveitar exports antigos de Downloads, passe --allow-stale-downloads. "
         "Use --allow-missing-userscript-inputs só para sessões fora da rotina."
     )
+
+
+def confirm_restream_api_chat_fallback(session: str, path: Path, assume_yes: bool) -> None:
+    if assume_yes:
+        print(f"{session}: Restream API chat fallback accepted by --yes ({path})")
+        return
+    if not sys.stdin.isatty():
+        fail(
+            f"{session}: userscript chat JSON is missing, but Restream API fallback exists at {path}. "
+            "Save the userscript chat JSON first, or pass --yes to use the fallback intentionally."
+        )
+    if not confirm(
+        f"{session}: userscript chat JSON is missing. Use Restream API fallback with anonymous authors from {path}?"
+    ):
+        fail(
+            f"{session}: wrap canceled; save {INBOX_DIR / f'{session}-chat.json'} "
+            f"or {DOWNLOADS_DIR / f'{session}-chat.json'} and rerun."
+        )
 
 
 def main() -> int:
@@ -1187,8 +1294,20 @@ def main() -> int:
             args.allow_stale_downloads,
         )
     )
+    restream_api_chat = None if chat_json_file else load_restream_api_chat(session)
     if not args.allow_missing_userscript_inputs:
-        require_userscript_inputs(session, toml_file, chat_json_file)
+        require_userscript_inputs(
+            session,
+            toml_file,
+            chat_json_file,
+            restream_api_chat[0] if restream_api_chat else None,
+        )
+    if chat_json_file is None and restream_api_chat is not None:
+        confirm_restream_api_chat_fallback(
+            session,
+            restream_api_chat[0],
+            args.yes or args.use_restream_api_chat_fallback,
+        )
     path, data, body = read_session(session)
     previous_state = load_json(WRAP_DIR / f"{session}.json")
     state: dict[str, Any] = {
@@ -1209,18 +1328,34 @@ def main() -> int:
 
         if toml_file:
             raw_toml = toml_file.read_text(encoding="utf-8")
-            wrap_toml = load_wrap_toml(toml_file)
-            confirm_wrap_toml(session, data, wrap_toml, toml_file, args.yes)
+            wrap_toml = previous_resolved_wrap_toml(previous_state, raw_toml)
+            if wrap_toml is None:
+                wrap_toml = load_wrap_toml(toml_file)
+                carried_daily_puzzle = carry_forward_existing_daily_puzzle_resolution(data, wrap_toml)
+                if carried_daily_puzzle:
+                    print(
+                        f"{session}: preserving existing puzzle do dia resolution "
+                        f"({', '.join(carried_daily_puzzle)})"
+                    )
+                confirm_wrap_toml(session, data, wrap_toml, toml_file, args.yes)
+            else:
+                print(f"{session}: reusing resolved TOML from previous wrap attempt")
+            refreshed_timestamps = refresh_interactive_wrap_timestamps(session, data, wrap_toml)
+            if refreshed_timestamps:
+                print(f"{session}: refreshed interactive timestamp(s) ({', '.join(refreshed_timestamps)})")
             state["inputs"]["toml_file"] = str(toml_file)
             state["inputs"]["toml"] = raw_toml
+            state["inputs"]["resolved_toml"] = json_safe(wrap_toml)
             data = apply_wrap_toml(session, data, wrap_toml)
             if not args.dry_run:
                 write_session(path, data, body)
+                save_json(WRAP_DIR / f"{session}.json", state)
             action = "would apply" if args.dry_run else "applied"
             print(f"{session}: {action} TOML to {path}")
         else:
             print(f"{session}: no TOML input found")
 
+        should_merge_chat = False
         if chat_json_file:
             raw_chat_text = chat_json_file.read_text(encoding="utf-8")
             raw_chat = json.loads(raw_chat_text)
@@ -1236,6 +1371,23 @@ def main() -> int:
                     write_session(path, data, body)
             print(f"{session}: imported {replay['message_count']} Restream chat message(s)")
             print(f"{session}: added {added_supporters} supporter(s) from chat")
+            should_merge_chat = True
+        elif restream_api_chat:
+            restream_api_chat_file, replay = restream_api_chat
+            state["inputs"]["restream_api_chat_file"] = str(restream_api_chat_file)
+            state["inputs"]["restream_api_chat"] = replay
+            messages = replay.get("messages") if isinstance(replay.get("messages"), list) else []
+            added_supporters = merge_session_supporters(data, chat_supporters(messages))
+            extra = data.get("extra") if isinstance(data.get("extra"), dict) else {}
+            cleaned_entries = clean_empty_generated_entries(extra)
+            if not args.dry_run and (added_supporters or cleaned_entries):
+                write_session(path, data, body)
+            print(
+                f"{session}: using existing Restream API replay "
+                f"({replay.get('message_count', len(messages))} chat message(s))"
+            )
+            print(f"{session}: added {added_supporters} supporter(s) from known chat authors")
+            should_merge_chat = True
         else:
             print(f"{session}: no Restream chat input found")
 
@@ -1250,7 +1402,7 @@ def main() -> int:
             elif cleaned_entries:
                 write_session(path, data, body)
                 print(f"{session}: removed empty generated entries")
-            if chat_json_file:
+            if should_merge_chat:
                 run(["python3", "scripts/merge_chat_replays.py", session], args.dry_run)
             capivaradas_updated_before_calibration = False
             if needs_pre_calibration_capivaradas(
@@ -1308,6 +1460,20 @@ def main() -> int:
             state["updated_at"] = state["interrupted_at"]
             save_json(WRAP_DIR / f"{session}.json", state)
         print(f"\n{session}: wrapup interrupted; rerun wrap-session to continue")
+        raise
+    except SystemExit:
+        if not args.dry_run:
+            state["status"] = "failed"
+            state["failed_at"] = datetime.now(timezone.utc).isoformat()
+            state["updated_at"] = state["failed_at"]
+            save_json(WRAP_DIR / f"{session}.json", state)
+        raise
+    except Exception:
+        if not args.dry_run:
+            state["status"] = "failed"
+            state["failed_at"] = datetime.now(timezone.utc).isoformat()
+            state["updated_at"] = state["failed_at"]
+            save_json(WRAP_DIR / f"{session}.json", state)
         raise
 
     return 0

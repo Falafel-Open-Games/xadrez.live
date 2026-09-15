@@ -366,6 +366,223 @@ class WrapSessionNextSessionCacheTest(unittest.TestCase):
 
         self.assertNotIn("streak_attempts", data["extra"])
 
+    def test_restream_api_chat_can_satisfy_missing_userscript_chat_input(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            api_dir = Path(tmpdir)
+            replay_path = api_dir / "0090.json"
+            replay_path.write_text(
+                json.dumps(
+                    {
+                        "session_number": "0090",
+                        "source": "restream",
+                        "message_count": 1,
+                        "messages": [
+                            {
+                                "time": "0:12",
+                                "seconds": 12,
+                                "platform": "YouTube",
+                                "author": "Person 1",
+                                "text": "bom dia",
+                            }
+                        ],
+                    }
+                )
+                + "\n",
+                encoding="utf-8",
+            )
+
+            with mock.patch.object(wrap_session, "RESTREAM_DIR", api_dir):
+                fallback = wrap_session.load_restream_api_chat("0090")
+                self.assertIsNotNone(fallback)
+                assert fallback is not None
+                path, replay = fallback
+                wrap_session.require_userscript_inputs("0090", Path("/tmp/0090.toml"), None, path)
+
+        self.assertEqual(replay["message_count"], 1)
+
+    def test_restream_api_chat_fallback_accepts_yes(self):
+        with redirect_stdout(io.StringIO()) as output:
+            wrap_session.confirm_restream_api_chat_fallback("0090", Path("/tmp/0090.json"), assume_yes=True)
+
+        self.assertIn("accepted by --yes", output.getvalue())
+
+    def test_restream_api_chat_fallback_requires_interactive_confirmation(self):
+        with mock.patch.object(wrap_session.sys.stdin, "isatty", return_value=False):
+            with redirect_stdout(io.StringIO()) as output:
+                with self.assertRaises(SystemExit):
+                    wrap_session.confirm_restream_api_chat_fallback(
+                        "0090",
+                        Path("/tmp/0090.json"),
+                        assume_yes=False,
+                    )
+
+        self.assertIn("pass --yes to use the fallback intentionally", output.getvalue())
+
+    def test_restream_api_chat_fallback_can_be_declined(self):
+        with mock.patch.object(wrap_session.sys.stdin, "isatty", return_value=True):
+            with mock.patch.object(wrap_session, "confirm", return_value=False):
+                with redirect_stdout(io.StringIO()) as output:
+                    with self.assertRaises(SystemExit):
+                        wrap_session.confirm_restream_api_chat_fallback(
+                            "0090",
+                            Path("/tmp/0090.json"),
+                            assume_yes=False,
+                        )
+
+        self.assertIn("wrap canceled", output.getvalue())
+
+    def test_chat_supporters_ignores_anonymous_restream_api_authors(self):
+        messages = [
+            {"platform": "YouTube", "author": "Person 1", "text": "bom dia"},
+            {"platform": "Twitch", "author": "unknown", "text": "salve"},
+            {"platform": "Twitch", "author": "nicolich41", "text": "salve"},
+        ]
+
+        self.assertEqual(
+            wrap_session.chat_supporters(messages),
+            [
+                {
+                    "platform": "Twitch",
+                    "name": "nicolich41",
+                    "url": "https://www.twitch.tv/nicolich41",
+                }
+            ],
+        )
+
+    def test_restream_api_chat_fallback_ignores_empty_replays(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            api_dir = Path(tmpdir)
+            (api_dir / "0090.json").write_text(
+                '{"session_number": "0090", "messages": []}\n',
+                encoding="utf-8",
+            )
+
+            with mock.patch.object(wrap_session, "RESTREAM_DIR", api_dir):
+                self.assertIsNone(wrap_session.load_restream_api_chat("0090"))
+                with redirect_stdout(io.StringIO()) as output:
+                    with self.assertRaises(SystemExit):
+                        wrap_session.require_userscript_inputs("0090", Path("/tmp/0090.toml"), None, None)
+
+        self.assertIn("chat Restream JSON/API", output.getvalue())
+
+    def test_previous_resolved_wrap_toml_reuses_interactive_answers_when_raw_toml_matches(self):
+        previous_state = {
+            "inputs": {
+                "toml": "raw toml",
+                "resolved_toml": {
+                    "puzzle_of_the_day_url": "https://lichess.org/training/zIAIv",
+                    "puzzle_of_the_day_recorded_at": "2026-09-15T11:37:15Z",
+                    "puzzle_of_the_day_event": "puzzle_of_the_day",
+                    "extra": {"streak_attempts": [{"puzzles": []}]},
+                },
+            }
+        }
+
+        resolved = wrap_session.previous_resolved_wrap_toml(previous_state, "raw toml")
+
+        self.assertIsNotNone(resolved)
+        assert resolved is not None
+        self.assertEqual(resolved["puzzle_of_the_day_url"], "https://lichess.org/training/zIAIv")
+        resolved["extra"]["streak_attempts"][0]["puzzles"].append("changed")
+        self.assertEqual(previous_state["inputs"]["resolved_toml"]["extra"]["streak_attempts"][0]["puzzles"], [])
+
+    def test_previous_resolved_wrap_toml_ignores_stale_answers_when_raw_toml_changes(self):
+        previous_state = {
+            "inputs": {
+                "toml": "old raw toml",
+                "resolved_toml": {"puzzle_of_the_day_url": "https://lichess.org/training/zIAIv"},
+            }
+        }
+
+        self.assertIsNone(wrap_session.previous_resolved_wrap_toml(previous_state, "new raw toml"))
+
+    def test_interactive_puzzle_timestamp_is_stored_with_resolved_wrap(self):
+        data = {"date": "2026-09-15", "extra": {"time": "08:30"}}
+        wrap = {}
+
+        with mock.patch.object(wrap_session, "read_metadata", return_value={}):
+            wrap_session.set_daily_puzzle_from_video_timestamp(
+                "0090",
+                data,
+                wrap,
+                "https://lichess.org/training/zIAIv",
+                "7:15",
+            )
+
+        self.assertEqual(
+            wrap[wrap_session.INTERACTIVE_WRAP_KEY]["puzzle_of_the_day_video_timestamp"],
+            "7:15",
+        )
+        self.assertEqual(wrap["puzzle_of_the_day_recorded_at"], "2026-09-15T11:37:15Z")
+
+    def test_interactive_puzzle_timestamp_is_refreshed_from_current_metadata(self):
+        data = {"date": "2026-09-15", "extra": {"time": "08:30"}}
+        wrap = {
+            "puzzle_of_the_day_url": "https://lichess.org/training/zIAIv",
+            "puzzle_of_the_day_recorded_at": "2026-09-15T11:37:15Z",
+            "puzzle_of_the_day_event": "puzzle_of_the_day",
+            wrap_session.INTERACTIVE_WRAP_KEY: {
+                "puzzle_of_the_day_video_timestamp": "7:15",
+            },
+        }
+
+        with mock.patch.object(
+            wrap_session,
+            "read_metadata",
+            return_value={
+                "sessions": {
+                    "0090": {
+                        "release_at": "2026-09-15T11:40:23+00:00",
+                    }
+                }
+            },
+        ):
+            updated = wrap_session.refresh_interactive_wrap_timestamps("0090", data, wrap)
+
+        self.assertEqual(updated, ["puzzle_of_the_day_recorded_at=2026-09-15T11:47:38Z"])
+        self.assertEqual(wrap["puzzle_of_the_day_recorded_at"], "2026-09-15T11:47:38Z")
+
+    def test_private_interactive_wrap_state_is_not_written_to_session_extra(self):
+        data = {"extra": {}}
+        wrap = {
+            "puzzle_of_the_day_url": "https://lichess.org/training/zIAIv",
+            wrap_session.INTERACTIVE_WRAP_KEY: {
+                "puzzle_of_the_day_video_timestamp": "7:15",
+            },
+        }
+
+        wrap_session.apply_wrap_toml("0090", data, wrap)
+
+        self.assertNotIn(wrap_session.INTERACTIVE_WRAP_KEY, data["extra"])
+
+    def test_existing_daily_puzzle_resolution_is_preserved_when_rerunning_stale_toml(self):
+        data = {
+            "extra": {
+                "puzzle_of_the_day_url": "https://lichess.org/training/zIAIv",
+                "puzzle_of_the_day_recorded_at": "2026-09-15T11:47:38Z",
+                "puzzle_of_the_day_event": "puzzle_of_the_day",
+            }
+        }
+        wrap = {
+            "extra": {
+                "streak_attempts": [
+                    {
+                        "solved": "",
+                        "puzzles": ["https://lichess.org/training/zIAIv"],
+                        "note": "attempt in progress",
+                    }
+                ]
+            }
+        }
+
+        carried = wrap_session.carry_forward_existing_daily_puzzle_resolution(data, wrap)
+
+        self.assertEqual(carried, ["https://lichess.org/training/zIAIv"])
+        self.assertEqual(wrap["puzzle_of_the_day_url"], "https://lichess.org/training/zIAIv")
+        self.assertEqual(wrap["puzzle_of_the_day_recorded_at"], "2026-09-15T11:47:38Z")
+        self.assertEqual(wrap["puzzle_of_the_day_event"], "puzzle_of_the_day")
+        self.assertEqual(wrap["extra"]["streak_attempts"][0]["puzzles"], [])
+
     def test_wrap_toml_missing_expected_daily_puzzle_requires_confirmation(self):
         data = {"extra": {"puzzle_of_the_day_url": "", "puzzle_of_the_day_event": "puzzle_of_the_day"}}
         wrap = {"extra": {"practice_sets": []}}

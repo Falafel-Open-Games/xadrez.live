@@ -21,6 +21,7 @@ class DailyMenuStateTest(unittest.TestCase):
         self.addCleanup(self.tmpdir.cleanup)
         self.root = Path(self.tmpdir.name)
         self.content_dir = self.root / "content"
+        self.workflows_dir = self.root / "workflows"
         self.wrap_inbox_dir = self.root / "wrap_inbox"
         self.wrap_sessions_dir = self.root / "wrap_sessions"
         self.transcripts_dir = self.root / "transcripts"
@@ -29,6 +30,7 @@ class DailyMenuStateTest(unittest.TestCase):
         self.local_recording_dir = self.root / "Videos"
         for path in [
             self.content_dir,
+            self.workflows_dir,
             self.wrap_inbox_dir,
             self.wrap_sessions_dir,
             self.transcripts_dir,
@@ -39,6 +41,7 @@ class DailyMenuStateTest(unittest.TestCase):
             path.mkdir()
         self.patches = [
             mock.patch.object(daily_menu, "CONTENT_DIR", self.content_dir),
+            mock.patch.object(daily_menu, "WORKFLOWS_DIR", self.workflows_dir),
             mock.patch.object(daily_menu, "WRAP_INBOX_DIR", self.wrap_inbox_dir),
             mock.patch.object(daily_menu, "WRAP_SESSIONS_DIR", self.wrap_sessions_dir),
             mock.patch.object(daily_menu, "TRANSCRIPTS_DIR", self.transcripts_dir),
@@ -82,6 +85,35 @@ class DailyMenuStateTest(unittest.TestCase):
 
         self.assertEqual(state.status, "ready")
 
+    def test_wrap_session_ready_delegates_details_to_daily_flow(self):
+        self.write_session("0071")
+        (self.wrap_inbox_dir / "0071.toml").write_text("duration = \"1:00\"\n", encoding="utf-8")
+
+        state = self.state_for("wrap-session", "0071")
+
+        self.assertEqual(state.status, "ready")
+        self.assertEqual(state.detail, "daily flow ready")
+
+    def test_wrap_session_continues_existing_daily_flow(self):
+        self.write_session("0071")
+        (self.workflows_dir / "0071.json").write_text(
+            json.dumps({"status": "failed", "current_step": "wrap_session"}) + "\n",
+            encoding="utf-8",
+        )
+
+        state = self.state_for("wrap-session", "0071")
+
+        self.assertEqual(state.status, "ready")
+        self.assertIn("continue is resumable", state.detail)
+
+    def test_wrap_command_launches_daily_flow(self):
+        action = next(action for action in daily_menu.ACTIONS if action.key == "wrap-session")
+
+        self.assertEqual(
+            daily_menu.command_for(action, "0071"),
+            ["python3", "scripts/daily_flow.py", "continue", "0071"],
+        )
+
     def test_running_wrap_state_with_live_pid_is_ongoing_and_not_selectable(self):
         self.write_session("0071")
         (self.wrap_inbox_dir / "0071.toml").write_text("duration = \"1:00\"\n", encoding="utf-8")
@@ -104,7 +136,7 @@ class DailyMenuStateTest(unittest.TestCase):
 
         state = self.state_for("wrap-session", "0071")
 
-        self.assertEqual(state.status, "done")
+        self.assertEqual(state.status, "ready")
         self.assertTrue(state.selectable)
 
     def test_completed_wrap_state_is_done_and_rerunnable(self):
@@ -127,22 +159,11 @@ class DailyMenuStateTest(unittest.TestCase):
 
         state = self.state_for("wrap-session", "0071")
 
-        self.assertEqual(state.status, "done")
+        self.assertEqual(state.status, "ready")
         self.assertTrue(state.selectable)
 
     def test_calibration_is_not_a_separate_menu_action(self):
         self.assertNotIn("calibrate-offset", [action.key for action in daily_menu.ACTIONS])
-
-    def test_wrap_command_prompts_for_calibration_anchor(self):
-        action = next(action for action in daily_menu.ACTIONS if action.key == "wrap-session")
-
-        with mock.patch.object(daily_menu, "prompt", side_effect=["f", "--yes"]):
-            command = daily_menu.command_for(action, "0071")
-
-        self.assertEqual(
-            command,
-            ["just", "wrap-session", "0071", "--calibration-anchor", "first-game", "--yes"],
-        )
 
     def test_realign_blocks_until_faster_whisper_transcript_exists(self):
         self.write_session("0071", 'youtube_video_id = "abc123"\n')

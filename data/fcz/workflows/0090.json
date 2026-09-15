@@ -1,0 +1,56 @@
+{
+  "session": "0090",
+  "workflow": "daily-wrap",
+  "status": "completed",
+  "current_step": "done",
+  "created_at": "2026-09-15T13:54:59.165873+00:00",
+  "updated_at": "2026-09-15T14:21:08.705064+00:00",
+  "inputs": {
+    "wrap_toml": {
+      "path": "/home/fcz/Downloads/0090.toml"
+    },
+    "restream_api_chat": {
+      "path": "/home/fcz/falafel/xadrez.live/data/fcz/restream_chat_replays/0090.json"
+    }
+  },
+  "decisions": {
+    "chat": {
+      "source": "restream_api",
+      "accepted_by_user": true
+    },
+    "calibration": {
+      "anchor": "first-game"
+    },
+    "wrap_session": {
+      "extra_args": []
+    }
+  },
+  "steps": {
+    "inputs": {
+      "status": "done",
+      "updated_at": "2026-09-15T13:54:59.166286+00:00",
+      "detail": "session page and wrap TOML found"
+    },
+    "chat": {
+      "status": "done",
+      "updated_at": "2026-09-15T13:55:07.351585+00:00",
+      "detail": "Restream API fallback accepted"
+    },
+    "wrap_session": {
+      "status": "done",
+      "updated_at": "2026-09-15T14:21:08.704458+00:00",
+      "detail": "completed: just wrap-session 0090 --calibration-anchor first-game --use-restream-api-chat-fallback"
+    },
+    "verify": {
+      "status": "done",
+      "updated_at": "2026-09-15T14:21:08.704758+00:00",
+      "detail": "handled by wrap-session"
+    },
+    "build": {
+      "status": "done",
+      "updated_at": "2026-09-15T14:21:08.704912+00:00",
+      "detail": "handled by wrap-session"
+    }
+  },
+  "completed_at": "2026-09-15T14:21:08.705058+00:00"
+}

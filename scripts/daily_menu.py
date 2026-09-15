@@ -19,6 +19,7 @@ STATE_DIR = Path(os.environ.get("XDG_STATE_HOME", Path.home() / ".local" / "stat
 CACHE_PATH = STATE_DIR / "daily_menu.json"
 CONTENT_DIR = ROOT / "content" / "fcz"
 DATA_DIR = ROOT / "data" / "fcz"
+WORKFLOWS_DIR = DATA_DIR / "workflows"
 WRAP_INBOX_DIR = DATA_DIR / "wrap_inbox"
 WRAP_SESSIONS_DIR = DATA_DIR / "wrap_sessions"
 TRANSCRIPTS_DIR = DATA_DIR / "transcripts"
@@ -174,16 +175,23 @@ def has_wrap_toml(session: str) -> bool:
     return has_wrap_input(session, ".toml")
 
 
-def has_wrap_chat(session: str) -> bool:
-    return has_wrap_input(session, "-chat.json")
-
-
 def wrap_state_path(session: str) -> Path:
     return WRAP_SESSIONS_DIR / f"{session}.json"
 
 
 def load_wrap_state(session: str) -> dict:
     path = wrap_state_path(session)
+    if not path.exists():
+        return {}
+    try:
+        data = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return {}
+    return data if isinstance(data, dict) else {}
+
+
+def load_workflow_state(session: str) -> dict:
+    path = WORKFLOWS_DIR / f"{session}.json"
     if not path.exists():
         return {}
     try:
@@ -239,23 +247,28 @@ def action_state(action: Action, session: str) -> ActionState:
         return ActionState(action, "blocked", f"missing content/fcz/{session}.md")
 
     if action.key == "wrap-session":
+        workflow_state = load_workflow_state(session)
+        workflow_status = str(workflow_state.get("status") or "").strip().lower()
+        if workflow_status in {"in_progress", "failed"}:
+            current_step = str(workflow_state.get("current_step") or "unknown")
+            return ActionState(action, "ready", f"daily flow {workflow_status} at {current_step}; continue is resumable")
+        if workflow_status == "completed":
+            return ActionState(action, "done", "daily flow completed; rerun is allowed")
         if not has_wrap_toml(session):
             return ActionState(action, "blocked", f"missing data/fcz/wrap_inbox/{session}.toml or ~/Downloads/{session}.toml")
-        if not has_wrap_chat(session):
-            return ActionState(action, "blocked", f"missing data/fcz/wrap_inbox/{session}-chat.json or ~/Downloads/{session}-chat.json")
         wrap_state = load_wrap_state(session)
         status = str(wrap_state.get("status") or "").strip().lower()
         if status == "running":
             if wrap_pid_is_alive(wrap_state):
                 return ActionState(action, "ongoing", "wrapup process is running; wait for it to finish")
-            return ActionState(action, "done", "wrap state says running but no live process was found; rerun is allowed")
+            return ActionState(action, "ready", "legacy wrap state says running but no live process was found; daily flow can continue")
         if status == "completed":
             return ActionState(action, "done", "wrap state completed; rerun is allowed")
         if status == "interrupted":
-            return ActionState(action, "done", "previous wrapup was interrupted; rerun is allowed")
+            return ActionState(action, "ready", "previous wrapup was interrupted; daily flow can continue")
         if wrap_state:
-            return ActionState(action, "done", "wrap state exists without completion marker; rerun is allowed")
-        return ActionState(action, "ready", "userscript TOML/chat found")
+            return ActionState(action, "ready", "legacy wrap state exists; daily flow can continue")
+        return ActionState(action, "ready", "daily flow ready")
 
     if action.key == "faster-whisper":
         if has_faster_whisper_transcript(session):
@@ -371,17 +384,7 @@ def command_for(action: Action, session: str) -> list[str] | None:
         return ["just", "pre-wrap", recent]
 
     if action.key == "wrap-session":
-        anchor = prompt("Ancora da calibracao: p=puzzle-of-the-day, f=first-game", "p").strip().lower()
-        anchor = {
-            "f": "first-game",
-            "p": "puzzle-of-the-day",
-        }.get(anchor, anchor)
-        extra = prompt("Argumentos extras", "")
-        command = ["just", "wrap-session", session]
-        if anchor:
-            command.extend(["--calibration-anchor", anchor])
-        command.extend(extra.split())
-        return command
+        return ["python3", "scripts/daily_flow.py", "continue", session]
 
     if action.key == "faster-whisper":
         if not confirm("Faster Whisper e lento e pode levar dezenas de minutos. Iniciar agora?"):

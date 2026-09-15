@@ -130,7 +130,7 @@ def youtube_supporter_names(extra: dict[str, Any]) -> list[str]:
     return names
 
 
-def session_youtube_ids(min_session: int) -> list[dict[str, Any]]:
+def session_youtube_ids(min_session: int, include_unended: bool = False) -> list[dict[str, Any]]:
     sessions: list[dict[str, Any]] = []
     for path in sorted(CONTENT_DIR.glob("[0-9][0-9][0-9][0-9].md")):
         if int(path.stem) < min_session:
@@ -145,7 +145,7 @@ def session_youtube_ids(min_session: int) -> list[dict[str, Any]]:
         status = str(extra.get("status") or "").strip().lower()
         status_tone = str(extra.get("status_tone") or "").strip().lower()
         is_ended = status == "encerrada" or status_tone in {"ended", "completed"}
-        if youtube_id and youtube_id != "REPLACE_WITH_YOUTUBE_VIDEO_ID" and is_ended:
+        if youtube_id and youtube_id != "REPLACE_WITH_YOUTUBE_VIDEO_ID" and (is_ended or include_unended):
             sessions.append(
                 {
                     "session_number": path.stem,
@@ -530,7 +530,11 @@ def import_replays(
     twitch_data_dir: Path,
     youtube_match_window: int,
 ) -> int:
-    sessions = selected_sessions(session_youtube_ids(min_session), selected_numbers, latest)
+    sessions = selected_sessions(
+        session_youtube_ids(min_session, include_unended=selected_numbers is not None),
+        selected_numbers,
+        latest,
+    )
     events = fetch_events_history(token, cache_dir, force, history_limit)
     events_by_youtube_id = index_events_by_youtube_id(events)
     output_dir.mkdir(parents=True, exist_ok=True)
