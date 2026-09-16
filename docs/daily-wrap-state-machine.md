@@ -84,3 +84,11 @@ even if the original export files are no longer present.
 
 The analysis/calibration checkpoint now behaves the same way, so later retries
 do not repeat Lichess analysis, offset calibration, or timeline regeneration.
+
+The YouTube finishing checkpoint now behaves the same way, so completed
+editorial choices, chapter publication, thumbnail work, and final verification
+are not repeated on a later retry.
+
+The next-session and build checkpoints are also durable. A completed schedule,
+an explicit decision not to schedule, and a completed build are all reused on
+resume; `--restart` is required to intentionally revisit them.

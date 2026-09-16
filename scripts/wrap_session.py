@@ -1344,6 +1344,9 @@ def main() -> int:
     if isinstance(previous_phases, dict):
         state[WRAP_PHASES_KEY] = copy.deepcopy(previous_phases)
     skip_analysis = wrap_phase_done(previous_state, "analysis")
+    skip_youtube = wrap_phase_done(previous_state, "youtube")
+    skip_next_session = wrap_phase_done(previous_state, "next_session")
+    skip_build_phase = wrap_phase_done(previous_state, "build")
     cached_next = previous_state.get(NEXT_SESSION_CACHE_KEY)
     if isinstance(cached_next, dict):
         state[NEXT_SESSION_CACHE_KEY] = cached_next
@@ -1464,34 +1467,43 @@ def main() -> int:
                 if not args.dry_run:
                     mark_wrap_phase(state, "analysis", calibrated=calibrated)
                     save_json(WRAP_DIR / f"{session}.json", state)
-            if not args.skip_youtube_finish:
-                recipe = "youtube-finish-session-skip-title-no-build" if args.skip_youtube_title else "youtube-finish-session-no-build"
-                run(["just", recipe, session], args.dry_run)
-                editorial_updates = apply_selected_editorial_choices_to_current_session(session)
-                if editorial_updates:
-                    path, data, body = read_session(session)
-                    print(f"{session}: applied selected editorial choices to page ({', '.join(editorial_updates)})")
+            if skip_youtube:
+                print(f"{session}: reusing completed YouTube finishing phase")
             else:
-                run(["just", "verify-session", session], args.dry_run)
-            if not args.dry_run:
-                mark_wrap_phase(state, "youtube", skipped=args.skip_youtube_finish)
-                save_json(WRAP_DIR / f"{session}.json", state)
-            next_session_command = schedule_next_session(args, session, state)
-            if next_session_command:
-                command, next_session, next_time = next_session_command
-                save_json(WRAP_DIR / f"{session}.json", state)
-                run(command, args.dry_run)
-                if not args.skip_next_youtube_latency:
-                    run(["just", "youtube-live-latency", next_session], args.dry_run)
-                if not args.skip_next_pre_thumb:
-                    run(["just", "pre-thumb", next_session, next_time], args.dry_run)
-            if not args.dry_run:
-                mark_wrap_phase(state, "next_session", scheduled=bool(next_session_command))
-                save_json(WRAP_DIR / f"{session}.json", state)
-            if not args.skip_build:
-                run(["just", "build"], args.dry_run)
-            if not args.dry_run:
-                mark_wrap_phase(state, "build", skipped=args.skip_build)
+                if not args.skip_youtube_finish:
+                    recipe = "youtube-finish-session-skip-title-no-build" if args.skip_youtube_title else "youtube-finish-session-no-build"
+                    run(["just", recipe, session], args.dry_run)
+                    editorial_updates = apply_selected_editorial_choices_to_current_session(session)
+                    if editorial_updates:
+                        path, data, body = read_session(session)
+                        print(f"{session}: applied selected editorial choices to page ({', '.join(editorial_updates)})")
+                else:
+                    run(["just", "verify-session", session], args.dry_run)
+                if not args.dry_run:
+                    mark_wrap_phase(state, "youtube", skipped=args.skip_youtube_finish)
+                    save_json(WRAP_DIR / f"{session}.json", state)
+            if skip_next_session:
+                print(f"{session}: reusing completed next-session decision")
+            else:
+                next_session_command = schedule_next_session(args, session, state)
+                if next_session_command:
+                    command, next_session, next_time = next_session_command
+                    save_json(WRAP_DIR / f"{session}.json", state)
+                    run(command, args.dry_run)
+                    if not args.skip_next_youtube_latency:
+                        run(["just", "youtube-live-latency", next_session], args.dry_run)
+                    if not args.skip_next_pre_thumb:
+                        run(["just", "pre-thumb", next_session, next_time], args.dry_run)
+                if not args.dry_run:
+                    mark_wrap_phase(state, "next_session", scheduled=bool(next_session_command))
+                    save_json(WRAP_DIR / f"{session}.json", state)
+            if skip_build_phase:
+                print(f"{session}: reusing completed build phase")
+            else:
+                if not args.skip_build:
+                    run(["just", "build"], args.dry_run)
+                if not args.dry_run:
+                    mark_wrap_phase(state, "build", skipped=args.skip_build)
             state["status"] = "completed"
             state["completed_at"] = datetime.now(timezone.utc).isoformat()
             state["updated_at"] = state["completed_at"]
