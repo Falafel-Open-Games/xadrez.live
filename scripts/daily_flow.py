@@ -19,9 +19,10 @@ DATA_DIR = ROOT / "data" / "fcz"
 WORKFLOWS_DIR = DATA_DIR / "workflows"
 WRAP_INBOX_DIR = DATA_DIR / "wrap_inbox"
 RESTREAM_CHAT_REPLAYS_DIR = DATA_DIR / "restream_chat_replays"
+YOUTUBE_METADATA_PATH = DATA_DIR / "youtube_video_metadata.toml"
 DOWNLOADS_DIR = Path.home() / "Downloads"
 
-STEP_ORDER = ["inputs", "chat", "wrap_session", "verify", "build"]
+STEP_ORDER = ["inputs", "chat", "youtube_metadata", "wrap_session", "verify", "build"]
 StepStatus = Literal["pending", "running", "done", "blocked", "failed", "skipped"]
 
 
@@ -34,6 +35,7 @@ class Step:
 STEPS = {
     "inputs": Step("inputs", "Inputs"),
     "chat": Step("chat", "Chat"),
+    "youtube_metadata": Step("youtube_metadata", "YouTube metadata"),
     "wrap_session": Step("wrap_session", "Wrapup"),
     "verify": Step("verify", "Verify"),
     "build": Step("build", "Build"),
@@ -303,6 +305,70 @@ def import_restream_chat(state: dict[str, Any]) -> bool:
     return True
 
 
+def youtube_metadata_entry(session: str) -> dict[str, Any]:
+    if not YOUTUBE_METADATA_PATH.exists():
+        return {}
+    try:
+        data = tomllib.loads(YOUTUBE_METADATA_PATH.read_text(encoding="utf-8"))
+    except (OSError, tomllib.TOMLDecodeError):
+        return {}
+    sessions = data.get("sessions") if isinstance(data, dict) else None
+    entry = sessions.get(session) if isinstance(sessions, dict) else None
+    return entry if isinstance(entry, dict) else {}
+
+
+def session_youtube_id(session: str) -> str:
+    data = read_front_matter(session)
+    extra = data.get("extra") if isinstance(data, dict) else None
+    return str(extra.get("youtube_video_id") or "").strip() if isinstance(extra, dict) else ""
+
+
+def resolve_youtube_metadata(state: dict[str, Any]) -> bool:
+    session = str(state["session"])
+    command = ["python3", "scripts/update_youtube_video_metadata.py", session]
+    result = run_command(state, "youtube_metadata", command)
+    if result != 0:
+        return False
+
+    entry = youtube_metadata_entry(session)
+    try:
+        release_timestamp = int(entry.get("release_timestamp") or 0)
+        duration_seconds = int(entry.get("duration_seconds") or 0)
+    except (TypeError, ValueError):
+        release_timestamp = 0
+        duration_seconds = 0
+    metadata_video_id = str(entry.get("youtube_video_id") or "").strip()
+    expected_video_id = session_youtube_id(session)
+    if (
+        release_timestamp <= 0
+        or duration_seconds <= 0
+        or not metadata_video_id
+        or (expected_video_id and metadata_video_id != expected_video_id)
+    ):
+        detail = (
+            f"YouTube metadata unavailable for {session}; retrying is safe "
+            "and required before timeline-dependent work"
+        )
+        set_step(
+            state,
+            "youtube_metadata",
+            "blocked",
+            detail,
+            retryable=True,
+            release_timestamp=release_timestamp,
+            duration_seconds=duration_seconds,
+        )
+        print(f"{session}: {detail}")
+        return False
+
+    mark_done(
+        state,
+        "youtube_metadata",
+        f"release timestamp and duration found ({entry.get('duration') or duration_seconds}s)",
+    )
+    return True
+
+
 def resolve_chat(state: dict[str, Any]) -> bool:
     session = str(state["session"])
     artifacts = refresh_artifact_inputs(state)
@@ -410,6 +476,8 @@ def continue_workflow(session: str, restart: bool) -> int:
     if not resolve_inputs(state):
         return 1
     if not resolve_chat(state):
+        return 1
+    if not resolve_youtube_metadata(state):
         return 1
     command = wrap_command(state)
     result = run_command(state, "wrap_session", command)

@@ -42,6 +42,7 @@ class DailyFlowTest(unittest.TestCase):
             mock.patch.object(daily_flow, "WORKFLOWS_DIR", self.workflows_dir),
             mock.patch.object(daily_flow, "WRAP_INBOX_DIR", self.wrap_inbox_dir),
             mock.patch.object(daily_flow, "RESTREAM_CHAT_REPLAYS_DIR", self.restream_dir),
+            mock.patch.object(daily_flow, "YOUTUBE_METADATA_PATH", self.data_dir / "youtube_video_metadata.toml"),
             mock.patch.object(daily_flow, "DOWNLOADS_DIR", self.downloads_dir),
         ]
         for patch in self.patches:
@@ -67,6 +68,14 @@ class DailyFlowTest(unittest.TestCase):
     def write_restream_chat(self, session: str) -> None:
         (self.restream_dir / f"{session}.json").write_text(
             '{"messages": [{"platform": "YouTube", "author": "Person 1", "text": "bom dia"}]}\n',
+            encoding="utf-8",
+        )
+
+    def write_youtube_metadata(self, session: str, valid: bool = True) -> None:
+        timestamp = 1789550000 if valid else 0
+        duration = 3600 if valid else 0
+        (self.data_dir / "youtube_video_metadata.toml").write_text(
+            f'[sessions."{session}"]\nyoutube_video_id = "abc123def45"\nrelease_timestamp = {timestamp}\nduration_seconds = {duration}\nduration = "1:00:00"\n',
             encoding="utf-8",
         )
 
@@ -126,6 +135,32 @@ class DailyFlowTest(unittest.TestCase):
                 "--skip-build",
             ],
         )
+
+    def test_resolve_youtube_metadata_marks_valid_metadata_done(self):
+        self.write_youtube_metadata("0090")
+        state = daily_flow.default_state("0090")
+
+        with mock.patch.object(daily_flow, "run_command", return_value=0) as run_command:
+            self.assertTrue(daily_flow.resolve_youtube_metadata(state))
+
+        run_command.assert_called_once_with(
+            state,
+            "youtube_metadata",
+            ["python3", "scripts/update_youtube_video_metadata.py", "0090"],
+        )
+        self.assertEqual(state["steps"]["youtube_metadata"]["status"], "done")
+
+    def test_resolve_youtube_metadata_blocks_without_release_timestamp(self):
+        self.write_youtube_metadata("0090", valid=False)
+        state = daily_flow.default_state("0090")
+
+        with mock.patch.object(daily_flow, "run_command", return_value=0):
+            with redirect_stdout(io.StringIO()):
+                self.assertFalse(daily_flow.resolve_youtube_metadata(state))
+
+        step = state["steps"]["youtube_metadata"]
+        self.assertEqual(step["status"], "blocked")
+        self.assertTrue(step["retryable"])
 
     def test_run_command_persists_failed_step(self):
         state = daily_flow.default_state("0090")

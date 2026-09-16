@@ -47,9 +47,10 @@ The first implementation wraps existing tools instead of replacing all of them:
 
 1. `inputs`
 2. `chat`
-3. `wrap_session`
-4. `verify`
-5. `build`
+3. `youtube_metadata`
+4. `wrap_session`
+5. `verify`
+6. `build`
 
 ## External Prerequisites
 
