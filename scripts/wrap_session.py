@@ -1343,6 +1343,7 @@ def main() -> int:
     previous_phases = previous_state.get(WRAP_PHASES_KEY)
     if isinstance(previous_phases, dict):
         state[WRAP_PHASES_KEY] = copy.deepcopy(previous_phases)
+    skip_analysis = wrap_phase_done(previous_state, "analysis")
     cached_next = previous_state.get(NEXT_SESSION_CACHE_KEY)
     if isinstance(cached_next, dict):
         state[NEXT_SESSION_CACHE_KEY] = cached_next
@@ -1434,32 +1435,35 @@ def main() -> int:
                     run(["python3", "scripts/merge_chat_replays.py", session], args.dry_run)
                 mark_wrap_phase(state, "metadata", inputs=state.get("inputs", {}))
                 save_json(WRAP_DIR / f"{session}.json", state)
-            capivaradas_updated_before_calibration = False
-            if needs_pre_calibration_capivaradas(
-                data,
-                args.calibration_anchor,
-                args.skip_calibration,
-                args.skip_capivaradas,
-            ):
-                run(["just", "update-session-capivaradas-data", session], args.dry_run)
-                capivaradas_updated_before_calibration = True
-                path, data, body = read_session(session)
-            calibrated = run_calibration(
-                session,
-                data,
-                args.calibration_anchor,
-                args.force_calibration,
-                args.skip_calibration,
-                args.dry_run,
-            )
-            if calibrated:
-                path, data, body = read_session(session)
-            if not args.skip_capivaradas:
-                if calibrated or not capivaradas_updated_before_calibration:
+            if skip_analysis:
+                print(f"{session}: reusing completed analysis/calibration phase")
+            else:
+                capivaradas_updated_before_calibration = False
+                if needs_pre_calibration_capivaradas(
+                    data,
+                    args.calibration_anchor,
+                    args.skip_calibration,
+                    args.skip_capivaradas,
+                ):
                     run(["just", "update-session-capivaradas-data", session], args.dry_run)
-            if not args.dry_run:
-                mark_wrap_phase(state, "analysis", calibrated=calibrated)
-                save_json(WRAP_DIR / f"{session}.json", state)
+                    capivaradas_updated_before_calibration = True
+                    path, data, body = read_session(session)
+                calibrated = run_calibration(
+                    session,
+                    data,
+                    args.calibration_anchor,
+                    args.force_calibration,
+                    args.skip_calibration,
+                    args.dry_run,
+                )
+                if calibrated:
+                    path, data, body = read_session(session)
+                if not args.skip_capivaradas:
+                    if calibrated or not capivaradas_updated_before_calibration:
+                        run(["just", "update-session-capivaradas-data", session], args.dry_run)
+                if not args.dry_run:
+                    mark_wrap_phase(state, "analysis", calibrated=calibrated)
+                    save_json(WRAP_DIR / f"{session}.json", state)
             if not args.skip_youtube_finish:
                 recipe = "youtube-finish-session-skip-title-no-build" if args.skip_youtube_title else "youtube-finish-session-no-build"
                 run(["just", recipe, session], args.dry_run)

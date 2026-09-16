@@ -81,3 +81,6 @@ The legacy wrapper now records coarse phase checkpoints in its existing
 an execution ledger. The metadata/chat checkpoint is now authoritative: when
 it is complete, a resumed wrap reuses the already-applied page and chat replay
 even if the original export files are no longer present.
+
+The analysis/calibration checkpoint now behaves the same way, so later retries
+do not repeat Lichess analysis, offset calibration, or timeline regeneration.
