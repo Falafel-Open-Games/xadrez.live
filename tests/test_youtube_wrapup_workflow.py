@@ -57,6 +57,17 @@ class GoogleTokenErrorTest(unittest.TestCase):
         self.assertEqual(stderr.getvalue(), "error: token expired\n")
 
 
+class WrapPhaseStateTest(unittest.TestCase):
+    def test_wrap_phase_done_only_accepts_completed_phase(self):
+        state = {}
+        self.assertFalse(wrap_session.wrap_phase_done(state, "metadata"))
+
+        wrap_session.mark_wrap_phase(state, "metadata", inputs={"toml": "resolved"})
+
+        self.assertTrue(wrap_session.wrap_phase_done(state, "metadata"))
+        self.assertEqual(state[wrap_session.WRAP_PHASES_KEY]["metadata"]["inputs"], {"toml": "resolved"})
+
+
 class YouTubeTitlePublishStateTest(unittest.TestCase):
     def setUp(self):
         self.tmpdir = tempfile.TemporaryDirectory()

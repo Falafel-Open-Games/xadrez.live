@@ -75,3 +75,9 @@ daily flow.
 Later refactors can split `wrap_session` into finer steps, such as
 `resolve_toml`, `apply_page`, `merge_chat`, `calibrate`, `timeline`, and
 `youtube_finish`.
+
+The legacy wrapper now records coarse phase checkpoints in its existing
+`data/fcz/wrap_sessions/NNNN.json` state under `phases`. These checkpoints are
+an execution ledger. The metadata/chat checkpoint is now authoritative: when
+it is complete, a resumed wrap reuses the already-applied page and chat replay
+even if the original export files are no longer present.

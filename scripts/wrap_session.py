@@ -35,6 +35,7 @@ LICHESS_USERNAME = "fcz"
 ARRAY_REPLACE_KEYS = {"streak_attempts", "storm_attempts", "practice_sets", "games", "supporters"}
 TIMED_PUZZLE_ATTEMPT_KEYS = {"streak_attempts", "storm_attempts"}
 INTERACTIVE_WRAP_KEY = "_wrap_session_interactive"
+WRAP_PHASES_KEY = "phases"
 SELF_SUPPORTERS = {
     ("youtube", "fczuardi"),
     ("twitch", "sedentarismo"),
@@ -978,6 +979,23 @@ def json_safe(value: Any) -> Any:
     return value
 
 
+def mark_wrap_phase(state: dict[str, Any], phase: str, status: str = "done", **extra: Any) -> None:
+    phases = state.setdefault(WRAP_PHASES_KEY, {})
+    if not isinstance(phases, dict):
+        state[WRAP_PHASES_KEY] = phases = {}
+    item = {"status": status, "updated_at": datetime.now(timezone.utc).isoformat()}
+    item.update(extra)
+    phases[phase] = item
+
+
+def wrap_phase_done(state: dict[str, Any], phase: str) -> bool:
+    phases = state.get(WRAP_PHASES_KEY)
+    if not isinstance(phases, dict):
+        return False
+    item = phases.get(phase)
+    return isinstance(item, dict) and item.get("status") == "done"
+
+
 def previous_resolved_wrap_toml(previous_state: dict[str, Any], raw_toml: str) -> dict[str, Any] | None:
     inputs = previous_state.get("inputs")
     if not isinstance(inputs, dict) or inputs.get("toml") != raw_toml:
@@ -1280,6 +1298,8 @@ def confirm_restream_api_chat_fallback(session: str, path: Path, assume_yes: boo
 def main() -> int:
     args = parse_args()
     session = args.session.zfill(4)
+    previous_state = load_json(WRAP_DIR / f"{session}.json")
+    skip_metadata = wrap_phase_done(previous_state, "metadata")
     toml_file = (
         args.toml_file
         or existing_input([INBOX_DIR / f"{session}.toml"])
@@ -1295,38 +1315,43 @@ def main() -> int:
         )
     )
     restream_api_chat = None if chat_json_file else load_restream_api_chat(session)
-    if not args.allow_missing_userscript_inputs:
+    if not args.allow_missing_userscript_inputs and not skip_metadata:
         require_userscript_inputs(
             session,
             toml_file,
             chat_json_file,
             restream_api_chat[0] if restream_api_chat else None,
         )
-    if chat_json_file is None and restream_api_chat is not None:
+    if chat_json_file is None and restream_api_chat is not None and not skip_metadata:
         confirm_restream_api_chat_fallback(
             session,
             restream_api_chat[0],
             args.yes or args.use_restream_api_chat_fallback,
         )
     path, data, body = read_session(session)
-    previous_state = load_json(WRAP_DIR / f"{session}.json")
     state: dict[str, Any] = {
         "session": session,
         "pid": os.getpid(),
         "status": "running",
         "started_at": datetime.now(timezone.utc).isoformat(),
         "updated_at": datetime.now(timezone.utc).isoformat(),
-        "inputs": {},
+        "inputs": copy.deepcopy(previous_state.get("inputs", {}))
+        if isinstance(previous_state.get("inputs"), dict)
+        else {},
+        WRAP_PHASES_KEY: {},
     }
+    previous_phases = previous_state.get(WRAP_PHASES_KEY)
+    if isinstance(previous_phases, dict):
+        state[WRAP_PHASES_KEY] = copy.deepcopy(previous_phases)
     cached_next = previous_state.get(NEXT_SESSION_CACHE_KEY)
     if isinstance(cached_next, dict):
         state[NEXT_SESSION_CACHE_KEY] = cached_next
 
     try:
-        if not args.dry_run:
+        if not args.dry_run and not skip_metadata:
             refresh_automatic_stat_sources(session, args.dry_run)
 
-        if toml_file:
+        if toml_file and not skip_metadata:
             raw_toml = toml_file.read_text(encoding="utf-8")
             wrap_toml = previous_resolved_wrap_toml(previous_state, raw_toml)
             if wrap_toml is None:
@@ -1352,11 +1377,13 @@ def main() -> int:
                 save_json(WRAP_DIR / f"{session}.json", state)
             action = "would apply" if args.dry_run else "applied"
             print(f"{session}: {action} TOML to {path}")
+        elif skip_metadata:
+            print(f"{session}: reusing completed metadata/chat phase")
         else:
             print(f"{session}: no TOML input found")
 
         should_merge_chat = False
-        if chat_json_file:
+        if not skip_metadata and chat_json_file:
             raw_chat_text = chat_json_file.read_text(encoding="utf-8")
             raw_chat = json.loads(raw_chat_text)
             state["inputs"]["chat_json_file"] = str(chat_json_file)
@@ -1372,7 +1399,7 @@ def main() -> int:
             print(f"{session}: imported {replay['message_count']} Restream chat message(s)")
             print(f"{session}: added {added_supporters} supporter(s) from chat")
             should_merge_chat = True
-        elif restream_api_chat:
+        elif not skip_metadata and restream_api_chat:
             restream_api_chat_file, replay = restream_api_chat
             state["inputs"]["restream_api_chat_file"] = str(restream_api_chat_file)
             state["inputs"]["restream_api_chat"] = replay
@@ -1388,22 +1415,25 @@ def main() -> int:
             )
             print(f"{session}: added {added_supporters} supporter(s) from known chat authors")
             should_merge_chat = True
-        else:
+        elif not skip_metadata:
             print(f"{session}: no Restream chat input found")
 
         if not args.dry_run:
-            save_json(WRAP_DIR / f"{session}.json", state)
-            updated_stats = auto_fill_post_stats(session, data)
-            extra = data.get("extra") if isinstance(data.get("extra"), dict) else {}
-            cleaned_entries = clean_empty_generated_entries(extra)
-            if updated_stats:
-                write_session(path, data, body)
-                print(f"{session}: auto-filled post stats ({', '.join(updated_stats)})")
-            elif cleaned_entries:
-                write_session(path, data, body)
-                print(f"{session}: removed empty generated entries")
-            if should_merge_chat:
-                run(["python3", "scripts/merge_chat_replays.py", session], args.dry_run)
+            if not skip_metadata:
+                save_json(WRAP_DIR / f"{session}.json", state)
+                updated_stats = auto_fill_post_stats(session, data)
+                extra = data.get("extra") if isinstance(data.get("extra"), dict) else {}
+                cleaned_entries = clean_empty_generated_entries(extra)
+                if updated_stats:
+                    write_session(path, data, body)
+                    print(f"{session}: auto-filled post stats ({', '.join(updated_stats)})")
+                elif cleaned_entries:
+                    write_session(path, data, body)
+                    print(f"{session}: removed empty generated entries")
+                if should_merge_chat:
+                    run(["python3", "scripts/merge_chat_replays.py", session], args.dry_run)
+                mark_wrap_phase(state, "metadata", inputs=state.get("inputs", {}))
+                save_json(WRAP_DIR / f"{session}.json", state)
             capivaradas_updated_before_calibration = False
             if needs_pre_calibration_capivaradas(
                 data,
@@ -1427,6 +1457,9 @@ def main() -> int:
             if not args.skip_capivaradas:
                 if calibrated or not capivaradas_updated_before_calibration:
                     run(["just", "update-session-capivaradas-data", session], args.dry_run)
+            if not args.dry_run:
+                mark_wrap_phase(state, "analysis", calibrated=calibrated)
+                save_json(WRAP_DIR / f"{session}.json", state)
             if not args.skip_youtube_finish:
                 recipe = "youtube-finish-session-skip-title-no-build" if args.skip_youtube_title else "youtube-finish-session-no-build"
                 run(["just", recipe, session], args.dry_run)
@@ -1436,6 +1469,9 @@ def main() -> int:
                     print(f"{session}: applied selected editorial choices to page ({', '.join(editorial_updates)})")
             else:
                 run(["just", "verify-session", session], args.dry_run)
+            if not args.dry_run:
+                mark_wrap_phase(state, "youtube", skipped=args.skip_youtube_finish)
+                save_json(WRAP_DIR / f"{session}.json", state)
             next_session_command = schedule_next_session(args, session, state)
             if next_session_command:
                 command, next_session, next_time = next_session_command
@@ -1445,8 +1481,13 @@ def main() -> int:
                     run(["just", "youtube-live-latency", next_session], args.dry_run)
                 if not args.skip_next_pre_thumb:
                     run(["just", "pre-thumb", next_session, next_time], args.dry_run)
+            if not args.dry_run:
+                mark_wrap_phase(state, "next_session", scheduled=bool(next_session_command))
+                save_json(WRAP_DIR / f"{session}.json", state)
             if not args.skip_build:
                 run(["just", "build"], args.dry_run)
+            if not args.dry_run:
+                mark_wrap_phase(state, "build", skipped=args.skip_build)
             state["status"] = "completed"
             state["completed_at"] = datetime.now(timezone.utc).isoformat()
             state["updated_at"] = state["completed_at"]
