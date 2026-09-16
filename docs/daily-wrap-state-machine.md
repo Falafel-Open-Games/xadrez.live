@@ -92,3 +92,8 @@ are not repeated on a later retry.
 The next-session and build checkpoints are also durable. A completed schedule,
 an explicit decision not to schedule, and a completed build are all reused on
 resume; `--restart` is required to intentionally revisit them.
+
+YouTube finishing is additionally tracked by substep under its phase: initial
+verification, summary, title, hook, thumbnail bullets, chapters, thumbnail,
+and published-thumbnail verification. A failure in one of these commands can
+resume at that substep instead of replaying earlier interactive choices.

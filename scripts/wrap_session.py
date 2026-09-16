@@ -1031,6 +1031,80 @@ def run(command: list[str], dry_run: bool) -> None:
         fail(f"command failed with exit code {error.returncode}: {' '.join(command)}")
 
 
+def youtube_finish_substeps(session: str, skip_title: bool, skip_finish: bool) -> list[tuple[str, list[str]]]:
+    steps = [("verify", ["just", "verify-session", session])]
+    if skip_finish:
+        return steps
+    steps.extend(
+        [
+            ("summary", ["just", "page-summary-choose", session]),
+            ("title", ["just", "youtube-title-choose", session]),
+            ("hook", ["just", "youtube-hook-choose", session]),
+            ("thumbnail_bullets", ["just", "thumbnail-bullets-choose", session]),
+            ("chapters", ["just", "youtube-chapters-write-confirm", session]),
+            ("thumbnail", ["just", "youtube-thumbnail", session]),
+            ("verify_published_thumbnail", ["just", "verify-session", session, "--require-published-thumbnail"]),
+        ]
+    )
+    if skip_title:
+        steps = [step for step in steps if step[0] != "title"]
+    return steps
+
+
+def youtube_substep_done(state: dict[str, Any], key: str) -> bool:
+    phases = state.get(WRAP_PHASES_KEY)
+    if not isinstance(phases, dict):
+        return False
+    youtube = phases.get("youtube")
+    if not isinstance(youtube, dict):
+        return False
+    steps = youtube.get("steps")
+    if not isinstance(steps, dict):
+        return False
+    item = steps.get(key)
+    return isinstance(item, dict) and item.get("status") == "done"
+
+
+def mark_youtube_substep(state: dict[str, Any], key: str, command: list[str]) -> None:
+    phases = state.setdefault(WRAP_PHASES_KEY, {})
+    if not isinstance(phases, dict):
+        state[WRAP_PHASES_KEY] = phases = {}
+    youtube = phases.setdefault("youtube", {})
+    if not isinstance(youtube, dict):
+        phases["youtube"] = youtube = {}
+    steps = youtube.setdefault("steps", {})
+    if not isinstance(steps, dict):
+        youtube["steps"] = steps = {}
+    steps[key] = {
+        "status": "done",
+        "command": command,
+        "updated_at": datetime.now(timezone.utc).isoformat(),
+    }
+
+
+def run_youtube_finish_substeps(
+    session: str,
+    args: argparse.Namespace,
+    state: dict[str, Any],
+) -> None:
+    for key, command in youtube_finish_substeps(
+        session,
+        args.skip_youtube_title,
+        args.skip_youtube_finish,
+    ):
+        if youtube_substep_done(state, key):
+            print(f"{session}: reusing completed YouTube substep {key}")
+            continue
+        run(command, args.dry_run)
+        if key == "thumbnail":
+            editorial_updates = apply_selected_editorial_choices_to_current_session(session)
+            if editorial_updates:
+                print(f"{session}: applied selected editorial choices to page ({', '.join(editorial_updates)})")
+        if not args.dry_run:
+            mark_youtube_substep(state, key, command)
+            save_json(WRAP_DIR / f"{session}.json", state)
+
+
 def has_configured_lichess_video_offset(data: dict[str, Any]) -> bool:
     extra = data.get("extra")
     return isinstance(extra, dict) and "lichess_video_offset_seconds" in extra
@@ -1470,15 +1544,7 @@ def main() -> int:
             if skip_youtube:
                 print(f"{session}: reusing completed YouTube finishing phase")
             else:
-                if not args.skip_youtube_finish:
-                    recipe = "youtube-finish-session-skip-title-no-build" if args.skip_youtube_title else "youtube-finish-session-no-build"
-                    run(["just", recipe, session], args.dry_run)
-                    editorial_updates = apply_selected_editorial_choices_to_current_session(session)
-                    if editorial_updates:
-                        path, data, body = read_session(session)
-                        print(f"{session}: applied selected editorial choices to page ({', '.join(editorial_updates)})")
-                else:
-                    run(["just", "verify-session", session], args.dry_run)
+                run_youtube_finish_substeps(session, args, state)
                 if not args.dry_run:
                     mark_wrap_phase(state, "youtube", skipped=args.skip_youtube_finish)
                     save_json(WRAP_DIR / f"{session}.json", state)

@@ -67,6 +67,66 @@ class WrapPhaseStateTest(unittest.TestCase):
         self.assertTrue(wrap_session.wrap_phase_done(state, "metadata"))
         self.assertEqual(state[wrap_session.WRAP_PHASES_KEY]["metadata"]["inputs"], {"toml": "resolved"})
 
+    def test_youtube_finish_substeps_respect_skip_options(self):
+        self.assertEqual(
+            [key for key, _command in wrap_session.youtube_finish_substeps("0091", False, False)],
+            [
+                "verify",
+                "summary",
+                "title",
+                "hook",
+                "thumbnail_bullets",
+                "chapters",
+                "thumbnail",
+                "verify_published_thumbnail",
+            ],
+        )
+        self.assertNotIn(
+            "title",
+            [key for key, _command in wrap_session.youtube_finish_substeps("0091", True, False)],
+        )
+        self.assertEqual(
+            [key for key, _command in wrap_session.youtube_finish_substeps("0091", False, True)],
+            ["verify"],
+        )
+
+    def test_youtube_substep_state_is_independent(self):
+        state = {}
+        command = ["just", "page-summary-choose", "0091"]
+        self.assertFalse(wrap_session.youtube_substep_done(state, "summary"))
+
+        wrap_session.mark_youtube_substep(state, "summary", command)
+
+        self.assertTrue(wrap_session.youtube_substep_done(state, "summary"))
+        self.assertFalse(wrap_session.youtube_substep_done(state, "title"))
+
+    def test_thumbnail_checkpoint_follows_editorial_page_update(self):
+        state = {}
+        args = mock.Mock(skip_youtube_title=False, skip_youtube_finish=False, dry_run=False)
+        events = []
+
+        def record_run(command, _dry_run):
+            events.append(("run", command[1]))
+
+        def record_apply(_session):
+            events.append(("apply", "editorial"))
+            return ["description"]
+
+        def record_mark(_state, key, _command):
+            events.append(("mark", key))
+
+        with mock.patch.object(wrap_session, "run", side_effect=record_run):
+            with mock.patch.object(
+                wrap_session,
+                "apply_selected_editorial_choices_to_current_session",
+                side_effect=record_apply,
+            ):
+                with mock.patch.object(wrap_session, "mark_youtube_substep", side_effect=record_mark):
+                    with mock.patch.object(wrap_session, "save_json"):
+                        wrap_session.run_youtube_finish_substeps("0091", args, state)
+
+        self.assertLess(events.index(("apply", "editorial")), events.index(("mark", "thumbnail")))
+
 
 class YouTubeTitlePublishStateTest(unittest.TestCase):
     def setUp(self):
