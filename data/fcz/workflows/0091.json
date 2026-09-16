@@ -1,0 +1,59 @@
+{
+  "session": "0091",
+  "workflow": "daily-wrap",
+  "status": "completed",
+  "current_step": "done",
+  "created_at": "2026-09-16T13:44:54.534611+00:00",
+  "updated_at": "2026-09-16T19:45:58.207828+00:00",
+  "inputs": {
+    "wrap_toml": {
+      "path": "/home/fcz/Downloads/0091.toml"
+    },
+    "userscript_chat": {
+      "path": "/home/fcz/Downloads/0091-chat.json"
+    },
+    "restream_api_chat": {
+      "path": "/home/fcz/falafel/xadrez.live/data/fcz/restream_chat_replays/0091.json"
+    }
+  },
+  "decisions": {
+    "chat": {
+      "source": "userscript",
+      "accepted_by_user": true
+    },
+    "calibration": {
+      "anchor": "puzzle-of-the-day"
+    },
+    "wrap_session": {
+      "extra_args": []
+    }
+  },
+  "steps": {
+    "inputs": {
+      "status": "done",
+      "updated_at": "2026-09-16T19:34:34.829228+00:00",
+      "detail": "session page and wrap TOML found"
+    },
+    "chat": {
+      "status": "done",
+      "updated_at": "2026-09-16T19:34:34.829770+00:00",
+      "detail": "userscript chat JSON found"
+    },
+    "wrap_session": {
+      "status": "done",
+      "updated_at": "2026-09-16T19:45:58.207255+00:00",
+      "detail": "completed: just wrap-session 0091 --calibration-anchor puzzle-of-the-day"
+    },
+    "verify": {
+      "status": "done",
+      "updated_at": "2026-09-16T19:45:58.207538+00:00",
+      "detail": "handled by wrap-session"
+    },
+    "build": {
+      "status": "done",
+      "updated_at": "2026-09-16T19:45:58.207700+00:00",
+      "detail": "handled by wrap-session"
+    }
+  },
+  "completed_at": "2026-09-16T19:45:58.207824+00:00"
+}
