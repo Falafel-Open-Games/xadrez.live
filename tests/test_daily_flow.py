@@ -194,6 +194,30 @@ class DailyFlowTest(unittest.TestCase):
         run_command.assert_not_called()
         self.assertIn("already completed", output.getvalue())
 
+    def test_completed_legacy_workflow_migrates_new_metadata_step_as_skipped(self):
+        path = self.workflows_dir / "0090.json"
+        path.write_text(
+            json.dumps(
+                {
+                    "session": "0090",
+                    "status": "completed",
+                    "steps": {
+                        "inputs": {"status": "done"},
+                        "chat": {"status": "done"},
+                        "wrap_session": {"status": "done"},
+                        "verify": {"status": "done"},
+                        "build": {"status": "done"},
+                    },
+                }
+            )
+            + "\n",
+            encoding="utf-8",
+        )
+
+        state = daily_flow.load_state("0090")
+
+        self.assertEqual(state["steps"]["youtube_metadata"]["status"], "skipped")
+
 
 if __name__ == "__main__":
     unittest.main()

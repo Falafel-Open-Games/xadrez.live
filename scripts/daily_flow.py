@@ -96,6 +96,13 @@ def load_state(session: str) -> dict[str, Any]:
         if not isinstance(item, dict):
             steps[key] = {"status": "pending"}
     state["steps"] = steps
+    if state.get("status") == "completed":
+        metadata_step = steps.get("youtube_metadata")
+        if isinstance(metadata_step, dict) and metadata_step.get("status") == "pending":
+            steps["youtube_metadata"] = {
+                "status": "skipped",
+                "detail": "workflow completed before the YouTube metadata step was added",
+            }
     return state
 
 
