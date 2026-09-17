@@ -1,0 +1,521 @@
+{
+  "session": "0092",
+  "pid": 2725730,
+  "status": "completed",
+  "started_at": "2026-09-17T13:44:12.707464+00:00",
+  "updated_at": "2026-09-17T13:58:46.991513+00:00",
+  "inputs": {
+    "toml_file": "/home/fcz/Downloads/0092.toml",
+    "toml": "puzzle_of_the_day_url = \"https://lichess.org/training/b48zE\"\n\npuzzle_of_the_day_recorded_at = \"2026-09-17T11:39:18.354Z\"\n\npuzzle_of_the_day_event = \"puzzle_of_the_day\"\n\n[[extra.practice_sets]]\nplatform = \"lichess\"\ntitle = \"Discovered Attacks\"\nurl = \"https://lichess.org/practice/fundamental-tactics/discovered-attacks/MnsJEWnI\"\ncategory = \"fundamental-tactics\"\n\n[[extra.practice_sets.exercises]]\ntitle = \"Discovered Check #4\"\nurl = \"https://lichess.org/practice/fundamental-tactics/discovered-attacks/MnsJEWnI/RqV1zTUB\"\nstatus = \"done\"\n\n[[extra.practice_sets.exercises]]\ntitle = \"Discovered Attack #5\"\nurl = \"https://lichess.org/practice/fundamental-tactics/discovered-attacks/MnsJEWnI/81ZmhHvk\"\nstatus = \"done\"\n\n[[extra.practice_sets.exercises]]\ntitle = \"Discovered Check #5\"\nurl = \"https://lichess.org/practice/fundamental-tactics/discovered-attacks/MnsJEWnI/AALH5sGb\"\nstatus = \"done\"\n\n[[extra.games]]\nplatform = \"lichess\"\ngame_url = \"https://lichess.org/sjWb6j2J/black\"\ngame_id = \"sjWb6j2J\"\nresult = \"win\"\ncolor = \"black\"\nopening = \"Sicilian Defense: Closed\"\nopening_url = \"https://lichess.org/opening/Sicilian%20Defense:%20Closed\"\nnote = \"\"\"Zero capivaradas! Precisão alta. Vitória também, mas isso é um detalhe. Eu fui teimoso e não segui meu script de abertura que é trazer o cavalo de b para c6, só fui fazer la no lance 6. Mas no geral a engine não encontrou nada de grave sobre como eu joguei, então fiquei feliz.\n\nMeu oponente jogou até o fim, mesmo em grande desvantagem, eu soube ter consciência do tempo estando com a vantagem e priorizei jogar avanços de posição simples ao invés de gastar tempo pensando em mates em menos lances.\"\"\"",
+    "resolved_toml": {
+      "puzzle_of_the_day_url": "https://lichess.org/training/b48zE",
+      "puzzle_of_the_day_recorded_at": "2026-09-17T11:39:18.354Z",
+      "puzzle_of_the_day_event": "puzzle_of_the_day",
+      "extra": {
+        "practice_sets": [
+          {
+            "platform": "lichess",
+            "title": "Discovered Attacks",
+            "url": "https://lichess.org/practice/fundamental-tactics/discovered-attacks/MnsJEWnI",
+            "category": "fundamental-tactics",
+            "exercises": [
+              {
+                "title": "Discovered Check #4",
+                "url": "https://lichess.org/practice/fundamental-tactics/discovered-attacks/MnsJEWnI/RqV1zTUB",
+                "status": "done"
+              },
+              {
+                "title": "Discovered Attack #5",
+                "url": "https://lichess.org/practice/fundamental-tactics/discovered-attacks/MnsJEWnI/81ZmhHvk",
+                "status": "done"
+              },
+              {
+                "title": "Discovered Check #5",
+                "url": "https://lichess.org/practice/fundamental-tactics/discovered-attacks/MnsJEWnI/AALH5sGb",
+                "status": "done"
+              }
+            ]
+          }
+        ],
+        "games": [
+          {
+            "platform": "lichess",
+            "game_url": "https://lichess.org/sjWb6j2J/black",
+            "game_id": "sjWb6j2J",
+            "result": "win",
+            "color": "black",
+            "opening": "Sicilian Defense: Closed",
+            "opening_url": "https://lichess.org/opening/Sicilian%20Defense:%20Closed",
+            "note": "Zero capivaradas! Precisão alta. Vitória também, mas isso é um detalhe. Eu fui teimoso e não segui meu script de abertura que é trazer o cavalo de b para c6, só fui fazer la no lance 6. Mas no geral a engine não encontrou nada de grave sobre como eu joguei, então fiquei feliz.\n\nMeu oponente jogou até o fim, mesmo em grande desvantagem, eu soube ter consciência do tempo estando com a vantagem e priorizei jogar avanços de posição simples ao invés de gastar tempo pensando em mates em menos lances."
+          }
+        ]
+      }
+    },
+    "chat_json_file": "/home/fcz/Downloads/0092-chat.json",
+    "chat_json": {
+      "source": "restream-userscript",
+      "exportedAt": "2026-09-17T13:09:46.968Z",
+      "pageUrl": "https://chat.restream.io/new-chat-golive?dashboard&theme=black&show-id=853ffd4b-8773-4bef-a8f0-b7235def2712",
+      "messages": [
+        {
+          "clock": "09:52:53",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@fczuardi",
+          "text": "bom dia!"
+        },
+        {
+          "clock": "09:52:53",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Bom dia !!! Tavam meio confusos os avisos do YT, tinha aviso pra live sua começando hj À tarde ???"
+        },
+        {
+          "clock": "09:52:53",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Pensei que fosse reunião surpresa com o cliente..."
+        },
+        {
+          "clock": "09:52:53",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Acho que melhor seria sacrificar esse cavalo... Pensa aí."
+        },
+        {
+          "clock": "09:52:53",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Bem visualizado. Sou mesmo um cego..."
+        },
+        {
+          "clock": "09:52:53",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Curva de aprendizado tem disso, quanto mais se sabe mais parece que não se sabe nada... É normal."
+        },
+        {
+          "clock": "09:52:53",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Lá ele... \"peão é mais humilhante\"."
+        },
+        {
+          "clock": "09:52:53",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "visualização de tabuleiro... Temos que treinar muito isso."
+        },
+        {
+          "clock": "09:52:58",
+          "platform": "YouTube",
+          "platformIcon": "https://chat.restream.io/assets/icon-platform/restream-icon-black.svg",
+          "channel": "",
+          "author": "Host",
+          "text": "https://lichess.org/team/xadrez-depois-dos-40"
+        },
+        {
+          "clock": "09:53:44",
+          "platform": "Twitch",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+          "channel": "",
+          "author": "@t3rapia",
+          "text": "vou acabar essa e mando"
+        },
+        {
+          "clock": "09:54:26",
+          "platform": "Twitch",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+          "channel": "",
+          "author": "@t3rapia",
+          "text": "ai jogou oq sabe"
+        },
+        {
+          "clock": "09:55:29",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Foi bom mas já passou, tem que contextualizar o oponente..."
+        },
+        {
+          "clock": "09:56:00",
+          "platform": "Twitch",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+          "channel": "",
+          "author": "@t3rapia",
+          "text": "ele deveras evacuou"
+        },
+        {
+          "clock": "09:59:24",
+          "platform": "Twitch",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+          "channel": "",
+          "author": "@t3rapia",
+          "text": "minha internet tava caindo nessa partida kkkkkkkkkk"
+        },
+        {
+          "clock": "09:59:35",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Deixei mais recados lá no fórum inclusive sobre a siciliana..."
+        },
+        {
+          "clock": "10:00:52",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Repara que a máquina sempre quer desenvolver o cavalo e você mantém ele preso..."
+        },
+        {
+          "clock": "10:03:18",
+          "platform": "Twitch",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+          "channel": "",
+          "author": "@t3rapia",
+          "text": "0 capivaradas é coisa boa"
+        },
+        {
+          "clock": "10:03:52",
+          "platform": "Twitch",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+          "channel": "",
+          "author": "@t3rapia",
+          "text": "kkkkkkkkkkkkk"
+        },
+        {
+          "clock": "10:04:31",
+          "platform": "Twitch",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+          "channel": "",
+          "author": "@t3rapia",
+          "text": "mandei o link da partida mas acho que não foi"
+        },
+        {
+          "clock": "10:04:32",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "V^o forum !!!"
+        },
+        {
+          "clock": "10:05:19",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "links só no fórum... O cgat bloqueia..."
+        },
+        {
+          "clock": "10:09:03",
+          "platform": "Twitch",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+          "channel": "",
+          "author": "@t3rapia",
+          "text": "https lichess org 2oLwL3hu white"
+        },
+        {
+          "clock": "10:09:08",
+          "platform": "Twitch",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+          "channel": "",
+          "author": "@t3rapia",
+          "text": "assim eles não pegam kkkkkkkkk"
+        }
+      ]
+    }
+  },
+  "phases": {
+    "metadata": {
+      "status": "done",
+      "updated_at": "2026-09-17T13:31:31.253706+00:00",
+      "inputs": {
+        "toml_file": "/home/fcz/Downloads/0092.toml",
+        "toml": "puzzle_of_the_day_url = \"https://lichess.org/training/b48zE\"\n\npuzzle_of_the_day_recorded_at = \"2026-09-17T11:39:18.354Z\"\n\npuzzle_of_the_day_event = \"puzzle_of_the_day\"\n\n[[extra.practice_sets]]\nplatform = \"lichess\"\ntitle = \"Discovered Attacks\"\nurl = \"https://lichess.org/practice/fundamental-tactics/discovered-attacks/MnsJEWnI\"\ncategory = \"fundamental-tactics\"\n\n[[extra.practice_sets.exercises]]\ntitle = \"Discovered Check #4\"\nurl = \"https://lichess.org/practice/fundamental-tactics/discovered-attacks/MnsJEWnI/RqV1zTUB\"\nstatus = \"done\"\n\n[[extra.practice_sets.exercises]]\ntitle = \"Discovered Attack #5\"\nurl = \"https://lichess.org/practice/fundamental-tactics/discovered-attacks/MnsJEWnI/81ZmhHvk\"\nstatus = \"done\"\n\n[[extra.practice_sets.exercises]]\ntitle = \"Discovered Check #5\"\nurl = \"https://lichess.org/practice/fundamental-tactics/discovered-attacks/MnsJEWnI/AALH5sGb\"\nstatus = \"done\"\n\n[[extra.games]]\nplatform = \"lichess\"\ngame_url = \"https://lichess.org/sjWb6j2J/black\"\ngame_id = \"sjWb6j2J\"\nresult = \"win\"\ncolor = \"black\"\nopening = \"Sicilian Defense: Closed\"\nopening_url = \"https://lichess.org/opening/Sicilian%20Defense:%20Closed\"\nnote = \"\"\"Zero capivaradas! Precisão alta. Vitória também, mas isso é um detalhe. Eu fui teimoso e não segui meu script de abertura que é trazer o cavalo de b para c6, só fui fazer la no lance 6. Mas no geral a engine não encontrou nada de grave sobre como eu joguei, então fiquei feliz.\n\nMeu oponente jogou até o fim, mesmo em grande desvantagem, eu soube ter consciência do tempo estando com a vantagem e priorizei jogar avanços de posição simples ao invés de gastar tempo pensando em mates em menos lances.\"\"\"",
+        "resolved_toml": {
+          "puzzle_of_the_day_url": "https://lichess.org/training/b48zE",
+          "puzzle_of_the_day_recorded_at": "2026-09-17T11:39:18.354Z",
+          "puzzle_of_the_day_event": "puzzle_of_the_day",
+          "extra": {
+            "practice_sets": [
+              {
+                "platform": "lichess",
+                "title": "Discovered Attacks",
+                "url": "https://lichess.org/practice/fundamental-tactics/discovered-attacks/MnsJEWnI",
+                "category": "fundamental-tactics",
+                "exercises": [
+                  {
+                    "title": "Discovered Check #4",
+                    "url": "https://lichess.org/practice/fundamental-tactics/discovered-attacks/MnsJEWnI/RqV1zTUB",
+                    "status": "done"
+                  },
+                  {
+                    "title": "Discovered Attack #5",
+                    "url": "https://lichess.org/practice/fundamental-tactics/discovered-attacks/MnsJEWnI/81ZmhHvk",
+                    "status": "done"
+                  },
+                  {
+                    "title": "Discovered Check #5",
+                    "url": "https://lichess.org/practice/fundamental-tactics/discovered-attacks/MnsJEWnI/AALH5sGb",
+                    "status": "done"
+                  }
+                ]
+              }
+            ],
+            "games": [
+              {
+                "platform": "lichess",
+                "game_url": "https://lichess.org/sjWb6j2J/black",
+                "game_id": "sjWb6j2J",
+                "result": "win",
+                "color": "black",
+                "opening": "Sicilian Defense: Closed",
+                "opening_url": "https://lichess.org/opening/Sicilian%20Defense:%20Closed",
+                "note": "Zero capivaradas! Precisão alta. Vitória também, mas isso é um detalhe. Eu fui teimoso e não segui meu script de abertura que é trazer o cavalo de b para c6, só fui fazer la no lance 6. Mas no geral a engine não encontrou nada de grave sobre como eu joguei, então fiquei feliz.\n\nMeu oponente jogou até o fim, mesmo em grande desvantagem, eu soube ter consciência do tempo estando com a vantagem e priorizei jogar avanços de posição simples ao invés de gastar tempo pensando em mates em menos lances."
+              }
+            ]
+          }
+        },
+        "chat_json_file": "/home/fcz/Downloads/0092-chat.json",
+        "chat_json": {
+          "source": "restream-userscript",
+          "exportedAt": "2026-09-17T13:09:46.968Z",
+          "pageUrl": "https://chat.restream.io/new-chat-golive?dashboard&theme=black&show-id=853ffd4b-8773-4bef-a8f0-b7235def2712",
+          "messages": [
+            {
+              "clock": "09:52:53",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@fczuardi",
+              "text": "bom dia!"
+            },
+            {
+              "clock": "09:52:53",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Bom dia !!! Tavam meio confusos os avisos do YT, tinha aviso pra live sua começando hj À tarde ???"
+            },
+            {
+              "clock": "09:52:53",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Pensei que fosse reunião surpresa com o cliente..."
+            },
+            {
+              "clock": "09:52:53",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Acho que melhor seria sacrificar esse cavalo... Pensa aí."
+            },
+            {
+              "clock": "09:52:53",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Bem visualizado. Sou mesmo um cego..."
+            },
+            {
+              "clock": "09:52:53",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Curva de aprendizado tem disso, quanto mais se sabe mais parece que não se sabe nada... É normal."
+            },
+            {
+              "clock": "09:52:53",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Lá ele... \"peão é mais humilhante\"."
+            },
+            {
+              "clock": "09:52:53",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "visualização de tabuleiro... Temos que treinar muito isso."
+            },
+            {
+              "clock": "09:52:58",
+              "platform": "YouTube",
+              "platformIcon": "https://chat.restream.io/assets/icon-platform/restream-icon-black.svg",
+              "channel": "",
+              "author": "Host",
+              "text": "https://lichess.org/team/xadrez-depois-dos-40"
+            },
+            {
+              "clock": "09:53:44",
+              "platform": "Twitch",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+              "channel": "",
+              "author": "@t3rapia",
+              "text": "vou acabar essa e mando"
+            },
+            {
+              "clock": "09:54:26",
+              "platform": "Twitch",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+              "channel": "",
+              "author": "@t3rapia",
+              "text": "ai jogou oq sabe"
+            },
+            {
+              "clock": "09:55:29",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Foi bom mas já passou, tem que contextualizar o oponente..."
+            },
+            {
+              "clock": "09:56:00",
+              "platform": "Twitch",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+              "channel": "",
+              "author": "@t3rapia",
+              "text": "ele deveras evacuou"
+            },
+            {
+              "clock": "09:59:24",
+              "platform": "Twitch",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+              "channel": "",
+              "author": "@t3rapia",
+              "text": "minha internet tava caindo nessa partida kkkkkkkkkk"
+            },
+            {
+              "clock": "09:59:35",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Deixei mais recados lá no fórum inclusive sobre a siciliana..."
+            },
+            {
+              "clock": "10:00:52",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Repara que a máquina sempre quer desenvolver o cavalo e você mantém ele preso..."
+            },
+            {
+              "clock": "10:03:18",
+              "platform": "Twitch",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+              "channel": "",
+              "author": "@t3rapia",
+              "text": "0 capivaradas é coisa boa"
+            },
+            {
+              "clock": "10:03:52",
+              "platform": "Twitch",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+              "channel": "",
+              "author": "@t3rapia",
+              "text": "kkkkkkkkkkkkk"
+            },
+            {
+              "clock": "10:04:31",
+              "platform": "Twitch",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+              "channel": "",
+              "author": "@t3rapia",
+              "text": "mandei o link da partida mas acho que não foi"
+            },
+            {
+              "clock": "10:04:32",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "V^o forum !!!"
+            },
+            {
+              "clock": "10:05:19",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "links só no fórum... O cgat bloqueia..."
+            },
+            {
+              "clock": "10:09:03",
+              "platform": "Twitch",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+              "channel": "",
+              "author": "@t3rapia",
+              "text": "https lichess org 2oLwL3hu white"
+            },
+            {
+              "clock": "10:09:08",
+              "platform": "Twitch",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+              "channel": "",
+              "author": "@t3rapia",
+              "text": "assim eles não pegam kkkkkkkkk"
+            }
+          ]
+        }
+      }
+    },
+    "analysis": {
+      "status": "done",
+      "updated_at": "2026-09-17T13:33:13.076137+00:00",
+      "calibrated": true
+    },
+    "youtube": {
+      "status": "done",
+      "updated_at": "2026-09-17T13:56:38.737612+00:00",
+      "skipped": false
+    },
+    "next_session": {
+      "status": "done",
+      "updated_at": "2026-09-17T13:58:40.109949+00:00",
+      "scheduled": true
+    },
+    "build": {
+      "status": "done",
+      "updated_at": "2026-09-17T13:58:46.991497+00:00",
+      "skipped": false
+    }
+  },
+  "next_session_answers": {
+    "session": "0093",
+    "date": "2026-09-19",
+    "time": "09:00",
+    "youtube": "https://youtube.com/live/K_U_skvcayU?feature=share",
+    "updated_at": "2026-09-17T13:58:32.772083+00:00"
+  },
+  "completed_at": "2026-09-17T13:58:46.991513+00:00"
+}
