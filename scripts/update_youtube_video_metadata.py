@@ -35,7 +35,7 @@ def read_front_matter(path: Path) -> dict[str, Any]:
         return {}
 
 
-def session_youtube_ids() -> list[Session]:
+def session_youtube_ids(include_unended: bool = False) -> list[Session]:
     sessions = []
     for path in sorted(CONTENT_DIR.glob("[0-9][0-9][0-9][0-9].md")):
         data = read_front_matter(path)
@@ -44,7 +44,7 @@ def session_youtube_ids() -> list[Session]:
         extra = data.get("extra")
         if not isinstance(extra, dict):
             continue
-        if str(extra.get("status_tone") or "").strip().casefold() in {"scheduled", "live"}:
+        if not include_unended and str(extra.get("status_tone") or "").strip().casefold() in {"scheduled", "live"}:
             continue
         youtube_id = str(extra.get("youtube_video_id") or "").strip()
         if youtube_id and youtube_id != "REPLACE_WITH_YOUTUBE_VIDEO_ID":
@@ -53,9 +53,12 @@ def session_youtube_ids() -> list[Session]:
 
 
 def selected_sessions(numbers: set[str] | None, latest: int | None) -> list[Session]:
-    sessions = session_youtube_ids()
     if numbers is not None:
+        # An explicitly requested session may still have a stale scheduled/live
+        # marker; wrapup will resolve its ended status after the metadata step.
+        sessions = session_youtube_ids(include_unended=True)
         return [session for session in sessions if session.number in numbers]
+    sessions = session_youtube_ids()
     if latest is not None and latest > 0:
         return sessions[-latest:]
     return sessions
