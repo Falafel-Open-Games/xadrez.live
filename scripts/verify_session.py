@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import argparse
+from collections import Counter
 import hashlib
 import json
 import re
@@ -141,41 +142,56 @@ def chat_platforms(session: str) -> set[str]:
     return {str(message.get("platform") or "").strip() for message in messages if isinstance(message, dict) and message.get("platform")}
 
 
-def anonymous_chat_author_count(session: str) -> int:
+def anonymous_chat_messages(session: str) -> list[dict[str, Any]]:
     data = read_json(DATA_DIR / "chat_replays" / f"{session}.json")
     if not data:
-        return 0
+        return []
     messages = data.get("messages")
     if not isinstance(messages, list):
-        return 0
-    return sum(
-        1
+        return []
+    return [
+        message
         for message in messages
         if isinstance(message, dict)
         and re.fullmatch(r"Person \d+", str(message.get("author") or "").strip())
-    )
+    ]
 
 
-def wrap_input_has_known_chat_authors(session: str) -> bool:
+def anonymous_chat_message_counts(session: str) -> tuple[int, int]:
+    """Return anonymous messages that lost a known author and API-only additions."""
+    anonymous = anonymous_chat_messages(session)
+    if not anonymous:
+        return 0, 0
+
     data = read_json(DATA_DIR / "wrap_sessions" / f"{session}.json")
     if not data:
-        return False
+        return 0, len(anonymous)
     inputs = data.get("inputs")
     if not isinstance(inputs, dict):
-        return False
+        return 0, len(anonymous)
     chat_json = inputs.get("chat_json")
     if not isinstance(chat_json, dict):
-        return False
+        return 0, len(anonymous)
     messages = chat_json.get("messages")
     if not isinstance(messages, list):
-        return False
+        return 0, len(anonymous)
+
+    known_input_messages = Counter()
     for message in messages:
         if not isinstance(message, dict):
             continue
         author = str(message.get("author") or "").strip()
         if author and not re.fullmatch(r"Person \d+", author):
-            return True
-    return False
+            key = (str(message.get("platform") or "").strip(), str(message.get("text") or "").strip())
+            known_input_messages[key] += 1
+
+    degraded = 0
+    for message in anonymous:
+        key = (str(message.get("platform") or "").strip(), str(message.get("text") or "").strip())
+        if known_input_messages[key] > 0:
+            known_input_messages[key] -= 1
+            degraded += 1
+    return degraded, len(anonymous) - degraded
 
 
 def thumbnail_path(extra: dict[str, Any]) -> Path | None:
@@ -258,10 +274,21 @@ def verify(session: str, require_published_thumbnail: bool) -> list[Check]:
         checks.append(Check("error", "Há supporter do YouTube, mas o chat final não contém mensagens do YouTube"))
     elif platforms:
         checks.append(Check("ok", f"Chat final contém: {', '.join(sorted(platforms))}"))
-    anonymous_authors = anonymous_chat_author_count(session)
-    if anonymous_authors:
-        level = "error" if wrap_input_has_known_chat_authors(session) else "warning"
-        checks.append(Check(level, f"Chat final contém {anonymous_authors} autor(es) anonimizado(s) como Person N"))
+    degraded_anonymous, additional_anonymous = anonymous_chat_message_counts(session)
+    if degraded_anonymous:
+        checks.append(
+            Check(
+                "error",
+                f"Chat final perdeu a autoria conhecida de {degraded_anonymous} mensagem(ns), agora como Person N",
+            )
+        )
+    if additional_anonymous:
+        checks.append(
+            Check(
+                "warning",
+                f"Chat final contém {additional_anonymous} mensagem(ns) adicional(is) da API com autor anonimizado como Person N",
+            )
+        )
 
     thumb = thumbnail_path(extra)
     published = read_toml(DATA_DIR / "youtube_published_assets.toml").get("thumbnails", {})

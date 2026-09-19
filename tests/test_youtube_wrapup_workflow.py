@@ -890,6 +890,74 @@ class WrapSessionNextSessionCacheTest(unittest.TestCase):
             )
         )
 
+    def test_anonymous_chat_message_matching_known_userscript_message_is_degraded(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            data_dir = Path(tmpdir)
+            (data_dir / "chat_replays").mkdir()
+            (data_dir / "wrap_sessions").mkdir()
+            (data_dir / "chat_replays" / "0093.json").write_text(
+                json.dumps({"messages": [{"platform": "YouTube", "author": "Person 2", "text": "bom dia"}]}),
+                encoding="utf-8",
+            )
+            (data_dir / "wrap_sessions" / "0093.json").write_text(
+                json.dumps(
+                    {
+                        "inputs": {
+                            "chat_json": {
+                                "messages": [{"platform": "YouTube", "author": "@viewer", "text": "bom dia"}]
+                            }
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            with mock.patch.object(verify_session, "DATA_DIR", data_dir):
+                counts = verify_session.anonymous_chat_message_counts("0093")
+
+        self.assertEqual(counts, (1, 0))
+
+    def test_anonymous_api_only_chat_message_is_additional(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            data_dir = Path(tmpdir)
+            (data_dir / "chat_replays").mkdir()
+            (data_dir / "wrap_sessions").mkdir()
+            (data_dir / "chat_replays" / "0093.json").write_text(
+                json.dumps({"messages": [{"platform": "YouTube", "author": "Person 2", "text": "👏"}]}),
+                encoding="utf-8",
+            )
+            (data_dir / "wrap_sessions" / "0093.json").write_text(
+                json.dumps(
+                    {
+                        "inputs": {
+                            "chat_json": {
+                                "messages": [{"platform": "YouTube", "author": "@viewer", "text": "bom dia"}]
+                            }
+                        }
+                    }
+                ),
+                encoding="utf-8",
+            )
+
+            with mock.patch.object(verify_session, "DATA_DIR", data_dir):
+                counts = verify_session.anonymous_chat_message_counts("0093")
+
+        self.assertEqual(counts, (0, 1))
+
+    def test_anonymous_fallback_chat_message_without_userscript_is_additional(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            data_dir = Path(tmpdir)
+            (data_dir / "chat_replays").mkdir()
+            (data_dir / "chat_replays" / "0093.json").write_text(
+                json.dumps({"messages": [{"platform": "YouTube", "author": "Person 2", "text": "👏"}]}),
+                encoding="utf-8",
+            )
+
+            with mock.patch.object(verify_session, "DATA_DIR", data_dir):
+                counts = verify_session.anonymous_chat_message_counts("0093")
+
+        self.assertEqual(counts, (0, 1))
+
     def test_selected_editorial_choices_reload_current_session_before_writing(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)
