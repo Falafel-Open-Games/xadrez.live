@@ -43,6 +43,14 @@ RAW_MOVE_WITH_LANCE_RE = re.compile(
 RAW_LANCE_BULLET_RE = re.compile(r"^lance\s+\d+\b|\blance\s+\d+\s*$", re.I)
 RAW_CLOCK_RE = re.compile(r"\brel[óo]gio\s+\d+\s+\d+\b", re.I)
 MOVE_TOKEN_RE = re.compile(r"\b(?:[KQRBN]?[a-h]?[1-8]?x?[a-h][1-8](?:=[QRBN])?[+#]?|O-O(?:-O)?)\b")
+CLOCK_THEME_RE = re.compile(
+    r"\b(?:rel[oó]gio|press[aã]o (?:de|no) tempo|apuro de tempo|pouco tempo|sem tempo|"
+    r"perd(?:i|eu|emos|eram?) (?:no|por) tempo|ganh(?:ei|ou|amos) (?:no|por) tempo|"
+    r"derrota (?:no|por) tempo|vit[oó]ria (?:no|por) tempo|"
+    r"tempo (?:acabou|zerou|estourou)|flag(?:uei|ou)?)\b",
+    re.I,
+)
+CLOCK_BULLET_RE = re.compile(r"\b(?:rel[oó]gio|tempo|flag|apuro)\b", re.I)
 
 
 class OpenAITimeout(RuntimeError):
@@ -235,7 +243,7 @@ def fallback_options(context: dict[str, Any], count: int) -> list[list[str]]:
             bullets.append(opening.split(":", 1)[0])
         if result:
             bullets.append({"win": "vitória", "loss": "derrota", "draw": "empate"}.get(result, result))
-        if "tempo" in note:
+        if CLOCK_THEME_RE.search(note):
             bullets.append("relógio")
         if "captura" in note:
             bullets.append("captura perdida")
@@ -250,16 +258,33 @@ def fallback_options(context: dict[str, Any], count: int) -> list[list[str]]:
 
     if "mate" in lowered:
         options.append(complete_bullet_set(["mate no final", "cálculo na rapid", "vitória com brancas"]))
-    if "tempo" in lowered:
+    if CLOCK_THEME_RE.search(lowered):
         options.append(complete_bullet_set(["relógio apertou", "vantagem escapou", "final no tempo"]))
     options.append(complete_bullet_set(["partida rapid", "decisão crítica", "final revisado"]))
     return unique_bullet_sets(options, count)
 
 
 def prompt_for_model(context: dict[str, Any], count: int) -> str:
+    def timeline_fact(event: dict[str, Any]) -> dict[str, Any]:
+        allowed = (
+            "kind",
+            "label",
+            "game_index",
+            "move_number",
+            "color",
+            "player",
+            "opponent",
+            "is_self",
+            "move",
+            "eval_change",
+            "best",
+        )
+        return {key: event[key] for key in allowed if event.get(key) not in (None, "")}
+
     compact = {
         "session": context["session"],
         "summary_title": context["summary_title"],
+        "description": context.get("description"),
         "games": [
             {
                 "result": game.get("result"),
@@ -271,7 +296,7 @@ def prompt_for_model(context: dict[str, Any], count: int) -> str:
             if isinstance(game, dict)
         ],
         "game_timeline": [
-            event
+            timeline_fact(event)
             for event in context.get("timeline") or []
             if isinstance(event, dict) and event.get("kind") in {"game_start", "game_end", "blunder"}
         ],
@@ -287,12 +312,17 @@ def prompt_for_model(context: dict[str, Any], count: int) -> str:
         f"- Gere exatamente {count} opções.\n"
         f"- Cada opção deve ter exatamente {MAX_BULLETS} bullets.\n"
         f"- Cada bullet deve ter no máximo {MAX_BULLET_LENGTH} caracteres.\n"
-        "- Use apenas a segunda metade da live: partidas rapid, abertura, erros, mate, relógio, decisões e capivaradas.\n"
+        "- Use apenas fatos comprovados da segunda metade da live e presentes nos dados abaixo.\n"
         "- Não use Puzzle do dia, Puzzle Storm, Puzzle Streak, treino, prática ou estatísticas de puzzles.\n"
         "- Não use abreviações como pts, placares crus ou bullets como 'Storm 4 6 pts'.\n"
         "- Não use coordenadas cruas como 'Bh4 lance 8', 'Nfd2 lance 8' ou 'relógio 8 52'.\n"
-        "- Se mencionar um lance, explique o tema em linguagem humana, como 'peça pendurada', 'rei exposto' ou 'relógio apertou'.\n"
+        "- Metadado não é tema: não transforme valores técnicos repetidos em destaque editorial.\n"
+        "- Não atribua causa a um erro sem evidência textual explícita nos dados.\n"
+        "- Só mencione relógio, pressão de tempo ou erro forçado pelo tempo se a nota, descrição, resumo ou highlight disser isso explicitamente.\n"
+        "- Não invente peça perdida, rei exposto, mate evitado ou outro motivo tático que não esteja descrito nos dados.\n"
+        "- Se mencionar um lance, explique apenas o fato demonstrado pela avaliação ou pela melhor alternativa.\n"
         "- Pelo menos 2 bullets devem ser momentos concretos de xadrez quando houver dados suficientes.\n"
+        "- Se os dados forem insuficientes, prefira abertura, resultado e fatos modestos; não complete com clichês.\n"
         "- Evite frases genéricas, coach motivational, ou resumo longo.\n"
         "- Não use hashtags, emojis, pontuação final ou número da sessão.\n"
         "- Responda apenas com JSON: uma lista de listas de strings.\n\n"
@@ -300,7 +330,27 @@ def prompt_for_model(context: dict[str, Any], count: int) -> str:
     )
 
 
-def parse_options(text: str, count: int) -> list[list[str]]:
+def context_has_clock_theme(context: dict[str, Any]) -> bool:
+    evidence = [str(context.get("summary_title") or ""), str(context.get("description") or "")]
+    for game in context.get("games") or []:
+        if isinstance(game, dict):
+            evidence.append(str(game.get("note") or ""))
+    for highlight in context.get("highlights") or []:
+        if isinstance(highlight, dict):
+            evidence.extend(str(highlight.get(key) or "") for key in ("title", "label", "text", "note"))
+    return bool(CLOCK_THEME_RE.search("\n".join(evidence)))
+
+
+def options_supported_by_context(options: list[list[str]], context: dict[str, Any]) -> list[list[str]]:
+    allow_clock = context_has_clock_theme(context)
+    return [
+        option
+        for option in options
+        if allow_clock or not any(CLOCK_BULLET_RE.search(bullet) for bullet in option)
+    ]
+
+
+def parse_options(text: str, count: int, context: dict[str, Any] | None = None) -> list[list[str]]:
     parsed: Any
     try:
         parsed = json.loads(text)
@@ -313,7 +363,8 @@ def parse_options(text: str, count: int) -> list[list[str]]:
                 bullets = clean_bullet_set(item)
                 if len(bullets) == MAX_BULLETS:
                     options.append(bullets)
-    return unique_bullet_sets(options, count)
+    cleaned = unique_bullet_sets(options, count)
+    return options_supported_by_context(cleaned, context) if context is not None else cleaned
 
 
 def unique_bullet_sets(values: list[list[str]], count: int) -> list[list[str]]:
@@ -364,7 +415,7 @@ def openai_options(context: dict[str, Any], count: int, model: str, api_key: str
         fail(f"OpenAI thumbnail bullet generation failed: {error.reason}")
     except TimeoutError:
         raise OpenAITimeout(f"OpenAI thumbnail bullet generation timed out after {timeout}s")
-    return parse_options(response_text(payload), count)
+    return parse_options(response_text(payload), count, context)
 
 
 def label_option(bullets: list[str]) -> str:
@@ -510,7 +561,7 @@ def main() -> int:
     context = session_context(session)
     api_key = os.environ.get("OPENAI_API_KEY", "")
 
-    options = [] if args.refresh else cached_options(session)
+    options = [] if args.refresh else options_supported_by_context(cached_options(session), context)
     if not options and args.no_ai:
         options = unique_bullet_sets(options + fallback_options(context, args.count), args.count)
     elif not options:

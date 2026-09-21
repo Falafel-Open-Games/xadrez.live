@@ -1,4 +1,5 @@
 import io
+import json
 import sys
 import unittest
 from contextlib import redirect_stderr, redirect_stdout
@@ -15,6 +16,80 @@ import thumbnail_bullet_options
 
 
 class ThumbnailBulletOptionsTest(unittest.TestCase):
+    def test_prompt_omits_clock_metadata_from_timeline_events(self):
+        context = {
+            "session": "0095",
+            "summary_title": "Ruy Lopez e erros no meio-jogo",
+            "description": "Uma derrota depois de perder a vantagem.",
+            "games": [{"result": "loss", "color": "white", "opening": "Ruy Lopez", "note": "Sem análise."}],
+            "timeline": [
+                {
+                    "kind": "blunder",
+                    "move_number": 7,
+                    "move": "Bf4",
+                    "clock": "7:59",
+                    "eval_change": "3.32 → 0.00",
+                    "best": "Nxe5",
+                    "text": "fcz jogou Bf4 no lance 7, com 7:59 no relógio.",
+                }
+            ],
+            "highlights": [],
+        }
+
+        prompt = thumbnail_bullet_options.prompt_for_model(context, 5)
+
+        self.assertNotIn('"clock"', prompt)
+        self.assertNotIn("7:59", prompt)
+        self.assertNotIn("com 7:59", prompt)
+        self.assertIn('"move": "Bf4"', prompt)
+        self.assertIn('"eval_change": "3.32 → 0.00"', prompt)
+
+    def test_clock_bullets_require_explicit_editorial_evidence(self):
+        context = {
+            "summary_title": "Puzzles e rapid",
+            "description": "Treino de puzzles e uma partida rapid.",
+            "games": [{"note": "Devido ao atraso na live, nao tive tempo de analisar."}],
+            "highlights": [],
+        }
+        raw = json.dumps(
+            [
+                ["Ruy Lopez", "Capivarada no roque", "Erro no meio-jogo"],
+                ["Ruy Lopez", "Relógio forçou erro", "Erro no meio-jogo"],
+            ]
+        )
+
+        self.assertEqual(
+            thumbnail_bullet_options.parse_options(raw, 5, context),
+            [["Ruy Lopez", "Capivarada no roque", "Erro no meio-jogo"]],
+        )
+
+    def test_explicit_clock_evidence_allows_clock_bullets(self):
+        context = {
+            "summary_title": "Derrota no tempo",
+            "description": "A posição estava ganha, mas o relógio zerou.",
+            "games": [],
+            "highlights": [],
+        }
+        options = [["Posição ganha", "Relógio zerou", "Derrota no tempo"]]
+
+        self.assertEqual(thumbnail_bullet_options.options_supported_by_context(options, context), options)
+
+    def test_fallback_does_not_treat_time_to_analyze_as_clock_pressure(self):
+        context = {
+            "description": "Treino de puzzles e uma partida rapid.",
+            "games": [
+                {
+                    "opening": "Ruy Lopez",
+                    "result": "loss",
+                    "note": "Devido ao atraso na live, nao tive tempo de analisar. Fica para outro dia.",
+                }
+            ],
+        }
+
+        options = thumbnail_bullet_options.fallback_options(context, 5)
+
+        self.assertFalse(any("relógio" in bullet or "tempo" in bullet for option in options for bullet in option))
+
     def test_rejects_raw_move_and_lance_bullets(self):
         self.assertFalse(thumbnail_bullet_options.valid_bullet("Bh4 Lance 8"))
         self.assertFalse(thumbnail_bullet_options.valid_bullet("Nfd2 Lance 8"))
@@ -138,7 +213,11 @@ class ThumbnailBulletOptionsTest(unittest.TestCase):
 
         with mock.patch.object(sys, "argv", ["thumbnail_bullet_options.py", "0061", "--choose", "--write", "--generate"]):
             with mock.patch.object(thumbnail_bullet_options, "load_env_file"):
-                with mock.patch.object(thumbnail_bullet_options, "session_context", return_value={"session": "0061"}):
+                with mock.patch.object(
+                    thumbnail_bullet_options,
+                    "session_context",
+                    return_value={"session": "0061", "summary_title": "Derrota no tempo"},
+                ):
                     with mock.patch.object(thumbnail_bullet_options, "cached_options", return_value=[selected]):
                         with mock.patch.object(thumbnail_bullet_options, "choose_option", return_value=selected):
                             with mock.patch.object(thumbnail_bullet_options, "edit_selected_bullets", return_value=selected):
