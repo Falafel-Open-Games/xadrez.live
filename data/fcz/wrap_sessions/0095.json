@@ -1,0 +1,239 @@
+{
+  "session": "0095",
+  "pid": 3363106,
+  "status": "completed",
+  "started_at": "2026-09-21T14:02:48.622397+00:00",
+  "updated_at": "2026-09-21T14:12:17.852060+00:00",
+  "inputs": {
+    "toml_file": "/home/fcz/Downloads/0095.toml",
+    "toml": "puzzle_of_the_day_url = \"https://lichess.org/training/kh1Lh\"\n\npuzzle_of_the_day_recorded_at = \"2026-09-21T12:36:28.251Z\"\n\npuzzle_of_the_day_event = \"puzzle_of_the_day\"\n\n[[extra.practice_sets]]\nplatform = \"lichess\"\ntitle = \"Double Check\"\nurl = \"https://lichess.org/practice/fundamental-tactics/double-check/RUQASaZm\"\ncategory = \"fundamental-tactics\"\n\n[[extra.practice_sets.exercises]]\ntitle = \"Double Check #4\"\nurl = \"https://lichess.org/practice/fundamental-tactics/double-check/RUQASaZm/mho3OpmO\"\nstatus = \"done\"\n\n[[extra.practice_sets.exercises]]\ntitle = \"Double Check #5\"\nurl = \"https://lichess.org/practice/fundamental-tactics/double-check/RUQASaZm/e7fu1G8T\"\nstatus = \"done\"\n\n[[extra.games]]\nplatform = \"lichess\"\ngame_url = \"https://lichess.org/aTXg4Ni2/white\"\ngame_id = \"aTXg4Ni2\"\nresult = \"loss\"\ncolor = \"white\"\nopening = \"Ruy Lopez: Classical Variation, Central Variation\"\nopening_url = \"https://lichess.org/opening/Ruy%20Lopez:%20Classical%20Variation,%20Central%20Variation\"\nnote = \"Devido ao atraso na live, nao tive tempo de analisar. Fica para outro dia.\"",
+    "resolved_toml": {
+      "puzzle_of_the_day_url": "https://lichess.org/training/kh1Lh",
+      "puzzle_of_the_day_recorded_at": "2026-09-21T12:36:28.251Z",
+      "puzzle_of_the_day_event": "puzzle_of_the_day",
+      "extra": {
+        "practice_sets": [
+          {
+            "platform": "lichess",
+            "title": "Double Check",
+            "url": "https://lichess.org/practice/fundamental-tactics/double-check/RUQASaZm",
+            "category": "fundamental-tactics",
+            "exercises": [
+              {
+                "title": "Double Check #4",
+                "url": "https://lichess.org/practice/fundamental-tactics/double-check/RUQASaZm/mho3OpmO",
+                "status": "done"
+              },
+              {
+                "title": "Double Check #5",
+                "url": "https://lichess.org/practice/fundamental-tactics/double-check/RUQASaZm/e7fu1G8T",
+                "status": "done"
+              }
+            ]
+          }
+        ],
+        "games": [
+          {
+            "platform": "lichess",
+            "game_url": "https://lichess.org/aTXg4Ni2/white",
+            "game_id": "aTXg4Ni2",
+            "result": "loss",
+            "color": "white",
+            "opening": "Ruy Lopez: Classical Variation, Central Variation",
+            "opening_url": "https://lichess.org/opening/Ruy%20Lopez:%20Classical%20Variation,%20Central%20Variation",
+            "note": "Devido ao atraso na live, nao tive tempo de analisar. Fica para outro dia."
+          }
+        ]
+      }
+    },
+    "chat_json_file": "/home/fcz/Downloads/0095-chat.json",
+    "chat_json": {
+      "source": "restream-userscript",
+      "exportedAt": "2026-09-21T13:28:47.695Z",
+      "pageUrl": "https://chat.restream.io/new-chat-golive?dashboard&theme=black&show-id=853ffd4b-8773-4bef-a8f0-b7235def2712",
+      "messages": [
+        {
+          "clock": "09:32:25",
+          "platform": "YouTube",
+          "platformIcon": "https://chat.restream.io/assets/icon-platform/restream-icon-black.svg",
+          "channel": "",
+          "author": "Host",
+          "text": "bom dia"
+        },
+        {
+          "clock": "09:42:02",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Estou estudando a alguns dias tipos de treino para visualização para incluir na minha rotina."
+        },
+        {
+          "clock": "09:46:24",
+          "platform": "Twitch",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+          "channel": "",
+          "author": "@asamomq",
+          "text": "Yo wassup mate"
+        },
+        {
+          "clock": "10:17:41",
+          "platform": "Twitch",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+          "channel": "",
+          "author": "@nicolich41",
+          "text": "Bom dfia!"
+        },
+        {
+          "clock": "10:18:14",
+          "platform": "Twitch",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+          "channel": "",
+          "author": "@nicolich41",
+          "text": "Você soltou todas as capivaras nesse jogo"
+        },
+        {
+          "clock": "10:24:33",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Maass, qdo vc joga de brancas seu desenvolvimento eh bem melhor."
+        }
+      ]
+    }
+  },
+  "phases": {
+    "metadata": {
+      "status": "done",
+      "updated_at": "2026-09-21T14:02:55.629839+00:00",
+      "inputs": {
+        "toml_file": "/home/fcz/Downloads/0095.toml",
+        "toml": "puzzle_of_the_day_url = \"https://lichess.org/training/kh1Lh\"\n\npuzzle_of_the_day_recorded_at = \"2026-09-21T12:36:28.251Z\"\n\npuzzle_of_the_day_event = \"puzzle_of_the_day\"\n\n[[extra.practice_sets]]\nplatform = \"lichess\"\ntitle = \"Double Check\"\nurl = \"https://lichess.org/practice/fundamental-tactics/double-check/RUQASaZm\"\ncategory = \"fundamental-tactics\"\n\n[[extra.practice_sets.exercises]]\ntitle = \"Double Check #4\"\nurl = \"https://lichess.org/practice/fundamental-tactics/double-check/RUQASaZm/mho3OpmO\"\nstatus = \"done\"\n\n[[extra.practice_sets.exercises]]\ntitle = \"Double Check #5\"\nurl = \"https://lichess.org/practice/fundamental-tactics/double-check/RUQASaZm/e7fu1G8T\"\nstatus = \"done\"\n\n[[extra.games]]\nplatform = \"lichess\"\ngame_url = \"https://lichess.org/aTXg4Ni2/white\"\ngame_id = \"aTXg4Ni2\"\nresult = \"loss\"\ncolor = \"white\"\nopening = \"Ruy Lopez: Classical Variation, Central Variation\"\nopening_url = \"https://lichess.org/opening/Ruy%20Lopez:%20Classical%20Variation,%20Central%20Variation\"\nnote = \"Devido ao atraso na live, nao tive tempo de analisar. Fica para outro dia.\"",
+        "resolved_toml": {
+          "puzzle_of_the_day_url": "https://lichess.org/training/kh1Lh",
+          "puzzle_of_the_day_recorded_at": "2026-09-21T12:36:28.251Z",
+          "puzzle_of_the_day_event": "puzzle_of_the_day",
+          "extra": {
+            "practice_sets": [
+              {
+                "platform": "lichess",
+                "title": "Double Check",
+                "url": "https://lichess.org/practice/fundamental-tactics/double-check/RUQASaZm",
+                "category": "fundamental-tactics",
+                "exercises": [
+                  {
+                    "title": "Double Check #4",
+                    "url": "https://lichess.org/practice/fundamental-tactics/double-check/RUQASaZm/mho3OpmO",
+                    "status": "done"
+                  },
+                  {
+                    "title": "Double Check #5",
+                    "url": "https://lichess.org/practice/fundamental-tactics/double-check/RUQASaZm/e7fu1G8T",
+                    "status": "done"
+                  }
+                ]
+              }
+            ],
+            "games": [
+              {
+                "platform": "lichess",
+                "game_url": "https://lichess.org/aTXg4Ni2/white",
+                "game_id": "aTXg4Ni2",
+                "result": "loss",
+                "color": "white",
+                "opening": "Ruy Lopez: Classical Variation, Central Variation",
+                "opening_url": "https://lichess.org/opening/Ruy%20Lopez:%20Classical%20Variation,%20Central%20Variation",
+                "note": "Devido ao atraso na live, nao tive tempo de analisar. Fica para outro dia."
+              }
+            ]
+          }
+        },
+        "chat_json_file": "/home/fcz/Downloads/0095-chat.json",
+        "chat_json": {
+          "source": "restream-userscript",
+          "exportedAt": "2026-09-21T13:28:47.695Z",
+          "pageUrl": "https://chat.restream.io/new-chat-golive?dashboard&theme=black&show-id=853ffd4b-8773-4bef-a8f0-b7235def2712",
+          "messages": [
+            {
+              "clock": "09:32:25",
+              "platform": "YouTube",
+              "platformIcon": "https://chat.restream.io/assets/icon-platform/restream-icon-black.svg",
+              "channel": "",
+              "author": "Host",
+              "text": "bom dia"
+            },
+            {
+              "clock": "09:42:02",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Estou estudando a alguns dias tipos de treino para visualização para incluir na minha rotina."
+            },
+            {
+              "clock": "09:46:24",
+              "platform": "Twitch",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+              "channel": "",
+              "author": "@asamomq",
+              "text": "Yo wassup mate"
+            },
+            {
+              "clock": "10:17:41",
+              "platform": "Twitch",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+              "channel": "",
+              "author": "@nicolich41",
+              "text": "Bom dfia!"
+            },
+            {
+              "clock": "10:18:14",
+              "platform": "Twitch",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-1.png",
+              "channel": "",
+              "author": "@nicolich41",
+              "text": "Você soltou todas as capivaras nesse jogo"
+            },
+            {
+              "clock": "10:24:33",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Maass, qdo vc joga de brancas seu desenvolvimento eh bem melhor."
+            }
+          ]
+        }
+      }
+    },
+    "analysis": {
+      "status": "done",
+      "updated_at": "2026-09-21T14:03:40.258351+00:00",
+      "calibrated": true
+    },
+    "youtube": {
+      "status": "done",
+      "updated_at": "2026-09-21T14:11:10.214052+00:00",
+      "skipped": false
+    },
+    "next_session": {
+      "status": "done",
+      "updated_at": "2026-09-21T14:12:11.232014+00:00",
+      "scheduled": true
+    },
+    "build": {
+      "status": "done",
+      "updated_at": "2026-09-21T14:12:17.852043+00:00",
+      "skipped": false
+    }
+  },
+  "next_session_answers": {
+    "session": "0096",
+    "date": "2026-09-23",
+    "time": "08:30",
+    "youtube": "https://youtube.com/live/WnbyLCD8P7M?feature=share",
+    "updated_at": "2026-09-21T14:12:01.818935+00:00"
+  },
+  "completed_at": "2026-09-21T14:12:17.852060+00:00"
+}
