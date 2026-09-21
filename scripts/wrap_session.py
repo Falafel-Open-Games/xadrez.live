@@ -25,6 +25,8 @@ CONTENT_DIR = ROOT / "content" / "fcz"
 DATA_DIR = ROOT / "data" / "fcz"
 WRAP_DIR = DATA_DIR / "wrap_sessions"
 RESTREAM_DIR = DATA_DIR / "restream_chat_replays"
+YOUTUBE_CHAT_DIR = DATA_DIR / "youtube_chat_replays"
+TWITCH_CHAT_DIR = DATA_DIR / "twitch_chat_replays"
 INBOX_DIR = DATA_DIR / "wrap_inbox"
 DOWNLOADS_DIR = Path.home() / "Downloads"
 NEXT_SESSION_CACHE_KEY = "next_session_answers"
@@ -969,6 +971,17 @@ def load_restream_api_chat(session: str) -> tuple[Path, dict[str, Any]] | None:
     return path, replay
 
 
+def load_direct_platform_chats(session: str) -> list[tuple[Path, dict[str, Any]]]:
+    replays = []
+    for directory in (YOUTUBE_CHAT_DIR, TWITCH_CHAT_DIR):
+        path = directory / f"{session}.json"
+        replay = load_json(path)
+        messages = replay.get("messages")
+        if isinstance(messages, list) and messages:
+            replays.append((path, replay))
+    return replays
+
+
 def json_safe(value: Any) -> Any:
     if isinstance(value, dict):
         return {str(key): json_safe(item) for key, item in value.items()}
@@ -1326,6 +1339,7 @@ def require_userscript_inputs(
     toml_file: Path | None,
     chat_json_file: Path | None,
     restream_api_chat_file: Path | None,
+    direct_platform_chat_files: list[Path] | None = None,
 ) -> None:
     missing = []
     if toml_file is None:
@@ -1333,11 +1347,11 @@ def require_userscript_inputs(
             "TOML do wrap: "
             f"{INBOX_DIR / f'{session}.toml'} ou {DOWNLOADS_DIR / f'{session}.toml'}"
         )
-    if chat_json_file is None and restream_api_chat_file is None:
+    if chat_json_file is None and restream_api_chat_file is None and not direct_platform_chat_files:
         missing.append(
-            "chat Restream JSON/API: "
+            "chat JSON/API/replay: "
             f"{INBOX_DIR / f'{session}-chat.json'}, {DOWNLOADS_DIR / f'{session}-chat.json'} "
-            f"ou {RESTREAM_DIR / f'{session}.json'}"
+            f"ou replay em {RESTREAM_DIR}, {YOUTUBE_CHAT_DIR} ou {TWITCH_CHAT_DIR}"
         )
     if not missing:
         return
@@ -1389,12 +1403,14 @@ def main() -> int:
         )
     )
     restream_api_chat = None if chat_json_file else load_restream_api_chat(session)
+    direct_platform_chats = [] if chat_json_file or restream_api_chat else load_direct_platform_chats(session)
     if not args.allow_missing_userscript_inputs and not skip_metadata:
         require_userscript_inputs(
             session,
             toml_file,
             chat_json_file,
             restream_api_chat[0] if restream_api_chat else None,
+            [path for path, _replay in direct_platform_chats],
         )
     if chat_json_file is None and restream_api_chat is not None and not skip_metadata:
         confirm_restream_api_chat_fallback(
@@ -1492,6 +1508,23 @@ def main() -> int:
                 f"({replay.get('message_count', len(messages))} chat message(s))"
             )
             print(f"{session}: added {added_supporters} supporter(s) from known chat authors")
+            should_merge_chat = True
+        elif not skip_metadata and direct_platform_chats:
+            messages = [
+                message
+                for _source_path, replay in direct_platform_chats
+                for message in replay.get("messages", [])
+                if isinstance(message, dict)
+            ]
+            state["inputs"]["direct_platform_chat_files"] = [str(path) for path, _replay in direct_platform_chats]
+            added_supporters = merge_session_supporters(data, chat_supporters(messages))
+            extra = data.get("extra") if isinstance(data.get("extra"), dict) else {}
+            cleaned_entries = clean_empty_generated_entries(extra)
+            if not args.dry_run and (added_supporters or cleaned_entries):
+                write_session(path, data, body)
+            platforms = ", ".join(source_path.parent.name for source_path, _replay in direct_platform_chats)
+            print(f"{session}: using direct platform chat replay(s) from {platforms}")
+            print(f"{session}: added {added_supporters} supporter(s) from direct platform chat")
             should_merge_chat = True
         elif not skip_metadata:
             print(f"{session}: no Restream chat input found")

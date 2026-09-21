@@ -1,0 +1,66 @@
+{
+  "session": "0094",
+  "workflow": "daily-wrap",
+  "status": "completed",
+  "current_step": "done",
+  "created_at": "2026-09-21T11:38:46.617850+00:00",
+  "updated_at": "2026-09-21T12:10:57.102581+00:00",
+  "inputs": {
+    "wrap_toml": {
+      "path": "/home/fcz/Downloads/0094.toml"
+    },
+    "direct_platform_chats": [
+      {
+        "path": "/home/fcz/falafel/xadrez.live/data/fcz/youtube_chat_replays/0094.json"
+      },
+      {
+        "path": "/home/fcz/falafel/xadrez.live/data/fcz/twitch_chat_replays/0094.json"
+      }
+    ]
+  },
+  "decisions": {
+    "chat": {
+      "source": "direct_platform_replays",
+      "accepted_by_user": true
+    },
+    "calibration": {
+      "anchor": "puzzle-of-the-day"
+    },
+    "wrap_session": {
+      "extra_args": []
+    }
+  },
+  "steps": {
+    "inputs": {
+      "status": "done",
+      "updated_at": "2026-09-21T12:01:10.403436+00:00",
+      "detail": "session page and wrap TOML found"
+    },
+    "chat": {
+      "status": "done",
+      "updated_at": "2026-09-21T12:01:10.404238+00:00",
+      "detail": "direct platform chat replay found (youtube_chat_replays, twitch_chat_replays)"
+    },
+    "youtube_metadata": {
+      "status": "done",
+      "updated_at": "2026-09-21T12:01:12.165219+00:00",
+      "detail": "release timestamp and duration found (1:02:56s)"
+    },
+    "wrap_session": {
+      "status": "done",
+      "updated_at": "2026-09-21T12:10:57.101936+00:00",
+      "detail": "completed: just wrap-session 0094 --calibration-anchor puzzle-of-the-day"
+    },
+    "verify": {
+      "status": "done",
+      "updated_at": "2026-09-21T12:10:57.102252+00:00",
+      "detail": "handled by wrap-session"
+    },
+    "build": {
+      "status": "done",
+      "updated_at": "2026-09-21T12:10:57.102417+00:00",
+      "detail": "handled by wrap-session"
+    }
+  },
+  "completed_at": "2026-09-21T12:10:57.102574+00:00"
+}

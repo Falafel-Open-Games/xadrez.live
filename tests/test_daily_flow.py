@@ -26,12 +26,16 @@ class DailyFlowTest(unittest.TestCase):
         self.workflows_dir = self.data_dir / "workflows"
         self.wrap_inbox_dir = self.data_dir / "wrap_inbox"
         self.restream_dir = self.data_dir / "restream_chat_replays"
+        self.youtube_chat_dir = self.data_dir / "youtube_chat_replays"
+        self.twitch_chat_dir = self.data_dir / "twitch_chat_replays"
         self.downloads_dir = self.root / "Downloads"
         for path in [
             self.content_dir,
             self.workflows_dir,
             self.wrap_inbox_dir,
             self.restream_dir,
+            self.youtube_chat_dir,
+            self.twitch_chat_dir,
             self.downloads_dir,
         ]:
             path.mkdir(parents=True)
@@ -42,6 +46,8 @@ class DailyFlowTest(unittest.TestCase):
             mock.patch.object(daily_flow, "WORKFLOWS_DIR", self.workflows_dir),
             mock.patch.object(daily_flow, "WRAP_INBOX_DIR", self.wrap_inbox_dir),
             mock.patch.object(daily_flow, "RESTREAM_CHAT_REPLAYS_DIR", self.restream_dir),
+            mock.patch.object(daily_flow, "YOUTUBE_CHAT_REPLAYS_DIR", self.youtube_chat_dir),
+            mock.patch.object(daily_flow, "TWITCH_CHAT_REPLAYS_DIR", self.twitch_chat_dir),
             mock.patch.object(daily_flow, "YOUTUBE_METADATA_PATH", self.data_dir / "youtube_video_metadata.toml"),
             mock.patch.object(daily_flow, "DOWNLOADS_DIR", self.downloads_dir),
         ]
@@ -114,6 +120,22 @@ class DailyFlowTest(unittest.TestCase):
 
         self.assertEqual(state["decisions"]["chat"]["source"], "restream_api")
         self.assertTrue(state["decisions"]["chat"]["accepted_by_user"])
+
+    def test_resolve_chat_accepts_direct_platform_replay_without_prompt(self):
+        self.write_session("0090")
+        self.write_toml("0090")
+        (self.youtube_chat_dir / "0090.json").write_text(
+            '{"messages": [{"platform": "YouTube", "author": "@viewer", "text": "bom dia"}]}\n',
+            encoding="utf-8",
+        )
+        state = daily_flow.default_state("0090")
+
+        with mock.patch.object(daily_flow, "prompt") as prompt:
+            self.assertTrue(daily_flow.resolve_chat(state))
+
+        prompt.assert_not_called()
+        self.assertEqual(state["decisions"]["chat"]["source"], "direct_platform_replays")
+        self.assertEqual(state["steps"]["chat"]["status"], "done")
 
     def test_wrap_command_uses_saved_decisions_without_reprompting(self):
         state = daily_flow.default_state("0090")

@@ -471,6 +471,32 @@ class WrapSessionNextSessionCacheTest(unittest.TestCase):
 
         self.assertEqual(replay["message_count"], 1)
 
+    def test_direct_platform_chat_can_satisfy_missing_userscript_chat_input(self):
+        with tempfile.TemporaryDirectory() as tmpdir:
+            root = Path(tmpdir)
+            youtube_dir = root / "youtube"
+            twitch_dir = root / "twitch"
+            youtube_dir.mkdir()
+            twitch_dir.mkdir()
+            youtube_path = youtube_dir / "0090.json"
+            youtube_path.write_text(
+                '{"messages": [{"platform": "YouTube", "author": "@viewer", "text": "bom dia"}]}\n',
+                encoding="utf-8",
+            )
+
+            with mock.patch.object(wrap_session, "YOUTUBE_CHAT_DIR", youtube_dir):
+                with mock.patch.object(wrap_session, "TWITCH_CHAT_DIR", twitch_dir):
+                    replays = wrap_session.load_direct_platform_chats("0090")
+                    wrap_session.require_userscript_inputs(
+                        "0090",
+                        Path("/tmp/0090.toml"),
+                        None,
+                        None,
+                        [path for path, _replay in replays],
+                    )
+
+        self.assertEqual([path for path, _replay in replays], [youtube_path])
+
     def test_restream_api_chat_fallback_accepts_yes(self):
         with redirect_stdout(io.StringIO()) as output:
             wrap_session.confirm_restream_api_chat_fallback("0090", Path("/tmp/0090.json"), assume_yes=True)
@@ -534,7 +560,7 @@ class WrapSessionNextSessionCacheTest(unittest.TestCase):
                     with self.assertRaises(SystemExit):
                         wrap_session.require_userscript_inputs("0090", Path("/tmp/0090.toml"), None, None)
 
-        self.assertIn("chat Restream JSON/API", output.getvalue())
+        self.assertIn("chat JSON/API/replay", output.getvalue())
 
     def test_previous_resolved_wrap_toml_reuses_interactive_answers_when_raw_toml_matches(self):
         previous_state = {

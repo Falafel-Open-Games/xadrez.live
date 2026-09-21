@@ -19,6 +19,8 @@ DATA_DIR = ROOT / "data" / "fcz"
 WORKFLOWS_DIR = DATA_DIR / "workflows"
 WRAP_INBOX_DIR = DATA_DIR / "wrap_inbox"
 RESTREAM_CHAT_REPLAYS_DIR = DATA_DIR / "restream_chat_replays"
+YOUTUBE_CHAT_REPLAYS_DIR = DATA_DIR / "youtube_chat_replays"
+TWITCH_CHAT_REPLAYS_DIR = DATA_DIR / "twitch_chat_replays"
 YOUTUBE_METADATA_PATH = DATA_DIR / "youtube_video_metadata.toml"
 DOWNLOADS_DIR = Path.home() / "Downloads"
 
@@ -233,6 +235,17 @@ def restream_api_chat_path(session: str) -> Path | None:
     return path if isinstance(messages, list) and messages else None
 
 
+def direct_platform_chat_paths(session: str) -> list[Path]:
+    paths = []
+    for directory in (YOUTUBE_CHAT_REPLAYS_DIR, TWITCH_CHAT_REPLAYS_DIR):
+        path = directory / f"{session}.json"
+        data = read_json(path)
+        messages = data.get("messages")
+        if isinstance(messages, list) and messages:
+            paths.append(path)
+    return paths
+
+
 def command_text(command: list[str]) -> str:
     return " ".join(command)
 
@@ -262,11 +275,14 @@ def refresh_artifact_inputs(state: dict[str, Any], persist: bool = True) -> dict
         "userscript_chat": userscript_chat_path(session),
         "restream_api_chat": restream_api_chat_path(session),
     }
+    direct_platform_chats = direct_platform_chat_paths(session)
     inputs = state.setdefault("inputs", {})
     if isinstance(inputs, dict):
         for key, path in artifacts.items():
             if path is not None:
                 inputs[key] = {"path": str(path)}
+        if direct_platform_chats:
+            inputs["direct_platform_chats"] = [{"path": str(path)} for path in direct_platform_chats]
     if persist:
         save_state(state)
     return artifacts
@@ -387,6 +403,13 @@ def resolve_chat(state: dict[str, Any]) -> bool:
     if artifacts["userscript_chat"] is not None:
         chat_decision.update({"source": "userscript", "accepted_by_user": True})
         mark_done(state, "chat", "userscript chat JSON found")
+        return True
+
+    direct_platform_chats = direct_platform_chat_paths(session)
+    if artifacts["restream_api_chat"] is None and direct_platform_chats:
+        chat_decision.update({"source": "direct_platform_replays", "accepted_by_user": True})
+        platforms = ", ".join(path.parent.name for path in direct_platform_chats)
+        mark_done(state, "chat", f"direct platform chat replay found ({platforms})")
         return True
 
     if artifacts["restream_api_chat"] is not None:
