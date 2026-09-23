@@ -1,10 +1,132 @@
 {
   "session_number": "0095",
   "source": "heuristic",
-  "transcript_source": "",
-  "transcript_label": "",
+  "transcript_source": "openai-gpt-4o-mini-transcribe",
+  "transcript_label": "GPT-4o mini",
   "limit": 6,
   "window_seconds": 90,
   "step_seconds": 30,
-  "highlights": []
+  "highlights": [
+    {
+      "start_seconds": 518,
+      "end_seconds": 540,
+      "time": "8:38",
+      "duration": "1:30",
+      "kind": "research",
+      "score": 6.05,
+      "summary": "Vamos terminar o double check aqui. Double check mate em 4. Esses eu não consigo enxergar, mas... Vamos lá. É um jogo de 1983. Aqui eu estou fazendo o papel das pretas…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; review ou melhor lance; treino ou puzzle streak; raciocínio em voz alta; pesquisa ou contexto externo",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "treino ou puzzle streak",
+        "raciocínio em voz alta",
+        "pesquisa ou contexto externo"
+      ],
+      "chat_count": 1,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 694,
+      "end_seconds": 780,
+      "time": "11:34",
+      "duration": "1:30",
+      "kind": "mistake",
+      "score": 4.05,
+      "summary": "A dama vai estar aqui. Aí... e agora, hein? Aqui, discretamente, não sei. Poderia trazer esse outro irmão aqui, né? Em 4, começo pareceu certo. 1, resposta do 1. 2, resposta do 2…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; raciocínio em voz alta",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "interação com o chat",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 1,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 2602,
+      "end_seconds": 2700,
+      "time": "43:22",
+      "duration": "1:30",
+      "kind": "mistake",
+      "score": 3.9,
+      "summary": "Minha dama? Dama por torre aqui não vale a pena, né? Até vale, se pá. Bom dia, Nicolete. Tá na hora já de tomar esses tipos de decisões difíceis. Joga qualquer coisa aí…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; raciocínio em voz alta",
+      "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 2,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 2692,
+      "end_seconds": 2790,
+      "time": "44:52",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 3.7,
+      "summary": "Inclusive, o que que a gente está fazendo aqui, que eu não sei. Nossa Senhora, que jogo bizonho…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
+      "signals": [
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 2969,
+      "end_seconds": 3060,
+      "time": "49:29",
+      "duration": "1:30",
+      "kind": "opening",
+      "score": 3.95,
+      "summary": "Deixa eu catar tudo aí. O que fazer? Pronto. Perdi. O cara me flagou. Parabéns para ele. Parabéns para ele. Eu tinha muitos mates em um mate. Pois, o cara me flagrou…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; abertura ou repertório",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "abertura ou repertório"
+      ],
+      "chat_count": 1,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 3158,
+      "end_seconds": 3240,
+      "time": "52:38",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 3.5,
+      "summary": "A ideia do Rui Lopes é... Cadê? Classical variation, central variation. Aqui, ó. Tipo, no lance 3, você já está pronto para o rock, né? Essa classical variation é coisa..…",
+      "reason": "reação forte na fala; erro ou momento perdido; plano ou estratégia; pressão no relógio; plano sob pressão de tempo",
+      "signals": [
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo"
+      ],
+      "chat_count": 0,
+      "transcript_count": 3
+    }
+  ]
 }
