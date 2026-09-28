@@ -42,6 +42,7 @@ RAW_MOVE_WITH_LANCE_RE = re.compile(
 )
 RAW_LANCE_BULLET_RE = re.compile(r"^lance\s+\d+\b|\blance\s+\d+\s*$", re.I)
 RAW_CLOCK_RE = re.compile(r"\brel[óo]gio\s+\d+\s+\d+\b", re.I)
+RAW_EVAL_RE = re.compile(r"(?<!\w)(?:p/\s*)?[+-]?\d+\.\d+\b", re.I)
 MOVE_TOKEN_RE = re.compile(r"\b(?:[KQRBN]?[a-h]?[1-8]?x?[a-h][1-8](?:=[QRBN])?[+#]?|O-O(?:-O)?)\b")
 CLOCK_THEME_RE = re.compile(
     r"\b(?:rel[oó]gio|press[aã]o (?:de|no) tempo|apuro de tempo|pouco tempo|sem tempo|"
@@ -84,6 +85,8 @@ def bullet_rejection_reason(value: str) -> str:
         return "lance number needs chess context"
     if RAW_CLOCK_RE.search(value):
         return "clock time needs chess context"
+    if RAW_EVAL_RE.search(value):
+        return "engine evaluation is technical metadata"
     if re.fullmatch(r"[\d\s:/+-]+", value):
         return "only numbers or punctuation"
     return ""
@@ -113,6 +116,10 @@ def raw_coordinate_bullet(value: str) -> bool:
     tokens = re.findall(r"\w+", value)
     move_tokens = MOVE_TOKEN_RE.findall(value)
     return bool(move_tokens) and len(tokens) <= 3
+
+
+def exact_move_bullet(value: str) -> bool:
+    return bool(MOVE_TOKEN_RE.search(value))
 
 
 def clean_bullet_set(values: list[Any]) -> list[str]:
@@ -276,7 +283,6 @@ def prompt_for_model(context: dict[str, Any], count: int) -> str:
             "opponent",
             "is_self",
             "move",
-            "eval_change",
             "best",
         )
         return {key: event[key] for key in allowed if event.get(key) not in (None, "")}
@@ -316,7 +322,14 @@ def prompt_for_model(context: dict[str, Any], count: int) -> str:
         "- Não use Puzzle do dia, Puzzle Storm, Puzzle Streak, treino, prática ou estatísticas de puzzles.\n"
         "- Não use abreviações como pts, placares crus ou bullets como 'Storm 4 6 pts'.\n"
         "- Não use coordenadas cruas como 'Bh4 lance 8', 'Nfd2 lance 8' ou 'relógio 8 52'.\n"
+        "- Não mostre avaliações numéricas, centipawns, sinais +/- ou frases como 'caiu para 0.07' e 'subiu para 2.77'.\n"
         "- Metadado não é tema: não transforme valores técnicos repetidos em destaque editorial.\n"
+        "- Transforme a capivarada em linguagem curta e natural, como 'virou a partida', 'devolveu a vantagem' ou 'entregou a vantagem'.\n"
+        "- Prefira verbo mais consequência enxadrística; não descreva apenas cor, número do lance ou mudança de avaliação.\n"
+        "- Cada opção pode ter no máximo 1 bullet com notação de lance, como Nxe5 ou Bd6.\n"
+        "- Se usar esse único lance, ligue-o a uma consequência concreta, como 'Nxe5 virou a partida'.\n"
+        "- Nos outros 2 bullets, não use casas, coordenadas ou notação; prefira abertura, resultado ou consequência editorial.\n"
+        "- Dentro de cada opção, use momentos distintos em vez de três reformulações de avaliações do computador.\n"
         "- Não atribua causa a um erro sem evidência textual explícita nos dados.\n"
         "- Só mencione relógio, pressão de tempo ou erro forçado pelo tempo se a nota, descrição, resumo ou highlight disser isso explicitamente.\n"
         "- Não invente peça perdida, rei exposto, mate evitado ou outro motivo tático que não esteja descrito nos dados.\n"
@@ -375,6 +388,8 @@ def unique_bullet_sets(values: list[list[str]], count: int) -> list[list[str]]:
         if len(cleaned) != MAX_BULLETS:
             continue
         if sum(1 for bullet in cleaned if raw_coordinate_bullet(bullet)) > 1:
+            continue
+        if sum(1 for bullet in cleaned if exact_move_bullet(bullet)) > 1:
             continue
         key = tuple(bullet.casefold() for bullet in cleaned)
         if not cleaned or key in seen:

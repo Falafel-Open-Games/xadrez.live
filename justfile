@@ -245,10 +245,10 @@ import-youtube-transcripts CACHE_DIR="/tmp/xadrez-transcripts" EXTRA="":
   @python3 scripts/import_youtube_transcripts.py --cache-dir {{CACHE_DIR}} {{EXTRA}}
 
 import-whisper-transcript SESSION EXTRA="":
-  @python3 scripts/import_whisper_transcripts.py --source-id faster-whisper --output-suffix faster-whisper --whisper-cache-dir /tmp/xadrez-faster-whisper-cache --whisper-cmd "whisper-ctranslate2 --model turbo --compute_type int8 --batched True --batch_size 8" {{EXTRA}} {{SESSION}}
+  @python3 scripts/import_whisper_transcripts.py --source-id faster-whisper --output-suffix faster-whisper --whisper-cache-dir /tmp/xadrez-faster-whisper-cache --whisper-cmd "whisper-ctranslate2 --model turbo --compute_type int8 --batched False --vad_filter True --condition_on_previous_text False" {{EXTRA}} {{SESSION}}
 
 import-faster-whisper-transcript SESSION EXTRA="":
-  @python3 scripts/import_whisper_transcripts.py --source-id faster-whisper --output-suffix faster-whisper --whisper-cache-dir /tmp/xadrez-faster-whisper-cache --whisper-cmd "whisper-ctranslate2 --model turbo --compute_type int8 --batched True --batch_size 8" {{EXTRA}} {{SESSION}}
+  @python3 scripts/import_whisper_transcripts.py --source-id faster-whisper --output-suffix faster-whisper --whisper-cache-dir /tmp/xadrez-faster-whisper-cache --whisper-cmd "whisper-ctranslate2 --model turbo --compute_type int8 --batched False --vad_filter True --condition_on_previous_text False" {{EXTRA}} {{SESSION}}
 
 import-timed-transcript SESSION EXTRA="":
   @python3 scripts/align_transcript_timestamps.py --source-suffix openai-gpt-4o-mini-transcribe --output-suffix openai-gpt-4o-mini-transcribe.aligned {{SESSION}}
@@ -275,7 +275,7 @@ import-missing-faster-whisper-transcripts EXTRA="":
       --source-id faster-whisper \
       --output-suffix faster-whisper \
       --whisper-cache-dir /tmp/xadrez-faster-whisper-cache \
-      --whisper-cmd "whisper-ctranslate2 --model turbo --threads 2 --compute_type int8 --batched True --batch_size 4" \
+      --whisper-cmd "whisper-ctranslate2 --model turbo --threads 2 --compute_type int8 --batched False --vad_filter True --condition_on_previous_text False" \
       --progress-interval-seconds 600 \
       --heartbeat-interval-seconds 300 \
       {{EXTRA}} \

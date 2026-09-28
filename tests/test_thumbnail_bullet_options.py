@@ -42,7 +42,10 @@ class ThumbnailBulletOptionsTest(unittest.TestCase):
         self.assertNotIn("7:59", prompt)
         self.assertNotIn("com 7:59", prompt)
         self.assertIn('"move": "Bf4"', prompt)
-        self.assertIn('"eval_change": "3.32 → 0.00"', prompt)
+        self.assertNotIn('"eval_change"', prompt)
+        self.assertIn("Não mostre avaliações numéricas", prompt)
+        self.assertIn("Prefira verbo mais consequência enxadrística", prompt)
+        self.assertIn("no máximo 1 bullet com notação de lance", prompt)
 
     def test_clock_bullets_require_explicit_editorial_evidence(self):
         context = {
@@ -96,6 +99,11 @@ class ThumbnailBulletOptionsTest(unittest.TestCase):
         self.assertFalse(thumbnail_bullet_options.valid_bullet("g4 Lance 7"))
         self.assertFalse(thumbnail_bullet_options.valid_bullet("relógio 8 52"))
 
+    def test_rejects_engine_evaluation_bullets(self):
+        self.assertFalse(thumbnail_bullet_options.valid_bullet("18º branco caiu p/0.07"))
+        self.assertFalse(thumbnail_bullet_options.valid_bullet("preto subiu para +6.25"))
+        self.assertFalse(thumbnail_bullet_options.valid_bullet("virou para -2.77"))
+
     def test_keeps_editorial_chess_bullets(self):
         self.assertTrue(thumbnail_bullet_options.valid_bullet("peça pendurada"))
         self.assertTrue(thumbnail_bullet_options.valid_bullet("relógio apertou"))
@@ -112,6 +120,17 @@ class ThumbnailBulletOptionsTest(unittest.TestCase):
         )
 
         self.assertEqual(options, [["peça pendurada", "relógio apertou", "decisão crítica"]])
+
+    def test_filters_sets_with_multiple_explained_moves(self):
+        options = thumbnail_bullet_options.unique_bullet_sets(
+            [
+                ["Nxe5 virou a partida", "Bd6 perdeu a vantagem", "Venci de preto"],
+                ["Nxe5 virou a partida", "Abertura QGD", "Venci de preto"],
+            ],
+            2,
+        )
+
+        self.assertEqual(options, [["Nxe5 virou a partida", "Abertura QGD", "Venci de preto"]])
 
     def test_prompt_exit_option_returns_no_selection(self):
         options = [["peça pendurada", "relógio apertou", "decisão crítica"]]
