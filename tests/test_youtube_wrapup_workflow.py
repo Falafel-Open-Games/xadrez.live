@@ -837,6 +837,54 @@ class WrapSessionNextSessionCacheTest(unittest.TestCase):
 
         self.assertIn("TOML registra puzzle do dia sem timestamp", output.getvalue())
 
+    def test_wrap_toml_daily_puzzle_recorded_after_video_requests_video_timestamp(self):
+        data = {"date": "2026-10-01", "extra": {"time": "09:00"}}
+        wrap = {
+            "puzzle_of_the_day_url": "https://lichess.org/training/toZHG",
+            "puzzle_of_the_day_recorded_at": "2026-10-01T13:20:22.570Z",
+            "puzzle_of_the_day_event": "puzzle_of_the_day",
+        }
+        metadata = {
+            "sessions": {
+                "0101": {
+                    "release_at": "2026-10-01T12:07:38+00:00",
+                    "duration_seconds": 3785,
+                }
+            }
+        }
+
+        with mock.patch.object(wrap_session, "read_metadata", return_value=metadata):
+            with mock.patch.object(wrap_session.sys.stdin, "isatty", return_value=True):
+                with mock.patch.object(wrap_session, "confirm", return_value=True):
+                    with mock.patch.object(wrap_session, "prompt", return_value="12:34"):
+                        with redirect_stdout(io.StringIO()) as output:
+                            wrap_session.confirm_wrap_toml("0101", data, wrap, Path("/tmp/0101.toml"), False)
+
+        self.assertEqual(wrap["puzzle_of_the_day_recorded_at"], "2026-10-01T12:20:12Z")
+        self.assertIn("registrado depois do fim do vídeo", output.getvalue())
+
+    def test_wrap_toml_daily_puzzle_recorded_after_video_is_not_silenced_by_yes(self):
+        wrap = {
+            "puzzle_of_the_day_url": "https://lichess.org/training/toZHG",
+            "puzzle_of_the_day_recorded_at": "2026-10-01T13:20:22.570Z",
+            "puzzle_of_the_day_event": "puzzle_of_the_day",
+        }
+        metadata = {
+            "sessions": {
+                "0101": {
+                    "release_at": "2026-10-01T12:07:38+00:00",
+                    "duration_seconds": 3785,
+                }
+            }
+        }
+
+        with mock.patch.object(wrap_session, "read_metadata", return_value=metadata):
+            with redirect_stdout(io.StringIO()) as output:
+                with self.assertRaises(SystemExit):
+                    wrap_session.confirm_wrap_toml("0101", {}, wrap, Path("/tmp/0101.toml"), True)
+
+        self.assertIn("registrado depois do fim do vídeo", output.getvalue())
+
     def test_verify_session_allows_after_the_fact_daily_puzzle_without_timeline_event(self):
         with tempfile.TemporaryDirectory() as tmpdir:
             tmp = Path(tmpdir)

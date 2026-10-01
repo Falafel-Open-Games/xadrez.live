@@ -396,6 +396,24 @@ def wrap_leaves_expected_daily_puzzle_untimed(data: dict[str, Any], wrap: dict[s
     return bool(puzzle_url) and not recorded_at and puzzle_event == "puzzle_of_the_day"
 
 
+def daily_puzzle_was_recorded_after_video(session: str, wrap: dict[str, Any]) -> bool:
+    recorded_at = str(wrap_value(wrap, "puzzle_of_the_day_recorded_at") or "").strip()
+    if not recorded_at or wrap_value(wrap, "puzzle_of_the_day_event") != "puzzle_of_the_day":
+        return False
+    sessions = read_metadata().get("sessions", {})
+    metadata = sessions.get(session, {}) if isinstance(sessions, dict) else {}
+    if not isinstance(metadata, dict):
+        return False
+    release_at = str(metadata.get("release_at") or "").strip()
+    try:
+        duration_seconds = int(metadata.get("duration_seconds"))
+        video_start = datetime.fromisoformat(release_at.replace("Z", "+00:00"))
+        puzzle_recorded_at = datetime.fromisoformat(recorded_at.replace("Z", "+00:00"))
+    except (TypeError, ValueError):
+        return False
+    return puzzle_recorded_at > video_start + timedelta(seconds=duration_seconds)
+
+
 def carry_forward_existing_daily_puzzle_resolution(data: dict[str, Any], wrap: dict[str, Any]) -> list[str]:
     incoming_url = str(explicit_wrap_value(wrap, "puzzle_of_the_day_url") or "").strip()
     incoming_event = explicit_wrap_value(wrap, "puzzle_of_the_day_event", None)
@@ -540,6 +558,7 @@ def confirm_wrap_toml(session: str, data: dict[str, Any], wrap: dict[str, Any], 
     print("")
     missing_expected_puzzle = wrap_leaves_expected_daily_puzzle_missing(data, wrap)
     untimed_expected_puzzle = wrap_leaves_expected_daily_puzzle_untimed(data, wrap)
+    late_daily_puzzle = daily_puzzle_was_recorded_after_video(session, wrap)
     single_puzzle_url = single_recorded_puzzle_url(wrap) if missing_expected_puzzle else ""
     if missing_expected_puzzle and assume_yes:
         hint = (
@@ -553,6 +572,11 @@ def confirm_wrap_toml(session: str, data: dict[str, Any], wrap: dict[str, Any], 
         fail(
             "TOML registra puzzle do dia sem timestamp, mas a sessão espera evento na timeline. "
             "Preencha puzzle_of_the_day_recorded_at ou rode sem --yes para informar MM:SS/H:MM:SS do vídeo."
+        )
+    if late_daily_puzzle and assume_yes:
+        fail(
+            "Puzzle do dia foi registrado depois do fim do vídeo. "
+            "Rode sem --yes para informar o momento em que ele começa no vídeo."
         )
     if assume_yes:
         print(f"{session}: confirmação do TOML pulada por --yes")
@@ -570,8 +594,10 @@ def confirm_wrap_toml(session: str, data: dict[str, Any], wrap: dict[str, Any], 
                 fail("wrap cancelado: registre puzzle_of_the_day_url no TOML antes de continuar")
             mark_daily_puzzle_as_skipped(wrap)
             print(f'{session}: puzzle do dia marcado como ausente (puzzle_of_the_day_event = "")')
-    elif untimed_expected_puzzle:
+    elif untimed_expected_puzzle or late_daily_puzzle:
         puzzle_url = str(wrap_value(wrap, "puzzle_of_the_day_url") or "").strip()
+        if late_daily_puzzle:
+            print("Puzzle do dia registrado depois do fim do vídeo; informe a posição correta na gravação.")
         prompt_daily_puzzle_video_timestamp(session, data, wrap, puzzle_url)
 
 

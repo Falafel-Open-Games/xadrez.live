@@ -1,0 +1,64 @@
+{
+  "session": "0101",
+  "workflow": "daily-wrap",
+  "status": "completed",
+  "current_step": "done",
+  "created_at": "2026-10-01T13:18:01.564599+00:00",
+  "updated_at": "2026-10-02T12:44:04.657283+00:00",
+  "inputs": {
+    "wrap_toml": {
+      "path": "/home/fcz/Downloads/0101.toml"
+    },
+    "userscript_chat": {
+      "path": "/home/fcz/Downloads/0101-chat.json"
+    },
+    "restream_api_chat": {
+      "path": "/home/fcz/falafel/xadrez.live/data/fcz/restream_chat_replays/0101.json"
+    }
+  },
+  "decisions": {
+    "chat": {
+      "source": "userscript",
+      "accepted_by_user": true
+    },
+    "calibration": {
+      "anchor": "first-game"
+    },
+    "wrap_session": {
+      "extra_args": []
+    }
+  },
+  "steps": {
+    "inputs": {
+      "status": "done",
+      "updated_at": "2026-10-02T12:40:25.701021+00:00",
+      "detail": "session page and wrap TOML found"
+    },
+    "chat": {
+      "status": "done",
+      "updated_at": "2026-10-02T12:40:25.701434+00:00",
+      "detail": "userscript chat JSON found"
+    },
+    "youtube_metadata": {
+      "status": "done",
+      "updated_at": "2026-10-02T12:40:27.636960+00:00",
+      "detail": "release timestamp and duration found (1:03:07s)"
+    },
+    "wrap_session": {
+      "status": "done",
+      "updated_at": "2026-10-02T12:44:04.656749+00:00",
+      "detail": "completed: just wrap-session 0101 --calibration-anchor first-game"
+    },
+    "verify": {
+      "status": "done",
+      "updated_at": "2026-10-02T12:44:04.657003+00:00",
+      "detail": "handled by wrap-session"
+    },
+    "build": {
+      "status": "done",
+      "updated_at": "2026-10-02T12:44:04.657161+00:00",
+      "detail": "handled by wrap-session"
+    }
+  },
+  "completed_at": "2026-10-02T12:44:04.657278+00:00"
+}

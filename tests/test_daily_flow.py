@@ -158,6 +158,33 @@ class DailyFlowTest(unittest.TestCase):
             ],
         )
 
+    def test_late_daily_puzzle_overrides_saved_calibration_answer(self):
+        session = "0090"
+        self.write_toml(session)
+        (self.wrap_inbox_dir / f"{session}.toml").write_text(
+            'puzzle_of_the_day_recorded_at = "2026-09-15T14:30:00Z"\n',
+            encoding="utf-8",
+        )
+        (self.data_dir / "youtube_video_metadata.toml").write_text(
+            f'[sessions."{session}"]\nrelease_at = "2026-09-15T12:00:00Z"\n'
+            'duration_seconds = 3600\n',
+            encoding="utf-8",
+        )
+        state = daily_flow.default_state(session)
+        state["decisions"] = {
+            "calibration": {"anchor": "puzzle-of-the-day"},
+            "wrap_session": {"extra_args": []},
+        }
+
+        with mock.patch.object(daily_flow, "prompt") as prompt:
+            with redirect_stdout(io.StringIO()) as output:
+                command = daily_flow.wrap_command(state)
+
+        prompt.assert_not_called()
+        self.assertIn("forçada pela segunda jogada das brancas", output.getvalue())
+        self.assertEqual(state["decisions"]["calibration"]["anchor"], "first-game")
+        self.assertEqual(command[3:5], ["--calibration-anchor", "first-game"])
+
     def test_resolve_youtube_metadata_marks_valid_metadata_done(self):
         self.write_youtube_metadata("0090")
         state = daily_flow.default_state("0090")

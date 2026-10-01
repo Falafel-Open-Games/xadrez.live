@@ -8,7 +8,7 @@ import subprocess
 import sys
 import tomllib
 from dataclasses import dataclass
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from typing import Any, Literal
 
@@ -447,11 +447,36 @@ def resolve_chat(state: dict[str, Any]) -> bool:
             print("Opcao invalida.")
 
 
+def daily_puzzle_was_recorded_after_video(session: str) -> bool:
+    toml_path = wrap_toml_path(session)
+    if toml_path is None or not YOUTUBE_METADATA_PATH.exists():
+        return False
+    try:
+        wrap = tomllib.loads(toml_path.read_text(encoding="utf-8"))
+        metadata = tomllib.loads(YOUTUBE_METADATA_PATH.read_text(encoding="utf-8"))
+        entry = metadata.get("sessions", {}).get(session, {})
+        recorded_at = datetime.fromisoformat(
+            str(wrap.get("puzzle_of_the_day_recorded_at") or "").replace("Z", "+00:00")
+        )
+        release_at = datetime.fromisoformat(str(entry.get("release_at") or "").replace("Z", "+00:00"))
+        duration_seconds = int(entry.get("duration_seconds"))
+    except (OSError, tomllib.TOMLDecodeError, AttributeError, TypeError, ValueError):
+        return False
+    return recorded_at > release_at + timedelta(seconds=duration_seconds)
+
+
 def calibration_anchor(state: dict[str, Any]) -> str:
     decisions = state.setdefault("decisions", {})
     calibration = decisions.setdefault("calibration", {}) if isinstance(decisions, dict) else {}
     if not isinstance(calibration, dict):
         state["decisions"]["calibration"] = calibration = {}
+    session = str(state["session"])
+    if daily_puzzle_was_recorded_after_video(session):
+        if calibration.get("anchor") != "first-game":
+            print("Puzzle do dia registrado depois do vídeo; calibração forçada pela segunda jogada das brancas.")
+        calibration["anchor"] = "first-game"
+        save_state(state)
+        return "first-game"
     current = str(calibration.get("anchor") or "")
     if current:
         return current
