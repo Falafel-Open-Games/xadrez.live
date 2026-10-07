@@ -1,22 +1,24 @@
 {
   "session_number": "0102",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "limit": 6,
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 432,
-      "end_seconds": 510,
-      "time": "7:12",
+      "start_seconds": 400,
+      "end_seconds": 480,
+      "time": "6:40",
       "duration": "1:30",
       "kind": "training",
-      "score": 4.5,
-      "summary": "Acho que vou até tomar de dama pra... Tomar de dama, ué. Tomar de dama é o certo. Beleza. Agora toma esse de dama. Não, aí eu preciso só retornar o equilíbrio. Se eu fizer..…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
+      "score": 5.9,
+      "summary": "Eu acho que eu vou errar indo de bispo. Ih, foda-se. Errado. Era peão, certo? Era peão, certo…",
+      "reason": "2 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
       "signals": [
+        "2 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
@@ -25,35 +27,37 @@
         "treino ou puzzle streak",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 3
+      "chat_count": 2,
+      "transcript_count": 4,
+      "lead_in": "Eu posso fazer isso depois"
     },
     {
-      "start_seconds": 1142,
-      "end_seconds": 1230,
-      "time": "19:02",
+      "start_seconds": 1148,
+      "end_seconds": 1170,
+      "time": "19:08",
       "duration": "1:30",
       "kind": "research",
-      "score": 3.0,
+      "score": 3.65,
       "summary": "Esse foi Chigorin contra Borowski. Openings. Chigorin teve várias aberturas de xadrez e variações que recebem o nome dele.",
-      "reason": "tema claro de xadrez; abertura ou repertório; raciocínio em voz alta; pesquisa ou contexto externo",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; tema claro de xadrez; abertura ou repertório; pesquisa ou contexto externo",
       "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "tema claro de xadrez",
         "abertura ou repertório",
-        "raciocínio em voz alta",
         "pesquisa ou contexto externo"
       ],
-      "chat_count": 0,
+      "chat_count": 1,
       "transcript_count": 4
     },
     {
-      "start_seconds": 2887,
+      "start_seconds": 2890,
       "end_seconds": 2970,
-      "time": "48:07",
+      "time": "48:10",
       "duration": "1:30",
       "kind": "review",
       "score": 4.85,
-      "summary": "Eu não preciso dessa torre, sendo que eu já tenho duas pessoas olhando para essa casa E7. Essa torre aqui não faz diferença nenhuma…",
+      "summary": "Tanto a dama quanto a torre estão mirando no G7. Tudo bem. Lá no começo do problema. Mas não tem nada de X-Ray. Porque essa torre é inútil…",
       "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance",
       "signals": [
         "1 mensagem(ns) no chat",
@@ -65,12 +69,13 @@
         "review ou melhor lance"
       ],
       "chat_count": 1,
-      "transcript_count": 3
+      "transcript_count": 4,
+      "lead_in": "isso que eu quero saber"
     },
     {
-      "start_seconds": 3431,
+      "start_seconds": 3428,
       "end_seconds": 3510,
-      "time": "57:11",
+      "time": "57:08",
       "duration": "1:30",
       "kind": "training",
       "score": 4.6,
@@ -85,12 +90,13 @@
         "treino ou puzzle streak"
       ],
       "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 3,
+      "lead_in": "primeiro né dia trinta né"
     },
     {
-      "start_seconds": 3744,
-      "end_seconds": 3840,
-      "time": "1:02:24",
+      "start_seconds": 3725,
+      "end_seconds": 3810,
+      "time": "1:02:05",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 4.3,
@@ -106,18 +112,21 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 0,
-      "transcript_count": 4
+      "transcript_count": 3,
+      "lead_in": "O que aconteceu"
     },
     {
-      "start_seconds": 4352,
+      "start_seconds": 4373,
       "end_seconds": 4440,
-      "time": "1:12:32",
+      "time": "1:12:53",
       "duration": "1:30",
       "kind": "review",
-      "score": 4.4,
+      "score": 5.45,
       "summary": "É, S bispo aqui realmente não tem muito sentido, né? Tinha coisa melhor pro lado dele lá. É, nem é a variância, né? Se ele quisesse botar o bispo aqui, era uma coisa e tudo mais…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
       "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
         "reação forte na fala",
         "erro ou momento perdido",
         "tema claro de xadrez",
@@ -125,8 +134,9 @@
         "plano ou estratégia",
         "raciocínio em voz alta"
       ],
-      "chat_count": 0,
-      "transcript_count": 3
+      "chat_count": 1,
+      "transcript_count": 4,
+      "lead_in": "melhor jogada mas é jogada"
     }
   ]
 }
