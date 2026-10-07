@@ -1,10 +1,132 @@
 {
   "session_number": "0102",
   "source": "heuristic",
-  "transcript_source": "",
-  "transcript_label": "",
+  "transcript_source": "openai-gpt-4o-mini-transcribe",
+  "transcript_label": "GPT-4o mini",
   "limit": 6,
   "window_seconds": 90,
   "step_seconds": 30,
-  "highlights": []
+  "highlights": [
+    {
+      "start_seconds": 432,
+      "end_seconds": 510,
+      "time": "7:12",
+      "duration": "1:30",
+      "kind": "training",
+      "score": 4.5,
+      "summary": "Acho que vou até tomar de dama pra... Tomar de dama, ué. Tomar de dama é o certo. Beleza. Agora toma esse de dama. Não, aí eu preciso só retornar o equilíbrio. Se eu fizer..…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; plano ou estratégia; treino ou puzzle streak; raciocínio em voz alta",
+      "signals": [
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "interação com o chat",
+        "plano ou estratégia",
+        "treino ou puzzle streak",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 1142,
+      "end_seconds": 1230,
+      "time": "19:02",
+      "duration": "1:30",
+      "kind": "research",
+      "score": 3.0,
+      "summary": "Esse foi Chigorin contra Borowski. Openings. Chigorin teve várias aberturas de xadrez e variações que recebem o nome dele.",
+      "reason": "tema claro de xadrez; abertura ou repertório; raciocínio em voz alta; pesquisa ou contexto externo",
+      "signals": [
+        "tema claro de xadrez",
+        "abertura ou repertório",
+        "raciocínio em voz alta",
+        "pesquisa ou contexto externo"
+      ],
+      "chat_count": 0,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 2887,
+      "end_seconds": 2970,
+      "time": "48:07",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 4.85,
+      "summary": "Eu não preciso dessa torre, sendo que eu já tenho duas pessoas olhando para essa casa E7. Essa torre aqui não faz diferença nenhuma…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; interação com o chat; review ou melhor lance",
+      "signals": [
+        "1 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "interação com o chat",
+        "review ou melhor lance"
+      ],
+      "chat_count": 1,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 3431,
+      "end_seconds": 3510,
+      "time": "57:11",
+      "duration": "1:30",
+      "kind": "training",
+      "score": 4.6,
+      "summary": "Tipo isso? Cadê? 30 de setembro. Ah, então essa foi a sua rotina no dia 30 de setembro. 1, 2, 3, 4, 5, quatro puzzles no, um em cada site…",
+      "reason": "reação forte na fala; tema claro de xadrez; review ou melhor lance; pressão no relógio; abertura ou repertório; treino ou puzzle streak",
+      "signals": [
+        "reação forte na fala",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "pressão no relógio",
+        "abertura ou repertório",
+        "treino ou puzzle streak"
+      ],
+      "chat_count": 0,
+      "transcript_count": 3
+    },
+    {
+      "start_seconds": 3744,
+      "end_seconds": 3840,
+      "time": "1:02:24",
+      "duration": "1:30",
+      "kind": "time-pressure",
+      "score": 4.3,
+      "summary": "Alguma coisa aconteceu fora do modo Zen aí, depois eu olho. Será que foi um desafio? O que que será que foi? Tomar aqui, às vezes eu gosto…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; plano ou estratégia; pressão no relógio; plano sob pressão de tempo; raciocínio em voz alta",
+      "signals": [
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "plano ou estratégia",
+        "pressão no relógio",
+        "plano sob pressão de tempo",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
+      "transcript_count": 4
+    },
+    {
+      "start_seconds": 4352,
+      "end_seconds": 4440,
+      "time": "1:12:32",
+      "duration": "1:30",
+      "kind": "review",
+      "score": 4.4,
+      "summary": "É, S bispo aqui realmente não tem muito sentido, né? Tinha coisa melhor pro lado dele lá. É, nem é a variância, né? Se ele quisesse botar o bispo aqui, era uma coisa e tudo mais…",
+      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; raciocínio em voz alta",
+      "signals": [
+        "reação forte na fala",
+        "erro ou momento perdido",
+        "tema claro de xadrez",
+        "review ou melhor lance",
+        "plano ou estratégia",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 0,
+      "transcript_count": 3
+    }
+  ]
 }
