@@ -1,0 +1,865 @@
+{
+  "session": "0103",
+  "pid": 383907,
+  "status": "completed",
+  "started_at": "2026-10-09T14:11:56.745741+00:00",
+  "updated_at": "2026-10-09T14:17:25.446965+00:00",
+  "inputs": {
+    "toml_file": "/home/fcz/Downloads/0103.toml",
+    "toml": "[[extra.streak_attempts]]\nsolved = \"\"\npuzzles = [\"https://lichess.org/training/yngvQ\"]\nnote = \"attempt in progress\"\n\n[[extra.practice_sets]]\nplatform = \"lichess\"\ntitle = \"Presente Grego\"\nurl = \"https://lichess.org/practice/advanced-tactics/practicestnamgreekgift/s5pLU7Of\"\ncategory = \"advanced-tactics\"\n\n[[extra.practice_sets.exercises]]\ntitle = \"Greek Gift Introduction\"\nurl = \"https://lichess.org/practice/advanced-tactics/practicestnamgreekgift/s5pLU7Of/uCkLsFs1\"\nstatus = \"done\"\n\n[[extra.practice_sets.exercises]]\ntitle = \"Greek Gift Challenge #1\"\nurl = \"https://lichess.org/practice/advanced-tactics/practicestnamgreekgift/s5pLU7Of/p2mcIgK7\"\nstatus = \"done\"\n\n[[extra.practice_sets.exercises]]\ntitle = \"Greek Gift Challenge #2\"\nurl = \"https://lichess.org/practice/advanced-tactics/practicestnamgreekgift/s5pLU7Of/XY8z7mT3\"\nstatus = \"done\"\n\n[[extra.games]]\nplatform = \"lichess\"\ngame_url = \"https://lichess.org/PWGrDnYu/black\"\ngame_id = \"PWGrDnYu\"\nresult = \"win\"\ncolor = \"black\"\nopening = \"Queen's Pawn Game: Zukertort Variation\"\nopening_url = \"https://lichess.org/opening/Queen's%20Pawn%20Game:%20Zukertort%20Variation\"\nnote = \"\"\"Jogo com o colega do chat.  Cometi alguns erros na abertura, talvez eu tenha que ter algo na manga das pretas contra peão-dama.\n\nEu na ansia de atrasar o roque do adversário fui de um desenvolvemento de bispo que não é dos melhores, ter vindo para a coluna da dama, ou saido de cavalo teria sido melhor no lance 4 por exemplo.\"\"\"\n\n[[extra.games]]\nplatform = \"lichess\"\ngame_url = \"https://lichess.org/eBFp3bog/white\"\ngame_id = \"eBFp3bog\"\nresult = \"loss\"\ncolor = \"white\"\nopening = \"Alekhine Defense: Scandinavian Variation\"\nopening_url = \"https://lichess.org/opening/Alekhine%20Defense:%20Scandinavian%20Variation\"\nnote = \"jogo com outro colega do chat, blitz, nao tive ainda tempo de analisar\"",
+    "resolved_toml": {
+      "extra": {
+        "streak_attempts": [
+          {
+            "solved": "",
+            "puzzles": [],
+            "note": "attempt in progress"
+          }
+        ],
+        "practice_sets": [
+          {
+            "platform": "lichess",
+            "title": "Presente Grego",
+            "url": "https://lichess.org/practice/advanced-tactics/practicestnamgreekgift/s5pLU7Of",
+            "category": "advanced-tactics",
+            "exercises": [
+              {
+                "title": "Greek Gift Introduction",
+                "url": "https://lichess.org/practice/advanced-tactics/practicestnamgreekgift/s5pLU7Of/uCkLsFs1",
+                "status": "done"
+              },
+              {
+                "title": "Greek Gift Challenge #1",
+                "url": "https://lichess.org/practice/advanced-tactics/practicestnamgreekgift/s5pLU7Of/p2mcIgK7",
+                "status": "done"
+              },
+              {
+                "title": "Greek Gift Challenge #2",
+                "url": "https://lichess.org/practice/advanced-tactics/practicestnamgreekgift/s5pLU7Of/XY8z7mT3",
+                "status": "done"
+              }
+            ]
+          }
+        ],
+        "games": [
+          {
+            "platform": "lichess",
+            "game_url": "https://lichess.org/PWGrDnYu/black",
+            "game_id": "PWGrDnYu",
+            "result": "win",
+            "color": "black",
+            "opening": "Queen's Pawn Game: Zukertort Variation",
+            "opening_url": "https://lichess.org/opening/Queen's%20Pawn%20Game:%20Zukertort%20Variation",
+            "note": "Jogo com o colega do chat.  Cometi alguns erros na abertura, talvez eu tenha que ter algo na manga das pretas contra peão-dama.\n\nEu na ansia de atrasar o roque do adversário fui de um desenvolvemento de bispo que não é dos melhores, ter vindo para a coluna da dama, ou saido de cavalo teria sido melhor no lance 4 por exemplo."
+          },
+          {
+            "platform": "lichess",
+            "game_url": "https://lichess.org/eBFp3bog/white",
+            "game_id": "eBFp3bog",
+            "result": "loss",
+            "color": "white",
+            "opening": "Alekhine Defense: Scandinavian Variation",
+            "opening_url": "https://lichess.org/opening/Alekhine%20Defense:%20Scandinavian%20Variation",
+            "note": "jogo com outro colega do chat, blitz, nao tive ainda tempo de analisar"
+          }
+        ]
+      },
+      "puzzle_of_the_day_url": "https://lichess.org/training/yngvQ",
+      "puzzle_of_the_day_recorded_at": "2026-10-09T12:22:23Z",
+      "puzzle_of_the_day_event": "puzzle_of_the_day",
+      "_wrap_session_interactive": {
+        "puzzle_of_the_day_video_timestamp": "3:26"
+      }
+    },
+    "chat_json_file": "/home/fcz/Downloads/0103-chat.json",
+    "chat_json": {
+      "source": "restream-userscript",
+      "exportedAt": "2026-10-09T14:00:02.415Z",
+      "pageUrl": "https://chat.restream.io/new-chat-golive?dashboard&theme=black&show-id=853ffd4b-8773-4bef-a8f0-b7235def2712",
+      "messages": [
+        {
+          "clock": "09:19:10",
+          "platform": "Twitch",
+          "platformIcon": "https://chat.restream.io/assets/icon-platform/restream-icon-black.svg",
+          "channel": "",
+          "author": "Host",
+          "text": "bom dia chat"
+        },
+        {
+          "clock": "09:20:56",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Bom dia !!! Tudo OK por aqui."
+        },
+        {
+          "clock": "09:31:11",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "É tem uma musiquinha até boa ."
+        },
+        {
+          "clock": "09:35:56",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Tem a ver com milha abertura padrão de brancas..."
+        },
+        {
+          "clock": "09:36:25",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "minha abertura padrão."
+        },
+        {
+          "clock": "09:37:06",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Zukertort, mas é segredo !!!"
+        },
+        {
+          "clock": "09:54:37",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@10centavos-m4p",
+          "text": "salve"
+        },
+        {
+          "clock": "09:55:00",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Tá com tempo pra jogar uma comigo ? Eu de brancas ?"
+        },
+        {
+          "clock": "09:55:18",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@10centavos-m4p",
+          "text": "defende o peão com bispo"
+        },
+        {
+          "clock": "09:56:28",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Entre amigos tem."
+        },
+        {
+          "clock": "09:56:37",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@10centavos-m4p",
+          "text": "posso ir depois do marcos?"
+        },
+        {
+          "clock": "09:56:43",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@10centavos-m4p",
+          "text": "não importa a cor"
+        },
+        {
+          "clock": "09:56:55",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Poe rating."
+        },
+        {
+          "clock": "09:57:31",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@ecdpalma",
+          "text": "♟"
+        },
+        {
+          "clock": "09:57:51",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@10centavos-m4p",
+          "text": "pode ser blitz 3min pra não se estender muito"
+        },
+        {
+          "clock": "09:58:14",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@10centavos-m4p",
+          "text": "qual seu Nick"
+        },
+        {
+          "clock": "09:58:50",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@10centavos-m4p",
+          "text": "fcz? ou tudo maiusculo"
+        },
+        {
+          "clock": "10:00:24",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@10centavos-m4p",
+          "text": "não achei escreve aí pra mim"
+        },
+        {
+          "clock": "10:03:59",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@10centavos-m4p",
+          "text": "ele tinha b4 ganhava o bispo preto"
+        },
+        {
+          "clock": "10:04:12",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@10centavos-m4p",
+          "text": "perdeu a chance"
+        },
+        {
+          "clock": "10:09:31",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Rei da capiva !!!"
+        },
+        {
+          "clock": "10:09:46",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@10centavos-m4p",
+          "text": "quando você pegou o peão de e5 de torre"
+        },
+        {
+          "clock": "10:10:13",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@10centavos-m4p",
+          "text": "o Marcos poderia ter ganho o bispo"
+        },
+        {
+          "clock": "10:10:19",
+          "platform": "Twitch",
+          "platformIcon": "https://chat.restream.io/assets/icon-platform/restream-icon-black.svg",
+          "channel": "",
+          "author": "Host",
+          "text": "fcz"
+        },
+        {
+          "clock": "10:10:42",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Já somos intimos delas então podemos chamar de capiav certo ?"
+        },
+        {
+          "clock": "10:11:00",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "capiva"
+        },
+        {
+          "clock": "10:11:08",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@10centavos-m4p",
+          "text": "o meu Nick é W_09"
+        },
+        {
+          "clock": "10:13:18",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "É ruim de escrever tantas capivaradas nas minhas análises. Precisei abreviar."
+        },
+        {
+          "clock": "10:16:41",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@10centavos-m4p",
+          "text": "valeu"
+        },
+        {
+          "clock": "10:20:23",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@10centavos-m4p",
+          "text": "era pra ele ter jogado b4 atacando o bispo"
+        },
+        {
+          "clock": "10:22:27",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@10centavos-m4p",
+          "text": "avançava b4 depois c4 abrindo um descoberto na torre e quando a torre retorna avança c5 prendendo o bispo"
+        },
+        {
+          "clock": "10:22:37",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Capiva contra capiva !!!"
+        },
+        {
+          "clock": "10:24:22",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Cavalo ali é o sistema pegassus que o pessoal critica muito."
+        },
+        {
+          "clock": "10:27:38",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Não sou grego... Nao vi so pra variar."
+        },
+        {
+          "clock": "10:27:51",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "E tem tudo a ver com a Zukertort."
+        },
+        {
+          "clock": "10:32:56",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Visualização, visualização..."
+        },
+        {
+          "clock": "10:36:55",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@10centavos-m4p",
+          "text": "mas bispo b4 tá levando c3"
+        },
+        {
+          "clock": "10:38:51",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@10centavos-m4p",
+          "text": "qual trauma? oque aconteceu"
+        },
+        {
+          "clock": "10:44:17",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@marctric",
+          "text": "Esse Stockfish zoa nóis..."
+        },
+        {
+          "clock": "10:45:41",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@10centavos-m4p",
+          "text": "entendi as vezes eu também fico depressivo porque a engine mostra um lance que eu deixei passar"
+        },
+        {
+          "clock": "10:50:36",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@10centavos-m4p",
+          "text": "a melhor jogada era tomar o peão de cavalo"
+        },
+        {
+          "clock": "10:51:08",
+          "platform": "YouTube",
+          "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+          "channel": "",
+          "author": "@10centavos-m4p",
+          "text": "blz então"
+        }
+      ]
+    }
+  },
+  "phases": {
+    "metadata": {
+      "status": "done",
+      "updated_at": "2026-10-09T14:07:14.105976+00:00",
+      "inputs": {
+        "toml_file": "/home/fcz/Downloads/0103.toml",
+        "toml": "[[extra.streak_attempts]]\nsolved = \"\"\npuzzles = [\"https://lichess.org/training/yngvQ\"]\nnote = \"attempt in progress\"\n\n[[extra.practice_sets]]\nplatform = \"lichess\"\ntitle = \"Presente Grego\"\nurl = \"https://lichess.org/practice/advanced-tactics/practicestnamgreekgift/s5pLU7Of\"\ncategory = \"advanced-tactics\"\n\n[[extra.practice_sets.exercises]]\ntitle = \"Greek Gift Introduction\"\nurl = \"https://lichess.org/practice/advanced-tactics/practicestnamgreekgift/s5pLU7Of/uCkLsFs1\"\nstatus = \"done\"\n\n[[extra.practice_sets.exercises]]\ntitle = \"Greek Gift Challenge #1\"\nurl = \"https://lichess.org/practice/advanced-tactics/practicestnamgreekgift/s5pLU7Of/p2mcIgK7\"\nstatus = \"done\"\n\n[[extra.practice_sets.exercises]]\ntitle = \"Greek Gift Challenge #2\"\nurl = \"https://lichess.org/practice/advanced-tactics/practicestnamgreekgift/s5pLU7Of/XY8z7mT3\"\nstatus = \"done\"\n\n[[extra.games]]\nplatform = \"lichess\"\ngame_url = \"https://lichess.org/PWGrDnYu/black\"\ngame_id = \"PWGrDnYu\"\nresult = \"win\"\ncolor = \"black\"\nopening = \"Queen's Pawn Game: Zukertort Variation\"\nopening_url = \"https://lichess.org/opening/Queen's%20Pawn%20Game:%20Zukertort%20Variation\"\nnote = \"\"\"Jogo com o colega do chat.  Cometi alguns erros na abertura, talvez eu tenha que ter algo na manga das pretas contra peão-dama.\n\nEu na ansia de atrasar o roque do adversário fui de um desenvolvemento de bispo que não é dos melhores, ter vindo para a coluna da dama, ou saido de cavalo teria sido melhor no lance 4 por exemplo.\"\"\"\n\n[[extra.games]]\nplatform = \"lichess\"\ngame_url = \"https://lichess.org/eBFp3bog/white\"\ngame_id = \"eBFp3bog\"\nresult = \"loss\"\ncolor = \"white\"\nopening = \"Alekhine Defense: Scandinavian Variation\"\nopening_url = \"https://lichess.org/opening/Alekhine%20Defense:%20Scandinavian%20Variation\"\nnote = \"jogo com outro colega do chat, blitz, nao tive ainda tempo de analisar\"",
+        "resolved_toml": {
+          "extra": {
+            "streak_attempts": [
+              {
+                "solved": "",
+                "puzzles": [],
+                "note": "attempt in progress"
+              }
+            ],
+            "practice_sets": [
+              {
+                "platform": "lichess",
+                "title": "Presente Grego",
+                "url": "https://lichess.org/practice/advanced-tactics/practicestnamgreekgift/s5pLU7Of",
+                "category": "advanced-tactics",
+                "exercises": [
+                  {
+                    "title": "Greek Gift Introduction",
+                    "url": "https://lichess.org/practice/advanced-tactics/practicestnamgreekgift/s5pLU7Of/uCkLsFs1",
+                    "status": "done"
+                  },
+                  {
+                    "title": "Greek Gift Challenge #1",
+                    "url": "https://lichess.org/practice/advanced-tactics/practicestnamgreekgift/s5pLU7Of/p2mcIgK7",
+                    "status": "done"
+                  },
+                  {
+                    "title": "Greek Gift Challenge #2",
+                    "url": "https://lichess.org/practice/advanced-tactics/practicestnamgreekgift/s5pLU7Of/XY8z7mT3",
+                    "status": "done"
+                  }
+                ]
+              }
+            ],
+            "games": [
+              {
+                "platform": "lichess",
+                "game_url": "https://lichess.org/PWGrDnYu/black",
+                "game_id": "PWGrDnYu",
+                "result": "win",
+                "color": "black",
+                "opening": "Queen's Pawn Game: Zukertort Variation",
+                "opening_url": "https://lichess.org/opening/Queen's%20Pawn%20Game:%20Zukertort%20Variation",
+                "note": "Jogo com o colega do chat.  Cometi alguns erros na abertura, talvez eu tenha que ter algo na manga das pretas contra peão-dama.\n\nEu na ansia de atrasar o roque do adversário fui de um desenvolvemento de bispo que não é dos melhores, ter vindo para a coluna da dama, ou saido de cavalo teria sido melhor no lance 4 por exemplo."
+              },
+              {
+                "platform": "lichess",
+                "game_url": "https://lichess.org/eBFp3bog/white",
+                "game_id": "eBFp3bog",
+                "result": "loss",
+                "color": "white",
+                "opening": "Alekhine Defense: Scandinavian Variation",
+                "opening_url": "https://lichess.org/opening/Alekhine%20Defense:%20Scandinavian%20Variation",
+                "note": "jogo com outro colega do chat, blitz, nao tive ainda tempo de analisar"
+              }
+            ]
+          },
+          "puzzle_of_the_day_url": "https://lichess.org/training/yngvQ",
+          "puzzle_of_the_day_recorded_at": "2026-10-09T12:22:23Z",
+          "puzzle_of_the_day_event": "puzzle_of_the_day",
+          "_wrap_session_interactive": {
+            "puzzle_of_the_day_video_timestamp": "3:26"
+          }
+        },
+        "chat_json_file": "/home/fcz/Downloads/0103-chat.json",
+        "chat_json": {
+          "source": "restream-userscript",
+          "exportedAt": "2026-10-09T14:00:02.415Z",
+          "pageUrl": "https://chat.restream.io/new-chat-golive?dashboard&theme=black&show-id=853ffd4b-8773-4bef-a8f0-b7235def2712",
+          "messages": [
+            {
+              "clock": "09:19:10",
+              "platform": "Twitch",
+              "platformIcon": "https://chat.restream.io/assets/icon-platform/restream-icon-black.svg",
+              "channel": "",
+              "author": "Host",
+              "text": "bom dia chat"
+            },
+            {
+              "clock": "09:20:56",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Bom dia !!! Tudo OK por aqui."
+            },
+            {
+              "clock": "09:31:11",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "É tem uma musiquinha até boa ."
+            },
+            {
+              "clock": "09:35:56",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Tem a ver com milha abertura padrão de brancas..."
+            },
+            {
+              "clock": "09:36:25",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "minha abertura padrão."
+            },
+            {
+              "clock": "09:37:06",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Zukertort, mas é segredo !!!"
+            },
+            {
+              "clock": "09:54:37",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@10centavos-m4p",
+              "text": "salve"
+            },
+            {
+              "clock": "09:55:00",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Tá com tempo pra jogar uma comigo ? Eu de brancas ?"
+            },
+            {
+              "clock": "09:55:18",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@10centavos-m4p",
+              "text": "defende o peão com bispo"
+            },
+            {
+              "clock": "09:56:28",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Entre amigos tem."
+            },
+            {
+              "clock": "09:56:37",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@10centavos-m4p",
+              "text": "posso ir depois do marcos?"
+            },
+            {
+              "clock": "09:56:43",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@10centavos-m4p",
+              "text": "não importa a cor"
+            },
+            {
+              "clock": "09:56:55",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Poe rating."
+            },
+            {
+              "clock": "09:57:31",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@ecdpalma",
+              "text": "♟"
+            },
+            {
+              "clock": "09:57:51",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@10centavos-m4p",
+              "text": "pode ser blitz 3min pra não se estender muito"
+            },
+            {
+              "clock": "09:58:14",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@10centavos-m4p",
+              "text": "qual seu Nick"
+            },
+            {
+              "clock": "09:58:50",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@10centavos-m4p",
+              "text": "fcz? ou tudo maiusculo"
+            },
+            {
+              "clock": "10:00:24",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@10centavos-m4p",
+              "text": "não achei escreve aí pra mim"
+            },
+            {
+              "clock": "10:03:59",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@10centavos-m4p",
+              "text": "ele tinha b4 ganhava o bispo preto"
+            },
+            {
+              "clock": "10:04:12",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@10centavos-m4p",
+              "text": "perdeu a chance"
+            },
+            {
+              "clock": "10:09:31",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Rei da capiva !!!"
+            },
+            {
+              "clock": "10:09:46",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@10centavos-m4p",
+              "text": "quando você pegou o peão de e5 de torre"
+            },
+            {
+              "clock": "10:10:13",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@10centavos-m4p",
+              "text": "o Marcos poderia ter ganho o bispo"
+            },
+            {
+              "clock": "10:10:19",
+              "platform": "Twitch",
+              "platformIcon": "https://chat.restream.io/assets/icon-platform/restream-icon-black.svg",
+              "channel": "",
+              "author": "Host",
+              "text": "fcz"
+            },
+            {
+              "clock": "10:10:42",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Já somos intimos delas então podemos chamar de capiav certo ?"
+            },
+            {
+              "clock": "10:11:00",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "capiva"
+            },
+            {
+              "clock": "10:11:08",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@10centavos-m4p",
+              "text": "o meu Nick é W_09"
+            },
+            {
+              "clock": "10:13:18",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "É ruim de escrever tantas capivaradas nas minhas análises. Precisei abreviar."
+            },
+            {
+              "clock": "10:16:41",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@10centavos-m4p",
+              "text": "valeu"
+            },
+            {
+              "clock": "10:20:23",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@10centavos-m4p",
+              "text": "era pra ele ter jogado b4 atacando o bispo"
+            },
+            {
+              "clock": "10:22:27",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@10centavos-m4p",
+              "text": "avançava b4 depois c4 abrindo um descoberto na torre e quando a torre retorna avança c5 prendendo o bispo"
+            },
+            {
+              "clock": "10:22:37",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Capiva contra capiva !!!"
+            },
+            {
+              "clock": "10:24:22",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Cavalo ali é o sistema pegassus que o pessoal critica muito."
+            },
+            {
+              "clock": "10:27:38",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Não sou grego... Nao vi so pra variar."
+            },
+            {
+              "clock": "10:27:51",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "E tem tudo a ver com a Zukertort."
+            },
+            {
+              "clock": "10:32:56",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Visualização, visualização..."
+            },
+            {
+              "clock": "10:36:55",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@10centavos-m4p",
+              "text": "mas bispo b4 tá levando c3"
+            },
+            {
+              "clock": "10:38:51",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@10centavos-m4p",
+              "text": "qual trauma? oque aconteceu"
+            },
+            {
+              "clock": "10:44:17",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@marctric",
+              "text": "Esse Stockfish zoa nóis..."
+            },
+            {
+              "clock": "10:45:41",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@10centavos-m4p",
+              "text": "entendi as vezes eu também fico depressivo porque a engine mostra um lance que eu deixei passar"
+            },
+            {
+              "clock": "10:50:36",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@10centavos-m4p",
+              "text": "a melhor jogada era tomar o peão de cavalo"
+            },
+            {
+              "clock": "10:51:08",
+              "platform": "YouTube",
+              "platformIcon": "https://restream.io/img/api/platforms/platform-5-social.png",
+              "channel": "",
+              "author": "@10centavos-m4p",
+              "text": "blz então"
+            }
+          ]
+        }
+      }
+    },
+    "analysis": {
+      "status": "done",
+      "updated_at": "2026-10-09T14:07:29.698599+00:00",
+      "calibrated": true
+    },
+    "youtube": {
+      "status": "done",
+      "updated_at": "2026-10-09T14:16:28.399913+00:00",
+      "skipped": false
+    },
+    "next_session": {
+      "status": "done",
+      "updated_at": "2026-10-09T14:17:14.002206+00:00",
+      "scheduled": true
+    },
+    "build": {
+      "status": "done",
+      "updated_at": "2026-10-09T14:17:25.446946+00:00",
+      "skipped": false
+    }
+  },
+  "next_session_answers": {
+    "session": "0104",
+    "date": "2026-10-11",
+    "time": "09:00",
+    "youtube": "https://youtube.com/live/2tTSa309VqA?feature=share",
+    "updated_at": "2026-10-09T14:17:06.429020+00:00"
+  },
+  "completed_at": "2026-10-09T14:17:25.446965+00:00"
+}
