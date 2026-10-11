@@ -1,16 +1,38 @@
 {
   "session_number": "0103",
   "source": "heuristic",
-  "transcript_source": "openai-gpt-4o-mini-transcribe",
-  "transcript_label": "GPT-4o mini",
+  "transcript_source": "openai-gpt-4o-mini-transcribe.aligned",
+  "transcript_label": "GPT-4o mini alinhado",
   "limit": 6,
   "window_seconds": 90,
   "step_seconds": 30,
   "highlights": [
     {
-      "start_seconds": 3074,
+      "start_seconds": 2222,
+      "end_seconds": 2310,
+      "time": "37:02",
+      "duration": "1:30",
+      "kind": "chat",
+      "score": 4.8,
+      "summary": "eu fiquei com vontade de recomeçar por algum motivo. Defende o peão com bispo. Tá com tempo pra jogar uma comigo. Eu de brancas. Então sim, Marcos…",
+      "reason": "4 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; tema claro de xadrez; interação com o chat; pressão no relógio; raciocínio em voz alta",
+      "signals": [
+        "4 mensagem(ns) no chat",
+        "chat e fala no mesmo trecho",
+        "reação forte na fala",
+        "tema claro de xadrez",
+        "interação com o chat",
+        "pressão no relógio",
+        "raciocínio em voz alta"
+      ],
+      "chat_count": 4,
+      "transcript_count": 5,
+      "lead_in": "Nesse Eu"
+    },
+    {
+      "start_seconds": 3066,
       "end_seconds": 3150,
-      "time": "51:14",
+      "time": "51:06",
       "duration": "1:30",
       "kind": "opening",
       "score": 6.25,
@@ -26,17 +48,18 @@
         "abertura ou repertório"
       ],
       "chat_count": 5,
-      "transcript_count": 3
+      "transcript_count": 3,
+      "lead_in": "vindo com a torre aqui"
     },
     {
-      "start_seconds": 3458,
+      "start_seconds": 3463,
       "end_seconds": 3540,
-      "time": "57:38",
+      "time": "57:43",
       "duration": "1:30",
-      "kind": "review",
-      "score": 4.85,
-      "summary": "Eu acho que eu vou conseguir aprender bastante de 10 centavos. Meu nick. Deixa eu adicionar aqui como amigo. Cadê? Tirado o modo zen. W09. Tá no Lichess desde dezembro de 2024…",
-      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; interação com o chat; review ou melhor lance; raciocínio em voz alta",
+      "kind": "time-pressure",
+      "score": 5.45,
+      "summary": "Tem nada mais para mim aqui, já era. Um segundo. Congratulations. Muito bem. Valeu, valeu, valeu. Vitória merecida do 10 centavos. Não foi por 10 centavos…",
+      "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; interação com o chat; review ou melhor lance; pressão no relógio; raciocínio em voz alta",
       "signals": [
         "1 mensagem(ns) no chat",
         "chat e fala no mesmo trecho",
@@ -44,19 +67,21 @@
         "erro ou momento perdido",
         "interação com o chat",
         "review ou melhor lance",
+        "pressão no relógio",
         "raciocínio em voz alta"
       ],
       "chat_count": 1,
-      "transcript_count": 3
+      "transcript_count": 5,
+      "lead_in": "a hora do abandono não"
     },
     {
-      "start_seconds": 3592,
+      "start_seconds": 3629,
       "end_seconds": 3690,
-      "time": "59:52",
+      "time": "1:00:29",
       "duration": "1:30",
       "kind": "review",
       "score": 4.75,
-      "summary": "É isso aí, eu perdi o meu bispo, né? Quem não tomaria esse cavalo numa situação dessa? É retroceder como um covarde aqui? Não, né? O que que tem pra essa torre aqui? Vir pra cá?…",
+      "summary": "Não sei o que que tem aqui. Talvez bispo aqui pra cavalo aqui? Não, né? Cadê minha dama? Já tem algo pra minha dama aqui? Tem alguma ameaça de mate muito violenta? Ah, poderia ter…",
       "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; raciocínio em voz alta",
       "signals": [
         "1 mensagem(ns) no chat",
@@ -68,16 +93,17 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 1,
-      "transcript_count": 4
+      "transcript_count": 2,
+      "lead_in": "Pensando no futuro Qual futuro"
     },
     {
-      "start_seconds": 3892,
+      "start_seconds": 3926,
       "end_seconds": 3990,
-      "time": "1:04:52",
+      "time": "1:05:26",
       "duration": "1:30",
       "kind": "opening",
       "score": 6.25,
-      "summary": "Porque descrava esse peão, defende esse cavalo, pode pensar em ameaçar outras coisas aqui no futuro, né? Então, mas na partida, o que aconteceu foi isso, que não era uma das setas…",
+      "summary": "O problema aqui, então, aprenda com os erros da branca, é não vir com esse cavalo aqui…",
       "reason": "1 mensagem(ns) no chat; chat e fala no mesmo trecho; reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; plano ou estratégia; abertura ou repertório; raciocínio em voz alta",
       "signals": [
         "1 mensagem(ns) no chat",
@@ -91,12 +117,13 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 1,
-      "transcript_count": 4
+      "transcript_count": 3,
+      "lead_in": "Stockfish não sabe de nada"
     },
     {
-      "start_seconds": 5497,
-      "end_seconds": 5580,
-      "time": "1:31:37",
+      "start_seconds": 5475,
+      "end_seconds": 5550,
+      "time": "1:31:15",
       "duration": "1:30",
       "kind": "time-pressure",
       "score": 5.7,
@@ -114,28 +141,8 @@
         "raciocínio em voz alta"
       ],
       "chat_count": 2,
-      "transcript_count": 4
-    },
-    {
-      "start_seconds": 5825,
-      "end_seconds": 5910,
-      "time": "1:37:05",
-      "duration": "1:30",
-      "kind": "time-pressure",
-      "score": 5.1,
-      "summary": "E aí, tendo decidido que eu não quero tirar esse peão daqui, aí sim, ameaça a dama e faz outra coisa, né? Tá bom. Não sei como escrever isso, não vou escrever…",
-      "reason": "reação forte na fala; erro ou momento perdido; tema claro de xadrez; review ou melhor lance; pressão no relógio; abertura ou repertório; raciocínio em voz alta",
-      "signals": [
-        "reação forte na fala",
-        "erro ou momento perdido",
-        "tema claro de xadrez",
-        "review ou melhor lance",
-        "pressão no relógio",
-        "abertura ou repertório",
-        "raciocínio em voz alta"
-      ],
-      "chat_count": 0,
-      "transcript_count": 3
+      "transcript_count": 4,
+      "lead_in": "grande do bispo aqui né"
     }
   ]
 }
